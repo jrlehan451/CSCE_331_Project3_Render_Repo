@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<head>
+    <title>Drink Options</title>
+    <link rel="stylesheet" href="/css/drink_options.css">
+</head>
+<body>
+    <h1>Drink Options</h1>
+    <div class="menu-container">
+        <div class="button-container">
+            <% for (var i in drink_categories) {%>
+                <button><%=drink_categories[i].category%><button>
+            <% } %>
+        </div>
+    </div>
+    
+</body>

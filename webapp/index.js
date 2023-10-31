@@ -6,6 +6,8 @@ const dotenv = require('dotenv').config();
 const app = express();
 const port = 3000;
 
+app.use('/css', express.static('css'));
+
 // Create pool
 const pool = new Pool({
     user: process.env.PSQL_USER,
@@ -42,6 +44,21 @@ app.get('/user', (req, res) => {
             console.log(teammembers);
             res.render('user', data);        
         });
+});
+
+app.get('/drink_options', (req, res) => {
+    drink_categories = []
+    pool
+        .query('SELECT DISTINCT category FROM drinks;')
+        .then(query_res => {
+            for (let i = 0; i < query_res.rowCount; i++){
+                drink_categories.push(query_res.rows[i]);
+            }
+            const data = {drink_categories: drink_categories};
+            console.log(drink_categories);
+            res.render('drink_options', data);        
+        });
+    
 });
 
 
