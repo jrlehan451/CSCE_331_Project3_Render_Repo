@@ -7,6 +7,17 @@ const app = express();
 const port = 3000;
 
 app.use('/css', express.static('css'));
+app.use('/js', express.static('functions'));
+
+app.locals.capitalizeName = function(name, delimiter) {
+    const words = name.split(delimiter);
+
+    for (let i = 0; i < words.length; i++) {
+        words[i] = words[i][0].toUpperCase() + words[i].substr(1);
+    }
+
+    return words.join(' ');
+}
 
 // Create pool
 const pool = new Pool({
@@ -57,8 +68,26 @@ app.get('/drink_options', (req, res) => {
             const data = {drink_categories: drink_categories};
             console.log(drink_categories);
             res.render('drink_options', data);        
+        }); 
+});
+
+app.get('/add_drink', (req, res) => {
+    drinks = []
+    category = req.query.category;
+    const query = {
+        text: 'SELECT * FROM drinks WHERE category = $1',
+        values: [category],
+    }
+    pool
+        .query(query)
+        .then(query_res => {
+            for (let i = 0; i < query_res.rowCount; i++){
+                drinks.push(query_res.rows[i]);
+            }                
+            const data = {drinks: drinks};
+            console.log(drinks);
+            res.render('add_drink', data);        
         });
-    
 });
 
 

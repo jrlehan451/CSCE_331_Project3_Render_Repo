@@ -8,9 +8,10 @@
     <div class="menu-container">
         <div class="button-container">
             <% for (var i in drink_categories) {%>
-                <button><%=drink_categories[i].category%><button>
+                <button onClick="addDrink('<%=drink_categories[i].category%>')"><%=capitalizeName(drink_categories[i].category, '_')%></button>
             <% } %>
         </div>
     </div>
-    
 </body>
+
+<script src="/js/functions.js"></script>

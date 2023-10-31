@@ -1,13 +1,16 @@
 .button-container {
-    width: 520px;
+    width: 40vw;
     background: gray;
     overflow-y: auto;
 }
 
 .button-container > button {
-    width: 100px;
-    height: 100px;
+    width: 8vw;
+    height: 8vw;
     float: left;
     background: lightgray;   
-    margin: 15px;
+    margin: 1vw;
+    white-space:normal;
+    word-break: break-word;
+    cursor: pointer;
 }
