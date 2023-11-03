@@ -13,9 +13,9 @@ function App() {
       </div>
 
       <Routes>
-        <Route path="/" Component={Home} />
-        <Route path="/about" Component={About} />
-        <Route path="/profile" Component={Profile} />
+        <Route path="/" element={<Home />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/profile" element={<Profile />} />
       </Routes>
     </BrowserRouter>
   );

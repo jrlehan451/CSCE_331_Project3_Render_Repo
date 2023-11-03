@@ -42,3 +42,10 @@
   align-items: center;
   flex-direction: column;
 }
+
+.nav {
+  list-style-type: none;
+  width: 500px;
+  diplay: flex;
+  justify-content: space-evenly;
+}
