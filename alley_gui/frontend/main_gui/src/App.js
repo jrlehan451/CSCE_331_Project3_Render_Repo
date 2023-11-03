@@ -5,6 +5,7 @@ import Home from "./pages/Home";
 import Profile from "./pages/Profile";
 import About from "./pages/About";
 
+//BrowserRouter basename="/tutorial"> for
 function App() {
   return (
     <BrowserRouter>
