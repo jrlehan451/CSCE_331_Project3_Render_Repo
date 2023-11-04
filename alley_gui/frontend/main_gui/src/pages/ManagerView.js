@@ -7,31 +7,45 @@ import {
   Typography,
   styled,
 } from "@mui/material";
-import SettingsIcon from "@mui/icons-material/Settings";
-import { Add } from "@mui/icons-material";
-import Sidebar from "../components/Sidebar";
-import Rightbar from "../components/Rightbar";
-import Feed from "../components/Feed";
-import { Navbar } from "../components/Navbar";
+
+import { ThemeProvider } from "@mui/material/styles";
+
 import Stack from "@mui/material/Stack";
+import { theme } from "../theme";
 
 const ManagerView = () => {
   const CustomButton = styled(ListItemButton)(({ theme }) => ({
     backgroundColor: "#8b9477",
     color: "black",
     margin: 5,
+    borderRadius: "8px",
     "&:hover": { backgroundColor: "lightblue" },
     "&:disabled": { backgroundColor: "gray", color: "white" },
   }));
   return (
-    <Stack spacing={2}>
-      <CustomButton>Analyze Trends</CustomButton>
-      <CustomButton>Inventory</CustomButton>
-      <CustomButton>Ingredients</CustomButton>
-      <CustomButton>Menu Items</CustomButton>
-      <CustomButton>Supply Reorders</CustomButton>
+    <ThemeProvider theme={theme}>
+      <Box
+        style={{
+          backgroundColor: theme.palette.primary.main,
+          display: "flex",
+          flexDirection: "column",
+          padding: "100px",
+          flex: 1,
+        }}
+      >
+        <Stack
+          style={{
+            flex: 1,
+          }}
+          spacing={2}
+        >
+          <CustomButton>Analyze Trends</CustomButton>
+          <CustomButton>Inventory</CustomButton>
+          <CustomButton>Ingredients</CustomButton>
+          <CustomButton>Menu Items</CustomButton>
+          <CustomButton>Supply Reorders</CustomButton>
 
-      {/*<Box>
+          {/*<Box>
       <Stack direction="row" spacing={2} justifyContent="space-between">
         <Navbar />
         <Sidebar />
@@ -41,7 +55,7 @@ const ManagerView = () => {
       </Box>
   */}
 
-      {/* <Typography variant="h1">Manager View</Typography>
+          {/* <Typography variant="h1">Manager View</Typography>
       <Button variant="text">Text</Button>
       <Button
         startIcon={<SettingsIcon />}
@@ -63,7 +77,9 @@ const ManagerView = () => {
       >
         Add new Post
       </Button> */}
-    </Stack>
+        </Stack>
+      </Box>
+    </ThemeProvider>
   );
 };
 
