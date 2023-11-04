@@ -1,7 +1,7 @@
-import React, { Component } from "react";
+import React from "react";
 
-export default class CashierView extends Component {
-  render() {
-    return <h1>CashierView</h1>;
-  }
-}
+const CashierView = () => {
+  return <h1>CashierView</h1>;
+};
+
+export default CashierView;

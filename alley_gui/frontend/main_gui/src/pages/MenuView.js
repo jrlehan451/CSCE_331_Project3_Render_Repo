@@ -1,7 +1,7 @@
-import React, { Component } from "react";
+import React from "react";
 
-export default class MenuView extends Component {
-  render() {
-    return <h1>MenuView</h1>;
-  }
-}
+const MenuView = () => {
+  return <h1>MenuView</h1>;
+};
+
+export default MenuView;
