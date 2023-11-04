@@ -3,7 +3,7 @@ import {
   Box,
   Button,
   Container,
-  Stack,
+  ListItemButton,
   Typography,
   styled,
 } from "@mui/material";
@@ -13,23 +13,33 @@ import Sidebar from "../components/Sidebar";
 import Rightbar from "../components/Rightbar";
 import Feed from "../components/Feed";
 import { Navbar } from "../components/Navbar";
+import Stack from "@mui/material/Stack";
 
 const ManagerView = () => {
-  const BlueButton = styled(Button)(({ theme }) => ({
-    backgroundColor: theme.palette.otherColor.main,
-    color: "#888",
+  const CustomButton = styled(ListItemButton)(({ theme }) => ({
+    backgroundColor: "#8b9477",
+    color: "black",
     margin: 5,
     "&:hover": { backgroundColor: "lightblue" },
     "&:disabled": { backgroundColor: "gray", color: "white" },
   }));
   return (
-    <Box>
+    <Stack spacing={2}>
+      <CustomButton>Analyze Trends</CustomButton>
+      <CustomButton>Inventory</CustomButton>
+      <CustomButton>Ingredients</CustomButton>
+      <CustomButton>Menu Items</CustomButton>
+      <CustomButton>Supply Reorders</CustomButton>
+
+      {/*<Box>
       <Stack direction="row" spacing={2} justifyContent="space-between">
         <Navbar />
         <Sidebar />
         <Feed />
         <Rightbar />
       </Stack>
+      </Box>
+  */}
 
       {/* <Typography variant="h1">Manager View</Typography>
       <Button variant="text">Text</Button>
@@ -42,8 +52,8 @@ const ManagerView = () => {
         contained
       </Button>
 
-      <BlueButton>My Button</BlueButton>
-      <BlueButton>Another Button</BlueButton>
+      <CustomButton>My Button</CustomButton>
+      <CustomButton>Another Button</CustomButton>
 
       <Button
         startIcon={<Add />}
@@ -53,7 +63,7 @@ const ManagerView = () => {
       >
         Add new Post
       </Button> */}
-    </Box>
+    </Stack>
   );
 };
 
