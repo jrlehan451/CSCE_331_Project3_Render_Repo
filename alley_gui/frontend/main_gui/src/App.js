@@ -12,6 +12,9 @@ import CashierView from "./pages/CashierView";
 import ManagerView from "./pages/ManagerView";
 import CustomerView from "./pages/CustomerView";
 import Home from "./pages/Home";
+import Sidebar from "./components/Sidebar";
+import Rightbar from "./components/Rightbar";
+import Feed from "./components/Feed";
 
 //BrowserRouter basename="/tutorial"> for
 function App() {

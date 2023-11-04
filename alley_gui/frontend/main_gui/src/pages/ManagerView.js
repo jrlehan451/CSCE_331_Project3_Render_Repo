@@ -1,19 +1,37 @@
 import React from "react";
-import { Button, Typography, styled } from "@mui/material";
+import {
+  Box,
+  Button,
+  Container,
+  Stack,
+  Typography,
+  styled,
+} from "@mui/material";
 import SettingsIcon from "@mui/icons-material/Settings";
 import { Add } from "@mui/icons-material";
+import Sidebar from "../components/Sidebar";
+import Rightbar from "../components/Rightbar";
+import Feed from "../components/Feed";
+import { Navbar } from "../components/Navbar";
 
 const ManagerView = () => {
-  const BlueButton = styled(Button)({
-    backgroundColor: "skyblue",
+  const BlueButton = styled(Button)(({ theme }) => ({
+    backgroundColor: theme.palette.otherColor.main,
     color: "#888",
     margin: 5,
     "&:hover": { backgroundColor: "lightblue" },
     "&:disabled": { backgroundColor: "gray", color: "white" },
-  });
+  }));
   return (
-    <div>
-      <Typography variant="h1">Manager View</Typography>
+    <Box>
+      <Stack direction="row" spacing={2} justifyContent="space-between">
+        <Navbar />
+        <Sidebar />
+        <Feed />
+        <Rightbar />
+      </Stack>
+
+      {/* <Typography variant="h1">Manager View</Typography>
       <Button variant="text">Text</Button>
       <Button
         startIcon={<SettingsIcon />}
@@ -30,12 +48,12 @@ const ManagerView = () => {
       <Button
         startIcon={<Add />}
         variant="outlined"
-        color="success"
+        color="otherColor"
         size="larges"
       >
         Add new Post
-      </Button>
-    </div>
+      </Button> */}
+    </Box>
   );
 };
 
