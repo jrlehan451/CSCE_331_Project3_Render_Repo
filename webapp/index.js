@@ -104,6 +104,19 @@ app.get('/add_on', (req, res) => {
         }); 
 });
 
+app.get('/customer_home', (req, res) => {
+    drink_categories = []
+    pool
+        .query('SELECT DISTINCT category FROM drinks;')
+        .then(query_res => {
+            for (let i = 0; i < query_res.rowCount; i++){
+                drink_categories.push(query_res.rows[i]);
+            }
+            const data = {drink_categories: drink_categories};
+            console.log(drink_categories);
+            res.render('customer_home', data);        
+        }); 
+});
 
 app.listen(port, () => {
     console.log(`Example app listening at http://localhost:${port}`);
