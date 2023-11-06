@@ -1,22 +1,10 @@
 import React from "react";
-import {
-  Box,
-  Button,
-  Container,
-  ListItemButton,
-  Typography,
-  styled,
-} from "@mui/material";
+import { Box, ListItemButton, styled } from "@mui/material";
 
 import { ThemeProvider } from "@mui/material/styles";
 
 import Stack from "@mui/material/Stack";
 import { theme } from "../theme";
-import AnalyzeTrends from "../components/AnalyzeTrends";
-import Inventory from "../components/Inventory";
-import Ingredients from "../components/Ingredients";
-import MenuItems from "../components/MenuItems";
-import SupplyReorder from "../components/SupplyReorders";
 
 const ManagerView = () => {
   const CustomButton = styled(ListItemButton)(({ theme }) => ({
