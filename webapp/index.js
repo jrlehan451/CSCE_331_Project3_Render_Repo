@@ -8,6 +8,7 @@ const port = 3000;
 
 app.use('/css', express.static('css'));
 app.use('/js', express.static('functions'));
+app.use(express.static('images'));
 
 app.locals.capitalizeName = function(name, delimiter) {
     const words = name.split(delimiter);
@@ -102,6 +103,33 @@ app.get('/customer_home', (req, res) => {
             console.log(drink_categories);
             res.render('customer_home', data);        
         }); 
+});
+
+app.get('/drink_series', (req, res) => {
+    drink_categories = []
+    pool
+        .query('SELECT DISTINCT category FROM drinks;')
+        .then(query_res => {
+            for (let i = 0; i < query_res.rowCount; i++){
+                drink_categories.push(query_res.rows[i]);
+            }
+            console.log(drink_categories);      
+        }); 
+    drinks = []
+    category = req.query.category;
+    const query = {
+        text: 'SELECT * FROM drinks WHERE category = $1',
+        values: [category],
+    }
+    pool
+        .query(query)
+        .then(query_res => {
+            for (let i = 0; i < query_res.rowCount; i++){
+                drinks.push(query_res.rows[i]);
+            }                
+            console.log(drinks);
+            res.render('drink_series', {drink_categories: drink_categories, drinks: drinks});
+        });
 });
 
 app.listen(port, () => {

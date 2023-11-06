@@ -5,6 +5,7 @@
 .drink-categories-container {
     width: 17vw;
     border: 2px solid #9e693f;
+    float: left;
     background: #ffefe2;
     overflow-y: auto;
 }
@@ -29,6 +30,35 @@
 }
 
 .categories-title {
+    text-align: center;
+    margin-bottom: 0.75vw;
+    color: #9e693f;
+    font-family: 'Perpetua', serif;
+}
+
+.category-items-container {
+    margin-left: 2.5vw;
+    margin-right: 1vw;
+    width: 75vw;
+    float: left;
+}
+
+.category-items-container > button {
+    width: 9vw;
+    height: 9vw;
+    float: left;
+    background: #ffefe2;   
+    border: 2px solid #9e693f;
+    margin: 1vw;
+    white-space:normal;
+    word-break: break-word;
+    cursor: pointer;
+    color: #9e693f;
+    font-family: 'Perpetua', serif;
+    font-weight: bold;
+}
+
+.series-name {
     text-align: center;
     margin-bottom: 0.75vw;
     color: #9e693f;

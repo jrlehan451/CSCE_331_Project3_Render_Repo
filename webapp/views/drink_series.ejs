@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <head>
-    <title>Customer Home</title>
+    <title>Drink Series</title>
     <link rel="stylesheet" href="/css/customer_home.css">
 </head>
-<script src="/js/functions.js"></script>
+
 <body class="customer-home-background">
     <div class="customer-page">
         <div class="drink-categories-container">
@@ -12,5 +12,16 @@
                     <button onClick="getDrinkSeries('<%=drink_categories[i].category%>')"><%=capitalizeName(drink_categories[i].category, '_')%></button>
                 <% } %>
         </div>
+        <div class="category-items-container">
+            <h1 class="series-name">Drink Series</h1>
+            <% for (var i in drinks) {%>
+                <button>
+                    <img src = "peach_oolong_tea.png" width="100%" height="100%">
+                    <%=capitalizeName(drinks[i].name, ' ')%>
+                </button>
+            <% } %>
+        </div>
     </div>
 </body>
+
+<script src="/js/functions.js"></script>
