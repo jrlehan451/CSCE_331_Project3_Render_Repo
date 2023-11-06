@@ -12,6 +12,11 @@ import { ThemeProvider } from "@mui/material/styles";
 
 import Stack from "@mui/material/Stack";
 import { theme } from "../theme";
+import AnalyzeTrends from "../components/AnalyzeTrends";
+import Inventory from "../components/Inventory";
+import Ingredients from "../components/Ingredients";
+import MenuItems from "../components/MenuItems";
+import SupplyReorder from "../components/SupplyReorders";
 
 const ManagerView = () => {
   const CustomButton = styled(ListItemButton)(({ theme }) => ({
@@ -39,11 +44,21 @@ const ManagerView = () => {
           }}
           spacing={2}
         >
-          <CustomButton>Analyze Trends</CustomButton>
-          <CustomButton>Inventory</CustomButton>
-          <CustomButton>Ingredients</CustomButton>
-          <CustomButton>Menu Items</CustomButton>
-          <CustomButton>Supply Reorders</CustomButton>
+          <CustomButton Link to="/AnalyzeTrends">
+            Analyze Trends
+          </CustomButton>
+          <CustomButton Link to="/Inventory">
+            Inventory
+          </CustomButton>
+          <CustomButton Link to="/Ingredients">
+            Ingredients
+          </CustomButton>
+          <CustomButton Link to="/MenuItems">
+            Menu Items
+          </CustomButton>
+          <CustomButton Link to="/SupplyReorder">
+            Supply Reorders
+          </CustomButton>
 
           {/*<Box>
       <Stack direction="row" spacing={2} justifyContent="space-between">
