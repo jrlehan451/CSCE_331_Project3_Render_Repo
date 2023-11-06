@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<head>
+    <title>Add-Ons</title>
+    <link rel="stylesheet" href="/css/drink_options.css">
+</head>
+<body>
+    <h1>Add-Ons</h1>
+    <div class="menu-container">
+        <div class="button-container">
+            <% for (var i in add_ons) {%>
+                <button><%=capitalizeName(add_ons[i].name, ' ')%></button>
+            <% } %>
+        </div>
+    </div>
+</body>
