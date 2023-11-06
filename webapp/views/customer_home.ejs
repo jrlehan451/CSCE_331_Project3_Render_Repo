@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<head>
+    <title>Customer Home</title>
+    <link rel="stylesheet" href="/css/customer_home.css">
+</head>
+<body class="customer-home-background">
+    <div class="menu-container">
+        <div class="drink-categories-container">
+            <h3 class="categories-title">DRINK CATEGORIES</h3>
+            <% for (var i in drink_categories) {%>
+                <button onClick="addDrink('<%=drink_categories[i].category%>')"><%=capitalizeName(drink_categories[i].category, '_')%></button>
+            <% } %>
+        </div>
+    </div>
+</body>

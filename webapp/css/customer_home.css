@@ -1,0 +1,36 @@
+.customer-home-background {
+    background-color: #ffefe2;
+}
+
+.drink-categories-container {
+    width: 17vw;
+    border: 2px solid #9e693f;
+    background: #ffefe2;
+    overflow-y: auto;
+}
+
+.drink-categories-container > button {
+    width: 15vw;
+    height: 3vw;
+    border-radius: 12vw;
+    float: left;
+    border: 2px solid #9e693f;
+    background: #ffefe2;
+    margin-left: 1vw;
+    margin-right: 1vw;
+    margin-top: 0.5vw;
+    margin-bottom: 0.5vw;
+    white-space: normal;
+    word-break: break-word;
+    cursor: pointer;
+    color: #9e693f;
+    font-family: 'Perpetua', serif;
+    font-weight: bold;
+}
+
+.categories-title {
+    text-align: center;
+    margin-bottom: 0.75vw;
+    color: #9e693f;
+    font-family: 'Perpetua', serif;
+}
