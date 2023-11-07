@@ -8,6 +8,7 @@ const port = 3000;
 
 app.use('/css', express.static('css'));
 app.use('/js', express.static('functions'));
+app.use(express.static('images'));
 
 app.locals.capitalizeName = function(name, delimiter) {
     const words = name.split(delimiter);
@@ -119,6 +120,47 @@ app.get('/customer_home', (req, res) => {
 });
 
 app.get('/new_order', (req, res) => {res.render('new_order');  });
+
+app.get('/drink_series', (req, res) => {
+    drink_categories = []
+    pool
+        .query('SELECT DISTINCT category FROM drinks;')
+        .then(query_res => {
+            for (let i = 0; i < query_res.rowCount; i++){
+                drink_categories.push(query_res.rows[i]);
+            }
+            console.log(drink_categories);      
+        }); 
+    drinks = []
+    category = req.query.category;
+    const query = {
+        text: 'SELECT * FROM drinks WHERE category = $1',
+        values: [category],
+    }
+    pool
+        .query(query)
+        .then(query_res => {
+            for (let i = 0; i < query_res.rowCount; i++){
+                drinks.push(query_res.rows[i]);
+            }                
+            console.log(drinks);
+            res.render('drink_series', {drink_categories: drink_categories, drinks: drinks});
+        });
+});
+
+app.get('/build_drink', (req, res) => {
+    add_ons = []
+    pool
+        .query('SELECT * FROM ingredients WHERE cost > 0;')
+        .then(query_res => {
+            for (let i = 0; i < query_res.rowCount; i++){
+                add_ons.push(query_res.rows[i]);
+            }
+            const data = {add_ons: add_ons};
+            console.log(add_ons);
+            res.render('build_drink', data);        
+        }); 
+})
 
 app.listen(port, () => {
     console.log(`Example app listening at http://localhost:${port}`);

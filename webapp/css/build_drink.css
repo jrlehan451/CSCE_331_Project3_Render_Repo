@@ -1,21 +1,21 @@
-.customer-home-background {
+.build-drink-background {
     background-color: #ffefe2;
 }
 
-.drink-categories-container {
+.build-drink-container {
     width: 17vw;
-    border: 2px solid #9e693f;
+    border: 2px solid #8b9477;
     float: left;
     background: #ffefe2;
     overflow-y: auto;
 }
 
-.drink-categories-container > button {
+.build-drink-container > button {
     width: 15vw;
     height: 3vw;
     border-radius: 12vw;
     float: left;
-    border: 2px solid #9e693f;
+    border: 2px solid #8b9477;
     background: #ffefe2;
     margin-left: 1vw;
     margin-right: 1vw;
@@ -24,43 +24,51 @@
     white-space: normal;
     word-break: break-word;
     cursor: pointer;
-    color: #9e693f;
+    color: #8b9477;
     font-family: 'Perpetua', serif;
     font-weight: bold;
 }
 
-.categories-title {
+.build-drink-title {
     text-align: center;
     margin-bottom: 0.75vw;
-    color: #9e693f;
+    color: #8b9477;
     font-family: 'Perpetua', serif;
 }
 
-.category-items-container {
+.back-button {
+    width: 7vw;
+    background: #ffefe2;
+    border: 2px solid #25371d;
+    margin-bottom: 2vw;
+}
+
+.build-option-container {
     margin-left: 2.5vw;
     margin-right: 1vw;
     width: 75vw;
     float: left;
 }
 
-.category-items-container > button {
+.build-option-container > button {
     width: 9vw;
     height: 9vw;
     float: left;
     background: #ffefe2;   
-    border: 2px solid #8b9477;
+    border: 2px solid #9e693f;
     margin: 1vw;
     white-space:normal;
     word-break: break-word;
     cursor: pointer;
-    color: #8b9477;
+    color: #9e693f;
     font-family: 'Perpetua', serif;
     font-weight: bold;
+    display: none;
 }
 
-.series-name {
+.option-name {
     text-align: center;
     margin-bottom: 0.75vw;
-    color: #8b9477;
+    color: #9e693f;
     font-family: 'Perpetua', serif;
 }
