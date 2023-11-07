@@ -10,19 +10,23 @@
     <button class="back-button">
         <img src="back_arrow.png" width="60%" height="10%">
     </button>
-    <div id="size" class="build-option-container">
-        <button>Regular</button>
-        <button>Large</button>
-    </div>
-    <div class="build-drink-page">
-        <div class="build-drink-container">
-            <h3 class="build-drink-title">BUILD A DRINK GUIDE</h3>
-            <button onClick="getDrinkSize()">Size</button>
-            <button onClick="getDrinkReplacements()">Replacements</button>
-            <button onClick="getDrinkAddOn1()">Add-On #1</button>
-            <button onClick="getDrinkAddOn2()">Add-On #2</button>
-            <button onClick="getDrinkQuantity()">Quantity</button>
+    <div class="columnWrapper">
+        <div class="build-drink-page">
+            <div class="build-drink-container">
+                <h3 class="build-drink-title">BUILD A DRINK GUIDE</h3>
+                <button onClick="getDrinkSize()">Size</button>
+                <button onClick="getDrinkReplacements()">Replacements</button>
+                <button onClick="getDrinkAddOn1()">Add-On #1</button>
+                <button onClick="getDrinkAddOn2()">Add-On #2</button>
+                <button onClick="getDrinkQuantity()">Quantity</button>
+            </div>
+        </div>
+        <div id="size" class="build-option-container">
+            <button>Regular</button>
+            <button>Large</button>
         </div>
     </div>
 </body>
 </html>
+
+<script src="/js/functions.js"></script>
