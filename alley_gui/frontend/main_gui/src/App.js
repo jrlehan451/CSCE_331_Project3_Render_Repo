@@ -61,8 +61,9 @@ function App() {
 
         <Route path="/menu" element={<MenuView />} />
         <Route path="/cashier" element={<CashierView />} />
-        <Route path="/manager" element={<ManagerView />} />
+
         <Route path="/customer" element={<CustomerView />} />
+        <Route path="/manager" element={<ManagerView />} />
       </Routes>
     </div>
   );
