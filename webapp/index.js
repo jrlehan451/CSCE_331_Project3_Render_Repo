@@ -121,6 +121,8 @@ app.get('/customer_home', (req, res) => {
 
 app.get('/new_order', (req, res) => {res.render('new_order');  });
 
+app.get('/order_summary', (req, res) => {res.render('order_summary');  });
+
 app.get('/drink_series', (req, res) => {
     drink_categories = []
     pool
