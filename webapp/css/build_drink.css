@@ -73,6 +73,15 @@
     font-family: 'Perpetua', serif;
 }
 
+.quantity {
+    margin-top: 0vw;
+    margin-right: 10vw;
+    margin-left: 50vw;
+    color: #9e693f;
+    font-family: 'Perpetua', serif;
+    font-size: 10vw;
+}
+
 .columnWrapper {
     display: inline-flex;
     width: 100vw;
