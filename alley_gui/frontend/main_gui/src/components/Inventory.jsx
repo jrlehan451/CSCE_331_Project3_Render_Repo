@@ -27,6 +27,7 @@ const Inventory = () => {
   return (
     <div>
       <div>
+        <h1>Inventory Page</h1>
         <table>
           <thread>
             <tr>

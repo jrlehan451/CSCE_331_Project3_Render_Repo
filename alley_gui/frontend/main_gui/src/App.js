@@ -43,6 +43,8 @@ function App() {
     <div className="App">
       {isHomePage && <Header />}
 
+      {/* This is used for making connection between backend and frontend
+      commented out for github release 
       <form onSubmit={postName}>
         <input
           type="text"
@@ -51,19 +53,19 @@ function App() {
         />
         <button type="submit">Send Name</button>
       </form>
-      {home}
+      {home} */}
       <Routes>
         <Route path="/AnalyzeTrends" element={<AnalyzeTrends />} />
         <Route path="/Inventory" element={<Inventory />} />
         <Route path="/Ingredients" element={<Ingredients />} />
         <Route path="/MenuItems" element={<MenuItems />} />
         <Route path="/SupplyReorder" element={<SupplyReorder />} />
+        <Route path="/manager" element={<ManagerView />} />
 
-        <Route path="/menu" element={<MenuView />} />
+        {/*<Route path="/menu" element={<MenuView />} />
         <Route path="/cashier" element={<CashierView />} />
 
-        <Route path="/customer" element={<CustomerView />} />
-        <Route path="/manager" element={<ManagerView />} />
+        <Route path="/customer" element={<CustomerView />} /> */}
       </Routes>
     </div>
   );
