@@ -6,13 +6,24 @@
     <title>Build Drink</title>
     <link rel="stylesheet" href="/css/build_drink.css">
 </head>
+<script src="/js/functions.js"></script>
 <body class="build-drink-background">
-    <button class="back-button">
+    <button class="back-button" onClick="backCustomerHome()">
         <img src="back_arrow.png" width="60%" height="10%">
     </button>
     <div id="size" class="build-option-container">
         <button>Regular</button>
         <button>Large</button>
+    </div>
+    <div id="addOns1" class="build-option-container">
+        <% for (var i in add_ons) {%>
+            <button><%=capitalizeName(add_ons[i].name, ' ')%></button>
+        <% } %>
+    </div>
+    <div id="addOns2" class="build-option-container">
+        <% for (var i in add_ons) {%>
+            <button><%=capitalizeName(add_ons[i].name, ' ')%></button>
+        <% } %>
     </div>
     <div class="build-drink-page">
         <div class="build-drink-container">
