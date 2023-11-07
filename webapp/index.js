@@ -176,6 +176,43 @@ app.get('/build_drink', (req, res) => {
         }); 
 })
 
+app.get('/menu', (req, res)=>{
+    const drinksByCategory = {};
+
+    pool
+        .query('SELECT * FROM drinks;')
+        .then(query_res => {
+            const drinks = query_res.rows;
+
+            // Organize drinks by category
+            drinks.forEach(drink => {
+                const category = drink.category;
+
+                if (!drinksByCategory[category]) {
+                    drinksByCategory[category] = [];
+                }
+
+                drinksByCategory[category].push(drink);
+            });
+
+            res.render('menu', {drinksByCategory});
+        })
+})
+
+app.get('/menu-addons', (req, res) => {
+    addOns = []; 
+
+    pool.query('SELECT * FROM add_ons;')
+        .then(query_res => {
+            for (let i = 0; i < query_res.rowCount; i++) {
+                addOns.push(query_res.rows[i]);
+            }
+
+            const data = { addOns: addOns };
+            res.render('menu-addons', data);
+        })
+});
+
 app.listen(port, () => {
     console.log(`Example app listening at http://localhost:${port}`);
 });

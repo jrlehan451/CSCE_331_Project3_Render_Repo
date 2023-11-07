@@ -144,3 +144,12 @@ function routeFromHome(employee){
     return;
     
 }
+
+function navigateToMenuAddons(){
+    var currLocation = window.location.href;
+    location.href = currLocation.replace("menu", "menu_addons");
+}
+
+function returnHome(){
+    window.location.href = "/"
+}
