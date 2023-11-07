@@ -118,6 +118,8 @@ app.get('/customer_home', (req, res) => {
         }); 
 });
 
+app.get('/new_order', (req, res) => {res.render('new_order');  });
+
 app.listen(port, () => {
     console.log(`Example app listening at http://localhost:${port}`);
 });
