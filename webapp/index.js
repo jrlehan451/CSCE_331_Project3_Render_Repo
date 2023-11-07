@@ -1,14 +1,18 @@
 const express = require("express");
 const { Pool } = require("pg");
 const dotenv = require("dotenv").config();
+const cors = require("cors");
 
 // Create express app
 const app = express();
-const port = 3000;
+const port = 4000;
 
 app.use("/css", express.static("css"));
 app.use("/js", express.static("functions"));
 app.use(express.static("images"));
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
+app.use(cors());
 
 app.locals.capitalizeName = function (name, delimiter) {
   const words = name.split(delimiter);
@@ -42,6 +46,15 @@ app.set("view engine", "ejs");
 app.get("/", (req, res) => {
   const data = { name: "Mario" };
   res.render("index", data);
+});
+
+app.post("/post_name", cors(), async (req, res) => {
+  let { name } = req.body;
+  console.log(name);
+});
+
+app.get("/home", cors(), async (req, res) => {
+  res.send("This is the data from the home page");
 });
 
 app.get("/user", (req, res) => {
