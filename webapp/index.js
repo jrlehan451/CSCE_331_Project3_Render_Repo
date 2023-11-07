@@ -54,7 +54,7 @@ app.post("/post_name", cors(), async (req, res) => {
 });
 
 app.get("/home", cors(), async (req, res) => {
-  res.send("This is the data from the home page");
+  res.send("Connection between the webapp and frontend");
 });
 
 app.get("/user", (req, res) => {
