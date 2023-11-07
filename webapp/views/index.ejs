@@ -1,7 +1,23 @@
 <!DOCTYPE html>
+<html>
 <head>
-    <title>Home Page</title>
+    <title>The Alley</title>
+    <link rel="stylesheet" href="/css/index.css">
 </head>
 <body>
-    <p>This is <%=name%>'s homepage.</p>
+    <h1 class="title">Welcome to The Alley</h1>
+
+    <div class="button-section">
+        <button class="large-button" id="login-button" onclick="authenticateUser(employeesJSON)">Login</button>
+        <button class="large-button" id="menu-button" onclick="redirectToMenu()">View Menu</button>
+        <input type="text" id="username" placeholder="Username">
+        <input type="password" id="password" placeholder="Password">
+    </div> 
+
+    <script>
+        var employeesJSON = '<%= JSON.stringify(employees) %>';
+    </script>
+
+    <script src="functions.js"></script>
 </body>
+</html>

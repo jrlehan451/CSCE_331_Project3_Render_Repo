@@ -112,3 +112,35 @@ function backCustomerHome() {
     var currLocation = window.location.href;
     location.href = currLocation.replace("build_drink", "customer_home");
 }
+
+function authenticateUser(employeesJSON) {
+    const employees = JSON.parse(employeesJSON); // Parse the JSON back to an object
+    const username = document.getElementById('username').value;
+    const password = document.getElementById('password').value;
+
+    for (const employee of employees) {
+        if (employee.first_name === username && employee.password === password) {
+            // Authentication successful
+            routeFromHome(employee);
+            return;
+        }
+    }
+
+    // Authentication failed
+    alert('Authentication failed. Please try again.');
+}
+
+function routeFromHome(employee){
+    var currLocation = window.location.href;
+    if(employee.first_name === "customer" && employee.last_name == "profile"){
+        location.href = currLocation.replace("index", "customer_home");
+    }
+    else if(employee.is_manager){
+        location.href = currLocation.replace("index", "manager_home");
+    }
+    else{
+        location.href = currLocation.replace("index", "cashier_home");
+    }
+    return;
+    
+}

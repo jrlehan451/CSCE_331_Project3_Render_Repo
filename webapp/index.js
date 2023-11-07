@@ -5,6 +5,7 @@ const dotenv = require('dotenv').config();
 // Create express app
 const app = express();
 const port = 3000;
+const path = require('path')
 
 app.use('/css', express.static('css'));
 app.use('/js', express.static('functions'));
@@ -39,9 +40,20 @@ process.on('SIGINT', function() {
 
 app.set("view engine", "ejs");
 
+app.set('views', path.join(__dirname, 'views'));
+
 app.get('/', (req, res) => {
-    const data = {name: 'Mario'};
-    res.render('index', data);
+    employees = []
+    pool
+        .query('SELECT * FROM employees;')
+        .then(query_res => {
+            for (let i = 0; i < query_res.rowCount; i++){
+                employees.push(query_res.rows[i]);
+            }
+            const data = {employees: employees};
+            console.log(employees);
+            res.render('user', data);        
+        });
 });
 
 app.get('/user', (req, res) => {
