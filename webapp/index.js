@@ -146,6 +146,20 @@ app.get('/drink_series', (req, res) => {
         });
 });
 
+app.get('/build_drink', (req, res) => {
+    add_ons = []
+    pool
+        .query('SELECT * FROM ingredients WHERE cost > 0;')
+        .then(query_res => {
+            for (let i = 0; i < query_res.rowCount; i++){
+                add_ons.push(query_res.rows[i]);
+            }
+            const data = {add_ons: add_ons};
+            console.log(add_ons);
+            res.render('build_drink', data);        
+        }); 
+})
+
 app.listen(port, () => {
     console.log(`Example app listening at http://localhost:${port}`);
 });
