@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="/css/build_drink.css">
 </head>
 <script src="/js/functions.js"></script>
-<body class="build-drink-background">
+<body class="build-drink-background" onload="getSelectedDrink()">
     <button class="back-button" onClick="backCustomerHome()">
         <img src="back_arrow.png" width="60%" height="10%">
     </button>
@@ -45,6 +45,13 @@
             <button onClick="getDrinkAddOn2()">Add-On #2</button>
             <button onClick="getDrinkQuantity()">Quantity</button>
         </div>
+    </div>
+    <div class="build-drink-info">
+        <p id="drinkSelected" class="build-drink-text">Selected Drink: </p>
+        <p id="drinkSelectedSize" class="build-drink-text">Size: </p>
+        <p id="drinkSelectedAddOn1" class="build-drink-text">Add-On #1: </p>
+        <p id="drinkSelectedAddOn2" class="build-drink-text">Add-On #2: </p>
+        <p id="drinkSelectedQuantity" class="build-drink-text">Quantity: </p>
     </div>
 </body>
 </html>

@@ -82,6 +82,21 @@
     font-size: 10vw;
 }
 
+.build-drink-info {
+    margin-top: 22.5vw;
+    width: 70vw;
+    border: 2px solid #8b9477;
+    background: #ffefe2;
+}
+
+.build-drink-text {
+    margin-left: 1vw;
+    margin-right: 1vw;
+    font-family: 'Perpetua', serif;
+    font-weight: bold;
+    color: #25371d
+}
+
 .columnWrapper {
     display: inline-flex;
     width: 100vw;

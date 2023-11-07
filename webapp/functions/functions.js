@@ -13,10 +13,18 @@ function getDrinkSeries(category) {
     }
 }
 
-function buildDrink() {
+function buildDrink(drinkName) {
     var currLocation = window.location.href;
     const array = currLocation.split("=");
     location.href = currLocation.replace("drink_series?category=" + array[1], "build_drink");
+         
+    sessionStorage.setItem("customer_selected_drink", drinkName);
+}
+
+function getSelectedDrink() {
+    const selectedDrink = sessionStorage.getItem("customer_selected_drink");
+    const drinkName = document.getElementById("drinkSelected");
+    drinkName.textContent = "Selected Drink: " + selectedDrink;
 }
 
 function getDrinkSize() {
