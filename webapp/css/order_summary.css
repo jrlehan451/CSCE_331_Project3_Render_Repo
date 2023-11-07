@@ -2,6 +2,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
 }
 
 .columnWrapper {
@@ -15,4 +16,17 @@
 
 .spacedLabel {
     padding-right: 5px;
+}
+
+table, th, td {
+    border: 1px solid black;
+}
+
+tr {
+    cursor: pointer;
+}
+
+.selected {
+    background-color: brown;
+    color: #FFF;
 }
