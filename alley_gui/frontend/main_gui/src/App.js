@@ -1,20 +1,11 @@
 import "./App.css";
 import Header from "./components/Header";
-import {
-  BrowserRouter,
-  Route,
-  Routes,
-  useNavigate,
-  useLocation,
-} from "react-router-dom";
+import { Route, Routes, useNavigate, useLocation } from "react-router-dom";
 import MenuView from "./pages/MenuView";
 import CashierView from "./pages/CashierView";
 import ManagerView from "./pages/ManagerView";
 import CustomerView from "./pages/CustomerView";
 
-import Sidebar from "./components/Sidebar";
-import Rightbar from "./components/Rightbar";
-import Feed from "./components/Feed";
 import AnalyzeTrends from "./components/AnalyzeTrends";
 import Inventory from "./components/Inventory";
 import Ingredients from "./components/Ingredients";
@@ -46,7 +37,6 @@ function App() {
     }
   }
   const location = useLocation();
-  const navigate = useNavigate();
 
   const isHomePage = location.pathname === "/";
   return (
