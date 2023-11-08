@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Inventory</title>
+    <link rel="stylesheet" href="/css/manager_main.css">
+</head>
+<body>
+    <h1>Inventory</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Item ID</th>
+                <th>Ingredient ID</th>
+                <th>Name</th>
+                <th>Count</th>
+                <th>Fill Level</th>
+                <th>Quantity per Unit</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% for (const item of inventoryData) { %>
+                <tr>
+                    <td><%= item.item_id %></td>
+                    <td><%= item.ingredient_id %></td>
+                    <td><%= item.name %></td>
+                    <td><%= item.count %></td>
+                    <td><%= item.fill_level %></td>
+                    <td><%= item.quantity_per_unit %></td>
+                </tr>
+            <% } %>
+        </tbody>
+    </table>
+</body>
+</html>
