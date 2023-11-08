@@ -319,8 +319,11 @@ function loadTableFromLocal() {
         tr += "<td>" + (i + 1) + "</td>";
         tr += "<td>" + drinks[i].name + "</td>";
         var addOnString = "";
-        for (var j = 0; j < add_ons[i].length; ++j) {
-            addOnString += add_ons[i][j].name + ", ";
+        if (add_ons[i].length > 0) {
+            addOnString += add_ons[i][0].name;
+        }
+        for (var j = 1; j < add_ons[i].length; ++j) {
+            addOnString += ", " + add_ons[i][j].name;
             totalCost += parseFloat(add_ons[i][j].cost);
         }
         tr += "<td>" + addOnString + "</td>";
