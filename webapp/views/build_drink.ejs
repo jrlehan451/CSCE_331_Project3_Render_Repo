@@ -13,8 +13,8 @@
     </button>
     <div id="size" class="build-option-container">
         <h1 class="option-name">Choose Your Size</h1>
-        <button>Regular</button>
-        <button>Large</button>
+        <button onClick="getSize('regular')">Regular</button>
+        <button onClick="getSize('large')">Large</button>
     </div>
     <div id="addOns1" class="build-option-container">
         <h1 class="option-name">Choose Your First Add-On</h1>
@@ -34,7 +34,7 @@
         <h1 class="option-name">Choose Your Quantity</h1>
         <button id="decrement">-</button>
         <button id="increment">+</button>
-        <button>Submit</button>
+        <button onClick="getQuantity()">Submit</button>
         <h3 class="quantity"><span id="display">0</span></h3>
     </div>
     <div class="build-drink-page">

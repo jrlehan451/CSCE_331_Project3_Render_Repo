@@ -42,6 +42,18 @@ function getAddOn2(addOn1Name, addOn1IngredientId) {
     addOn2.textContent = "Add-On #2: " + addOn1Name;
 }
 
+function getSize(size) {
+    sessionStorage.setItem("customer_drink_size", size);
+    const drinkSize = document.getElementById("drinkSelectedSize");
+    drinkSize.textContent = "Size: " + size;
+}
+
+function getQuantity() {
+    quantity = sessionStorage.getItem("customer_drink_quantity");
+    const drinkQuantity = document.getElementById("drinkSelectedQuantity");
+    drinkQuantity.textContent = "Quantity: " + quantity;
+}
+
 function getDrinkSize() {
     const addOns1 = document.getElementById("addOns1");
     if (addOns1.style.display == "block") {
@@ -120,15 +132,15 @@ function getDrinkQuantity() {
     increment.addEventListener("click", function () {
         count++;
         disp.innerHTML = count;
+        sessionStorage.setItem("customer_drink_quantity", count);
     });
     decrement.addEventListener("click", function () {
         if (count > 0) {
             count--;
         }
         disp.innerHTML = count;
+        sessionStorage.setItem("customer_drink_quantity", count);
     });
-
-    sessionStorage.setItem("customer_drink_quantity", count);
 }
 
 function backCustomerHome() {
