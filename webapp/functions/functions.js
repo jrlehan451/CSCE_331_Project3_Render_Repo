@@ -331,6 +331,17 @@ function loadTableFromLocal() {
 }
 
 async function postOrderToDB() {
+    var drinks = JSON.parse(sessionStorage.getItem('drinks'));
+    var add_ons = JSON.parse(sessionStorage.getItem('add_ons'));
+
+    var totalCost = 0;
+    for (var i = 0; i < drinks.length; ++i) {
+        totalCost += parseFloat(drinks[i].cost);
+        for (var j = 0; j < add_ons[i].length; ++j) {
+            totalCost += parseFloat(add_ons[i][j].cost);
+        }
+    }
+
     try {     
         const response = await fetch("/post_order", {
             method: "POST",
@@ -338,7 +349,7 @@ async function postOrderToDB() {
               drinks: sessionStorage.getItem('drinks'),
               add_ons: sessionStorage.getItem('add_ons'),
               customer: document.getElementById("cname").value,
-              totalCost: 20
+              totalCost: totalCost
             }),
             headers: {
               "Content-type": "application/json; charset=UTF-8"
