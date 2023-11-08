@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Step 2: Choose Your Add-Ons (Max 2)</title>
+    <link rel="stylesheet" href="/css/menu_addons.css">
+</head>
+<body>
+    <button class="home-button" onClick="returnHome()">Home</button>
+
+    <h1>Step 2: Choose Your Add-Ons (Max 2)</h1>
+
+    <div class="addon-container">
+        <% for (let i = 0; i < addOns.length; i++) { %>
+            <div class="addon-square">
+                <div class="addon-name"><%= capitalizeName(addOns[i].name, ' ') %></div>
+            </div>
+        <% } %>
+    </div>
+
+    <script src="/js/functions.js"></script>
+</body>

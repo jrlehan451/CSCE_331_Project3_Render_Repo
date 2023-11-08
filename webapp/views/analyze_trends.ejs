@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Analyze Trends</title>
+    <link rel="stylesheet" href="/css/index.css">
+</head>
+<body>
+    <h1>Analyze Trends</h1>
+
+    <label for="trend-choice">Choose a Trend:</label>
+    <select id="trend-choice">
+        <option value="trend1">Trend 1</option>
+        <option value="trend2">Trend 2</option>
+        <option value="trend3">Trend 3</option>
+        <option value="trend4">Trend 4</option>
+        <option value="trend5">Trend 5</option>
+    </select>
+    <button onclick="generateTrend()">Go</button>
+
+    <div class="timestamp-section">
+        <label for="start-timestamp">Start Timestamp:</label>
+        <input type="text" id="start-timestamp" placeholder="Start Timestamp">
+        <label for="end-timestamp">End Timestamp:</label>
+        <input type="text" id="end-timestamp" placeholder="End Timestamp">
+    </div>
+
+    <div class="chart-section">
+        <!-- Here you can include the chart (e.g., using chart.js) -->
+    </div>
+
+    <script src="/js/functions.js"></script>
+</body>
+</html>

@@ -216,7 +216,7 @@ function routeFromHome(employee){
         location.href = currLocation + "manager_main";
     }
     else{
-        location.href = currLocation + "cashier_home";
+        location.href = currLocation + "drink_options";
     }
     return;
     
