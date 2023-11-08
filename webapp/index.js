@@ -62,7 +62,6 @@ app.get('/manager_main', (req, res) => {
     res.render('manager_main', data);
 });
 
-
 app.post("/post_name", cors(), async (req, res) => {
   let { name } = req.body;
   console.log(name);
@@ -214,19 +213,23 @@ app.get('/menu', (req, res)=>{
         })
 })
 
-app.get('/menu-addons', (req, res) => {
+app.get('/menu_addons', (req, res) => {
     addOns = []; 
 
-    pool.query('SELECT * FROM add_ons;')
+    pool.query('SELECT * FROM ingredients WHERE cost != 0 order by name;')
         .then(query_res => {
             for (let i = 0; i < query_res.rowCount; i++) {
                 addOns.push(query_res.rows[i]);
             }
 
             const data = { addOns: addOns };
-            res.render('menu-addons', data);
+            res.render('menu_addons', data);
         })
 });
+
+app.get('/analyze_trends', (req, res) =>{
+    res.render("analyze_trends")
+})
 
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`);
