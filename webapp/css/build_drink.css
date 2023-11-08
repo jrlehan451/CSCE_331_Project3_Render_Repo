@@ -97,6 +97,41 @@
     color: #25371d
 }
 
+.build-drink-next {
+    margin-top: -15vw;
+    margin-right: 1.5vw;
+    float: right;
+    width: 25vw;
+    background: #ffefe2;
+}
+
+.build-drink-next > button {
+    width: 22vw;
+    height: 3vw;
+    border-radius: 12vw;
+    float: left;
+    border: 2px solid #25371d;
+    background: #8b9477;
+    margin-left: 1vw;
+    margin-right: 1vw;
+    margin-top: 0.5vw;
+    margin-bottom: 0.5vw;
+    white-space: normal;
+    word-break: break-word;
+    cursor: pointer;
+    color: #25371d;
+    font-family: 'Perpetua', serif;
+    font-weight: bold;
+}
+
+.total {
+    margin-right: 1vw;
+    margin-left: 1vw;
+    color: #25371d;
+    font-family: 'Perpetua', serif;
+    font-size: 3vw;
+}
+
 .columnWrapper {
     display: inline-flex;
     width: 100vw;
