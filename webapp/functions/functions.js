@@ -13,10 +13,56 @@ function getDrinkSeries(category) {
     }
 }
 
-function buildDrink() {
+function viewCartFromCustomerHome() {
+    var currLocation = window.location.href;
+    location.href = currLocation.replace("customer_home", "view_cart");
+}
+
+function viewCartFromDrinkSeries() {
+    var currLocation = window.location.href;
+    const array = currLocation.split("=");
+    location.href = currLocation.replace("drink_series?category=" + array[1], "view_cart");
+}
+
+function buildDrink(drinkName, drinkId) {
     var currLocation = window.location.href;
     const array = currLocation.split("=");
     location.href = currLocation.replace("drink_series?category=" + array[1], "build_drink");
+         
+    sessionStorage.setItem("customer_drink_name", drinkName);
+    sessionStorage.setItem("customer_drink_id", drinkId);
+}
+
+function getSelectedDrink() {
+    const selectedDrink = sessionStorage.getItem("customer_drink_name");
+    const drinkName = document.getElementById("drinkSelected");
+    drinkName.textContent = "Selected Drink: " + selectedDrink;
+}
+
+function getAddOn1(addOn1Name, addOn1IngredientId) {
+    sessionStorage.setItem("customer_addOn1_name", addOn1Name);
+    sessionStorage.setItem("customer_addOn1_id", addOn1IngredientId);
+    const addOn1 = document.getElementById("drinkSelectedAddOn1");
+    addOn1.textContent = "Add-On #1: " + addOn1Name;
+}
+
+function getAddOn2(addOn1Name, addOn1IngredientId) {
+    sessionStorage.setItem("customer_addOn2_name", addOn1Name);
+    sessionStorage.setItem("customer_addOn2_id", addOn1IngredientId);
+    const addOn2 = document.getElementById("drinkSelectedAddOn2");
+    addOn2.textContent = "Add-On #2: " + addOn1Name;
+}
+
+function getSize(size) {
+    sessionStorage.setItem("customer_drink_size", size);
+    const drinkSize = document.getElementById("drinkSelectedSize");
+    drinkSize.textContent = "Size: " + size;
+}
+
+function getQuantity() {
+    quantity = sessionStorage.getItem("customer_drink_quantity");
+    const drinkQuantity = document.getElementById("drinkSelectedQuantity");
+    drinkQuantity.textContent = "Quantity: " + quantity;
 }
 
 function getDrinkSize() {
@@ -32,7 +78,6 @@ function getDrinkSize() {
     if (quantity.style.display == "block") {
         quantity.style.display = "none";
     }
-
     const size = document.getElementById("size");
     size.style.display = "block";
 }
@@ -53,7 +98,6 @@ function getDrinkAddOn1() {
 
     const addOns1 = document.getElementById("addOns1");
     addOns1.style.display = "block";
-
 }
 
 function getDrinkAddOn2() {
@@ -99,18 +143,70 @@ function getDrinkQuantity() {
     increment.addEventListener("click", function () {
         count++;
         disp.innerHTML = count;
+        sessionStorage.setItem("customer_drink_quantity", count);
     });
     decrement.addEventListener("click", function () {
         if (count > 0) {
             count--;
         }
         disp.innerHTML = count;
+        sessionStorage.setItem("customer_drink_quantity", count);
     });
 }
 
 function backCustomerHome() {
     var currLocation = window.location.href;
     location.href = currLocation.replace("build_drink", "customer_home");
+}
+
+function routeFromHome(employee){
+    var currLocation = window.location.href;
+    if(employee.first_name === "customer" && employee.last_name == "profile"){
+        location.href = currLocation + "customer_home";
+    }
+    else if(employee.is_manager){
+        location.href = currLocation + "manager_main";
+    }
+    else{
+        location.href = currLocation + "cashier_home";
+    }
+    return;
+    
+}
+
+function redirectToMenu(){
+    var currLocation = window.location.href;
+    location.href = currLocation + "menu";
+}
+
+function navigateToMenuAddons(){
+    var currLocation = window.location.href;
+    location.href = currLocation.replace("menu", "menu_addons");
+}
+
+function returnHome(){
+    window.location.href = "/";
+}
+
+function viewCart() {
+    var currLocation = window.location.href;
+    location.href = currLocation.replace("build_drink", "view_cart");
+}
+
+function goToCheckout() {
+    var currLocation = window.location.href;
+    location.href = currLocation.replace("view_cart", "customer_checkout");
+}
+
+function navCustomerHome() {
+    var currLocation = window.location.href;
+    location.href = currLocation.replace("view_cart", "customer_home");
+}
+
+function makeNewOrder() {
+    sessionStorage.clear();
+    var currLocation = window.location.href;
+    location.href = currLocation.replace("customer_checkout", "customer_home");
 }
 
 function drinkToLocal(_id, _name, _cost) {
