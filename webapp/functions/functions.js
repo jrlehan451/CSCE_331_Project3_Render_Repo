@@ -169,9 +169,9 @@ function goToCheckout() {
     location.href = currLocation.replace("view_cart", "customer_checkout");
 }
 
-function navBuildDrink() {
+function navCustomerHome() {
     var currLocation = window.location.href;
-    location.href = currLocation.replace("view_cart", "build_drink");
+    location.href = currLocation.replace("view_cart", "customer_home");
 }
 
 function makeNewOrder() {
