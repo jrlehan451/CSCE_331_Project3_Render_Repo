@@ -3,6 +3,13 @@ function addDrink(category) {
     location.href = currLocation.replace("drink_options", "add_drink?category=") + category;
 }
 
+function toDrinkOptions() {
+    var currLocation = window.location.href;
+    location.href = currLocation.replace("new_order", "drink_options");
+
+    sessionStorage.clear();
+}
+
 function getDrinkSeries(category) {
     var currLocation = window.location.href;
     if (currLocation.includes("customer_home")) {
@@ -265,8 +272,6 @@ function loadTableFromLocal() {
     tbody.innerHTML = "<tr><td>Number</td><td>Drink</td><td>Add-Ons</td><td>Cost</td></tr>"
 
     for (var i = 0; i < drinks.length; ++i) {
-        console.log(i);
-        console.log(drinks[i].name);
         var totalCost = parseFloat(drinks[i].cost);
 
         var tr = "<tr onClick='select(this)'>";
@@ -277,12 +282,33 @@ function loadTableFromLocal() {
             addOnString += add_ons[i][j].name + ", ";
             totalCost += parseFloat(add_ons[i][j].cost);
         }
-        console.log(addOnString);
         tr += "<td>" + addOnString + "</td>";
         tr += "<td>" + totalCost + "</td></tr>";
 
         tbody.innerHTML += tr;
     }
+}
+
+async function postOrderToDB() {
+    try {     
+        const response = await fetch("/post_order", {
+            method: "POST",
+            body: JSON.stringify({
+              drinks: sessionStorage.getItem('drinks'),
+              add_ons: sessionStorage.getItem('add_ons'),
+              customer: "Anonymous",
+              totalCost: 20
+            }),
+            headers: {
+              "Content-type": "application/json; charset=UTF-8"
+            }
+          });
+    } catch(err) {
+        console.error(`Error: ${err}`);
+    }
+
+    var currLocation = window.location.href;
+    location.href = currLocation.replace("order_summary", "new_order");
 }
 
 function select(element) {
@@ -313,4 +339,4 @@ function getSiblings(e) {
 };
 
 
-//loadTableFromLocal();
+loadTableFromLocal();

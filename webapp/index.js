@@ -1,4 +1,6 @@
 const express = require("express");
+var bodyParser = require('body-parser');
+var jsonParser = bodyParser.json();
 const { Pool } = require("pg");
 const dotenv = require("dotenv").config();
 const cors = require("cors");
@@ -140,9 +142,82 @@ app.get("/new_order", (req, res) => {
   res.render("new_order");
 });
 
-app.get("/order_summary", (req, res) => {
-  res.render("order_summary");
+app.get('/order_summary', (req, res) => {res.render('order_summary');  });
+
+app.post('/post_order', jsonParser, (req, res) => {
+    
+    console.log(req.body);
+
+    var nextOrderId = 0;
+
+    drinks = JSON.parse(req.body.drinks);
+    add_ons = JSON.parse(req.body.add_ons);
+
+    pool
+        .query('SELECT order_id FROM orders ORDER BY order_id DESC LIMIT 1;')
+        .then(query_res => {
+            nextOrderId = query_res.rows[0].order_id + 1; 
+            
+            pool
+                .query('INSERT INTO orders(order_id, name, timestamp, cost) VALUES($1, $2, $3, $4)',
+                [nextOrderId, req.body.customer, new Date().toISOString().slice(0, 19).replace('T', ' '), req.body.totalCost], // Using temporary customer name and totalCost, both of which can just be stored in sessionStorage
+                (err, response) => {
+                    if (err) {
+                        console.log(err);
+                    }
+                });
+            
+            for (let i = 0; i < drinks.length; ++i) {
+                pool
+                    .query('INSERT INTO drink_orders(drink_id, order_id, number) VALUES($1, $2, $3)',
+                    [parseInt(drinks[i].id), nextOrderId, i + 1],
+                    (err, response) => {
+                        if (err) {
+                            console.log(err);
+                        }
+                    });
+            }
+
+            for (let i = 0; i < add_ons.length; ++i) {
+                for (let j = 0; j < add_ons[i].length; ++j) {
+                    pool
+                    .query('INSERT INTO add_ons(ingredient_id, order_id, number) VALUES($1, $2, $3)',
+                    [parseInt(add_ons[i][j].id), nextOrderId, i + 1],
+                    (err, response) => {
+                        if (err) {
+                            console.log(err);
+                        }
+                    });
+                }
+            }
+        }); 
+
+    
+    
+    res.json({ ok: true });
 });
+
+app.locals.postOrder = function(drinks, add_ons) {
+    var drinks = JSON.parse(drinks);
+    var add_ons = JSON.parse(add_ons);
+
+    var nextOrderId = 0;
+
+    pool
+        .query('SELECT order_id FROM orders ORDER BY order_id DESC LIMIT 1;')
+        .then(query_res => {
+            nextOrderId = query_res + 1;   
+        }); 
+
+    pool
+        .query('INSERT INTO orders(order_id, name, timestamp, cost) VALUES($1, $2, $3, $4)',
+        [nextOrderId, "Test Name", new Date().toISOString().slice(0, 19).replace('T', ' '), 10], // Using temporary customer name and totalCost, both of which can just be stored in sessionStorage
+        (err, res) => {
+            if (err) return next(err);
+        
+            response.redirect('/monsters');
+        });
+}
 
 app.get("/drink_series", (req, res) => {
   drink_categories = [];
@@ -225,6 +300,32 @@ app.get('/menu_addons', (req, res) => {
             const data = { addOns: addOns };
             res.render('menu_addons', data);
         })
+});
+
+app.get('/inventory', (req, res) => {
+  const query = 'SELECT * FROM inventory_items ORDER BY name';
+  pool.query(query)
+      .then(query_res => {
+          const inventoryData = query_res.rows;
+          console.log(inventoryData);
+          res.render('inventory', { inventoryData });
+      })
+});
+
+app.get('/menu_items', (req, res) => {
+  const drinksQuery = 'SELECT * FROM drinks ORDER BY name';
+  const ingredientsQuery = 'SELECT * FROM ingredients ORDER BY name';
+
+  Promise.all([
+      pool.query(drinksQuery),
+      pool.query(ingredientsQuery)
+  ])
+  .then(([drinksRes, ingredientsRes]) => {
+      const menuData = drinksRes.rows;
+      const ingredientsData = ingredientsRes.rows;
+      console.log(menuData, ingredientsData);
+      res.render('menu_items', { menuData, ingredientsData });
+  })
 });
 
 app.get('/analyze_trends', (req, res) =>{
