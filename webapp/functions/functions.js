@@ -232,6 +232,11 @@ function navigateToMenuAddons(){
     location.href = currLocation.replace("menu", "menu_addons");
 }
 
+function navigateToMenu(){
+    var currLocation = window.location.href;
+    location.href = currLocation.replace("menu_addons", "menu");
+}
+
 function returnHome(){
     window.location.href = "/";
 }
