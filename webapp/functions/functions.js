@@ -169,8 +169,6 @@ function loadTableFromLocal() {
     tbody.innerHTML = "<tr><td>Number</td><td>Drink</td><td>Add-Ons</td><td>Cost</td></tr>"
 
     for (var i = 0; i < drinks.length; ++i) {
-        console.log(i);
-        console.log(drinks[i].name);
         var totalCost = parseFloat(drinks[i].cost);
 
         var tr = "<tr onClick='select(this)'>";
@@ -181,11 +179,29 @@ function loadTableFromLocal() {
             addOnString += add_ons[i][j].name + ", ";
             totalCost += parseFloat(add_ons[i][j].cost);
         }
-        console.log(addOnString);
         tr += "<td>" + addOnString + "</td>";
         tr += "<td>" + totalCost + "</td></tr>";
 
         tbody.innerHTML += tr;
+    }
+}
+
+async function postOrderToDB() {
+    try {     
+        const response = await fetch("/post_order", {
+            method: "POST",
+            body: JSON.stringify({
+              drinks: sessionStorage.getItem('drinks'),
+              add_ons: sessionStorage.getItem('add_ons'),
+              customer: "Anonymous",
+              totalCost: 20
+            }),
+            headers: {
+              "Content-type": "application/json; charset=UTF-8"
+            }
+          });
+    } catch(err) {
+        console.error(`Error: ${err}`);
     }
 }
 
