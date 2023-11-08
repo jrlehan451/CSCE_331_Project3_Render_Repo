@@ -15,13 +15,13 @@
 
     <div class = "drink-panel">
         <% for (const category in drinksByCategory) {%>
-            <h2> <%= category %> </h2>
+            <h2> <%=capitalizeName(category, '_') %> </h2>
 
             <ul>
                 <% drinksByCategory[category].forEach(drink => { %>
                     <li>
                         <button onclick="navigateToMenuAddons()">
-                            <%= drink.name %>
+                            <%=capitalizeName(drink.name, ' ') %> 
                         </button>
                     </li>
                 <% }); %>
