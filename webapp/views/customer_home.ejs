@@ -3,7 +3,6 @@
     <title>Customer Home</title>
     <link rel="stylesheet" href="/css/customer_home.css">
 </head>
-<script src="/js/functions.js"></script>
 <body class="customer-home-background">
     <div class="customer-page">
         <div class="drink-categories-container">
@@ -13,4 +12,15 @@
                 <% } %>
         </div>
     </div>
+    <div class="category-items-container">
+        <% for (let i = 0; i < 18; i++) {%>
+            <button>Popular Drink</button>
+        <% } %>
+    </div>
+    <div class="order-info-container">
+        <p class="total">Total: $$</p>
+        <button onClick="viewCartFromCustomerHome()">View Cart</button>
+    </div>
 </body>
+
+<script src="/js/functions.js"></script>

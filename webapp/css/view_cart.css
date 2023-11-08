@@ -1,0 +1,65 @@
+.view-cart-background {
+    background-color: #ffefe2;
+}
+
+.back-build {
+    width: 7vw;
+    background: #ffefe2;
+    border: 2px solid #25371d;
+    margin-bottom: 2vw;
+    cursor: pointer;
+}
+
+.your-cart {
+    text-align: center;
+    margin-top: -4vw;
+    color: #8b9477;
+    font-family: 'Perpetua', serif;
+}
+
+.cart-container {
+    margin-left: 3.5vw;
+    margin-right: 1vw;
+    width: 90vw;
+    height: 30vw;
+    border: 2px solid #8b9477;
+}
+
+.checkout-container {
+    margin-top: 1vw;
+    margin-left: 3.5vw;
+    margin-right: 1vw;
+    width: 90vw;
+    height: 5vw;
+}
+
+.checkout-container > button {
+    width: 10vw;
+    height: 4vw;
+    border-radius: 12vw;
+    float: right;
+    border: 2px solid #25371d;
+    background: #8b9477;
+    margin-left: 1vw;
+    margin-right: 1vw;
+    margin-top: 0.5vw;
+    margin-bottom: 0.5vw;
+    white-space: normal;
+    word-break: break-word;
+    cursor: pointer;
+    color: #25371d;
+    font-family: 'Perpetua', serif;
+    font-weight: bold;
+}
+
+.total {
+    margin-left: 1vw;
+    margin-right: 1vw;
+    margin-top: 0.5vw;
+    margin-bottom: 0.5vw;
+    display: inline;
+    float: left;
+    color: #25371d;
+    font-family: 'Perpetua', serif;
+    font-size: 3vw;
+}
