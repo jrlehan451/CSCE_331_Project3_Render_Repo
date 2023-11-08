@@ -3,6 +3,13 @@ function addDrink(category) {
     location.href = currLocation.replace("drink_options", "add_drink?category=") + category;
 }
 
+function toDrinkOptions() {
+    var currLocation = window.location.href;
+    location.href = currLocation.replace("new_order", "drink_options");
+
+    sessionStorage.clear();
+}
+
 function getDrinkSeries(category) {
     var currLocation = window.location.href;
     if (currLocation.includes("customer_home")) {
@@ -299,6 +306,9 @@ async function postOrderToDB() {
     } catch(err) {
         console.error(`Error: ${err}`);
     }
+
+    var currLocation = window.location.href;
+    location.href = currLocation.replace("order_summary", "new_order");
 }
 
 function select(element) {
