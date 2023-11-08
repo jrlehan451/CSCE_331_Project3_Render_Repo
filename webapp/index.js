@@ -43,45 +43,6 @@ app.get('/', (req, res) => {
     res.render('index', data);
 });
 
-app.get('/manager', (req, res) => {
-    const data = {name: 'Mario'};
-    res.render('manager_main', data);
-});
-
-// app.get('/inventory', (req, res) => {
-//     const data = {name: 'Mario'};
-//     res.render('inventory', data);
-// });
-
-// Add this route to fetch the inventory data
-app.get('/inventory', (req, res) => {
-    const query = 'SELECT * FROM inventory_items ORDER BY name';
-    pool.query(query)
-        .then(query_res => {
-            const inventoryData = query_res.rows;
-            console.log(inventoryData);
-            res.render('inventory', { inventoryData });
-        })
-});
-
-app.get('/menu_items', (req, res) => {
-    const drinksQuery = 'SELECT * FROM drinks ORDER BY name';
-    const ingredientsQuery = 'SELECT * FROM ingredients ORDER BY name';
-
-    Promise.all([
-        pool.query(drinksQuery),
-        pool.query(ingredientsQuery)
-    ])
-    .then(([drinksRes, ingredientsRes]) => {
-        const menuData = drinksRes.rows;
-        const ingredientsData = ingredientsRes.rows;
-        console.log(menuData, ingredientsData);
-        res.render('menu_items', { menuData, ingredientsData });
-    })
-});
-
-
-
 app.get('/user', (req, res) => {
     teammembers = []
     pool
@@ -141,6 +102,43 @@ app.get('/customer_home', (req, res) => {
             console.log(drink_categories);
             res.render('customer_home', data);        
         }); 
+});
+
+app.get('/manager', (req, res) => {
+    const data = {name: 'Mario'};
+    res.render('manager_main', data);
+});
+
+// app.get('/inventory', (req, res) => {
+//     const data = {name: 'Mario'};
+//     res.render('inventory', data);
+// });
+
+// Add this route to fetch the inventory data
+app.get('/inventory', (req, res) => {
+    const query = 'SELECT * FROM inventory_items ORDER BY name';
+    pool.query(query)
+        .then(query_res => {
+            const inventoryData = query_res.rows;
+            console.log(inventoryData);
+            res.render('inventory', { inventoryData });
+        })
+});
+
+app.get('/menu_items', (req, res) => {
+    const drinksQuery = 'SELECT * FROM drinks ORDER BY name';
+    const ingredientsQuery = 'SELECT * FROM ingredients ORDER BY name';
+
+    Promise.all([
+        pool.query(drinksQuery),
+        pool.query(ingredientsQuery)
+    ])
+    .then(([drinksRes, ingredientsRes]) => {
+        const menuData = drinksRes.rows;
+        const ingredientsData = ingredientsRes.rows;
+        console.log(menuData, ingredientsData);
+        res.render('menu_items', { menuData, ingredientsData });
+    })
 });
 
 app.listen(port, () => {

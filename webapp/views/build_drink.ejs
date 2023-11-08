@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Build Drink</title>
+    <link rel="stylesheet" href="/css/build_drink.css">
+</head>
+<script src="/js/functions.js"></script>
+<body class="build-drink-background" onload="getSelectedDrink()">
+    <button class="back-button" onClick="backCustomerHome()">
+        <img src="back_arrow.png" width="60%" height="10%">
+    </button>
+    <div id="size" class="build-option-container">
+        <h1 class="option-name">Choose Your Size</h1>
+        <button onClick="getSize('regular')">Regular</button>
+        <button onClick="getSize('large')">Large</button>
+    </div>
+    <div id="addOns1" class="build-option-container">
+        <h1 class="option-name">Choose Your First Add-On</h1>
+        <% for (var i in add_ons) {%>
+            <button id="<%=add_ons[i].name%>" onClick="getAddOn1('<%=add_ons[i].name%>', '<%=add_ons[i].ingredient_id%>')"><%=capitalizeName(add_ons[i].name, ' ')%></button>
+        <% } %>
+        <button onClick="getAddOn1('none', '-1')">None</button>
+    </div>
+    <div id="addOns2" class="build-option-container">
+        <h1 class="option-name">Choose Your Second Add-On</h1>
+        <% for (var i in add_ons) {%>
+            <button id="<%=add_ons[i].name%>" onClick="getAddOn2('<%=add_ons[i].name%>', '<%=add_ons[i].ingredient_id%>')"><%=capitalizeName(add_ons[i].name, ' ')%></button>
+        <% } %>
+        <button onClick="getAddOn2('none', '-1')">None</button>
+    </div>
+    <div id="quantity", class="build-option-container">
+        <h1 class="option-name">Choose Your Quantity</h1>
+        <button id="decrement">-</button>
+        <button id="increment">+</button>
+        <button onClick="getQuantity()">Submit</button>
+        <h3 class="quantity"><span id="display">0</span></h3>
+    </div>
+    <div class="build-drink-page">
+        <div class="build-drink-container">
+            <h3 class="build-drink-title">BUILD A DRINK GUIDE</h3>
+            <button onClick="getDrinkSize()">Size</button>
+            <button onClick="getDrinkAddOn1()">Add-On #1</button>
+            <button onClick="getDrinkAddOn2()">Add-On #2</button>
+            <button onClick="getDrinkQuantity()">Quantity</button>
+        </div>
+    </div>
+    <div class="build-drink-info">
+        <p id="drinkSelected" class="build-drink-text">Selected Drink: </p>
+        <p id="drinkSelectedSize" class="build-drink-text">Size: </p>
+        <p id="drinkSelectedAddOn1" class="build-drink-text">Add-On #1: </p>
+        <p id="drinkSelectedAddOn2" class="build-drink-text">Add-On #2: </p>
+        <p id="drinkSelectedQuantity" class="build-drink-text">Quantity: </p>
+    </div>
+    <div class="build-drink-next">
+        <button>Add Drink</button>
+        <button onClick="viewCart()">View Cart</button>
+        <p class="total">Total: </p>
+    </div>
+</body>
+</html>
+
+<script src="/js/functions.js"></script>

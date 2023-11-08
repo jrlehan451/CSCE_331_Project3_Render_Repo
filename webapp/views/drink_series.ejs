@@ -1,8 +1,9 @@
 <!DOCTYPE html>
 <head>
-    <title>Customer Home</title>
+    <title>Drink Series</title>
     <link rel="stylesheet" href="/css/customer_home.css">
 </head>
+
 <body class="customer-home-background">
     <div class="customer-page">
         <div class="drink-categories-container">
@@ -11,15 +12,19 @@
                     <button onClick="getDrinkSeries('<%=drink_categories[i].category%>')"><%=capitalizeName(drink_categories[i].category, '_')%></button>
                 <% } %>
         </div>
-    </div>
-    <div class="category-items-container">
-        <% for (let i = 0; i < 18; i++) {%>
-            <button>Popular Drink</button>
-        <% } %>
+        <div class="category-items-container">
+            <h1 class="series-name">Drink Series</h1>
+            <% for (var i in drinks) {%>
+                <button id="<%=drinks[i].name%>" onClick="buildDrink('<%=drinks[i].name%>', '<%=drinks[i].drink_id%>')">
+                    <img src = "peach_oolong_tea.png" width="100%" height="100%">
+                    <%=capitalizeName(drinks[i].name, ' ')%>
+                </button>
+            <% } %>
+        </div>
     </div>
     <div class="order-info-container">
         <p class="total">Total: $$</p>
-        <button onClick="viewCartFromCustomerHome()">View Cart</button>
+        <button onClick="viewCartFromDrinkSeries()">View Cart</button>
     </div>
 </body>
 

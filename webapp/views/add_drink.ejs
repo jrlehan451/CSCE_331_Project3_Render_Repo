@@ -8,8 +8,10 @@
     <div class="menu-container">
         <div class="button-container">
             <% for (var i in drinks) {%>
-                <button><%=capitalizeName(drinks[i].name, ' ')%></button>
+                <button onClick="drinkToLocal('<%=drinks[i].drink_id%>', '<%=drinks[i].name%>', '<%=drinks[i].cost%>')"><%=capitalizeName(drinks[i].name, ' ')%></button>
             <% } %>
         </div>
     </div>
 </body>
+
+<script src="/js/functions.js"></script>
