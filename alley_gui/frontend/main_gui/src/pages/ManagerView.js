@@ -10,8 +10,11 @@ const ManagerView = () => {
   const CustomButton = styled(ListItemButton)(({ theme }) => ({
     backgroundColor: "#8b9477",
     color: "black",
-    margin: 5,
+    margin: 10,
     borderRadius: "8px",
+    width: "350px",
+    minHeight: "40px",
+    maxHeight: "60px",
     "&:hover": { backgroundColor: "lightblue" },
     "&:disabled": { backgroundColor: "gray", color: "white" },
   }));
@@ -22,15 +25,24 @@ const ManagerView = () => {
           backgroundColor: theme.palette.primary.main,
           display: "flex",
           flexDirection: "column",
-          padding: "100px",
-          flex: 1,
+
+          justifyContent: "center",
+          alignItems: "center",
+
+          padding: 0,
+          width: "100vw",
+          height: "100vh",
         }}
       >
         <Stack
           style={{
             flex: 1,
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "center",
+            height: "100%",
           }}
-          spacing={2}
         >
           <CustomButton Link to="/AnalyzeTrends">
             Analyze Trends

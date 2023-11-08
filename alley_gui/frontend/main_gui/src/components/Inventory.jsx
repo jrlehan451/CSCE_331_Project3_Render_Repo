@@ -1,5 +1,7 @@
 import { Button } from "@mui/material";
 import React, { useState, useEffect } from "react";
+import axios from "axios";
+
 //import axios from "axios"; // Make sure to import axios for HTTP requests
 
 const Inventory = () => {
@@ -8,6 +10,7 @@ const Inventory = () => {
   const [name, setName] = useState("");
   const [amount, setAmount] = useState("");
   const [quantity, setQuantity] = useState("");
+  const [inventorytName, setInventoryName] = useState("");
 
   // useEffect(() => {
   //   axios
@@ -24,10 +27,17 @@ const Inventory = () => {
     e.preventDefault();
   };
 
+  useEffect(() => {
+    axios.get("http://localhost:4000/inventory").then(function (response) {
+      setInventoryName(response.data);
+    });
+  }, []);
+
   return (
     <div>
       <div>
         <h1>Inventory Page</h1>
+        {inventorytName.name}
         <table>
           <thread>
             <tr>

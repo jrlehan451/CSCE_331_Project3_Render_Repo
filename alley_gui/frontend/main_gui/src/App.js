@@ -42,9 +42,8 @@ function App() {
   return (
     <div className="App">
       {isHomePage && <Header />}
-
-      {/* This is used for making connection between backend and frontend
-      commented out for github release 
+      {/* This is used for making connection between backend and frontend commented
+      out for github release
       <form onSubmit={postName}>
         <input
           type="text"

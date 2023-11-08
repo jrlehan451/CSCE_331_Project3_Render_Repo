@@ -130,6 +130,20 @@ app.get("/order_summary", (req, res) => {
   res.render("order_summary");
 });
 
+app.get("/inventory", (req, res) => {
+  //res.send("Connection for ingredients");
+
+  pool.query("SELECT name FROM inventory_items;").then((query_res) => {
+    inventory_name = [];
+    for (let i = 0; i < query_res.rowCount; i++) {
+      inventory_name.push(query_res.rows[i]);
+    }
+    console.log(inventory_name[0]);
+    tempName = inventory_name[0];
+    res.send(inventory_name);
+  });
+});
+
 app.get("/drink_series", (req, res) => {
   drink_categories = [];
   pool.query("SELECT DISTINCT category FROM drinks;").then((query_res) => {
