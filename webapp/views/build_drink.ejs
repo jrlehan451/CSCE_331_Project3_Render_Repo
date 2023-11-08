@@ -19,16 +19,16 @@
     <div id="addOns1" class="build-option-container">
         <h1 class="option-name">Choose Your First Add-On</h1>
         <% for (var i in add_ons) {%>
-            <button><%=capitalizeName(add_ons[i].name, ' ')%></button>
+            <button id="<%=add_ons[i].name%>" onClick="getAddOn1('<%=add_ons[i].name%>', '<%=add_ons[i].ingredient_id%>')"><%=capitalizeName(add_ons[i].name, ' ')%></button>
         <% } %>
-        <button>None</button>
+        <button onClick="getAddOn1('none', '-1')">None</button>
     </div>
     <div id="addOns2" class="build-option-container">
         <h1 class="option-name">Choose Your Second Add-On</h1>
         <% for (var i in add_ons) {%>
-            <button><%=capitalizeName(add_ons[i].name, ' ')%></button>
+            <button id="<%=add_ons[i].name%>" onClick="getAddOn2('<%=add_ons[i].name%>', '<%=add_ons[i].ingredient_id%>')"><%=capitalizeName(add_ons[i].name, ' ')%></button>
         <% } %>
-        <button>None</button>
+        <button onClick="getAddOn2('none', '-1')">None</button>
     </div>
     <div id="quantity", class="build-option-container">
         <h1 class="option-name">Choose Your Quantity</h1>

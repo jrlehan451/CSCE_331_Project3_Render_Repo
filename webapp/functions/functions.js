@@ -13,18 +13,33 @@ function getDrinkSeries(category) {
     }
 }
 
-function buildDrink(drinkName) {
+function buildDrink(drinkName, drinkId) {
     var currLocation = window.location.href;
     const array = currLocation.split("=");
     location.href = currLocation.replace("drink_series?category=" + array[1], "build_drink");
          
-    sessionStorage.setItem("customer_selected_drink", drinkName);
+    sessionStorage.setItem("customer_drink_name", drinkName);
+    sessionStorage.setItem("customer_drink_id", drinkId);
 }
 
 function getSelectedDrink() {
-    const selectedDrink = sessionStorage.getItem("customer_selected_drink");
+    const selectedDrink = sessionStorage.getItem("customer_drink_name");
     const drinkName = document.getElementById("drinkSelected");
     drinkName.textContent = "Selected Drink: " + selectedDrink;
+}
+
+function getAddOn1(addOn1Name, addOn1IngredientId) {
+    sessionStorage.setItem("customer_addOn1_name", addOn1Name);
+    sessionStorage.setItem("customer_addOn1_id", addOn1IngredientId);
+    const addOn1 = document.getElementById("drinkSelectedAddOn1");
+    addOn1.textContent = "Add-On #1: " + addOn1Name;
+}
+
+function getAddOn2(addOn1Name, addOn1IngredientId) {
+    sessionStorage.setItem("customer_addOn2_name", addOn1Name);
+    sessionStorage.setItem("customer_addOn2_id", addOn1IngredientId);
+    const addOn2 = document.getElementById("drinkSelectedAddOn2");
+    addOn2.textContent = "Add-On #2: " + addOn1Name;
 }
 
 function getDrinkSize() {
@@ -40,7 +55,6 @@ function getDrinkSize() {
     if (quantity.style.display == "block") {
         quantity.style.display = "none";
     }
-
     const size = document.getElementById("size");
     size.style.display = "block";
 }
@@ -61,7 +75,6 @@ function getDrinkAddOn1() {
 
     const addOns1 = document.getElementById("addOns1");
     addOns1.style.display = "block";
-
 }
 
 function getDrinkAddOn2() {
@@ -114,6 +127,8 @@ function getDrinkQuantity() {
         }
         disp.innerHTML = count;
     });
+
+    sessionStorage.setItem("customer_drink_quantity", count);
 }
 
 function backCustomerHome() {

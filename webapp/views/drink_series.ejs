@@ -15,7 +15,7 @@
         <div class="category-items-container">
             <h1 class="series-name">Drink Series</h1>
             <% for (var i in drinks) {%>
-                <button id="<%=drinks[i].name%>" onClick="buildDrink('<%=drinks[i].name%>')">
+                <button id="<%=drinks[i].name%>" onClick="buildDrink('<%=drinks[i].name%>', '<%=drinks[i].drink_id%>')">
                     <img src = "peach_oolong_tea.png" width="100%" height="100%">
                     <%=capitalizeName(drinks[i].name, ' ')%>
                 </button>
