@@ -337,7 +337,7 @@ async function postOrderToDB() {
             body: JSON.stringify({
               drinks: sessionStorage.getItem('drinks'),
               add_ons: sessionStorage.getItem('add_ons'),
-              customer: "Anonymous",
+              customer: document.getElementById("cname").value,
               totalCost: 20
             }),
             headers: {
