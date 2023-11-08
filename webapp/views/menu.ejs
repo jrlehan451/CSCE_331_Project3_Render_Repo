@@ -4,31 +4,27 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Menu</title>
-    <link rel="stylesheet" href="/css/index.css"> 
+    <link rel="stylesheet" href="/css/menu.css"> 
 </head>
 <body>
-    <div class="menu-title">
-        <h1>Menu</h1>
-    </div>
-
-    <button class="home-button" onClick="returnHome()">Home</button>
-
+    <div class="menu-title"><h1>Step 1: Choose Your Drink</h1></div>
+    <button class="home-button" onClick="returnHome()">H</button>
+    <button class="navigation" onClick="navigateToMenuAddons()">></button>
     <div class = "drink-panel">
         <% for (const category in drinksByCategory) {%>
-            <h2> <%=capitalizeName(category, '_') %> </h2>
-
-            <ul>
-                <% drinksByCategory[category].forEach(drink => { %>
-                    <li>
-                        <button onClick="navigateToMenuAddons()">
-                            <%=capitalizeName(drink.name, ' ') %> 
-                        </button>
-                    </li>
-                <% }); %>
-            </ul>
+            <div class = "category-panel">
+                <h2 class="category-title"> <%=capitalizeName(category, '_') %> </h2>
+                    <% drinksByCategory[category].forEach(drink => { %>
+                        <div class="drink-entry">
+                            <div class="drink-square">
+                                <!--TODO ADD PICTURE HERE -->
+                            </div>
+                            <p class="drink-name"><%= capitalizeName(drink.name, ' ') %></p> 
+                        </div>
+                    <% }); %>
+            </div>
         <% } %>
     </div>
-
 </body>
 
 <script src="/js/functions.js"></script>
