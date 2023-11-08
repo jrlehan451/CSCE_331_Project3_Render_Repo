@@ -13,6 +13,17 @@ function getDrinkSeries(category) {
     }
 }
 
+function viewCartFromCustomerHome() {
+    var currLocation = window.location.href;
+    location.href = currLocation.replace("customer_home", "view_cart");
+}
+
+function viewCartFromDrinkSeries() {
+    var currLocation = window.location.href;
+    const array = currLocation.split("=");
+    location.href = currLocation.replace("drink_series?category=" + array[1], "view_cart");
+}
+
 function buildDrink(drinkName, drinkId) {
     var currLocation = window.location.href;
     const array = currLocation.split("=");
@@ -148,14 +159,25 @@ function backCustomerHome() {
     location.href = currLocation.replace("build_drink", "customer_home");
 }
 
-function backCustomerHome() {
-    var currLocation = window.location.href;
-    location.href = currLocation.replace("build_drink", "customer_home");
-}
-
 function viewCart() {
     var currLocation = window.location.href;
     location.href = currLocation.replace("build_drink", "view_cart");
+}
+
+function goToCheckout() {
+    var currLocation = window.location.href;
+    location.href = currLocation.replace("view_cart", "customer_checkout");
+}
+
+function navBuildDrink() {
+    var currLocation = window.location.href;
+    location.href = currLocation.replace("view_cart", "build_drink");
+}
+
+function makeNewOrder() {
+    sessionStorage.clear();
+    var currLocation = window.location.href;
+    location.href = currLocation.replace("customer_checkout", "customer_home");
 }
 
 function drinkToLocal(_id, _name, _cost) {
