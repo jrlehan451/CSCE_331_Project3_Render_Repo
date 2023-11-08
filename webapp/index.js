@@ -4,11 +4,11 @@ const dotenv = require('dotenv').config();
 
 // Create express app
 const app = express();
-const port = 3000;
+const port = 4000;
 const path = require('path')
 
-app.use('/css', express.static('css'));
-app.use('/js', express.static('functions'));
+app.use('/css', express.static(path.join(__dirname, 'css')));
+app.use('/js', express.static(path.join(__dirname, 'functions')));
 app.use(express.static('images'));
 
 app.locals.capitalizeName = function(name, delimiter) {
@@ -23,12 +23,12 @@ app.locals.capitalizeName = function(name, delimiter) {
 
 // Create pool
 const pool = new Pool({
-    user: process.env.PSQL_USER,
-    host: process.env.PSQL_HOST,
-    database: process.env.PSQL_DATABASE,
-    password: process.env.PSQL_PASSWORD,
-    port: process.env.PSQL_PORT,
-    ssl: {rejectUnauthorized: false}
+    user: 'csce331_970_mayashahtam', //process.env.PSQL_USER,
+    host:  'csce-315-db.engr.tamu.edu', //process.env.PSQL_HOST,
+    database: 'csce315331_07g_db', //process.env.PSQL_DATABASE,
+    password: 'password', //process.env.PSQL_PASSWORD,
+    port: 5432, //process.env.PSQL_PORT,
+    ssl: false,//{rejectUnauthorized: false}
 });
 
 // Add process hook to shutdown pool
@@ -52,9 +52,15 @@ app.get('/', (req, res) => {
             }
             const data = {employees: employees};
             console.log(employees);
-            res.render('user', data);        
+            res.render('index', data);        
         });
 });
+
+app.get('/manager_main', (req, res) => {
+    const data = {name: 'Mario'};
+    res.render('manager_main', data);
+});
+
 
 app.get('/user', (req, res) => {
     teammembers = []

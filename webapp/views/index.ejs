@@ -1,23 +1,37 @@
 <!DOCTYPE html>
-<html>
 <head>
     <title>The Alley</title>
     <link rel="stylesheet" href="/css/index.css">
 </head>
 <body>
-    <h1 class="title">Welcome to The Alley</h1>
+    <h1 class="title">The Alley</h1>
 
     <div class="button-section">
-        <button class="large-button" id="login-button" onclick="authenticateUser(employeesJSON)">Login</button>
-        <button class="large-button" id="menu-button" onclick="redirectToMenu()">View Menu</button>
+        <button class="large-button" id="login-button" onClick="authenticateUser()">Login</button>
+        <button class="large-button" id="menu-button" onClick="redirectToMenu()">View Menu</button>
         <input type="text" id="username" placeholder="Username">
         <input type="password" id="password" placeholder="Password">
     </div> 
 
-    <script>
-        var employeesJSON = '<%= JSON.stringify(employees) %>';
-    </script>
-
-    <script src="functions.js"></script>
+    <script src="/js/functions.js"></script>
 </body>
-</html>
+
+<script>
+function authenticateUser() {
+    var employees = '<%- JSON.stringify(employees) %>';
+    var employeesJSON = JSON.parse(employees);
+    const username = document.getElementById('username').value;
+    const password = document.getElementById('password').value;
+
+    for (const employee of employeesJSON) {
+        if (employee.first_name === username && employee.password === password) {
+            routeFromHome(employee);
+            return;
+        }
+    }
+
+    // Authentication failed
+    alert('Authentication failed. Please try again.');
+}
+
+</script>

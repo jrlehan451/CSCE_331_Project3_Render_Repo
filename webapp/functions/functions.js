@@ -113,35 +113,24 @@ function backCustomerHome() {
     location.href = currLocation.replace("build_drink", "customer_home");
 }
 
-function authenticateUser(employeesJSON) {
-    const employees = JSON.parse(employeesJSON); 
-    const username = document.getElementById('username').value;
-    const password = document.getElementById('password').value;
-
-    for (const employee of employees) {
-        if (employee.first_name === username && employee.password === password) {
-            routeFromHome(employee);
-            return;
-        }
-    }
-
-    // Authentication failed
-    alert('Authentication failed. Please try again.');
-}
-
 function routeFromHome(employee){
     var currLocation = window.location.href;
     if(employee.first_name === "customer" && employee.last_name == "profile"){
-        location.href = currLocation.replace("index", "customer_home");
+        location.href = currLocation + "customer_home";
     }
     else if(employee.is_manager){
-        location.href = currLocation.replace("index", "manager_home");
+        location.href = currLocation + "manager_main";
     }
     else{
-        location.href = currLocation.replace("index", "cashier_home");
+        location.href = currLocation + "cashier_home";
     }
     return;
     
+}
+
+function redirectToMenu(){
+    var currLocation = window.location.href;
+    location.href = currLocation + "menu";
 }
 
 function navigateToMenuAddons(){
@@ -257,4 +246,4 @@ function getSiblings(e) {
 };
 
 
-loadTableFromLocal();
+//loadTableFromLocal();
