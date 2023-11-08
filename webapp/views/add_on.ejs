@@ -4,7 +4,10 @@
     <link rel="stylesheet" href="/css/drink_options.css">
 </head>
 <body>
-    <h1>Add-Ons</h1>
+    <div class="columnWrapper">
+        <button onClick="backFromAddOn()">Back</button>
+        <h1>Add-Ons</h1>
+    </div>
     <div class="columnWrapper">
         <div class="column bodyColumn">
             <div class="button-container">
@@ -17,6 +20,10 @@
             <table>
                 <tbody id="tbody"></tbody>
             </table>
+            <div class="columnWrapper">
+                <button onClick="toDrinkOptionsFromAddOn()">New Drink</button>
+                <button onClick="toOrderSummaryFromAddOn()">Checkout</button>
+            </div>
         </div>
     </div>
 </body>

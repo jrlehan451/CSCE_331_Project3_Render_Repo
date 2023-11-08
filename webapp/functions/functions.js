@@ -10,6 +10,47 @@ function toDrinkOptions() {
     sessionStorage.clear();
 }
 
+function toAddOns() {
+    var currLocation = window.location.href;
+    var idx = currLocation.indexOf("add_drink");
+    str = currLocation.slice(0, idx);
+    location.href = str + "add_on";
+}
+
+function toOrderSummaryFromAddDrink() {
+    var currLocation = window.location.href;
+    var idx = currLocation.indexOf("add_drink");
+    str = currLocation.slice(0, idx);
+    location.href = str + "order_summary";
+}
+
+function toDrinkOptionsFromAddOn() {
+    var currLocation = window.location.href;
+    location.href = currLocation.replace("add_on", "drink_options");
+}
+
+function toOrderSummaryFromAddOn() {
+    var currLocation = window.location.href;
+    location.href = currLocation.replace("add_on", "order_summary");
+}
+
+function backFromAddDrink() {
+    var currLocation = window.location.href;
+    var idx = currLocation.indexOf("add_drink");
+    str = currLocation.slice(0, idx);
+    location.href = str + "drink_options";
+}
+
+function backFromAddOn() {
+    var currLocation = window.location.href;
+    location.href = currLocation.replace("add_on", "add_drink");
+}
+
+function backFromOrderSummary() {
+    var currLocation = window.location.href;
+    location.href = currLocation.replace("order_summary", "add_on");
+}
+
 function getDrinkSeries(category) {
     var currLocation = window.location.href;
     if (currLocation.includes("customer_home")) {
