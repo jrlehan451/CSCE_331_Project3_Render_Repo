@@ -168,6 +168,14 @@ app.get("/build_drink", (req, res) => {
   });
 });
 
+app.get("/view_cart", (req, res) => {
+  res.render("view_cart")
+});
+
+app.get("/customer_checkout", (req, res) => {
+  res.render("customer_checkout")
+});
+
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`);
 });

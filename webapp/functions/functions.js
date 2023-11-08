@@ -148,6 +148,16 @@ function backCustomerHome() {
     location.href = currLocation.replace("build_drink", "customer_home");
 }
 
+function backCustomerHome() {
+    var currLocation = window.location.href;
+    location.href = currLocation.replace("build_drink", "customer_home");
+}
+
+function viewCart() {
+    var currLocation = window.location.href;
+    location.href = currLocation.replace("build_drink", "view_cart");
+}
+
 function drinkToLocal(_id, _name, _cost) {
     drinks = []
     if (sessionStorage.getItem("drinks")) {
