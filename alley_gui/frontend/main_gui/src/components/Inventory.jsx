@@ -1,94 +1,106 @@
-import { Button } from "@mui/material";
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { DataGrid, GridColDef, GridValueGetterParams } from "@mui/x-data-grid";
+import { ThemeProvider } from "@mui/material/styles";
 
 //import axios from "axios"; // Make sure to import axios for HTTP requests
-
 const Inventory = () => {
+  const columns = [
+    { field: "itemId", headerName: "Item ID", width: 70, flex: 1 },
+    { field: "ingredientId", headerName: "Ingredeint ID", width: 130, flex: 1 },
+    { field: "name", headerName: "Name", width: 130, flex: 1 },
+    { field: "count", headerName: "Count", type: "number", width: 90, flex: 1 },
+    {
+      field: "fillLevel",
+      headerName: "Fill Level",
+      type: "number",
+      width: 90,
+      flex: 1,
+    },
+    {
+      field: "quantityPerUnit",
+      headerName: "Quantity Per Unit",
+      type: "number",
+      width: 90,
+      flex: 1,
+    },
+  ];
+
+  // const rows = [
+  //   {
+  //     id: item.item_id,
+  //     ingredientId: item.ingredient_id,
+  //     name: item.name,
+  //     count: item.count,
+  //     fillLevel: item.fill_level,
+  //     quantityPerUnit: item.quantity_per_unit,
+  //   },
+  // ];
+
   const [data, setData] = useState([]);
-  const [itemId, setItemId] = useState("");
-  const [name, setName] = useState("");
-  const [amount, setAmount] = useState("");
-  const [quantity, setQuantity] = useState("");
-  const [inventorytName, setInventoryName] = useState("");
-
-  // useEffect(() => {
-  //   axios
-  //     .get("/api/data")
-  //     .then((response) => {
-  //       setData(response.data);
-  //     })
-  //     .catch((error) => {
-  //       console.error(error);
-  //     });
-  // });
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-  };
 
   useEffect(() => {
-    axios.get("http://localhost:4000/inventory").then(function (response) {
-      setInventoryName(response.data);
-    });
+    const inventoryItems = async () => {
+      try {
+        const response = await axios.get("http://localhost:4000/inventory");
+        const jsonVals = await response.data;
+        console.log("Working");
+        console.log(jsonVals.data.table);
+        const rowsWithId = jsonVals.data.table.rows.map(
+          (item, ingredient_id) => ({
+            id: ingredient_id,
+            itemId: item.item_id,
+            ingredientId: item.ingredient_id,
+            name: item.name,
+            count: item.count,
+            fillLevel: item.fill_level,
+            quantityPerUnit: item.quantity_per_unit,
+          })
+        );
+        setData(rowsWithId);
+      } catch (err) {
+        console.log("ERROR");
+        console.error(err.message);
+      }
+    };
+
+    inventoryItems();
   }, []);
 
   return (
     <div>
-      <div>
-        <h1>Inventory Page</h1>
-        {inventorytName.name}
-        <table>
-          <thread>
+      <h1>Inventory Page</h1>
+
+      <div style={{ height: 400, width: "80vw" }}>
+        <DataGrid rows={data} columns={columns} columnBuffer={2} />
+      </div>
+
+      {/* <table>
+          <thead>
             <tr>
-              <th>Column 1</th>
-              <th>Column 2</th>
-              <th>Column 3</th>
-              <th>Column 4</th>
+              <th>Item ID</th>
+              <th>Ingredient ID</th>
+              <th>Name</th>
+              <th>Count</th>
+              <th>Fill Level</th>
+              <th>Quantity Per Unit</th>
             </tr>
-          </thread>
+          </thead>
           <tbody>
-            {data.map((item) => (
-              <tr key={item.id}>
-                <td>{item.id}</td>
+            {data.map((item, index) => (
+              <tr key={index}>
+                <td>{item.item_id}</td>
+
+                <td>{item.ingredient_id}</td>
+
                 <td>{item.name}</td>
-                <td>{item.description}</td>
+                <td>{item.count}</td>
+                <td>{item.fill_level}</td>
+                <td>{item.quantity_per_unit}</td>
               </tr>
             ))}
           </tbody>
-        </table>
-      </div>
-
-      <div>
-        <form onSubmit={handleSubmit}>
-          <input
-            type="text"
-            placeholder="Item ID"
-            value={itemId}
-            onChange={(e) => setItemId(e.target.value)}
-          />
-          <input
-            type="text"
-            placeholder="Name"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-          />
-          <input
-            type="text"
-            placeholder="Amount"
-            value={amount}
-            onChange={(e) => setAmount(e.target.value)}
-          />
-          <input
-            type="text"
-            placeholder="Quantity Per Unit"
-            value={quantity}
-            onChange={(e) => setQuantity(e.target.value)}
-          />
-          <button type="Submit">Submit</button>
-          <button type="reset">Reset</button>
-        </form>
-      </div>
+        </table> */}
     </div>
   );
 };

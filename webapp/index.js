@@ -130,18 +130,40 @@ app.get("/order_summary", (req, res) => {
   res.render("order_summary");
 });
 
-app.get("/inventory", (req, res) => {
-  //res.send("Connection for ingredients");
+// app.get("/inventory", (req, res) => {
+//   //res.send("Connection for ingredients");
 
-  pool.query("SELECT name FROM inventory_items;").then((query_res) => {
-    inventory_name = [];
-    for (let i = 0; i < query_res.rowCount; i++) {
-      inventory_name.push(query_res.rows[i]);
-    }
-    console.log(inventory_name[0]);
-    tempName = inventory_name[0];
-    res.send(inventory_name);
-  });
+//   pool.query("SELECT name FROM inventory_items;").then((query_res) => {
+
+//     inventory_name = [];
+//     for (let i = 0; i < query_res.rowCount; i++) {
+//       inventory_name.push(query_res.rows[i]);
+//     }
+//     console.log(inventory_name[0]);
+//     tempName = inventory_name[0];
+//     res.send(inventory_name);
+//   });
+// });
+
+app.get("/inventory", async (req, res) => {
+  try {
+    console.log("Hello");
+
+    const results = await pool.query("SELECT * FROM inventory_items;");
+    res.status(200).json({
+      status: "success",
+      results: results.rows.length,
+      data: {
+        table: results,
+      },
+    });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({
+      status: "error",
+      message: "An error occurred while fetching data.",
+    });
+  }
 });
 
 app.get("/drink_series", (req, res) => {
