@@ -2,9 +2,23 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { DataGrid, GridColDef, GridValueGetterParams } from "@mui/x-data-grid";
 import { ThemeProvider } from "@mui/material/styles";
+import { theme } from "../theme";
+import { Box, ListItemButton, styled } from "@mui/material";
 
 //import axios from "axios"; // Make sure to import axios for HTTP requests
 const Inventory = () => {
+  const CustomButton = styled(ListItemButton)(({ theme }) => ({
+    backgroundColor: "#ffefe2",
+    color: "black",
+    margin: 10,
+    borderRadius: "8px",
+    width: "350px",
+    minHeight: "40px",
+    maxHeight: "60px",
+    "&:hover": { backgroundColor: "lightblue" },
+    "&:disabled": { backgroundColor: "gray", color: "white" },
+  }));
+
   const columns = [
     { field: "itemId", headerName: "Item ID", width: 70, flex: 1 },
     { field: "ingredientId", headerName: "Ingredeint ID", width: 130, flex: 1 },
@@ -68,40 +82,53 @@ const Inventory = () => {
   }, []);
 
   return (
-    <div>
-      <h1>Inventory Page</h1>
+    <ThemeProvider theme={theme}>
+      <div
+        style={{
+          backgroundColor: theme.palette.primary.main,
+        }}
+      >
+        <h1>Inventory Page</h1>
 
-      <div style={{ height: 400, width: "80vw" }}>
-        <DataGrid rows={data} columns={columns} columnBuffer={2} />
-      </div>
+        <div style={{ height: 400, width: "80vw" }}>
+          <DataGrid rows={data} columns={columns} columnBuffer={2} />
+        </div>
 
-      {/* <table>
-          <thead>
-            <tr>
-              <th>Item ID</th>
-              <th>Ingredient ID</th>
-              <th>Name</th>
-              <th>Count</th>
-              <th>Fill Level</th>
-              <th>Quantity Per Unit</th>
-            </tr>
-          </thead>
-          <tbody>
-            {data.map((item, index) => (
-              <tr key={index}>
-                <td>{item.item_id}</td>
+        <div>
+          <CustomButton>Add Item</CustomButton>
+          <CustomButton>Delete Item</CustomButton>
+          <CustomButton>Update Item</CustomButton>
+          <CustomButton>Apply Recommended Adjustments</CustomButton>
+        </div>
 
-                <td>{item.ingredient_id}</td>
-
-                <td>{item.name}</td>
-                <td>{item.count}</td>
-                <td>{item.fill_level}</td>
-                <td>{item.quantity_per_unit}</td>
+        {/* <table>
+            <thead>
+              <tr>
+                <th>Item ID</th>
+                <th>Ingredient ID</th>
+                <th>Name</th>
+                <th>Count</th>
+                <th>Fill Level</th>
+                <th>Quantity Per Unit</th>
               </tr>
-            ))}
-          </tbody>
-        </table> */}
-    </div>
+            </thead>
+            <tbody>
+              {data.map((item, index) => (
+                <tr key={index}>
+                  <td>{item.item_id}</td>
+
+                  <td>{item.ingredient_id}</td>
+
+                  <td>{item.name}</td>
+                  <td>{item.count}</td>
+                  <td>{item.fill_level}</td>
+                  <td>{item.quantity_per_unit}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table> */}
+      </div>
+    </ThemeProvider>
   );
 };
 
