@@ -4,7 +4,7 @@
 
 .build-drink-container {
     width: 17vw;
-    border: 2px solid #8b9477;
+    border: 2px solid #25371d;
     float: left;
     background: #ffefe2;
     overflow-y: auto;
@@ -15,8 +15,8 @@
     height: 3vw;
     border-radius: 12vw;
     float: left;
-    border: 2px solid #8b9477;
-    background: #ffefe2;
+    border: 2px solid #25371d;
+    background: #8b9477;
     margin-left: 1vw;
     margin-right: 1vw;
     margin-top: 0.5vw;
@@ -24,7 +24,7 @@
     white-space: normal;
     word-break: break-word;
     cursor: pointer;
-    color: #8b9477;
+    color: #25371d;
     font-family: 'Perpetua', serif;
     font-weight: bold;
 }
@@ -32,7 +32,7 @@
 .build-drink-title {
     text-align: center;
     margin-bottom: 0.75vw;
-    color: #8b9477;
+    color: #25371d;
     font-family: 'Perpetua', serif;
 }
 
@@ -40,6 +40,7 @@
     width: 7vw;
     background: #ffefe2;
     border: 2px solid #25371d;
+    cursor: pointer;
     margin-bottom: 2vw;
 }
 
@@ -80,6 +81,56 @@
     color: #9e693f;
     font-family: 'Perpetua', serif;
     font-size: 10vw;
+}
+
+.build-drink-info {
+    margin-top: 22.5vw;
+    width: 70vw;
+    border: 2px solid #8b9477;
+    background: #ffefe2;
+}
+
+.build-drink-text {
+    margin-left: 1vw;
+    margin-right: 1vw;
+    font-family: 'Perpetua', serif;
+    font-weight: bold;
+    color: #25371d
+}
+
+.build-drink-next {
+    margin-top: -15vw;
+    margin-right: 1.5vw;
+    float: right;
+    width: 25vw;
+    background: #ffefe2;
+}
+
+.build-drink-next > button {
+    width: 22vw;
+    height: 3vw;
+    border-radius: 12vw;
+    float: left;
+    border: 2px solid #25371d;
+    background: #8b9477;
+    margin-left: 1vw;
+    margin-right: 1vw;
+    margin-top: 0.5vw;
+    margin-bottom: 0.5vw;
+    white-space: normal;
+    word-break: break-word;
+    cursor: pointer;
+    color: #25371d;
+    font-family: 'Perpetua', serif;
+    font-weight: bold;
+}
+
+.total {
+    margin-right: 1vw;
+    margin-left: 1vw;
+    color: #25371d;
+    font-family: 'Perpetua', serif;
+    font-size: 3vw;
 }
 
 .columnWrapper {

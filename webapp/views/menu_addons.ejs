@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menu Add-Ons</title>
+    <link rel="stylesheet" href="/css/menu_addons.css">
+</head>
+<body>
+    <div class="menu-title"><h1>Step 2: Choose Your Add-Ons (Max 2)</h1></div>
+    <button class="home-button" onClick="returnHome()">H</button>
+    <button class="navigation" onClick="navigateToMenu()"><</button>
+    <div class="addon-container">
+        <% for (let i = 0; i < addOns.length; i++) { %>
+            <div class="addon-entry">
+                <div class="addon-square">
+                    <!--TODO ADD PICTURE HERE -->
+                </div>
+                <div class="addon-name"><%= capitalizeName(addOns[i].name, ' ') %></div>
+            </div>
+        <% } %>
+    </div>
+
+    <script src="/js/functions.js"></script>
+</body>

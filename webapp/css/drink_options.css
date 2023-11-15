@@ -14,3 +14,32 @@
     word-break: break-word;
     cursor: pointer;
 }
+
+table, th, td {
+    border: 1px solid black;
+}
+
+tr {
+    cursor: pointer;
+}
+
+.selected {
+    background-color: brown;
+    color: #FFF;
+}
+
+.column {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.columnWrapper {
+    display: inline-flex;
+    justify-content: center;
+}
+
+.bodyColumn {
+    width: 50vw;
+}

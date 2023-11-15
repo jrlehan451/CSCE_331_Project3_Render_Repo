@@ -1,7 +1,58 @@
 <!DOCTYPE html>
 <head>
-    <title>Home Page</title>
+    <title>The Alley</title>
+    <link rel="stylesheet" href="/css/index.css">
 </head>
 <body>
-    <p>This is <%=name%>'s homepage.</p>
+    <h1 class="title">The Alley</h1>
+    <div class="button-panel">
+        <div class = "top-button">
+            <button class="large-button" id="login-button" onClick="showLoginForm()">Login</button>
+            <div class="login-form">
+                <input type="text" id="username" placeholder="Username">
+                <input type="password" id="password" placeholder="Password">
+                <div class="button-container">
+                    <button class="x-button" onClick="showLoginButton()">X</button>
+                    <button class="login-button" onClick="authenticateUser()">Login</button>
+                </div>
+            </div>
+        </div>
+        <div class = "lower-button">
+            <button class="large-button" id="menu-button" onClick="redirectToMenu()">View Menu</button>
+        </div>
+    </div> 
+
+    <script src="/js/functions.js"></script>
 </body>
+
+<script>
+function authenticateUser() {
+    var employees = '<%- JSON.stringify(employees) %>';
+    var employeesJSON = JSON.parse(employees);
+    const username = document.getElementById('username').value;
+    const password = document.getElementById('password').value;
+
+    for (const employee of employeesJSON) {
+        if (employee.first_name === username && employee.password === password) {
+            routeFromHome(employee);
+            return;
+        }
+    }
+
+    // Authentication failed
+    alert('Authentication failed. Please try again.');
+}
+
+function showLoginForm(){
+    document.querySelector('.login-form').style.display = 'block';
+    document.querySelector('#login-button').style.display = 'none';
+
+    document.getElementById('username').value = '';
+    document.getElementById('password').value = '';
+}
+
+function showLoginButton(){
+    document.querySelector('.login-form').style.display = 'none';
+    document.querySelector('#login-button').style.display = 'block';
+}
+</script>

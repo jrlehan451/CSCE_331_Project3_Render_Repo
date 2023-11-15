@@ -40,6 +40,7 @@
     margin-left: 2.5vw;
     margin-right: 1vw;
     width: 75vw;
+    height: 37vw;
     float: left;
 }
 
@@ -63,4 +64,42 @@
     margin-bottom: 0.75vw;
     color: #8b9477;
     font-family: 'Perpetua', serif;
+}
+
+.order-info-container {
+    float: right;
+    margin-top: 1vw;
+    margin-left: 3.5vw;
+    margin-right: 1vw;
+    width: 40vw;
+    height: 5vw;
+}
+
+.order-info-container > button {
+    width: 10vw;
+    height: 4vw;
+    border-radius: 12vw;
+    float: right;
+    border: 2px solid #25371d;
+    background: #8b9477;
+    margin-left: 1vw;
+    margin-right: 1vw;
+    margin-top: 0.5vw;
+    margin-bottom: 0.5vw;
+    white-space: normal;
+    word-break: break-word;
+    cursor: pointer;
+    color: #25371d;
+    font-family: 'Perpetua', serif;
+    font-weight: bold;
+}
+
+.total {
+    margin-top: 0.5vw;
+    margin-bottom: 0.5vw;
+    display: inline;
+    float: left;
+    color: #25371d;
+    font-family: 'Perpetua', serif;
+    font-size: 3vw;
 }

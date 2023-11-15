@@ -1,4 +1,6 @@
 const express = require("express");
+var bodyParser = require("body-parser");
+var jsonParser = bodyParser.json();
 const { Pool } = require("pg");
 const dotenv = require("dotenv").config();
 const cors = require("cors");
@@ -44,8 +46,20 @@ process.on("SIGINT", function () {
 app.set("view engine", "ejs");
 
 app.get("/", (req, res) => {
+  employees = [];
+  pool.query("SELECT * FROM employees;").then((query_res) => {
+    for (let i = 0; i < query_res.rowCount; i++) {
+      employees.push(query_res.rows[i]);
+    }
+    const data = { employees: employees };
+    console.log(employees);
+    res.render("index", data);
+  });
+});
+
+app.get("/manager_main", (req, res) => {
   const data = { name: "Mario" };
-  res.render("index", data);
+  res.render("manager_main", data);
 });
 
 app.post("/post_name", cors(), async (req, res) => {
@@ -130,44 +144,91 @@ app.get("/order_summary", (req, res) => {
   res.render("order_summary");
 });
 
-// Getting inventory database and sending it to /inventory
-app.get("/inventory", async (req, res) => {
-  try {
-    console.log("Hello");
+app.post("/post_order", jsonParser, (req, res) => {
+  console.log(req.body);
 
-    const results = await pool.query("SELECT * FROM inventory_items;");
-    res.status(200).json({
-      status: "success",
-      results: results.rows.length,
-      data: {
-        table: results,
-      },
+  var nextOrderId = 0;
+
+  drinks = JSON.parse(req.body.drinks);
+  add_ons = JSON.parse(req.body.add_ons);
+
+  pool
+    .query("SELECT order_id FROM orders ORDER BY order_id DESC LIMIT 1;")
+    .then((query_res) => {
+      nextOrderId = query_res.rows[0].order_id + 1;
+
+      pool.query(
+        "INSERT INTO orders(order_id, name, timestamp, cost) VALUES($1, $2, $3, $4)",
+        [
+          nextOrderId,
+          req.body.customer,
+          new Date().toISOString().slice(0, 19).replace("T", " "),
+          req.body.totalCost,
+        ], // Using temporary customer name and totalCost, both of which can just be stored in sessionStorage
+        (err, response) => {
+          if (err) {
+            console.log(err);
+          }
+        }
+      );
+
+      for (let i = 0; i < drinks.length; ++i) {
+        pool.query(
+          "INSERT INTO drink_orders(drink_id, order_id, number) VALUES($1, $2, $3)",
+          [parseInt(drinks[i].id), nextOrderId, i + 1],
+          (err, response) => {
+            if (err) {
+              console.log(err);
+            }
+          }
+        );
+      }
+
+      for (let i = 0; i < add_ons.length; ++i) {
+        for (let j = 0; j < add_ons[i].length; ++j) {
+          pool.query(
+            "INSERT INTO add_ons(ingredient_id, order_id, number) VALUES($1, $2, $3)",
+            [parseInt(add_ons[i][j].id), nextOrderId, i + 1],
+            (err, response) => {
+              if (err) {
+                console.log(err);
+              }
+            }
+          );
+        }
+      }
     });
-  } catch (err) {
-    console.log(err);
-    res.status(500).json({
-      status: "error",
-      message: "An error occurred while fetching data.",
-    });
-  }
+
+  res.json({ ok: true });
 });
 
-app.post("/addItemInventory", (req, res) => {
-  const sql =
-    "INSERT INTO inventory_items (`item_id`, `name`, `count`, `quantity_per_unit`) VALUES (?)";
-  const values = [
-    req.body.itemId,
-    req.body.name,
-    req.body.amount,
-    req.body.quantityPerUnit,
-  ];
-  console.log("app.post");
-  pool.query(sql, [values], (err, result) => {
-    console.log("inside the pool query");
-    if (err) return res.json(err);
-    return res.json(result);
-  });
-});
+app.locals.postOrder = function (drinks, add_ons) {
+  var drinks = JSON.parse(drinks);
+  var add_ons = JSON.parse(add_ons);
+
+  var nextOrderId = 0;
+
+  pool
+    .query("SELECT order_id FROM orders ORDER BY order_id DESC LIMIT 1;")
+    .then((query_res) => {
+      nextOrderId = query_res + 1;
+    });
+
+  pool.query(
+    "INSERT INTO orders(order_id, name, timestamp, cost) VALUES($1, $2, $3, $4)",
+    [
+      nextOrderId,
+      "Test Name",
+      new Date().toISOString().slice(0, 19).replace("T", " "),
+      10,
+    ], // Using temporary customer name and totalCost, both of which can just be stored in sessionStorage
+    (err, res) => {
+      if (err) return next(err);
+
+      response.redirect("/monsters");
+    }
+  );
+};
 
 app.get("/drink_series", (req, res) => {
   drink_categories = [];
@@ -205,6 +266,77 @@ app.get("/build_drink", (req, res) => {
     console.log(add_ons);
     res.render("build_drink", data);
   });
+});
+
+app.get("/view_cart", (req, res) => {
+  res.render("view_cart");
+});
+
+app.get("/customer_checkout", (req, res) => {
+  res.render("customer_checkout");
+});
+
+app.get("/menu", (req, res) => {
+  const drinksByCategory = {};
+
+  pool.query("SELECT * FROM drinks;").then((query_res) => {
+    const drinks = query_res.rows;
+
+    // Organize drinks by category
+    drinks.forEach((drink) => {
+      const category = drink.category;
+
+      if (!drinksByCategory[category]) {
+        drinksByCategory[category] = [];
+      }
+
+      drinksByCategory[category].push(drink);
+    });
+
+    res.render("menu", { drinksByCategory });
+  });
+});
+
+app.get("/menu_addons", (req, res) => {
+  addOns = [];
+
+  pool
+    .query("SELECT * FROM ingredients WHERE cost != 0 order by name;")
+    .then((query_res) => {
+      for (let i = 0; i < query_res.rowCount; i++) {
+        addOns.push(query_res.rows[i]);
+      }
+
+      const data = { addOns: addOns };
+      res.render("menu_addons", data);
+    });
+});
+
+app.get("/inventory", (req, res) => {
+  const query = "SELECT * FROM inventory_items ORDER BY name";
+  pool.query(query).then((query_res) => {
+    const inventoryData = query_res.rows;
+    console.log(inventoryData);
+    res.render("inventory", { inventoryData });
+  });
+});
+
+app.get("/menu_items", (req, res) => {
+  const drinksQuery = "SELECT * FROM drinks ORDER BY name";
+  const ingredientsQuery = "SELECT * FROM ingredients ORDER BY name";
+
+  Promise.all([pool.query(drinksQuery), pool.query(ingredientsQuery)]).then(
+    ([drinksRes, ingredientsRes]) => {
+      const menuData = drinksRes.rows;
+      const ingredientsData = ingredientsRes.rows;
+      console.log(menuData, ingredientsData);
+      res.render("menu_items", { menuData, ingredientsData });
+    }
+  );
+});
+
+app.get("/analyze_trends", (req, res) => {
+  res.render("analyze_trends");
 });
 
 app.listen(port, () => {
