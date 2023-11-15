@@ -3,7 +3,14 @@ import axios from "axios";
 import { DataGrid, GridColDef, GridValueGetterParams } from "@mui/x-data-grid";
 import { ThemeProvider } from "@mui/material/styles";
 import { theme } from "../theme";
-import { Box, ListItemButton, styled } from "@mui/material";
+import {
+  Box,
+  ListItemButton,
+  styled,
+  TextField,
+  InputLabel,
+  FormControl,
+} from "@mui/material";
 
 //import axios from "axios"; // Make sure to import axios for HTTP requests
 const Inventory = () => {
@@ -99,6 +106,56 @@ const Inventory = () => {
           <CustomButton>Delete Item</CustomButton>
           <CustomButton>Update Item</CustomButton>
           <CustomButton>Apply Recommended Adjustments</CustomButton>
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "1fr 1fr",
+              gap: "5px",
+              padding: "5px",
+              marginRight: "auto",
+            }}
+          >
+            <div>
+              <InputLabel htmlFor="filled-basic">Item ID</InputLabel>
+              <FormControl>
+                <TextField id="filled-basic" variant="filled" />
+              </FormControl>
+            </div>
+            <div>
+              <InputLabel htmlFor="filled-basic">Name</InputLabel>
+              <FormControl>
+                <TextField id="filled-basic" variant="filled" />
+              </FormControl>
+            </div>
+            <div>
+              <InputLabel htmlFor="filled-basic">Amount</InputLabel>
+              <FormControl>
+                <TextField id="filled-basic" variant="filled" />
+              </FormControl>
+            </div>
+            <div>
+              <InputLabel htmlFor="filled-basic">Quantity Per Unit</InputLabel>
+              <FormControl>
+                <TextField id="filled-basic" variant="filled" />
+              </FormControl>
+            </div>
+            {/* <FormControl>
+              <InputLabel htmlFor="filled-basic">Item ID</InputLabel>
+              <TextField id="filled-basic" variant="filled" />
+            </FormControl>
+            <FormControl>
+              <InputLabel htmlFor="filled-basic">Name</InputLabel>
+              <TextField id="filled-basic" variant="filled" />
+            </FormControl>
+            <FormControl>
+              <InputLabel htmlFor="filled-basic">Amount</InputLabel>
+              <TextField id="filled-basic" variant="filled" />
+            </FormControl>
+            <FormControl>
+              <InputLabel htmlFor="filled-basic">Quantity Per Unit</InputLabel>
+              <TextField id="filled-basic" variant="filled" />
+            </FormControl> */}
+          </div>
         </div>
 
         {/* <table>
