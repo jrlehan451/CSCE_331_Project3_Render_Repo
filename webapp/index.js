@@ -339,35 +339,60 @@ app.get("/analyze_trends", (req, res) => {
   res.render("analyze_trends");
 });
 
-app.get("/inventory_items", (req, res) => {
-  //res.send("Connection for ingredients");
+// Getting inventory database and sending it to /inventory
+app.get("/inventory_items", async (req, res) => {
+  try {
+    console.log("Hello");
 
-  pool.query("SELECT name FROM inventory_items;").then((query_res) => {
-    inventory_name = [];
-    for (let i = 0; i < query_res.rowCount; i++) {
-      inventory_name.push(query_res.rows[i]);
-    }
-    console.log(inventory_name[0]);
-    tempName = inventory_name[0];
-    res.send(inventory_name);
-  });
+    const results = await pool.query("SELECT * FROM inventory_items;");
+    res.status(200).json({
+      status: "success",
+      results: results.rows.length,
+      data: {
+        table: results,
+      },
+    });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({
+      status: "error",
+      message: "An error occurred while fetching data.",
+    });
+  }
 });
 
 app.post("/addItemInventory", (req, res) => {
-  const sql =
-    "INSERT INTO inventory_items (`item_id`, `name`, `count`, `quantity_per_unit`) VALUES (?)";
-  const values = [
-    req.body.itemId,
-    req.body.name,
-    req.body.amount,
-    req.body.quantityPerUnit,
-  ];
+  // const sql =
+  //   "INSERT INTO inventory_items (`item_id`, `name`, `count`, `quantity_per_unit`) VALUES (?)";
+  // const values = [
+  //   req.body.itemId,
+  //   req.body.name,
+  //   req.body.amount,
+  //   req.body.quantityPerUnit,
+  // ];
   console.log("app.post");
-  pool.query(sql, [values], (err, result) => {
-    console.log("inside the pool query");
-    if (err) return res.json(err);
-    return res.json(result);
-  });
+  console.log(req.body.itemId);
+  console.log(req.body.name);
+  console.log(req.body.amount);
+  console.log(req.body.quantityPerUnit);
+
+  pool.query(
+    "INSERT INTO inventory_items (item_id, name, count, quantity_per_unit) VALUES($1, $2, $3, $4)",
+    [req.body.itemId, req.body.name, req.body.amount, req.body.quantityPerUnit],
+    (err, response) => {
+      if (err) {
+        console.log(err);
+      } else {
+        console.log(response);
+      }
+    }
+  );
+
+  // pool.query(sql, [values], (err, result) => {
+  //   console.log("inside the pool query");
+  //   if (err) return res.json(err);
+  //   return res.json(result);
+  // });
 });
 
 app.listen(port, () => {
