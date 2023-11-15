@@ -19,7 +19,7 @@ const Inventory = () => {
     color: "black",
     margin: 10,
     borderRadius: "8px",
-    width: "350px",
+    width: "200px",
     minHeight: "40px",
     maxHeight: "60px",
     "&:hover": { backgroundColor: "lightblue" },
@@ -93,26 +93,29 @@ const Inventory = () => {
       <div
         style={{
           backgroundColor: theme.palette.primary.main,
+          display: "flex",
+          flexDirection: "column",
         }}
       >
         <h1>Inventory Page</h1>
 
-        <div style={{ height: 400, width: "80vw" }}>
+        <div style={{ height: 400, width: "80vw", marginBottom: "20px" }}>
           <DataGrid rows={data} columns={columns} columnBuffer={2} />
         </div>
 
-        <div>
-          <CustomButton>Add Item</CustomButton>
-          <CustomButton>Delete Item</CustomButton>
-          <CustomButton>Update Item</CustomButton>
-          <CustomButton>Apply Recommended Adjustments</CustomButton>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            marginLeft: "10px",
+            marginRight: "10px",
+          }}
+        >
           <div
             style={{
               display: "grid",
               gridTemplateColumns: "1fr 1fr",
               gap: "5px",
-              padding: "5px",
-              marginRight: "auto",
             }}
           >
             <div>
@@ -139,51 +142,26 @@ const Inventory = () => {
                 <TextField id="filled-basic" variant="filled" />
               </FormControl>
             </div>
-            {/* <FormControl>
-              <InputLabel htmlFor="filled-basic">Item ID</InputLabel>
-              <TextField id="filled-basic" variant="filled" />
-            </FormControl>
-            <FormControl>
-              <InputLabel htmlFor="filled-basic">Name</InputLabel>
-              <TextField id="filled-basic" variant="filled" />
-            </FormControl>
-            <FormControl>
-              <InputLabel htmlFor="filled-basic">Amount</InputLabel>
-              <TextField id="filled-basic" variant="filled" />
-            </FormControl>
-            <FormControl>
-              <InputLabel htmlFor="filled-basic">Quantity Per Unit</InputLabel>
-              <TextField id="filled-basic" variant="filled" />
-            </FormControl> */}
+          </div>
+
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "flex-end",
+            }}
+          >
+            <div style={{ display: "flex", gap: "5px" }}>
+              <CustomButton>Add Item</CustomButton>
+              <CustomButton>Delete Item</CustomButton>
+              <CustomButton>Update Item</CustomButton>
+            </div>
+
+            <CustomButton style={{ width: "90%" }}>
+              Apply Recommended Adjustments
+            </CustomButton>
           </div>
         </div>
-
-        {/* <table>
-            <thead>
-              <tr>
-                <th>Item ID</th>
-                <th>Ingredient ID</th>
-                <th>Name</th>
-                <th>Count</th>
-                <th>Fill Level</th>
-                <th>Quantity Per Unit</th>
-              </tr>
-            </thead>
-            <tbody>
-              {data.map((item, index) => (
-                <tr key={index}>
-                  <td>{item.item_id}</td>
-
-                  <td>{item.ingredient_id}</td>
-
-                  <td>{item.name}</td>
-                  <td>{item.count}</td>
-                  <td>{item.fill_level}</td>
-                  <td>{item.quantity_per_unit}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table> */}
       </div>
     </ThemeProvider>
   );
