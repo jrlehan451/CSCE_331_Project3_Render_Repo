@@ -130,21 +130,7 @@ app.get("/order_summary", (req, res) => {
   res.render("order_summary");
 });
 
-// app.get("/inventory", (req, res) => {
-//   //res.send("Connection for ingredients");
-
-//   pool.query("SELECT name FROM inventory_items;").then((query_res) => {
-
-//     inventory_name = [];
-//     for (let i = 0; i < query_res.rowCount; i++) {
-//       inventory_name.push(query_res.rows[i]);
-//     }
-//     console.log(inventory_name[0]);
-//     tempName = inventory_name[0];
-//     res.send(inventory_name);
-//   });
-// });
-
+// Getting inventory database and sending it to /inventory
 app.get("/inventory", async (req, res) => {
   try {
     console.log("Hello");
@@ -164,6 +150,23 @@ app.get("/inventory", async (req, res) => {
       message: "An error occurred while fetching data.",
     });
   }
+});
+
+app.post("/addItemInventory", (req, res) => {
+  const sql =
+    "INSERT INTO inventory_items (`item_id`, `name`, `count`, `quantity_per_unit`) VALUES (?)";
+  const values = [
+    req.body.itemId,
+    req.body.name,
+    req.body.amount,
+    req.body.quantityPerUnit,
+  ];
+  console.log("app.post");
+  pool.query(sql, [values], (err, result) => {
+    console.log("inside the pool query");
+    if (err) return res.json(err);
+    return res.json(result);
+  });
 });
 
 app.get("/drink_series", (req, res) => {

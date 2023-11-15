@@ -59,6 +59,12 @@ const Inventory = () => {
   // ];
 
   const [data, setData] = useState([]);
+  const [values, setValues] = useState({
+    itemId: "",
+    name: "",
+    amount: "",
+    quantityPerUnit: "",
+  });
 
   useEffect(() => {
     const inventoryItems = async () => {
@@ -87,6 +93,14 @@ const Inventory = () => {
 
     inventoryItems();
   }, []);
+
+  const addHandleSubmit = (e) => {
+    e.preventDefault();
+    axios
+      .post("http://localhost:4000/addItemInventory", values)
+      .then((res) => console.log(res))
+      .catch((err) => console.log(err));
+  };
 
   return (
     <ThemeProvider theme={theme}>
@@ -121,25 +135,49 @@ const Inventory = () => {
             <div>
               <InputLabel htmlFor="filled-basic">Item ID</InputLabel>
               <FormControl>
-                <TextField id="filled-basic" variant="filled" />
+                <TextField
+                  id="filled-basic"
+                  variant="filled"
+                  onChange={(e) =>
+                    setValues({ ...values, itemId: e.target.value })
+                  }
+                />
               </FormControl>
             </div>
             <div>
               <InputLabel htmlFor="filled-basic">Name</InputLabel>
               <FormControl>
-                <TextField id="filled-basic" variant="filled" />
+                <TextField
+                  id="filled-basic"
+                  variant="filled"
+                  onChange={(e) =>
+                    setValues({ ...values, name: e.target.value })
+                  }
+                />
               </FormControl>
             </div>
             <div>
               <InputLabel htmlFor="filled-basic">Amount</InputLabel>
               <FormControl>
-                <TextField id="filled-basic" variant="filled" />
+                <TextField
+                  id="filled-basic"
+                  variant="filled"
+                  onChange={(e) =>
+                    setValues({ ...values, amount: e.target.value })
+                  }
+                />
               </FormControl>
             </div>
             <div>
               <InputLabel htmlFor="filled-basic">Quantity Per Unit</InputLabel>
               <FormControl>
-                <TextField id="filled-basic" variant="filled" />
+                <TextField
+                  id="filled-basic"
+                  variant="filled"
+                  onChange={(e) =>
+                    setValues({ ...values, quantityPerUnit: e.target.value })
+                  }
+                />
               </FormControl>
             </div>
           </div>
@@ -152,7 +190,7 @@ const Inventory = () => {
             }}
           >
             <div style={{ display: "flex", gap: "5px" }}>
-              <CustomButton>Add Item</CustomButton>
+              <CustomButton onClick={addHandleSubmit}>Add Item </CustomButton>
               <CustomButton>Delete Item</CustomButton>
               <CustomButton>Update Item</CustomButton>
             </div>
