@@ -362,14 +362,6 @@ app.get("/inventory_items", async (req, res) => {
 });
 
 app.post("/addItemInventory", (req, res) => {
-  // const sql =
-  //   "INSERT INTO inventory_items (`item_id`, `name`, `count`, `quantity_per_unit`) VALUES (?)";
-  // const values = [
-  //   req.body.itemId,
-  //   req.body.name,
-  //   req.body.amount,
-  //   req.body.quantityPerUnit,
-  // ];
   console.log("app.post");
   console.log(req.body.itemId);
   console.log(req.body.name);
@@ -387,12 +379,26 @@ app.post("/addItemInventory", (req, res) => {
       }
     }
   );
+});
 
-  // pool.query(sql, [values], (err, result) => {
-  //   console.log("inside the pool query");
-  //   if (err) return res.json(err);
-  //   return res.json(result);
-  // });
+app.post("/deleteItemInventory", (req, res) => {
+  console.log("Server delete item");
+  console.log(req.body.itemId);
+  console.log(req.body.name);
+  console.log(req.body.amount);
+  console.log(req.body.quantityPerUnit);
+
+  pool.query(
+    "DELETE FROM inventory_items WHERE item_id = $1 AND name = $2 AND count =$3 AND quantity_per_unit = $4",
+    [req.body.itemId, req.body.name, req.body.amount, req.body.quantityPerUnit],
+    (err, response) => {
+      if (err) {
+        console.log(err);
+      } else {
+        console.log(response);
+      }
+    }
+  );
 });
 
 app.listen(port, () => {

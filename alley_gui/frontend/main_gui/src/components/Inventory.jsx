@@ -104,6 +104,14 @@ const Inventory = () => {
       .catch((err) => console.log(err));
   };
 
+  const deleteHandleSubmit = (e) => {
+    e.preventDefault();
+    axios
+      .post("http://localhost:4000/deleteItemInventory", values)
+      .then((res) => console.log(res))
+      .catch((err) => console.log(err));
+  };
+
   return (
     <ThemeProvider theme={theme}>
       <div
@@ -193,7 +201,9 @@ const Inventory = () => {
           >
             <div style={{ display: "flex", gap: "5px" }}>
               <CustomButton onClick={addHandleSubmit}>Add Item </CustomButton>
-              <CustomButton>Delete Item</CustomButton>
+              <CustomButton onClick={deleteHandleSubmit}>
+                Delete Item
+              </CustomButton>
               <CustomButton>Update Item</CustomButton>
             </div>
 
