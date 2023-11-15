@@ -69,7 +69,9 @@ const Inventory = () => {
   useEffect(() => {
     const inventoryItems = async () => {
       try {
-        const response = await axios.get("http://localhost:4000/inventory");
+        const response = await axios.get(
+          "http://localhost:4000/inventory_items"
+        );
         const jsonVals = await response.data;
         console.log("Working");
         console.log(jsonVals.data.table);
