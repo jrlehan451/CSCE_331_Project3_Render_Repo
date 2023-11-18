@@ -423,12 +423,12 @@ app.post("/addItemInventory", (req, res) => {
       }
     );
 
-    console.log("Updaing inventory_items and ingredeints");
+    console.log("Updaing inventory_items and ingredeints and amount");
 
     // Updating ingredient database with resp. assocated inventory ID
     pool.query(
-      "UPDATE ingredients SET inventory_id = $1 WHERE ingredient_id = $2",
-      [req.body.itemId, req.body.ingredientId],
+      "UPDATE ingredients SET inventory_id = $1 cost = $2 WHERE ingredient_id = $3",
+      [req.body.itemId, req.body.amount, req.body.ingredientId],
       (err, response) => {
         if (err) {
           console.log(err);
