@@ -12,6 +12,12 @@ import {
   FormControl,
 } from "@mui/material";
 
+import Dialog from "@mui/material/Dialog";
+import DialogTitle from "@mui/material/DialogTitle";
+import DialogContent from "@mui/material/DialogContent";
+import DialogActions from "@mui/material/DialogActions";
+import Button from "@mui/material/Button";
+
 //import axios from "axios"; // Make sure to import axios for HTTP requests
 const Inventory = () => {
   const CustomButton = styled(ListItemButton)(({ theme }) => ({
@@ -47,18 +53,10 @@ const Inventory = () => {
     },
   ];
 
-  // const rows = [
-  //   {
-  //     id: item.item_id,
-  //     ingredientId: item.ingredient_id,
-  //     name: item.name,
-  //     count: item.count,
-  //     fillLevel: item.fill_level,
-  //     quantityPerUnit: item.quantity_per_unit,
-  //   },
-  // ];
-
+  const [checkedItems, setCheckedItems] = useState({});
   const [data, setData] = useState([]);
+  const [openPopup, setOpenPopup] = useState(false);
+  const [popupData, setPopupData] = useState([]);
   const [values, setValues] = useState({
     itemId: "",
     name: "",
@@ -98,6 +96,26 @@ const Inventory = () => {
 
   const addHandleSubmit = (e) => {
     e.preventDefault();
+
+    if (
+      values.itemId !== "" &&
+      values.name !== "" &&
+      values.amount !== "" &&
+      values.quantityPerUnit !== ""
+    ) {
+      axios
+        .get("http://localhost:4000/ingredient_items")
+        .then((response) => {
+          const jsonVals = response.data;
+
+          setPopupData(jsonVals);
+          setOpenPopup(true);
+        })
+        .catch((error) => {
+          console.log("Error Fetching data:", error);
+        });
+    }
+
     axios
       .post("http://localhost:4000/addItemInventory", values)
       .then((res) => console.log(res))
@@ -112,8 +130,66 @@ const Inventory = () => {
       .catch((err) => console.log(err));
   };
 
+  const updateHandleSubmit = (e) => {
+    e.preventDefault();
+    axios
+      .post("http://localhost:4000/updateItemInventory", values)
+      .then((res) => console.log(res))
+      .catch((err) => console.log(err));
+  };
+
   return (
     <ThemeProvider theme={theme}>
+      <Dialog
+        open={openPopup}
+        onClose={() => setOpenPopup(false)}
+        PaperProps={{
+          style: {
+            maxWidth: "800px",
+            width: "100%",
+          },
+        }}
+        maxWidth="800px"
+      >
+        <DialogTitle>Choose assciated ingredient</DialogTitle>
+        <DialogContent>
+          {popupData.data &&
+          popupData.data.table &&
+          popupData.data.table.rows ? (
+            <div style={{ overflowX: "auto" }}>
+              <table style={{ width: "100%" }}>
+                <thead>
+                  <tr>
+                    <th>Checkbox</th>
+                    <th>ingredient ID</th>
+                    <th>Inventory ID</th>
+                    <th>Name</th>
+                    <th>Cost</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {popupData.data.table.rows.map((item, index) => (
+                    <tr key={index}>
+                      <td>
+                        <input type="checkbox" />
+                      </td>
+                      <td>{item.ingredient_id}</td>
+                      <td>{item.inventory_id}</td>
+                      <td>{item.name}</td>
+                      <td>{item.cost}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          ) : (
+            <p>NO data available</p>
+          )}
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setOpenPopup(false)}>Close</Button>
+        </DialogActions>
+      </Dialog>
       <div
         style={{
           backgroundColor: theme.palette.primary.main,
