@@ -389,18 +389,57 @@ app.post("/addItemInventory", (req, res) => {
   console.log(req.body.name);
   console.log(req.body.amount);
   console.log(req.body.quantityPerUnit);
+  console.log(req.body.ingredientId);
 
-  pool.query(
-    "INSERT INTO inventory_items (item_id, name, count, quantity_per_unit) VALUES($1, $2, $3, $4)",
-    [req.body.itemId, req.body.name, req.body.amount, req.body.quantityPerUnit],
-    (err, response) => {
-      if (err) {
-        console.log(err);
-      } else {
-        console.log(response);
+  if (req.body.ingredientId == "") {
+    pool.query(
+      "INSERT INTO inventory_items (item_id, name, quantity_per_unit) VALUES($1, $2, $3)",
+      [req.body.itemId, req.body.name, req.body.quantityPerUnit],
+      (err, response) => {
+        if (err) {
+          console.log(err);
+        } else {
+          console.log(response);
+        }
       }
-    }
-  );
+    );
+  } else {
+    console.log("Updaing inventory_items and ingredeints");
+    // Updating Inventory Page with assciated ingredient ID
+    pool.query(
+      "INSERT INTO inventory_items (item_id, name, ingredient_id, quantity_per_unit) VALUES($1, $2, $3, $4)",
+      [
+        req.body.itemId,
+        req.body.name,
+        req.body.ingredientId,
+        req.body.quantityPerUnit,
+      ],
+      (err, response) => {
+        if (err) {
+          console.log(err);
+        } else {
+          console.log(response);
+        }
+      }
+    );
+
+    console.log("Updaing inventory_items and ingredeints");
+
+    // Updating ingredient database with resp. assocated inventory ID
+    pool.query(
+      "UPDATE ingredients SET inventory_id = $1 WHERE ingredient_id = $2",
+      [req.body.itemId, req.body.ingredientId],
+      (err, response) => {
+        if (err) {
+          console.log(err);
+        } else {
+          console.log(response);
+        }
+      }
+    );
+  }
+
+  console.log("Updaing inventory_items and ingredeints");
 });
 
 app.post("/deleteItemInventory", (req, res) => {

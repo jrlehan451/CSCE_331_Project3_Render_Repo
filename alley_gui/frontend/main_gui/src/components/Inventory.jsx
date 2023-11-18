@@ -156,6 +156,25 @@ const Inventory = () => {
       .catch((err) => console.log(err));
   };
 
+  const [inputErrors, setInputErrors] = useState({
+    itemId: false,
+    name: false,
+    amount: false,
+    quantityPerUnit: false,
+  });
+
+  const handleNumberInputChange = (e, key) => {
+    // Allow only valid integers in the input
+    const newValue = parseInt(e.target.value, 10);
+
+    if (!isNaN(newValue)) {
+      setValues({ ...values, [key]: newValue });
+      setInputErrors({ ...inputErrors, [key]: false });
+    } else {
+      setInputErrors({ ...inputErrors, [key]: true });
+    }
+  };
+
   const updateHandleSubmit = (e) => {
     e.preventDefault();
     axios
@@ -217,7 +236,7 @@ const Inventory = () => {
           ) : (
             <p>NO data available</p>
           )}
-          <CustomButton onClick={() => setOpenPopup(false)}>Close</CustomButton>
+          <CustomButton onClick={() => setOpenPopup(false)}>Done</CustomButton>
         </DialogContent>
       </Dialog>
       <div
@@ -254,8 +273,12 @@ const Inventory = () => {
                 <TextField
                   id="filled-basic"
                   variant="filled"
-                  onChange={(e) =>
-                    setValues({ ...values, itemId: e.target.value })
+                  onChange={(e) => handleNumberInputChange(e, "itemId")}
+                  value={values.itemId}
+                  type="number"
+                  error={inputErrors.itemId}
+                  helperText={
+                    inputErrors.itemId ? "Please enter a valid integer" : ""
                   }
                 />
               </FormControl>
@@ -278,8 +301,12 @@ const Inventory = () => {
                 <TextField
                   id="filled-basic"
                   variant="filled"
-                  onChange={(e) =>
-                    setValues({ ...values, amount: e.target.value })
+                  onChange={(e) => handleNumberInputChange(e, "amount")}
+                  value={values.amount}
+                  type="number"
+                  error={inputErrors.amount}
+                  helperText={
+                    inputErrors.amount ? "Please enter a valid integer" : ""
                   }
                 />
               </FormControl>
@@ -291,7 +318,15 @@ const Inventory = () => {
                   id="filled-basic"
                   variant="filled"
                   onChange={(e) =>
-                    setValues({ ...values, quantityPerUnit: e.target.value })
+                    handleNumberInputChange(e, "quantityPerUnit")
+                  }
+                  value={values.quantityPerUnit}
+                  type="number"
+                  error={inputErrors.quantityPerUnit}
+                  helperText={
+                    inputErrors.quantityPerUnit
+                      ? "Please enter a valid integer"
+                      : ""
                   }
                 />
               </FormControl>
