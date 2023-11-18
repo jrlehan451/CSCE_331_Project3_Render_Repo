@@ -20,6 +20,7 @@ import Button from "@mui/material/Button";
 
 //import axios from "axios"; // Make sure to import axios for HTTP requests
 const Inventory = () => {
+  // Creating custom buttons
   const CustomButton = styled(ListItemButton)(({ theme }) => ({
     backgroundColor: "#ffefe2",
     color: "black",
@@ -32,6 +33,7 @@ const Inventory = () => {
     "&:disabled": { backgroundColor: "gray", color: "white" },
   }));
 
+  // Creating columns for displaying sql queries
   const columns = [
     { field: "itemId", headerName: "Item ID", width: 70, flex: 1 },
     { field: "ingredientId", headerName: "Ingredeint ID", width: 130, flex: 1 },
@@ -62,8 +64,23 @@ const Inventory = () => {
     name: "",
     amount: "",
     quantityPerUnit: "",
+    ingredientId: "",
   });
 
+  const handleCheckboxChange = (ingredientId) => {
+    setCheckedItems((prevCheckedItems) => ({
+      ...prevCheckedItems,
+      [ingredientId]: !prevCheckedItems[ingredientId],
+    }));
+
+    if (!values.ingredientId) {
+      setValues({ ...values, ingredientId });
+    } else {
+      setValues({ ...values, ingredientId: "" });
+    }
+  };
+
+  // Getting inventory from the backend
   useEffect(() => {
     const inventoryItems = async () => {
       try {
@@ -94,7 +111,8 @@ const Inventory = () => {
     inventoryItems();
   }, []);
 
-  const addHandleSubmit = (e) => {
+  // Getting ingreident sql query and updating the inventory backend as well
+  const addHandleSubmit = async (e) => {
     e.preventDefault();
 
     if (
@@ -103,24 +121,32 @@ const Inventory = () => {
       values.amount !== "" &&
       values.quantityPerUnit !== ""
     ) {
-      axios
-        .get("http://localhost:4000/ingredient_items")
-        .then((response) => {
-          const jsonVals = response.data;
+      try {
+        const response = await axios.get(
+          "http://localhost:4000/ingredient_items"
+        );
+        const jsonVals = response.data;
 
-          setPopupData(jsonVals);
-          setOpenPopup(true);
-        })
-        .catch((error) => {
-          console.log("Error Fetching data:", error);
-        });
+        setPopupData(jsonVals);
+        setOpenPopup(true);
+      } catch (error) {
+        console.log("Error Fetching data:", error);
+      }
     }
-
-    axios
-      .post("http://localhost:4000/addItemInventory", values)
-      .then((res) => console.log(res))
-      .catch((err) => console.log(err));
   };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      if (!openPopup) {
+        // Popup is closed, perform the axios POST request
+        await axios.post("http://localhost:4000/addItemInventory", values);
+
+        setValues({ ...values, ingredientId: "" });
+      }
+    };
+
+    fetchData();
+  }, [openPopup]);
 
   const deleteHandleSubmit = (e) => {
     e.preventDefault();
@@ -171,7 +197,13 @@ const Inventory = () => {
                   {popupData.data.table.rows.map((item, index) => (
                     <tr key={index}>
                       <td>
-                        <input type="checkbox" />
+                        <input
+                          type="checkbox"
+                          checked={checkedItems[item.ingredient_id]}
+                          onChange={() =>
+                            handleCheckboxChange(item.ingredient_id)
+                          }
+                        />
                       </td>
                       <td>{item.ingredient_id}</td>
                       <td>{item.inventory_id}</td>
@@ -185,10 +217,8 @@ const Inventory = () => {
           ) : (
             <p>NO data available</p>
           )}
+          <CustomButton onClick={() => setOpenPopup(false)}>Close</CustomButton>
         </DialogContent>
-        <DialogActions>
-          <Button onClick={() => setOpenPopup(false)}>Close</Button>
-        </DialogActions>
       </Dialog>
       <div
         style={{
