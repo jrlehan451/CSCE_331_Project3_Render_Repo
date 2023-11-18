@@ -111,10 +111,11 @@ const Inventory = () => {
     inventoryItems();
   }, []);
 
-  // Getting ingreident sql query and updating the inventory backend as well
+  // Getting ingredient SQL query and updating the inventory backend as well
   const addHandleSubmit = async (e) => {
     e.preventDefault();
 
+    // Check if all required values are provided
     if (
       values.itemId !== "" &&
       values.name !== "" &&
@@ -122,16 +123,39 @@ const Inventory = () => {
       values.quantityPerUnit !== ""
     ) {
       try {
-        const response = await axios.get(
-          "http://localhost:4000/ingredient_items"
+        // Check if itemId already exists in the inventory
+        const inventoryResponse = await axios.get(
+          "http://localhost:4000/inventory_items"
         );
-        const jsonVals = response.data;
+        const inventoryData = inventoryResponse.data.data.table.rows;
 
-        setPopupData(jsonVals);
-        setOpenPopup(true);
+        // Check if itemId already exists
+        const itemIdExists = inventoryData.some(
+          (item) => item.item_id === values.itemId
+        );
+
+        if (itemIdExists) {
+          // itemId already exists, provide a user-friendly message
+          alert(
+            "Item ID already exists. Use the Update button or change the Item ID."
+          );
+        } else {
+          // Continue fetching data and displaying the popup
+          const response = await axios.get(
+            "http://localhost:4000/ingredient_items"
+          );
+          const jsonVals = response.data;
+
+          setPopupData(jsonVals);
+          setOpenPopup(true);
+        }
       } catch (error) {
-        console.log("Error Fetching data:", error);
+        // Handle errors in a more descriptive way
+        console.error("Error during item ID check:", error);
       }
+    } else {
+      // Handle case where some required fields are not provided
+      alert("Please fill in all required fields.");
     }
   };
 
