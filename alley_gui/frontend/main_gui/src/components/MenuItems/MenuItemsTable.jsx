@@ -54,12 +54,12 @@ const MenuItemsTable = () => {
 
   return (
     <div class = "tablesInfo"> 
-      <div style={{ height: 400, width: "45vw", marginBottom: "20px", float: "left" }}>
+      <div style={{ height: 425, width: "45vw", marginBottom: "20px", float: "left" }}>
         <h2>Drinks Table</h2>
         <DataGrid rows={menuItemsData} columns={menuItemsColumns} columnBuffer={2} />
       </div>
 
-      <div style={{ height: 400, width: "45vw", marginBottom: "20px", float: "right" }}>
+      <div style={{ height: 425, width: "45vw", marginBottom: "20px", float: "right" }}>
         <h2>Add-Ons Table</h2>
         <DataGrid rows={addOnsData} columns={addOnsColumns} columnBuffer={2}/>
       </div>
