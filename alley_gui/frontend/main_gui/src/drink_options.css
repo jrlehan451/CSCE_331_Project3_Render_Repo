@@ -1,0 +1,147 @@
+body {
+    background-color: #ffefe2;
+}
+
+.green {
+    color: #8b9477;
+}
+
+.brown {
+    color: #9e693f;
+}
+
+.button-container {
+    width: 40vw;
+    overflow-y: auto;
+}
+
+.button-container.double {
+    width: 72vw;
+}
+
+.button-container > a > button, .button-container > button {
+    width: 16vw;
+    height: 5vw;
+    background: #8b9477;   
+    margin: 1vw;
+    white-space:normal;
+    word-break: break-word;
+    cursor: pointer;
+    border-radius: 8px;
+    float: left;
+}
+
+.payment-option {
+    width: 25vw;
+    height: 3vw;
+    background: #8b9477;   
+    white-space:normal;
+    word-break: break-word;
+    cursor: pointer;
+    border-radius: 8px;
+}
+
+.back:after {
+    content: '\27A8';
+}
+
+.back {
+    position: absolute;
+    top: 1vw;
+    left: 1vw;
+    transform: rotate(180deg);
+    font-size: 50px;
+    cursor: pointer;
+}
+
+.bottom-button {
+    margin: 1vw;
+    color: white;
+    border: none;
+    background-color: #9e693f;
+    height: 2.5vw;
+    width: 20vw;
+    cursor: pointer;
+}
+
+table {
+    border: 4px solid #9e693f;
+    width: 45vw;
+    border-collapse: collapse;
+    height: 100%;
+}
+
+tr {
+    cursor: pointer;
+}
+
+.selected {
+    background-color: brown;
+    color: #FFF;
+}
+
+.column {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.columnWrapper {
+    display: inline-flex;
+    justify-content: center;
+}
+
+.bodyColumn {
+    width: 50vw;
+}
+
+.spacedLabel {
+    padding-right: 5px;
+    font-weight: 700;
+    margin-bottom: 3vh;
+}
+
+.customer-name {
+    border: 0;
+    outline: 0;
+    background: transparent;
+    border-bottom: 2px solid #8b9477;
+    margin-bottom: 3vh;
+}
+
+.table-header {
+    border-bottom: 4px solid #9e693f;
+}
+
+.order-row {
+    height: 0;
+}
+
+.filler-rows {
+    height: 100%;
+}
+
+.vhCenter {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.new-order {
+    height: 3vw;
+    width: 100%;
+    color: #9e693f;
+    border: 3px solid #9e693f;
+    background: transparent;
+    font-weight: 700;
+    font-size: large;
+    white-space: normal;
+    word-break: break-word;
+    cursor: pointer;
+    border-radius: 8px;
+    cursor: pointer;
+}

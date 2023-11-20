@@ -85,6 +85,68 @@ app.get("/user", (req, res) => {
   });
 });
 
+app.get("/add_on_jsx", async (req, res) => {
+  try {
+    const results = await pool.query("SELECT * FROM ingredients WHERE cost > 0;");
+    res.status(200).json({
+      status: "success",
+      results: results.rows.length,
+      data: {
+        add_ons: results,
+      },
+    });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({
+      status: "error",
+      message: "An error occurred while fetching data.",
+    });
+  }
+});
+
+app.get("/add_drink_jsx", async (req, res) => {
+  category = req.query.category;
+  const query = {
+    text: "SELECT * FROM drinks WHERE category = $1",
+    values: [category],
+  };
+  try {
+    const results = await pool.query(query);
+    res.status(200).json({
+      status: "success",
+      results: results.rows.length,
+      data: {
+        drinks: results,
+      },
+    });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({
+      status: "error",
+      message: "An error occurred while fetching data.",
+    });
+  }
+});
+
+app.get("/drink_options_jsx", async (req, res) => {
+  try {
+    const results = await pool.query("SELECT DISTINCT category FROM drinks;");
+    res.status(200).json({
+      status: "success",
+      results: results.rows.length,
+      data: {
+        drink_categories: results,
+      },
+    });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({
+      status: "error",
+      message: "An error occurred while fetching data.",
+    });
+  }
+});
+
 app.get("/drink_options", (req, res) => {
   drink_categories = [];
   pool.query("SELECT DISTINCT category FROM drinks;").then((query_res) => {
@@ -160,7 +222,7 @@ app.post('/post_order', jsonParser, (req, res) => {
             
             pool
                 .query('INSERT INTO orders(order_id, name, timestamp, cost) VALUES($1, $2, $3, $4)',
-                [nextOrderId, req.body.customer, new Date().toISOString().slice(0, 19).replace('T', ' '), req.body.totalCost], // Using temporary customer name and totalCost, both of which can just be stored in sessionStorage
+                [nextOrderId, req.body.customer, new Date().toISOString().slice(0, 19).replace('T', ' '), req.body.totalCost],
                 (err, response) => {
                     if (err) {
                         console.log(err);
@@ -197,7 +259,7 @@ app.post('/post_order', jsonParser, (req, res) => {
     res.json({ ok: true });
 });
 
-app.locals.postOrder = function(drinks, add_ons) {
+/* app.locals.postOrder = function(drinks, add_ons) {
     var drinks = JSON.parse(drinks);
     var add_ons = JSON.parse(add_ons);
 
@@ -217,7 +279,7 @@ app.locals.postOrder = function(drinks, add_ons) {
         
             response.redirect('/monsters');
         });
-}
+} */
 
 app.get("/drink_series", (req, res) => {
   drink_categories = [];
