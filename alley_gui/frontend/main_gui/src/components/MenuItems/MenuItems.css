@@ -4,6 +4,7 @@ body {
     margin: 0;
     padding: 0;
     font-family:  'Perpetua', serif;
+    color: #8b9477;
 }
 
 .navbar {
@@ -35,16 +36,34 @@ body {
   color: #f1356d;
 }
 
+/* title styling*/
 .title {
   max-width: 600px;
-  margin: 5px auto 40px; /* Adjust margin to account for the fixed navbar */
-  padding: 20px;
+  margin: 0px auto 40px; /* Adjust margin to account for the fixed navbar */
+  padding: 10px;
+  font-size: 25px;
 
 }
 
-
+/* arrow image styling*/
 .image-small {
     width: 70px;
     height: 50px;
     /* Adjust the size as needed */
   }
+
+.tablesInfo {
+    border:  #8b9477; /* Green border */
+    padding-top: 0px;
+    color: #8b9477; /* Blue font color */
+    margin-top: 0px; /* Adjust the margin-top to move the table higher */
+}
+
+/* Add additional styles for the DataGrid components if needed */
+.tablesInfo .MuiDataGrid-root {
+    /* Your custom styles here */
+    color: #8b9477;
+    border: 2px solid #8b9477;
+    font-size: 15px;
+    font-style: bold;
+}

@@ -420,6 +420,63 @@ app.get("/inventory_items", async (req, res) => {
   }
 });
 
+app.get("/menuItems", async (req, res) => {
+  try {
+    //console.log("Mi ");
+    const results = await pool.query("SELECT * FROM drinks ORDER BY category, name;");
+    res.status(200).json({
+      status: "success",
+      results: results.rows.length,
+      data: {
+        table: results,
+      },
+    });
+    //console.log(results);
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({
+      status: "error",
+      message: "An error occurred while fetching data.",
+    });
+  }
+});
+
+app.get("/addOns", async (req, res) => {
+  try {
+    console.log("Mio ");
+    const results = await pool.query("SELECT * FROM ingredients WHERE cost > 0 ORDER BY name;");
+    res.status(200).json({
+      status: "success",
+      results: results.rows.length,
+      data: {
+        table: results,
+      },
+    });
+    console.log(results);
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({
+      status: "error",
+      message: "An error occurred while fetching data.",
+    });
+  }
+});
+
+// app.get("/menuItems", (req, res) => {
+//   const drinksQuery = "SELECT * FROM drinks ORDER BY category, name";
+//   const ingredientsQuery = "SELECT * FROM ingredients ORDER BY name";
+
+//   Promise.all([pool.query(drinksQuery), pool.query(ingredientsQuery)]).then(
+//     ([drinksRes, ingredientsRes]) => {
+//       const menuData = drinksRes.rows;
+//       const ingredientsData = ingredientsRes.rows;
+//       console.log(menuData, ingredientsData);
+//       res.render("menu_items", { menuData, ingredientsData });
+//     }
+//   );
+// });
+
+
 // Getting ingredient database and sending it to /inventory
 app.get("/ingredient_items", async (req, res) => {
   try {
@@ -520,6 +577,7 @@ app.post("/deleteItemInventory", (req, res) => {
     }
   );
 });
+
 
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`);
