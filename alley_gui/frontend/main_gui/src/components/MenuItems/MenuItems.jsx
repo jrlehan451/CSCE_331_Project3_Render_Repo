@@ -12,6 +12,12 @@ import './MenuItems.css';
 
 
 const MenuItems = () => {
+    //const [reloadTable, setReloadTable] = useState(false);
+
+    // Function to update the state and trigger a re-render of the table
+    // const handleTableReload = () => {
+    //     setReloadTable(!reloadTable);
+    // };
     //return <div>Menu Items</div>;
     console.log("ba");
     return (

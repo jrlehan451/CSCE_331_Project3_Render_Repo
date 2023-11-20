@@ -1,8 +1,11 @@
 // Import necessary components from MUI
 import { TextField, FormControl, InputLabel, styled } from "@mui/material";
 import Button from "@mui/material/Button";
-import React from "react";
+//import React from "react";
 import "./MenuItems.css";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+
 
 // Define a styled button
 const CustomButton = styled(Button)(({ theme }) => ({
@@ -21,6 +24,82 @@ const CustomButton = styled(Button)(({ theme }) => ({
 }));
 
 const MenuItemsButtons = () => {
+  // State to manage input values
+  const [values, setValues] = useState({
+    drinkID: "",
+    drinkName: "",
+    drinkCost: "",
+    drinkCategory: "",
+    addOnID: "",
+    addOnName: "",
+    addOnCost: "",
+  });
+
+  const [inputErrors, setInputErrors] = useState({
+    itemId: false,
+    name: false,
+    amount: false,
+    quantityPerUnit: false,
+  });
+
+// const handleNumberInputChange = (e, key) => {
+//     // Allow only valid integers in the input
+//     const newValue = parseInt(e.target.value, 10);
+
+//     if (!isNaN(newValue)) {
+//       setValues({ ...values, [key]: newValue });
+//       setInputErrors({ ...inputErrors, [key]: false });
+//     } else {
+//       setInputErrors({ ...inputErrors, [key]: true });
+//     }
+//   };
+
+  const handleNumberInputChange = (e, key) => {
+    const newValue = e.target.value;
+  
+    // Check if the entered value is a valid integer
+    const isValidInteger = /^[0-9]*$/.test(newValue);
+  
+    if (isValidInteger || newValue === "") {
+      setValues({ ...values, [key]: newValue });
+      setInputErrors({ ...inputErrors, [key]: false });
+    } else {
+      setInputErrors({ ...inputErrors, [key]: true });
+    }
+  };
+
+ // Function to handle button clicks for adding drinks
+ const handleAddDrink = () => {
+  // Implement logic to add a drink based on inputValues.drinkID, inputValues.drinkName, etc.
+  // You can use the inputValues state to send data to your backend or perform other actions
+  console.log("Add Drink clicked", values);
+};
+
+// Function to handle button clicks for updating drinks
+const handleUpdateDrink = () => {
+  // Implement logic to update a drink based on inputValues.drinkID, inputValues.drinkName, etc.
+  console.log("Update Drink clicked", values);
+};
+
+// Function to handle button clicks for deleting drinks
+const handleDeleteDrink = (e) => {
+  // Implement logic to delete a drink based on inputValues.drinkID, inputValues.drinkName, etc.
+  e.preventDefault();
+  axios
+  .post("http://localhost:4000/deleteDrink", values)
+  .then((res) => console.log(res))
+  .catch((err) => console.log(err));
+
+  axios
+  .post("http://localhost:4000/deleteDrinks", values)
+  .then((res) => console.log(res))
+  .catch((err) => console.log(err));
+  console.log("Delete Drink clicked", values);
+  //onReload();
+};
+
+
+
   return (
     <div> 
         <div className="menuItemsButtonsContainer">
@@ -29,7 +108,20 @@ const MenuItemsButtons = () => {
           <div>
             <InputLabel htmlFor="drinkIdButton">Drink ID</InputLabel>
             <FormControl>
-              <TextField id="drinkIDButton" variant="filled" size= "small" />
+              <TextField 
+                id="drinkIDButton" 
+                variant="filled" 
+                size= "small" 
+                onChange={(e) => handleNumberInputChange(e, "drinkID")}
+                
+                 type="text"
+                // //inputProps={{ pattern: "[0-9]*" }}  // Allow only numbers
+                 error={inputErrors.drinkID}
+                 helperText={
+                   inputErrors.itemId ? "Please enter a valid integer" : ""
+                 }
+                 value={values.drinkID}
+                />
             </FormControl>
           </div>
           <div>
@@ -55,9 +147,9 @@ const MenuItemsButtons = () => {
 
         {/* Three buttons */}
         <div style={{ display: "flex", gap: "5px" }}>
-          <CustomButton>Add Drink </CustomButton>
-          <CustomButton>Update Drink</CustomButton>
-          <CustomButton>Delete Drink</CustomButton>
+          <CustomButton onClick={handleAddDrink}>Add Drink </CustomButton>
+          <CustomButton onClick={handleUpdateDrink}>Update Drink</CustomButton>
+          <CustomButton onClick={handleDeleteDrink}>Delete Drink</CustomButton>
         </div>
         {/* Add any additional elements/buttons as needed */}
       </div>
