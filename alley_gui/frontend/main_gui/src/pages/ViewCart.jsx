@@ -10,7 +10,8 @@ const ViewCart = () => {
   };
 
   const goToCheckout = () => {
-    // Implement your logic for navigating to the checkout
+    var currLocation = window.location.href;
+    window.location.href = currLocation.replace("view_cart", "customer_checkout");
   };
 
   return (

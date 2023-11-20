@@ -16,6 +16,7 @@ import axios from "axios";
 import DrinkSeries from "./pages/DrinkSeries";
 import BuildDrink from "./pages/BuildDrink";
 import ViewCart from "./pages/ViewCart";
+import CustomerCheckout from "./pages/CustomerCheckout";
 
 //BrowserRouter basename="/tutorial"> for
 function App() {
@@ -67,6 +68,7 @@ function App() {
         <Route path="/drink_series/:category" element={<DrinkSeries />} />
         <Route path="/build_drink" element={<BuildDrink />} />
         <Route path="/view_cart" element={<ViewCart />} />
+        <Route path="/customer_checkout" element={<CustomerCheckout />} />
 
         {/*<Route path="/menu" element={<MenuView />} />
         <Route path="/cashier" element={<CashierView />} />
