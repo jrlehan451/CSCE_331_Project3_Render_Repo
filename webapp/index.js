@@ -390,55 +390,116 @@ app.post("/addItemIngredient", (req, res) => {
   console.log(req.body.name);
   console.log(req.body.cost);
 
-  // if (req.body.ingredientId == "") {
-  //   pool.query(
-  //     "INSERT INTO inventory_items (item_id, name, quantity_per_unit) VALUES($1, $2, $3)",
-  //     [req.body.itemId, req.body.name, req.body.quantityPerUnit],
-  //     (err, response) => {
-  //       if (err) {
-  //         console.log(err);
-  //       } else {
-  //         console.log(response);
-  //       }
-  //     }
-  //   );
-  // } else {
-  //   console.log("Updaing inventory_items and ingredeints");
-  //   // Updating Inventory Page with assciated ingredient ID
-  //   pool.query(
-  //     "INSERT INTO inventory_items (item_id, name, ingredient_id, quantity_per_unit) VALUES($1, $2, $3, $4)",
-  //     [
-  //       req.body.itemId,
-  //       req.body.name,
-  //       req.body.ingredientId,
-  //       req.body.quantityPerUnit,
-  //     ],
-  //     (err, response) => {
-  //       if (err) {
-  //         console.log(err);
-  //       } else {
-  //         console.log(response);
-  //       }
-  //     }
-  //   );
+  // TO - DO
+  // - when inventoryId is empty
+  //  - update ingredient database on the backend
 
-  //   console.log("Updaing inventory_items and ingredeints and amount");
+  // - when inventoryId is given
+  //  - update ingredient database with the inventory ID involved
+  //  - update the inventory database adding assoicated ingredeint ID
 
-  //   // Updating ingredient database with resp. assocated inventory ID
-  //   pool.query(
-  //     "UPDATE ingredients SET inventory_id = $1 cost = $2 WHERE ingredient_id = $3",
-  //     [req.body.itemId, req.body.amount, req.body.ingredientId],
-  //     (err, response) => {
-  //       if (err) {
-  //         console.log(err);
-  //       } else {
-  //         console.log(response);
-  //       }
-  //     }
-  //   );
-  // }
+  if (req.body.inventoryId == "") {
+    console.log("Inserting into ingredients table");
+    pool.query(
+      "INSERT INTO ingredients (ingredient_id, name, cost) VALUES($1, $2, $3)",
+      [req.body.ingredientId, req.body.name, req.body.cost],
+      (err, response) => {
+        if (err) {
+          console.log(err);
+        } else {
+          console.log(response);
+        }
+      }
+    );
+  } else {
+    console.log("Inserting into ingredient with inventoryId");
 
-  // console.log("Updaing inventory_items and ingredeints");
+    pool.query(
+      "INSERT INTO ingredients (ingredient_id, inventory_id, name, cost) VALUES ($1, $2, $3, $4)",
+      [
+        req.body.ingredientId,
+        req.body.inventoryId,
+        req.body.name,
+        req.body.cost,
+      ],
+      (err, response) => {
+        if (err) {
+          console.log(err);
+        } else {
+          console.log(response);
+        }
+      }
+    );
+
+    console.log("Updating inventory table");
+    pool.query(
+      "UPDATE inventory_items SET ingredient_id = $1 WHERE item_id = $2",
+      [req.body.ingredientId, req.body.inventoryId],
+      (err, response) => {
+        if (err) {
+          console.log(err);
+        } else {
+          console.log(response);
+        }
+      }
+    );
+  }
+
+  console.log("Updaing inventory_items and ingredeints");
+});
+
+app.get("/inventory_items/:itemId", (req, res) => {
+  const itemId = req.params.itemId;
+
+  pool.query(
+    "SELECT inventory_id FROM inventory_items WHERE item_id = $1",
+    [itemId],
+    (err, result) => {
+      if (err) {
+        console.error(err);
+        res.status(500).json({ error: "Internal Server Err" });
+      } else {
+        const inventoryId = result.rows[0] ? result.rows[0].inventory_id : null;
+        res.json({ inventoryId });
+      }
+    }
+  );
+});
+
+app.post("/deleteItemIngredient", (req, res) => {
+  console.log("app.deleteItemIngredient");
+  console.log(req.body.ingredientId);
+  console.log(req.body.inventoryId);
+  console.log(req.body.name);
+  console.log(req.body.cost);
+
+  // "UPDATE ingredients SET inventory_id = $1 cost = $2 WHERE ingredient_id = $3",
+
+  pool.query(
+    "UPDATE inventory_items SET ingredient_id = $1 WHERE item_id = $2",
+    [null, req.body.inventoryId],
+    (err, response) => {
+      if (err) {
+        console.log(err);
+      } else {
+        console.log(response);
+      }
+    }
+  );
+
+  console.log("Assigned NULL in inventory_items database");
+
+  pool.query(
+    "DELETE FROM ingredients WHERE ingredient_id = $1 AND name = $2",
+    [req.body.ingredientId, req.body.name],
+    (err, response) => {
+      if (err) {
+        console.log(err);
+      } else {
+        console.log(response);
+      }
+    }
+  );
 });
 
 app.post("/addItemInventory", (req, res) => {

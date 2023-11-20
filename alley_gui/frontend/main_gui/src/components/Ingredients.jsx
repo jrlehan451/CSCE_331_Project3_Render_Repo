@@ -126,6 +126,33 @@ const Ingredients = () => {
     fetchData();
   }, [openPopup]);
 
+  const deleteHandleSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      const ingredientResponse = await axios.get(
+        "http://localhost:4000/ingredient_items"
+      );
+      const ingredientData = ingredientResponse.data.data.table.rows;
+
+      const itemToDelete = ingredientData.find(
+        (item) =>
+          item.ingredient_id == values.ingredientId && item.name == values.name
+      );
+
+      if (itemToDelete) {
+        // // Fetch the corresponding inventory_id
+
+        await axios.post("http://localhost:4000/deleteItemIngredient", values);
+        console.log("Item deleted succesfully");
+      } else {
+        alert("Item with the specified ingredientId and name not found.");
+      }
+    } catch (error) {
+      console.error("Error during item deletion:", error);
+    }
+  };
+
   // Getting ingredient SQL query and updating the inventory backend as well
   const addHandleSubmit = async (e) => {
     e.preventDefault();
@@ -298,7 +325,9 @@ const Ingredients = () => {
 
         <div style={{ display: "flex", gap: "10px", marginTop: "10px" }}>
           <CustomButton onClick={addHandleSubmit}>Add ingredient</CustomButton>
-          <CustomButton>Delete ingredient</CustomButton>
+          <CustomButton onClick={deleteHandleSubmit}>
+            Delete ingredient
+          </CustomButton>
           <CustomButton>Update ingredient</CustomButton>
         </div>
       </div>
