@@ -19,7 +19,6 @@ const DrinkSeries = () => {
             window.location.href = currLocation.replace("customer", "drink_series/") + category;
         } else {
             const array = currLocation.split("/");
-            console.log(array);
             window.location.href = currLocation.replace(array[4], category);
         }
     };
@@ -65,29 +64,30 @@ const DrinkSeries = () => {
 
     return (
         <div className="customer-home-background">
-        <div className="customer-page">
-            <div className="drink-categories-container">
-            <h3 className="categories-title">DRINK SERIES</h3>
-            {drinkCategories.map((category, index) => (
-                <button key={index} onClick={() => getDrinkSeries(category.category)}>
-                {capitalizeName(category.category, '_')}
-                </button>
-            ))}
+            <div className="customer-page">
+                <div className="drink-categories-container">
+                    <h3 className="categories-title">DRINK SERIES</h3>
+                    {drinkCategories.map((category, index) => (
+                        <button key={index} onClick={() => getDrinkSeries(category.category)}>
+                            {capitalizeName(category.category, '_')}
+                        </button>
+                    ))}
+                </div>
+                <div className="category-items-container">
+                    {drinkSeriesItems.filter((drink, index) => index < 1).map((drinkItem) => (
+                        <h1 id="drinkSeriesName" className="series-name">{capitalizeName(drinkItem.category, "_")}</h1>
+                    ))}
+                    {drinkSeriesItems.map((drink, index) => (
+                        <button key={index} id={drink.name} onClick={() => buildDrink(drink.name, drink.drink_id)}>
+                        {capitalizeName(drink.name, " ")}
+                        </button>
+                    ))}
+                </div>
             </div>
-            <div className="category-items-container">
-            <h1 className="series-name">Drink Series</h1>
-            {drinkSeriesItems.map((drink, index) => (
-                <button key={index} id={drink.name} onClick={() => buildDrink(drink.name, drink.drink_id)}>
-                
-                {capitalizeName(drink.name, ' ')}
-                </button>
-            ))}
+            <div className="order-info-container">
+                <p className="total">Total: $$</p>
+                <button onClick={viewCartFromDrinkSeries}>View Cart</button>
             </div>
-        </div>
-        <div className="order-info-container">
-            <p className="total">Total: $$</p>
-            <button onClick={viewCartFromDrinkSeries}>View Cart</button>
-        </div>
         </div>
     );
 };
