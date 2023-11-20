@@ -450,8 +450,8 @@ app.post("/deleteItemInventory", (req, res) => {
   console.log(req.body.quantityPerUnit);
 
   pool.query(
-    "DELETE FROM inventory_items WHERE item_id = $1 AND name = $2 AND count =$3 AND quantity_per_unit = $4",
-    [req.body.itemId, req.body.name, req.body.amount, req.body.quantityPerUnit],
+    "DELETE FROM inventory_items WHERE item_id = $1 AND name = $2",
+    [req.body.itemId, req.body.name],
     (err, response) => {
       if (err) {
         console.log(err);
