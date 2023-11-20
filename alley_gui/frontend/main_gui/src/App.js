@@ -15,6 +15,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import DrinkSeries from "./pages/DrinkSeries";
 import BuildDrink from "./pages/BuildDrink";
+import ViewCart from "./pages/ViewCart";
 
 //BrowserRouter basename="/tutorial"> for
 function App() {
@@ -65,6 +66,7 @@ function App() {
         <Route path="/customer" element={<CustomerView />} />
         <Route path="/drink_series/:category" element={<DrinkSeries />} />
         <Route path="/build_drink" element={<BuildDrink />} />
+        <Route path="/view_cart" element={<ViewCart />} />
 
         {/*<Route path="/menu" element={<MenuView />} />
         <Route path="/cashier" element={<CashierView />} />

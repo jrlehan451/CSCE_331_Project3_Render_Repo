@@ -34,8 +34,9 @@ const DrinkSeries = () => {
     };
 
     const viewCartFromDrinkSeries = () => {
-        // Implement your logic for viewing the cart from Drink Series
-        console.log('Viewing cart from Drink Series...');
+        var currLocation = window.location.href;
+        const array = currLocation.split("/");
+        window.location.href = currLocation.replace("drink_series/" + array[4], "view_cart");
     };
 
     const {category} = useParams();

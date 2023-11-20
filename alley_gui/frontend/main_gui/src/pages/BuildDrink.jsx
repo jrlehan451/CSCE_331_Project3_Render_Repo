@@ -1,19 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import axios from "axios";
-import './build_drink.css'; // Import your CSS file
-//import backArrowImage from './back_arrow.png'; // Import your image
+import './build_drink.css';
+import backArrowImage from './images/back_arrow.png';
 
 const BuildDrink = () => {
-  const [selectedSize, setSelectedSize] = useState('');
-  const [selectedAddOn1, setSelectedAddOn1] = useState('');
-  const [selectedAddOn2, setSelectedAddOn2] = useState('');
-  const [quantity, setQuantity] = useState(0);
-  const [addOns, setData] = useState([]);
-
-    useEffect(() => {
-        // This will run when the component mounts
-        getSelectedDrink();
-    }, []); // Empty dependency array means it runs only once when mounted
+    const [selectedSize, setSelectedSize] = useState('');
+    const [selectedAddOn1, setSelectedAddOn1] = useState('');
+    const [selectedAddOn2, setSelectedAddOn2] = useState('');
+    const [quantity, setQuantity] = useState(0);
+    const [addOns, setData] = useState([]);
 
     const capitalizeName = (name, delimiter) => {
         const words = name.split(delimiter);
@@ -30,7 +25,8 @@ const BuildDrink = () => {
     };
 
     const backCustomerHome = () => {
-        // Implement your logic for going back to the customer home
+        var currLocation = window.location.href;
+        window.location.href = currLocation.replace("build_drink", "customer");
     };
 
     const getSize = (size) => {
@@ -149,7 +145,8 @@ const BuildDrink = () => {
     };
 
     const viewCart = () => {
-        // Implement your logic for viewing the cart
+        var currLocation = window.location.href;
+        window.location.href = currLocation.replace("build_drink", "view_cart");
     };
 
     useEffect(() => {
@@ -175,7 +172,7 @@ const BuildDrink = () => {
   return (
     <div className="build-drink-background">
         <button className="back-button" onClick={backCustomerHome}>
-            
+            <img src={backArrowImage} alt="Back Arrow" width="60%" height="10%" />
         </button>
 
         <div id="size" className="build-option-container">

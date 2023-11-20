@@ -27,7 +27,8 @@ const CustomerHome = () => {
     };
 
     const viewCartFromCustomerHome = () => {
-        // Implement your viewCartFromCustomerHome function
+        var currLocation = window.location.href;
+        window.location.href = currLocation.replace("customer", "view_cart");
     };
 
     useEffect(() => {
