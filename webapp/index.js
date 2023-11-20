@@ -138,6 +138,46 @@ app.get("/customer_home", (req, res) => {
   });
 });
 
+app.get("/drink_categories", async (req, res) => {
+  try {
+    console.log("Getting all the drink categories");
+
+    const results = await pool.query("SELECT DISTINCT category FROM drinks;");
+    res.status(200).json({
+      status: "success",
+      results: results.rows,
+      data: {results},
+    });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({
+      status: "error",
+      message: "An error occurred while fetching data.",
+    });
+  }
+});
+
+
+app.get('/drink_series_items', async (req, res) => {
+  try {
+    category = req.query.category;
+    console.log(category);
+    const drinkCategoriesQuery = await pool.query('SELECT DISTINCT category FROM drinks;');
+    const drinksQuery = await pool.query('SELECT * FROM drinks WHERE category = $1', [category]);
+
+    res.status(200).json({ 
+      status: "success",
+
+      data: {
+        categories: drinkCategoriesQuery.rows, 
+        drinks: drinksQuery.rows},
+    });
+  } catch (error) {
+    console.error('Error fetching drink series:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
 app.get("/new_order", (req, res) => {
   res.render("new_order");
 });
@@ -226,21 +266,21 @@ app.get("/drink_series", (req, res) => {
       drink_categories.push(query_res.rows[i]);
     }
     console.log(drink_categories);
-  });
-  drinks = [];
-  category = req.query.category;
-  const query = {
-    text: "SELECT * FROM drinks WHERE category = $1",
-    values: [category],
-  };
-  pool.query(query).then((query_res) => {
-    for (let i = 0; i < query_res.rowCount; i++) {
-      drinks.push(query_res.rows[i]);
-    }
-    console.log(drinks);
-    res.render("drink_series", {
-      drink_categories: drink_categories,
-      drinks: drinks,
+    drinks = [];
+    category = req.query.category;
+    const query = {
+      text: "SELECT * FROM drinks WHERE category = $1",
+      values: [category],
+    };
+    pool.query(query).then((query_res) => {
+      for (let i = 0; i < query_res.rowCount; i++) {
+        drinks.push(query_res.rows[i]);
+      }
+      console.log(drinks);
+      res.render("drink_series", {
+        drink_categories: drink_categories,
+        drinks: drinks,
+      });
     });
   });
 });

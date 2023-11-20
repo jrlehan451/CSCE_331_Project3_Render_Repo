@@ -13,6 +13,7 @@ import MenuItems from "./components/MenuItems";
 import SupplyReorder from "./components/SupplyReorders";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import DrinkSeries from "./pages/DrinkSeries";
 
 //BrowserRouter basename="/tutorial"> for
 function App() {
@@ -61,6 +62,8 @@ function App() {
         <Route path="/MenuItems" element={<MenuItems />} />
         <Route path="/SupplyReorder" element={<SupplyReorder />} />
         <Route path="/manager" element={<ManagerView />} />
+        <Route path="/customer" element={<CustomerView />} />
+        <Route path="/drink_series/:category" element={<DrinkSeries />} />
 
         {/*<Route path="/menu" element={<MenuView />} />
         <Route path="/cashier" element={<CashierView />} />

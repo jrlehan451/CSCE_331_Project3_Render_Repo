@@ -1,0 +1,110 @@
+.customer-home-background {
+    background-color: #ffefe2;
+}
+
+.drink-categories-container {
+    margin-top: 0.5vw;
+    margin-left: 0.5vw;
+    width: 17vw;
+    border: 2px solid #9e693f;
+    float: left;
+    background: #ffefe2;
+    overflow-y: auto;
+}
+
+.drink-categories-container > button {
+    width: 15vw;
+    height: 3vw;
+    border-radius: 12vw;
+    float: left;
+    border: 2px solid #9e693f;
+    background: #ffefe2;
+    margin-left: 1vw;
+    margin-right: 1vw;
+    margin-top: 0.5vw;
+    margin-bottom: 0.5vw;
+    white-space: normal;
+    word-break: break-word;
+    cursor: pointer;
+    color: #9e693f;
+    font-family: 'Perpetua', serif;
+    font-weight: bold;
+}
+
+.categories-title {
+    text-align: center;
+    margin-bottom: 0.75vw;
+    color: #9e693f;
+    font-family: 'Perpetua', serif;
+}
+
+.category-items-container {
+    margin-top: 3.5vw;
+    margin-left: 2.5vw;
+    margin-right: 1vw;
+    width: 75vw;
+    height: 37vw;
+    float: left;
+}
+
+.category-items-container > button {
+    width: 9vw;
+    height: 9vw;
+    float: left;
+    background: #ffefe2;   
+    border: 2px solid #8b9477;
+    margin: 1vw;
+    white-space:normal;
+    word-break: break-word;
+    cursor: pointer;
+    color: #8b9477;
+    font-family: 'Perpetua', serif;
+    font-weight: bold;
+}
+
+.series-name {
+    text-align: center;
+    margin-bottom: 0.75vw;
+    color: #8b9477;
+    font-family: 'Perpetua', serif;
+}
+
+.order-info-container {
+    background-color: #ffefe2;
+    float: right;
+    margin-top: 1vw;
+    margin-left: 3.5vw;
+    margin-right: 1vw;
+    width: 40vw;
+    height: 5vw;
+}
+
+.order-info-container > button {
+    width: 10vw;
+    height: 4vw;
+    border-radius: 12vw;
+    float: right;
+    border: 2px solid #25371d;
+    background: #8b9477;
+    margin-left: 1vw;
+    margin-right: 1vw;
+    margin-top: 0.5vw;
+    margin-bottom: 0.5vw;
+    white-space: normal;
+    word-break: break-word;
+    cursor: pointer;
+    color: #25371d;
+    font-family: 'Perpetua', serif;
+    font-weight: bold;
+}
+
+.total {
+    background-color: #ffefe2;
+    margin-top: 0.5vw;
+    margin-bottom: 0.5vw;
+    display: inline;
+    float: left;
+    color: #25371d;
+    font-family: 'Perpetua', serif;
+    font-size: 3vw;
+}
