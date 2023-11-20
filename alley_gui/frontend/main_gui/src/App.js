@@ -13,6 +13,10 @@ import MenuItems from "./components/MenuItems";
 import SupplyReorder from "./components/SupplyReorders";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import DrinkSeries from "./pages/DrinkSeries";
+import BuildDrink from "./pages/BuildDrink";
+import ViewCart from "./pages/ViewCart";
+import CustomerCheckout from "./pages/CustomerCheckout";
 import DrinkOptions from "./components/DrinkOptions";
 import AddDrink from "./components/AddDrink";
 import AddOn from "./components/AddOn";
@@ -57,9 +61,8 @@ function App() {
   return (
     <div className="App">
       {isHomePage && <Header />}
-
-      {/* This is used for making connection between backend and frontend
-      commented out for github release 
+      {/* This is used for making connection between backend and frontend commented
+      out for github release
       <form onSubmit={postName}>
         <input
           type="text"
@@ -76,6 +79,11 @@ function App() {
         <Route path="/MenuItems" element={<MenuItems />} />
         <Route path="/SupplyReorder" element={<SupplyReorder />} />
         <Route path="/manager" element={<ManagerView />} />
+        <Route path="/customer" element={<CustomerView />} />
+        <Route path="/drink_series/:category" element={<DrinkSeries />} />
+        <Route path="/build_drink" element={<BuildDrink />} />
+        <Route path="/view_cart" element={<ViewCart />} />
+        <Route path="/customer_checkout" element={<CustomerCheckout />} />
 
         <Route path="/DrinkOptions" element={<DrinkOptions capitalizeName={capitalizeName} />} />
         <Route path="/AddDrink/:category" element={<AddDrink capitalizeName={capitalizeName} />} />
