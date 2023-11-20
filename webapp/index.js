@@ -383,6 +383,64 @@ app.get("/ingredient_items", async (req, res) => {
   }
 });
 
+app.post("/addItemIngredient", (req, res) => {
+  console.log("app.addItemIngredient");
+  console.log(req.body.ingredientId);
+  console.log(req.body.inventoryId);
+  console.log(req.body.name);
+  console.log(req.body.cost);
+
+  // if (req.body.ingredientId == "") {
+  //   pool.query(
+  //     "INSERT INTO inventory_items (item_id, name, quantity_per_unit) VALUES($1, $2, $3)",
+  //     [req.body.itemId, req.body.name, req.body.quantityPerUnit],
+  //     (err, response) => {
+  //       if (err) {
+  //         console.log(err);
+  //       } else {
+  //         console.log(response);
+  //       }
+  //     }
+  //   );
+  // } else {
+  //   console.log("Updaing inventory_items and ingredeints");
+  //   // Updating Inventory Page with assciated ingredient ID
+  //   pool.query(
+  //     "INSERT INTO inventory_items (item_id, name, ingredient_id, quantity_per_unit) VALUES($1, $2, $3, $4)",
+  //     [
+  //       req.body.itemId,
+  //       req.body.name,
+  //       req.body.ingredientId,
+  //       req.body.quantityPerUnit,
+  //     ],
+  //     (err, response) => {
+  //       if (err) {
+  //         console.log(err);
+  //       } else {
+  //         console.log(response);
+  //       }
+  //     }
+  //   );
+
+  //   console.log("Updaing inventory_items and ingredeints and amount");
+
+  //   // Updating ingredient database with resp. assocated inventory ID
+  //   pool.query(
+  //     "UPDATE ingredients SET inventory_id = $1 cost = $2 WHERE ingredient_id = $3",
+  //     [req.body.itemId, req.body.amount, req.body.ingredientId],
+  //     (err, response) => {
+  //       if (err) {
+  //         console.log(err);
+  //       } else {
+  //         console.log(response);
+  //       }
+  //     }
+  //   );
+  // }
+
+  // console.log("Updaing inventory_items and ingredeints");
+});
+
 app.post("/addItemInventory", (req, res) => {
   console.log("app.post");
   console.log(req.body.itemId);

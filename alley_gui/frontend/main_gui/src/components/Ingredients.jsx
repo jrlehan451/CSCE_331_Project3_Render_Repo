@@ -11,6 +11,11 @@ import {
   styled,
 } from "@mui/material";
 
+import Dialog from "@mui/material/Dialog";
+
+import DialogTitle from "@mui/material/DialogTitle";
+import DialogContent from "@mui/material/DialogContent";
+
 const Ingredients = () => {
   // Creating custom buttons
   const CustomButton = styled(ListItemButton)(({ theme }) => ({
@@ -36,18 +41,22 @@ const Ingredients = () => {
 
   const [values, setValues] = useState({
     ingredientId: "",
+    inventoryId: "",
     name: "",
     cost: "",
   });
 
   const [inputErrors, setInputErrors] = useState({
     ingredientId: false,
+    inventoryId: false,
     name: false,
-    amount: false,
-    quantityPerUnit: false,
+    cost: false,
   });
 
   const [data, setData] = useState([]);
+  const [openPopup, setOpenPopup] = useState(false);
+  const [popupData, setPopupData] = useState([]);
+  const [checkedItems, setCheckedItems] = useState({});
 
   const handleNumberInputChange = (e, key) => {
     // Allow only valid integers in the input
@@ -58,6 +67,19 @@ const Ingredients = () => {
       setInputErrors({ ...inputErrors, [key]: false });
     } else {
       setInputErrors({ ...inputErrors, [key]: true });
+    }
+  };
+
+  const handleCheckboxChange = (inventoryId) => {
+    setCheckedItems((prevCheckedItems) => ({
+      ...prevCheckedItems,
+      [inventoryId]: !prevCheckedItems[inventoryId],
+    }));
+
+    if (!values.inventoryId) {
+      setValues({ ...values, inventoryId });
+    } else {
+      setValues({ ...values, inventoryId: "" });
     }
   };
 
@@ -91,67 +113,196 @@ const Ingredients = () => {
     ingredientItems();
   }, []);
 
+  useEffect(() => {
+    const fetchData = async () => {
+      if (!openPopup) {
+        // Popup is closed, perform the axios POST request
+        await axios.post("http://localhost:4000/addItemIngredient", values);
+
+        setValues({ ...values, ingredientId: "" });
+      }
+    };
+
+    fetchData();
+  }, [openPopup]);
+
+  // Getting ingredient SQL query and updating the inventory backend as well
+  const addHandleSubmit = async (e) => {
+    e.preventDefault();
+
+    // Check if all required values are provided
+    if (
+      values.ingredientId !== "" &&
+      values.name !== "" &&
+      values.cost !== ""
+    ) {
+      try {
+        // Check if itemId already exists in the inventory
+        const inventoryResponse = await axios.get(
+          "http://localhost:4000/ingredient_items"
+        );
+        const inventoryData = inventoryResponse.data.data.table.rows;
+
+        // Check if itemId already exists
+        const inventoryIdExists = inventoryData.some(
+          (item) => item.inventory_id === values.inventoryId
+        );
+
+        if (inventoryIdExists) {
+          // itemId already exists, provide a user-friendly message
+          alert(
+            "inventory Ids already exists. Use the Update button or change the Item ID."
+          );
+        } else {
+          // Continue fetching data and displaying the popup
+          const response = await axios.get(
+            "http://localhost:4000/inventory_items"
+          );
+          const jsonVals = response.data;
+
+          setPopupData(jsonVals);
+          setOpenPopup(true);
+        }
+      } catch (error) {
+        // Handle errors in a more descriptive way
+        console.error("Error during item ID check:", error);
+      }
+    } else {
+      // Handle case where some required fields are not provided
+      alert("Please fill in all required fields.");
+    }
+  };
+
   return (
-    <div
-      style={{
-        backgroundColor: theme.palette.primary.main,
-        display: "flex",
-        flexDirection: "column",
-      }}
-    >
-      <h1>Inventory Page</h1>
+    <ThemeProvider theme={theme}>
+      <Dialog
+        open={openPopup}
+        onClose={() => setOpenPopup(false)}
+        PaperProps={{
+          style: {
+            maxWidth: "800px",
+            width: "100%",
+          },
+        }}
+        maxWidth="800px"
+      >
+        <DialogTitle>Choose assciated ingredient</DialogTitle>
+        <DialogContent>
+          {popupData.data &&
+          popupData.data.table &&
+          popupData.data.table.rows ? (
+            <div style={{ overflowX: "auto" }}>
+              <table style={{ width: "100%" }}>
+                <thead>
+                  <tr>
+                    <th>Checkbox</th>
+                    <th>Item ID</th>
+                    <th>Ingredient ID</th>
+                    <th>Name</th>
+                    <th>Count</th>
+                    <th>fill_level</th>
+                    <th>quantity_per_unit</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {popupData.data.table.rows.map((item, index) => (
+                    <tr key={index}>
+                      <td>
+                        <input
+                          type="checkbox"
+                          checked={checkedItems[item.item_id]}
+                          onChange={() => handleCheckboxChange(item.item_id)}
+                        />
+                      </td>
+                      <td>{item.item_id}</td>
+                      <td>{item.ingredient_id}</td>
+                      <td>{item.name}</td>
+                      <td>{item.count}</td>
+                      <td>{item.fill_level}</td>
+                      <td>{item.quantityPerUnit}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          ) : (
+            <p>NO data available</p>
+          )}
+          <CustomButton onClick={() => setOpenPopup(false)}>Done</CustomButton>
+        </DialogContent>
+      </Dialog>
+      <div
+        style={{
+          backgroundColor: theme.palette.primary.main,
+          display: "flex",
+          flexDirection: "column",
+        }}
+      >
+        <h1>Ingredient Page</h1>
 
-      <div style={{ height: 400, width: "80vw", marginBottom: "20px" }}>
-        <DataGrid rows={data} columns={columns} columnBuffer={2} />
-      </div>
+        <div style={{ height: 400, width: "80vw", marginBottom: "20px" }}>
+          <DataGrid rows={data} columns={columns} columnBuffer={2} />
+        </div>
 
-      <div>
-        <InputLabel htmlFor="filled-basic">Ingredient ID</InputLabel>
-        <FormControl>
-          <TextField
-            id="filled-basic"
-            variant="filled"
-            onChange={(e) => handleNumberInputChange(e, "itemId")}
-            value={values.ingredientId}
-            type="number"
-            error={inputErrors.ingredientId}
-            helperText={
-              inputErrors.ingredientId ? "Please enter a valid integer" : ""
-            }
-          />
-        </FormControl>
-      </div>
-      <div>
-        <InputLabel htmlFor="filled-basic">Name</InputLabel>
-        <FormControl>
-          <TextField
-            id="filled-basic"
-            variant="filled"
-            onChange={(e) => setValues({ ...values, name: e.target.value })}
-          />
-        </FormControl>
-      </div>
-      <div>
-        <InputLabel htmlFor="filled-basic">Cost</InputLabel>
-        <FormControl>
-          <TextField
-            id="filled-basic"
-            variant="filled"
-            onChange={(e) => handleNumberInputChange(e, "cost")}
-            value={values.cost}
-            type="number"
-            error={inputErrors.cost}
-            helperText={inputErrors.cost ? "Please enter a valid integer" : ""}
-          />
-        </FormControl>
-      </div>
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            gap: "10px",
+            alignItems: "center",
+          }}
+        >
+          <div style={{ width: "100%" }}>
+            <InputLabel htmlFor="filled-basic">Ingredient ID</InputLabel>
+            <FormControl>
+              <TextField
+                id="filled-basic"
+                variant="filled"
+                onChange={(e) => handleNumberInputChange(e, "ingredientId")}
+                value={values.ingredientId}
+                type="number"
+                error={inputErrors.ingredientId}
+                helperText={
+                  inputErrors.ingredientId ? "Please enter a valid integer" : ""
+                }
+              />
+            </FormControl>
+          </div>
+          <div style={{ width: "100%" }}>
+            <InputLabel htmlFor="filled-basic">Name</InputLabel>
+            <FormControl>
+              <TextField
+                id="filled-basic"
+                variant="filled"
+                onChange={(e) => setValues({ ...values, name: e.target.value })}
+              />
+            </FormControl>
+          </div>
+          <div style={{ width: "100%" }}>
+            <InputLabel htmlFor="filled-basic">Cost</InputLabel>
+            <FormControl>
+              <TextField
+                id="filled-basic"
+                variant="filled"
+                onChange={(e) => handleNumberInputChange(e, "cost")}
+                value={values.cost}
+                type="number"
+                error={inputErrors.cost}
+                helperText={
+                  inputErrors.cost ? "Please enter a valid integer" : ""
+                }
+              />
+            </FormControl>
+          </div>
+        </div>
 
-      <div style={{ display: "flex", gap: "5px" }}>
-        <CustomButton>Add ingredient</CustomButton>
-        <CustomButton>Delete ingredient</CustomButton>
-        <CustomButton>Update ingredient</CustomButton>
+        <div style={{ display: "flex", gap: "10px", marginTop: "10px" }}>
+          <CustomButton onClick={addHandleSubmit}>Add ingredient</CustomButton>
+          <CustomButton>Delete ingredient</CustomButton>
+          <CustomButton>Update ingredient</CustomButton>
+        </div>
       </div>
-    </div>
+    </ThemeProvider>
   );
 };
 
