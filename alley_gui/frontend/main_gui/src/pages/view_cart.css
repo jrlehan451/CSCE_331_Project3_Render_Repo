@@ -30,6 +30,25 @@
     border: 2px solid #8b9477;
 }
 
+.cart-drink {
+    margin-left: 1vw;
+    float: left;
+    text-align: left;
+    font-family: 'Perpetua', serif;
+}
+
+.cart-drink-name {
+    color: #25371d;
+    font-weight: bold;
+    margin-right: 3vw;
+}
+
+.cart-drink-info {
+    color: #8b9477;
+    margin-left: 2vw;
+    margin-right: 3vw;
+}
+
 .checkout-container {
     margin-top: 1vw;
     margin-left: 3.5vw;

@@ -183,15 +183,6 @@ const BuildDrink = () => {
           quantity: quantity
         };
 
-        console.log(drinkName);
-        console.log(drinkId);
-        console.log(size);
-        console.log(addOn1Name);
-        console.log(addOn1Id);
-        console.log(addOn2Name);
-        console.log(addOn2Id);
-        console.log(quantity);
-
         let currDrinksInOrder = []
         if (sessionStorage.getItem("currentOrderDrinks")) {
             currDrinksInOrder = JSON.parse(sessionStorage.getItem("currentOrderDrinks"));
