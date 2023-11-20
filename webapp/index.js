@@ -178,6 +178,25 @@ app.get('/drink_series_items', async (req, res) => {
   }
 });
 
+app.get("/add_ons", async (req, res) => {
+  try {
+    console.log("Getting all the add ons");
+
+    const results = await pool.query("SELECT * FROM ingredients WHERE cost > 0;");
+    res.status(200).json({
+      status: "success",
+      results: results.rows,
+      data: {results},
+    });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({
+      status: "error",
+      message: "An error occurred while fetching data.",
+    });
+  }
+});
+
 app.get("/new_order", (req, res) => {
   res.render("new_order");
 });

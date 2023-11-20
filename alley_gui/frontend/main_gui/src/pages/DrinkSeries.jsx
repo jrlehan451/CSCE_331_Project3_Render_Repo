@@ -18,14 +18,19 @@ const DrinkSeries = () => {
         if (currLocation.includes("customer")) {
             window.location.href = currLocation.replace("customer", "drink_series/") + category;
         } else {
-            const array = currLocation.split("=");
-            window.location.href = currLocation.replace(array[1], category);
+            const array = currLocation.split("/");
+            console.log(array);
+            window.location.href = currLocation.replace(array[4], category);
         }
     };
 
-    const buildDrink = (name, drinkId) => {
-        // Implement your logic for building a drink
-        console.log(`Building drink: ${name}, ID: ${drinkId}`);
+    const buildDrink = (drinkName, drinkId) => {
+        var currLocation = window.location.href;
+        const array = currLocation.split("/");
+        window.location.href = currLocation.replace("drink_series/" + array[4], "build_drink");
+            
+        sessionStorage.setItem("customer_drink_name", drinkName);
+        sessionStorage.setItem("customer_drink_id", drinkId);
     };
 
     const viewCartFromDrinkSeries = () => {
