@@ -162,6 +162,46 @@ const BuildDrink = () => {
         });
     };
 
+    const addDrinkToOrder = () => {
+        const drinkName = sessionStorage.getItem("customer_drink_name");
+        const drinkId = sessionStorage.getItem("customer_drink_id");
+        const size = sessionStorage.getItem("customer_drink_size");
+        const addOn1Name = sessionStorage.getItem("customer_addOn1_name");
+        const addOn1Id = sessionStorage.getItem("customer_addOn1_id");
+        const addOn2Name = sessionStorage.getItem("customer_addOn2_name");
+        const addOn2Id = sessionStorage.getItem("customer_addOn2_id");
+        const quantity = sessionStorage.getItem("customer_drink_quantity");
+        
+        let currDrink = {
+          drinkName: drinkName, 
+          drinkId: drinkId, 
+          size: size, 
+          addOn1Name: addOn1Name,
+          addOn1Id: addOn1Id, 
+          addOn2Name: addOn2Name, 
+          addOn2Id: addOn2Id, 
+          quantity: quantity
+        };
+
+        console.log(drinkName);
+        console.log(drinkId);
+        console.log(size);
+        console.log(addOn1Name);
+        console.log(addOn1Id);
+        console.log(addOn2Name);
+        console.log(addOn2Id);
+        console.log(quantity);
+
+        let currDrinksInOrder = []
+        if (sessionStorage.getItem("currentOrderDrinks")) {
+            currDrinksInOrder = JSON.parse(sessionStorage.getItem("currentOrderDrinks"));
+        }
+
+        currDrinksInOrder.push(currDrink);
+  
+        sessionStorage.setItem("currentOrderDrinks", JSON.stringify(currDrinksInOrder));
+    }
+
     const viewCart = () => {
         var currLocation = window.location.href;
         window.location.href = currLocation.replace("build_drink", "view_cart");
@@ -258,7 +298,7 @@ const BuildDrink = () => {
         </div>
 
         <div className="build-drink-next">
-            <button>Add Drink</button>
+            <button onClick={addDrinkToOrder}>Add Drink</button>
             <button onClick={viewCart}>View Cart</button>
             <p className="total">Total: </p>
         </div>

@@ -14,8 +14,17 @@ const ViewCart = () => {
     window.location.href = currLocation.replace("view_cart", "customer_checkout");
   };
 
+  const displayOrder = () => {
+    const currDrinksInOrder = sessionStorage.getItem("currentOrderDrinks");
+    const orderInfo = document.getElementById("test");
+    for (var i = 0; i < currDrinksInOrder.length; i++) {
+      orderInfo.textContent = currDrinksInOrder[i].drinkName + " " + currDrinksInOrder[i].size + " " 
+      + currDrinksInOrder[i].addOn1Name + " " + currDrinksInOrder[i].addOn2Name + " " + currDrinksInOrder[i].quantity;
+    }
+  }
+
   return (
-    <div className="view-cart-background">
+    <div className="view-cart-background" onLoad={() => displayOrder()}>
       <button onClick={navCustomerHome} className="back-build">
         <img src={backArrowImage} alt="Back Arrow" width="60%" height="10%" />
       </button>
@@ -24,6 +33,7 @@ const ViewCart = () => {
 
       <div className="cart-container">
         {/* Add cart items rendering logic here */}
+        <p id="test"></p>
       </div>
 
       <div className="checkout-container">
