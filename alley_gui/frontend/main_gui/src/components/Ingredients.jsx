@@ -3,9 +3,28 @@ import axios from "axios";
 import { DataGrid, GridColDef, GridValueGetterParams } from "@mui/x-data-grid";
 import { ThemeProvider } from "@mui/material/styles";
 import { theme } from "../theme";
-import { TextField, InputLabel, FormControl } from "@mui/material";
+import {
+  TextField,
+  InputLabel,
+  FormControl,
+  ListItemButton,
+  styled,
+} from "@mui/material";
 
 const Ingredients = () => {
+  // Creating custom buttons
+  const CustomButton = styled(ListItemButton)(({ theme }) => ({
+    backgroundColor: "#ffefe2",
+    color: "black",
+    margin: 10,
+    borderRadius: "8px",
+    width: "200px",
+    minHeight: "40px",
+    maxHeight: "60px",
+    "&:hover": { backgroundColor: "lightblue" },
+    "&:disabled": { backgroundColor: "gray", color: "white" },
+  }));
+
   // Creating columns for displaying sql queries
   const columns = [
     { field: "ingredientId", headerName: "Ingredeint ID", width: 130, flex: 1 },
@@ -125,6 +144,12 @@ const Ingredients = () => {
             helperText={inputErrors.cost ? "Please enter a valid integer" : ""}
           />
         </FormControl>
+      </div>
+
+      <div style={{ display: "flex", gap: "5px" }}>
+        <CustomButton>Add ingredient</CustomButton>
+        <CustomButton>Delete ingredient</CustomButton>
+        <CustomButton>Update ingredient</CustomButton>
       </div>
     </div>
   );
