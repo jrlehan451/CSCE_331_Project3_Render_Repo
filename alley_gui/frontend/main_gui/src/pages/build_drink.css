@@ -41,17 +41,21 @@
 
 .back-button {
     width: 7vw;
+    margin-top: 0.5vw;
+    margin-left: 0.5vw;
     background: #ffefe2;
     border: 2px solid #25371d;
     cursor: pointer;
+    display: flex;
     margin-bottom: 2vw;
 }
 
 .build-option-container {
+    margin-top: -7vw;
     margin-left: 2.5vw;
     margin-right: 1vw;
     width: 75vw;
-    height: 46.5vw;
+    height: 43.5vw;
     float: right;
     display: none;
 }
@@ -104,7 +108,7 @@
 }
 
 .build-drink-next {
-    margin-top: -15vw;
+    margin-top: -13vw;
     margin-right: 1.5vw;
     float: right;
     width: 25vw;

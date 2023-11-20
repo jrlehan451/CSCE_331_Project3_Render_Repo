@@ -27,6 +27,8 @@ const BuildDrink = () => {
         const selectedDrink = sessionStorage.getItem("customer_drink_name");
         const drinkName = document.getElementById("drinkSelected");
         drinkName.textContent = "Selected Drink: " + selectedDrink;
+        let quantity = document.getElementById("start");
+        quantity.style.display = "block";
     }
 
     const getSize = (size) => {
@@ -56,6 +58,10 @@ const BuildDrink = () => {
     };
 
     const getDrinkSize = () => {
+        const start = document.getElementById("start");
+        if (start.style.display === "block") {
+            start.style.display = "none";
+        }
         const addOns1 = document.getElementById("addOns1");
         if (addOns1.style.display === "block") {
             addOns1.style.display = "none";
@@ -73,6 +79,10 @@ const BuildDrink = () => {
     };
 
     const getDrinkAddOn1 = () => {
+        const start = document.getElementById("start");
+        if (start.style.display === "block") {
+            start.style.display = "none";
+        }
         const size = document.getElementById("size");
         if (size.style.display === "block") {
             size.style.display = "none";
@@ -91,6 +101,10 @@ const BuildDrink = () => {
     };
 
     const getDrinkAddOn2 = () => {
+        const start = document.getElementById("start");
+        if (start.style.display === "block") {
+            start.style.display = "none";
+        }
         const size = document.getElementById("size");
         if (size.style.display === "block") {
             size.style.display = "none";
@@ -109,6 +123,10 @@ const BuildDrink = () => {
     };
 
     const getDrinkQuantity = () => {
+        const start = document.getElementById("start");
+        if (start.style.display === "block") {
+            start.style.display = "none";
+        }
         const size = document.getElementById("size");
         if (size.style.display === "block") {
             size.style.display = "none";
@@ -174,6 +192,10 @@ const BuildDrink = () => {
         <button className="back-button" onClick={backCustomerHome}>
             <img src={backArrowImage} alt="Back Arrow" width="60%" height="10%" />
         </button>
+
+        <div id="start" className="build-option-container">
+            <h1 className="option-name">Build Your Drink</h1>
+        </div>
 
         <div id="size" className="build-option-container">
             <h1 className="option-name">Choose Your Size</h1>
