@@ -131,7 +131,7 @@ tr {
     transform: translate(-50%, -50%);
 }
 
-.new-order {
+.new-order-button {
     height: 3vw;
     width: 100%;
     color: #9e693f;

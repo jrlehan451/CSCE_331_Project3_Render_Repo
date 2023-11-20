@@ -13,7 +13,7 @@ const MakeNewOrder = () => {
     return (
         <div class="vhCenter">
             <h1 class="green">Customer Order Completed</h1>
-            <ButtonLink to={"../DrinkOptions"} className={"new-order"} onClick={clearSessionStorage}>Make New Order</ButtonLink>
+            <ButtonLink to={"../DrinkOptions"} className={"new-order-button"} onClick={clearSessionStorage}>Make New Order</ButtonLink>
         </div>
     );
 }
