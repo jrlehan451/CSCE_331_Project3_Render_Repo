@@ -42,6 +42,8 @@ body {
   margin: 0px auto 40px; /* Adjust margin to account for the fixed navbar */
   padding: 10px;
   font-size: 25px;
+  padding-bottom: 0px;
+  margin-bottom: 0px;
 
 }
 
@@ -55,6 +57,8 @@ body {
 .tablesInfo {
     border:  #8b9477; /* Green border */
     padding-top: 0px;
+
+    padding-bottom: 50px;
     color: #8b9477; /* Blue font color */
     margin-top: 0px; /* Adjust the margin-top to move the table higher */
 }
@@ -66,4 +70,30 @@ body {
     border: 2px solid #8b9477;
     font-size: 15px;
     font-style: bold;
+}
+
+
+.tablesContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Center items horizontally */
+  }
+
+
+.menuItemsButtonsContainer {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+  
+  /* Style for the text boxes */
+.textboxContainer {
+    display: flex;
+    gap: 5px;
+}
+
+.buttonItem{
+    border: 2px solid red;
 }

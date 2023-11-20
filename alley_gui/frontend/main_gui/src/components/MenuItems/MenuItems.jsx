@@ -20,7 +20,11 @@ const MenuItems = () => {
           <div className="title">
             <h1>Menu Items</h1>
           </div>
-          <MenuItemsTable />
+          <div className="tablesContainer">
+            <MenuItemsTable />
+            <MenuItemsButton />
+        </div>
+
         </div>
       );
 };
