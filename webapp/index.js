@@ -83,6 +83,68 @@ app.get("/user", (req, res) => {
   });
 });
 
+app.get("/add_on_jsx", async (req, res) => {
+  try {
+    const results = await pool.query("SELECT * FROM ingredients WHERE cost > 0;");
+    res.status(200).json({
+      status: "success",
+      results: results.rows.length,
+      data: {
+        add_ons: results,
+      },
+    });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({
+      status: "error",
+      message: "An error occurred while fetching data.",
+    });
+  }
+});
+
+app.get("/add_drink_jsx", async (req, res) => {
+  category = req.query.category;
+  const query = {
+    text: "SELECT * FROM drinks WHERE category = $1",
+    values: [category],
+  };
+  try {
+    const results = await pool.query(query);
+    res.status(200).json({
+      status: "success",
+      results: results.rows.length,
+      data: {
+        drinks: results,
+      },
+    });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({
+      status: "error",
+      message: "An error occurred while fetching data.",
+    });
+  }
+});
+
+app.get("/drink_options_jsx", async (req, res) => {
+  try {
+    const results = await pool.query("SELECT DISTINCT category FROM drinks;");
+    res.status(200).json({
+      status: "success",
+      results: results.rows.length,
+      data: {
+        drink_categories: results,
+      },
+    });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({
+      status: "error",
+      message: "An error occurred while fetching data.",
+    });
+  }
+});
+
 app.get("/drink_options", (req, res) => {
   drink_categories = [];
   pool.query("SELECT DISTINCT category FROM drinks;").then((query_res) => {
@@ -136,6 +198,65 @@ app.get("/customer_home", (req, res) => {
   });
 });
 
+app.get("/drink_categories", async (req, res) => {
+  try {
+    console.log("Getting all the drink categories");
+
+    const results = await pool.query("SELECT DISTINCT category FROM drinks;");
+    res.status(200).json({
+      status: "success",
+      results: results.rows,
+      data: {results},
+    });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({
+      status: "error",
+      message: "An error occurred while fetching data.",
+    });
+  }
+});
+
+
+app.get('/drink_series_items', async (req, res) => {
+  try {
+    category = req.query.category;
+    console.log(category);
+    const drinkCategoriesQuery = await pool.query('SELECT DISTINCT category FROM drinks;');
+    const drinksQuery = await pool.query('SELECT * FROM drinks WHERE category = $1', [category]);
+
+    res.status(200).json({ 
+      status: "success",
+
+      data: {
+        categories: drinkCategoriesQuery.rows, 
+        drinks: drinksQuery.rows},
+    });
+  } catch (error) {
+    console.error('Error fetching drink series:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+app.get("/add_ons", async (req, res) => {
+  try {
+    console.log("Getting all the add ons");
+
+    const results = await pool.query("SELECT * FROM ingredients WHERE cost > 0;");
+    res.status(200).json({
+      status: "success",
+      results: results.rows,
+      data: {results},
+    });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({
+      status: "error",
+      message: "An error occurred while fetching data.",
+    });
+  }
+});
+
 app.get("/new_order", (req, res) => {
   res.render("new_order");
 });
@@ -152,37 +273,30 @@ app.post("/post_order", jsonParser, (req, res) => {
   drinks = JSON.parse(req.body.drinks);
   add_ons = JSON.parse(req.body.add_ons);
 
-  pool
-    .query("SELECT order_id FROM orders ORDER BY order_id DESC LIMIT 1;")
-    .then((query_res) => {
-      nextOrderId = query_res.rows[0].order_id + 1;
-
-      pool.query(
-        "INSERT INTO orders(order_id, name, timestamp, cost) VALUES($1, $2, $3, $4)",
-        [
-          nextOrderId,
-          req.body.customer,
-          new Date().toISOString().slice(0, 19).replace("T", " "),
-          req.body.totalCost,
-        ], // Using temporary customer name and totalCost, both of which can just be stored in sessionStorage
-        (err, response) => {
-          if (err) {
-            console.log(err);
-          }
-        }
-      );
-
-      for (let i = 0; i < drinks.length; ++i) {
-        pool.query(
-          "INSERT INTO drink_orders(drink_id, order_id, number) VALUES($1, $2, $3)",
-          [parseInt(drinks[i].id), nextOrderId, i + 1],
-          (err, response) => {
-            if (err) {
-              console.log(err);
+    pool
+        .query('SELECT order_id FROM orders ORDER BY order_id DESC LIMIT 1;')
+        .then(query_res => {
+            nextOrderId = query_res.rows[0].order_id + 1; 
+            
+            pool
+                .query('INSERT INTO orders(order_id, name, timestamp, cost) VALUES($1, $2, $3, $4)',
+                [nextOrderId, req.body.customer, new Date().toISOString().slice(0, 19).replace('T', ' '), req.body.totalCost],
+                (err, response) => {
+                    if (err) {
+                        console.log(err);
+                    }
+                });
+            
+            for (let i = 0; i < drinks.length; ++i) {
+                pool
+                    .query('INSERT INTO drink_orders(drink_id, order_id, number) VALUES($1, $2, $3)',
+                    [parseInt(drinks[i].id), nextOrderId, i + 1],
+                    (err, response) => {
+                        if (err) {
+                            console.log(err);
+                        }
+                    });
             }
-          }
-        );
-      }
 
       for (let i = 0; i < add_ons.length; ++i) {
         for (let j = 0; j < add_ons[i].length; ++j) {
@@ -202,9 +316,70 @@ app.post("/post_order", jsonParser, (req, res) => {
   res.json({ ok: true });
 });
 
-app.locals.postOrder = function (drinks, add_ons) {
-  var drinks = JSON.parse(drinks);
-  var add_ons = JSON.parse(add_ons);
+app.post("/post_customer_order", jsonParser, (req, res) => {
+  console.log(req.body);
+
+  var nextOrderId = 0;
+
+  currDrinksInOrder = JSON.parse(req.body.currDrinksInOrder);
+
+    pool
+        .query('SELECT order_id FROM orders ORDER BY order_id DESC LIMIT 1;')
+        .then(query_res => {
+            nextOrderId = query_res.rows[0].order_id + 1; 
+            
+            pool
+              .query('INSERT INTO orders(order_id, name, timestamp, cost) VALUES($1, $2, $3, $4)',
+                [nextOrderId, req.body.customer, new Date().toISOString().slice(0, 19).replace('T', ' '), req.body.totalCost],
+                (err, response) => {
+                  if (err) {
+                    console.log(err);
+                  }
+                });
+            
+            for (let i = 0; i < currDrinksInOrder.length; ++i) {
+              for (let j = 0; j < currDrinksInOrder[i].quantity; ++j) {
+                pool
+                .query('INSERT INTO drink_orders(drink_id, order_id, number) VALUES($1, $2, $3)',
+                [parseInt(currDrinksInOrder[i].drinkId), nextOrderId, i + 1],
+                (err, response) => {
+                  if (err) {
+                    console.log(err);
+                  }
+                });
+              }
+            }
+
+      for (let i = 0; i < currDrinksInOrder.length; ++i) {
+        for (let j = 0; j < currDrinksInOrder[i].quantity; ++j) {
+          pool.query(
+            "INSERT INTO add_ons(ingredient_id, order_id, number) VALUES($1, $2, $3)",
+            [parseInt(currDrinksInOrder[i].addOn1Id), nextOrderId, i + 1],
+            (err, response) => {
+              if (err) {
+                console.log(err);
+              }
+            }
+          );
+          pool.query(
+            "INSERT INTO add_ons(ingredient_id, order_id, number) VALUES($1, $2, $3)",
+            [parseInt(currDrinksInOrder[i].addOn2Id), nextOrderId, i + 1],
+            (err, response) => {
+              if (err) {
+                console.log(err);
+              }
+            }
+          );
+        }
+      }
+    });
+
+  res.json({ ok: true });
+});
+
+/* app.locals.postOrder = function(drinks, add_ons) {
+    var drinks = JSON.parse(drinks);
+    var add_ons = JSON.parse(add_ons);
 
   var nextOrderId = 0;
 
@@ -214,21 +389,15 @@ app.locals.postOrder = function (drinks, add_ons) {
       nextOrderId = query_res + 1;
     });
 
-  pool.query(
-    "INSERT INTO orders(order_id, name, timestamp, cost) VALUES($1, $2, $3, $4)",
-    [
-      nextOrderId,
-      "Test Name",
-      new Date().toISOString().slice(0, 19).replace("T", " "),
-      10,
-    ], // Using temporary customer name and totalCost, both of which can just be stored in sessionStorage
-    (err, res) => {
-      if (err) return next(err);
-
-      response.redirect("/monsters");
-    }
-  );
-};
+    pool
+        .query('INSERT INTO orders(order_id, name, timestamp, cost) VALUES($1, $2, $3, $4)',
+        [nextOrderId, "Test Name", new Date().toISOString().slice(0, 19).replace('T', ' '), 10], // Using temporary customer name and totalCost, both of which can just be stored in sessionStorage
+        (err, res) => {
+            if (err) return next(err);
+        
+            response.redirect('/monsters');
+        });
+} */
 
 app.get("/drink_series", (req, res) => {
   drink_categories = [];
@@ -237,21 +406,21 @@ app.get("/drink_series", (req, res) => {
       drink_categories.push(query_res.rows[i]);
     }
     console.log(drink_categories);
-  });
-  drinks = [];
-  category = req.query.category;
-  const query = {
-    text: "SELECT * FROM drinks WHERE category = $1",
-    values: [category],
-  };
-  pool.query(query).then((query_res) => {
-    for (let i = 0; i < query_res.rowCount; i++) {
-      drinks.push(query_res.rows[i]);
-    }
-    console.log(drinks);
-    res.render("drink_series", {
-      drink_categories: drink_categories,
-      drinks: drinks,
+    drinks = [];
+    category = req.query.category;
+    const query = {
+      text: "SELECT * FROM drinks WHERE category = $1",
+      values: [category],
+    };
+    pool.query(query).then((query_res) => {
+      for (let i = 0; i < query_res.rowCount; i++) {
+        drinks.push(query_res.rows[i]);
+      }
+      console.log(drinks);
+      res.render("drink_series", {
+        drink_categories: drink_categories,
+        drinks: drinks,
+      });
     });
   });
 });

@@ -1,0 +1,148 @@
+.build-drink-background {
+    background-color: #ffefe2;
+    height: 100%;
+    width: 100%;
+}
+
+.build-drink-container {
+    margin-left: 0.5vw;
+    width: 17vw;
+    border: 2px solid #25371d;
+    float: left;
+    background: #ffefe2;
+    overflow-y: auto;
+}
+
+.build-drink-container > button {
+    width: 15vw;
+    height: 3vw;
+    border-radius: 12vw;
+    float: left;
+    border: 2px solid #25371d;
+    background: #8b9477;
+    margin-left: 1vw;
+    margin-right: 1vw;
+    margin-top: 0.5vw;
+    margin-bottom: 0.5vw;
+    white-space: normal;
+    word-break: break-word;
+    cursor: pointer;
+    color: #25371d;
+    font-family: 'Perpetua', serif;
+    font-weight: bold;
+}
+
+.build-drink-title {
+    text-align: center;
+    margin-bottom: 0.75vw;
+    color: #25371d;
+    font-family: 'Perpetua', serif;
+}
+
+.back-button {
+    width: 7vw;
+    margin-top: 0.5vw;
+    margin-left: 0.5vw;
+    background: #ffefe2;
+    border: 2px solid #25371d;
+    cursor: pointer;
+    display: flex;
+    margin-bottom: 2vw;
+}
+
+.build-option-container {
+    margin-top: -7vw;
+    margin-left: 2.5vw;
+    margin-right: 1vw;
+    width: 75vw;
+    height: 43.5vw;
+    float: right;
+    display: none;
+}
+
+.build-option-container > button {
+    width: 9vw;
+    height: 9vw;
+    float: left;
+    background: #ffefe2;   
+    border: 2px solid #9e693f;
+    margin: 1vw;
+    white-space:normal;
+    word-break: break-word;
+    cursor: pointer;
+    color: #9e693f;
+    font-family: 'Perpetua', serif;
+    font-weight: bold;
+}
+
+.option-name {
+    text-align: center;
+    margin-bottom: 0.75vw;
+    color: #9e693f;
+    font-family: 'Perpetua', serif;
+}
+
+.quantity {
+    margin-top: 0vw;
+    margin-right: 10vw;
+    margin-left: 50vw;
+    color: #9e693f;
+    font-family: 'Perpetua', serif;
+    font-size: 10vw;
+}
+
+.build-drink-info {
+    margin-left: 0.5vw;
+    width: 70vw;
+    display: flex;
+    border: 2px solid #8b9477;
+    background: #ffefe2;
+}
+
+.build-drink-text {
+    margin-left: 1vw;
+    margin-right: 1vw;
+    font-family: 'Perpetua', serif;
+    font-weight: bold;
+    color: #25371d
+}
+
+.build-drink-next {
+    margin-top: -13vw;
+    margin-right: 1.5vw;
+    float: right;
+    width: 25vw;
+    background: #ffefe2;
+}
+
+.build-drink-next > button {
+    width: 22vw;
+    height: 3vw;
+    border-radius: 12vw;
+    float: left;
+    border: 2px solid #25371d;
+    background: #8b9477;
+    margin-left: 1vw;
+    margin-right: 1vw;
+    margin-top: 0.5vw;
+    margin-bottom: 0.5vw;
+    white-space: normal;
+    word-break: break-word;
+    cursor: pointer;
+    color: #25371d;
+    font-family: 'Perpetua', serif;
+    font-weight: bold;
+}
+
+.total {
+    margin-right: 1vw;
+    margin-left: 1vw;
+    color: #25371d;
+    font-family: 'Perpetua', serif;
+    font-size: 3vw;
+}
+
+.columnWrapper {
+    display: inline-flex;
+    width: 100vw;
+}
