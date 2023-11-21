@@ -683,6 +683,11 @@ app.post("/addAddOn", (req, res) => {
     (err, response) => {
       if (err) {
         console.log(err);
+        // Send an error response to the client
+        res.status(500).json({
+          status: "error",
+          message: "An error occurred while adding the add-on.",
+        });
       } else {
         console.log(response);
       }
@@ -700,7 +705,15 @@ app.post("/deleteAddOn", (req, res) => {
     (err, response) => {
       if (err) {
         console.log(err);
+        res.status(500).json({
+          status: "error",
+          rowCount: response.rowCount,
+          message: "An error occurred while adding the add-on.",
+        });
       } else {
+        res.status(200).json({
+          rowCount: response.rowCount,
+        })
         console.log(response);
       }
     }
@@ -717,7 +730,15 @@ app.post("/updateAddOnName", (req, res) => {
     (err, response) => {
       if (err) {
         console.log(err);
+        res.status(500).json({
+          status: "error",
+          rowCount: response.rowCount,
+          message: "An error occurred while adding the add-on.",
+        });
       } else {
+        res.status(200).json({
+          rowCount: response.rowCount,
+        })
         console.log(response);
       }
     }
@@ -734,7 +755,15 @@ app.post("/updateAddOnCost", (req, res) => {
     (err, response) => {
       if (err) {
         console.log(err);
+        res.status(500).json({
+          status: "error",
+          rowCount: response.rowCount,
+          message: "An error occurred while adding the add-on.",
+        });
       } else {
+        res.status(200).json({
+          rowCount: response.rowCount,
+        })
         console.log(response);
       }
     }

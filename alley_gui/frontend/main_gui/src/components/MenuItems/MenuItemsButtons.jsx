@@ -47,11 +47,17 @@ const MenuItemsButtons = () => {
   
     // Check if the entered value is a valid integer
     const isValidInteger = /^[0-9]*$/.test(newValue);
+    const isValidFloat = /^\d*\.?\d*$/.test(newValue);
   
     if (isValidInteger || newValue === "") {
       setValues({ ...values, [key]: newValue });
       setInputErrors({ ...inputErrors, [key]: false });
-    } else {
+    } 
+    else if((key == "addOnCost" || key == "drinkCost") && isValidFloat){
+      setValues({ ...values, [key]: newValue });
+      setInputErrors({ ...inputErrors, [key]: false });
+    }
+    else {
       setInputErrors({ ...inputErrors, [key]: true });
     }
   };
@@ -116,50 +122,122 @@ const handleDeleteDrink = (e) => {
   console.log("Add Drink clicked", values);
   if (values.addOnID != "" && values.addOnName != "" && values.addOnCost != "") {
     e.preventDefault();
+
     axios
-      .post("http://localhost:4000/addAddOn", values)
-      .then((res) => console.log(res))
-      .catch((err) => console.log(err));
+    .post("http://localhost:4000/addAddOn", values)
+    .then((res) => {
+      if (res.data.status === "success") {
+        // Handle success (e.g., show a success message)
+        console.log(res.data.message);
+      } else {
+        // Handle error (e.g., show an error message to the user)
+        console.error(res.data.message);
+      }
+    })
+    .catch((err) => {
+      console.error("Error:", err);
+      alert("Error: Entered existing Add On ID");
+    });
+
+    // axios
+    //   .post("http://localhost:4000/addAddOn", values)
+    //   .then((res) => console.log(res))
+    //   .catch((err) => console.log(err));
   }
+  else{
+    alert("Please fill in all required fields: Add On ID, Add On Name, and Add On Cost");
+  }
+  
 };
 
 // Function to handle button clicks for updating drinks
 const handleUpdateAddOn = (e) => {
   // Implement logic to update a drink based on inputValues.drinkID, inputValues.drinkName, etc.
-  if (values.addOnID != "" && values.addOnName != "") {
-    e.preventDefault();
-    axios
-      .post("http://localhost:4000/updateAddOnName", values)
-      .then((res) => console.log(res))
-      .catch((err) => console.log(err));
+  if(values.addOnID == ""){
+    alert("Enter Add On ID to update");
+  }
+  if(values.addOnCost == "" && values.addOnName == ""){
+    alert("Enter Add On Name and/or Add On Cost to update");
   }
   if (values.addOnID != "" && values.addOnCost != "") {
     e.preventDefault();
     axios
       .post("http://localhost:4000/updateAddOnCost", values)
-      .then((res) => console.log(res))
-      .catch((err) => console.log(err));
+      .then((res) => {
+        const rowCountTwo = res.data.rowCount;
+        if (res.data.status === "success") {
+          // Handle success (e.g., show a success message)
+          console.log(res.data.message);
+        } else {
+          // Handle error (e.g., show an error message to the user)
+          console.error(res.data.message);
+        }
+        if(rowCountTwo == 0){
+          alert("Error: Add On ID not found");
+        }
+      })
+      .catch((err) => {
+        console.error("Error:", err);
+      });
+
   }
-  
-  
+  if (values.addOnID != "" && values.addOnName != "") {
+    e.preventDefault();
+    axios
+      .post("http://localhost:4000/updateAddOnName", values)
+      .then((res) => {
+        const rowCount = res.data.rowCount;
+        if (res.data.status === "success") {
+          // Handle success (e.g., show a success message)
+          console.log(res.data.message);
+        } else {
+          // Handle error (e.g., show an error message to the user)
+          console.error(res.data.message);
+        }
+        if(rowCount == 0){
+          alert("Error: Add On ID not found");
+        }
+      })
+      .catch((err) => {
+        console.error("Error:", err);
+      });
+      
+  }
   console.log("Update Drink clicked", values);
 };
 
 // Function to handle button clicks for deleting drinks
 const handleDeleteAddOn = (e) => {
   // Implement logic to delete a drink based on inputValues.drinkID, inputValues.drinkName, etc.
+
   if (values.addOnID != "") {
     e.preventDefault();
     axios
       .post("http://localhost:4000/deleteAddOn", values)
-      .then((res) => console.log(res))
-      .catch((err) => console.log(err));
+      .then((res) => {
+        const rowCount = res.data.rowCount;
+        if (res.data.status === "success") {
+          // Handle success (e.g., show a success message)
+          console.log(res.data.message);
+        } else {
+          // Handle error (e.g., show an error message to the user)
+          console.error(res.data.message);
+        }
+        if(rowCount == 0){
+          alert("Error: Add On ID not found");
+        }
+      })
+      .catch((err) => {
+        console.error("Error:", err);
+        alert("Error: Entered existing Add On ID");
+      });
+  }
+  else{
+    alert("Error: Please enter valid Add On ID");
   }
   
   //onReload();
 };
-
-
 
   return (
     <div> 
@@ -265,7 +343,7 @@ const handleDeleteAddOn = (e) => {
             </FormControl>
           </div>
           <div>
-            <InputLabel htmlFor="addOnNameButton">Name</InputLabel>
+            <InputLabel htmlFor="addOnNameButton">Add On Name</InputLabel>
             <FormControl>
               <TextField 
               id="addOnNameButton" 
@@ -278,19 +356,21 @@ const handleDeleteAddOn = (e) => {
             </FormControl>
           </div>
           <div>
-            <InputLabel htmlFor="addOnCostButton">Cost</InputLabel>
+            <InputLabel htmlFor="addOnCostButton">Add On Cost</InputLabel>
             <FormControl>
               <TextField 
               id="addOnCostButton" 
               variant="filled" 
               size= "small"
-              onChange={(e) => handleNumberInputChange(e, "addOnCost")}
               type="text"
+              //value={values.addOnCost}
+              onChange={(e) => handleNumberInputChange(e, "addOnCost")}
+              
               error={inputErrors.addOnCost}
-              helperText={
-               inputErrors.itemId ? "Please enter a valid integer" : ""
-               }
-               value={values.addOnCost}
+              // helperText={
+              //  inputErrors.itemId ? "Please enter a valid float value" : ""
+              //  }
+              value={values.addOnCost}
               />
             </FormControl>
           </div>
