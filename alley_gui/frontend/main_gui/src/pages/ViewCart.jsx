@@ -1,4 +1,5 @@
 import React from 'react';
+import axios from "axios";
 import './view_cart.css';
 import backArrowImage from './images/back_arrow.png';
 
@@ -19,26 +20,57 @@ const ViewCart = () => {
     window.location.href = currLocation.replace("view_cart", "customer");
   };
 
-  const goToCheckout = () => {
+  const goToCheckout = async(e) => {
+    e.preventDefault();
+
+    var currDrinksInOrder = JSON.parse(sessionStorage.getItem("currentOrderDrinks"));
+
+    var totalCost = 0;
+    for (var i = 0; i < currDrinksInOrder.length; i++) {
+      var currentDrink = 0;
+      currentDrink += parseFloat(currDrinksInOrder[i].drinkCost);
+      if (currDrinksInOrder[i].addOn1Id != -1) {
+        currentDrink += parseFloat(currDrinksInOrder[i].addOn1Cost);
+      }
+      if (currDrinksInOrder[i].addOn2Id != -1) {
+        currentDrink += parseFloat(currDrinksInOrder[i].addOn2Cost);
+      }
+      currentDrink *= parseInt(currDrinksInOrder[i].quantity);
+      totalCost += currentDrink;
+    }
+
+    try {     
+      await axios.post("http://localhost:4000/post_customer_order", {
+          currDrinksInOrder: sessionStorage.getItem('currentOrderDrinks'),
+          customer: "customer",
+          totalCost: totalCost.toFixed(2),
+      });
+    } catch(err) {
+        console.error(`Error: ${err}`);
+    }
+
     var currLocation = window.location.href;
     window.location.href = currLocation.replace("view_cart", "customer_checkout");
-  };
+  }
 
   const getCurrentTotal = () => {
     let currDrinksInOrder = []
     if (sessionStorage.getItem("currentOrderDrinks")) {
-        currDrinksInOrder = JSON.parse(sessionStorage.getItem("currentOrderDrinks"));
+      currDrinksInOrder = JSON.parse(sessionStorage.getItem("currentOrderDrinks"));
     }
 
     var totalCost = 0;
     for (var i = 0; i < currDrinksInOrder.length; i++) {
-        totalCost += parseFloat(currDrinksInOrder[i].drinkCost);
-        if (currDrinksInOrder[i].addOn1Id != -1) {
-            totalCost += parseFloat(currDrinksInOrder[i].addOn1Cost);
-        }
-        if (currDrinksInOrder[i].addOn2Id != -1) {
-            totalCost += parseFloat(currDrinksInOrder[i].addOn2Cost);
-        }
+      var currentDrink = 0;
+      currentDrink += parseFloat(currDrinksInOrder[i].drinkCost);
+      if (currDrinksInOrder[i].addOn1Id != -1) {
+        currentDrink += parseFloat(currDrinksInOrder[i].addOn1Cost);
+      }
+      if (currDrinksInOrder[i].addOn2Id != -1) {
+        currentDrink += parseFloat(currDrinksInOrder[i].addOn2Cost);
+      }
+      currentDrink *= parseInt(currDrinksInOrder[i].quantity);
+      totalCost += currentDrink;
     }
 
     return "Total: " + totalCost.toFixed(2);

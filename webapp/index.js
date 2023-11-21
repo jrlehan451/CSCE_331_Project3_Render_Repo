@@ -316,6 +316,67 @@ app.post("/post_order", jsonParser, (req, res) => {
   res.json({ ok: true });
 });
 
+app.post("/post_customer_order", jsonParser, (req, res) => {
+  console.log(req.body);
+
+  var nextOrderId = 0;
+
+  currDrinksInOrder = JSON.parse(req.body.currDrinksInOrder);
+
+    pool
+        .query('SELECT order_id FROM orders ORDER BY order_id DESC LIMIT 1;')
+        .then(query_res => {
+            nextOrderId = query_res.rows[0].order_id + 1; 
+            
+            pool
+              .query('INSERT INTO orders(order_id, name, timestamp, cost) VALUES($1, $2, $3, $4)',
+                [nextOrderId, req.body.customer, new Date().toISOString().slice(0, 19).replace('T', ' '), req.body.totalCost],
+                (err, response) => {
+                  if (err) {
+                    console.log(err);
+                  }
+                });
+            
+            for (let i = 0; i < currDrinksInOrder.length; ++i) {
+              for (let j = 0; j < currDrinksInOrder[i].quantity; ++j) {
+                pool
+                .query('INSERT INTO drink_orders(drink_id, order_id, number) VALUES($1, $2, $3)',
+                [parseInt(currDrinksInOrder[i].drinkId), nextOrderId, i + 1],
+                (err, response) => {
+                  if (err) {
+                    console.log(err);
+                  }
+                });
+              }
+            }
+
+      for (let i = 0; i < currDrinksInOrder.length; ++i) {
+        for (let j = 0; j < currDrinksInOrder[i].quantity; ++j) {
+          pool.query(
+            "INSERT INTO add_ons(ingredient_id, order_id, number) VALUES($1, $2, $3)",
+            [parseInt(currDrinksInOrder[i].addOn1Id), nextOrderId, i + 1],
+            (err, response) => {
+              if (err) {
+                console.log(err);
+              }
+            }
+          );
+          pool.query(
+            "INSERT INTO add_ons(ingredient_id, order_id, number) VALUES($1, $2, $3)",
+            [parseInt(currDrinksInOrder[i].addOn2Id), nextOrderId, i + 1],
+            (err, response) => {
+              if (err) {
+                console.log(err);
+              }
+            }
+          );
+        }
+      }
+    });
+
+  res.json({ ok: true });
+});
+
 /* app.locals.postOrder = function(drinks, add_ons) {
     var drinks = JSON.parse(drinks);
     var add_ons = JSON.parse(add_ons);

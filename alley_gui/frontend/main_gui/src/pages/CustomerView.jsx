@@ -13,14 +13,17 @@ const CustomerHome = () => {
 
         var totalCost = 0;
         for (var i = 0; i < currDrinksInOrder.length; i++) {
-            totalCost += parseFloat(currDrinksInOrder[i].drinkCost);
+            var currentDrink = 0;
+            currentDrink += parseFloat(currDrinksInOrder[i].drinkCost);
             if (currDrinksInOrder[i].addOn1Id != -1) {
-                totalCost += parseFloat(currDrinksInOrder[i].addOn1Cost);
+            currentDrink += parseFloat(currDrinksInOrder[i].addOn1Cost);
             }
             if (currDrinksInOrder[i].addOn2Id != -1) {
-                totalCost += parseFloat(currDrinksInOrder[i].addOn2Cost);
+            currentDrink += parseFloat(currDrinksInOrder[i].addOn2Cost);
             }
-        }
+            currentDrink *= parseInt(currDrinksInOrder[i].quantity);
+            totalCost += currentDrink;
+        }  
 
         return "Total: " + totalCost.toFixed(2);
     }

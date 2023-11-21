@@ -55,7 +55,7 @@ const OrderSummary = () => {
                 drinks: sessionStorage.getItem('drinks'),
                 add_ons: sessionStorage.getItem('add_ons'),
                 customer: document.getElementById("cname").value,
-                totalCost: totalCost
+                totalCost: totalCost.toFixed(2)
             });
         } catch(err) {
             console.error(`Error: ${err}`);
