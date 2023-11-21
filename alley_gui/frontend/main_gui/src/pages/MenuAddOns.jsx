@@ -31,8 +31,6 @@ const MenuAddons = () => {
               "http://localhost:4000/add_on_jsx"
             );
             const jsonVals = await response.data;
-            console.log("Working");
-            console.log(jsonVals.data.add_ons);
             setAddOns(jsonVals.data.add_ons.rows);
           } catch (err) {
             console.log("ERROR");

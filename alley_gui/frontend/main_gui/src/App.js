@@ -7,7 +7,7 @@ import CashierView from "./pages/CashierView";
 import ManagerView from "./pages/ManagerView";
 import CustomerView from "./pages/CustomerView";
 
-import AnalyzeTrends from "./components/AnalyzeTrends";
+import AnalyzeTrends from "./pages/AnalyzeTrends";
 import Inventory from "./components/Inventory";
 import Ingredients from "./components/Ingredients";
 import MenuItems from "./components/MenuItems";
