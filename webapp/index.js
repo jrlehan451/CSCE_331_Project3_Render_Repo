@@ -670,6 +670,78 @@ app.post("/updateMenuItemCategory", (req, res) => {
 console.log("Item deleted");
 });
 
+app.post("/addAddOn", (req, res) => {
+  console.log("Server delete item");
+  console.log(req.body.addOnID);
+  console.log(req.body.addOnName);
+  console.log(req.body.addOnCost);
+
+  pool.query(
+
+    "INSERT INTO ingredients(ingredient_id, name, cost) VALUES ($1, $2, $3);",
+    [req.body.addOnID, req.body.addOnName, req.body.addOnCost],
+    (err, response) => {
+      if (err) {
+        console.log(err);
+      } else {
+        console.log(response);
+      }
+    }
+  );
+  //console.log("Item deleted");
+});
+
+app.post("/deleteAddOn", (req, res) => {
+  console.log("Server delete item");
+
+  pool.query(
+    "DELETE FROM ingredients WHERE ingredient_id = $1;",
+    [req.body.addOnID],
+    (err, response) => {
+      if (err) {
+        console.log(err);
+      } else {
+        console.log(response);
+      }
+    }
+  );
+  //console.log("Item deleted");
+});
+
+app.post("/updateAddOnName", (req, res) => {
+  console.log("Server delete item");
+
+  pool.query(
+    "UPDATE ingredients SET name = $1 WHERE ingredient_id = $2;",
+    [req.body.addOnName, req.body.addOnID],
+    (err, response) => {
+      if (err) {
+        console.log(err);
+      } else {
+        console.log(response);
+      }
+    }
+  );
+  //console.log("Item deleted");
+});
+
+app.post("/updateAddOnCost", (req, res) => {
+  console.log("Server delete item");
+
+  pool.query(
+    "UPDATE ingredients SET cost = $1 WHERE ingredient_id = $2;",
+    [req.body.addOnCost, req.body.addOnID],
+    (err, response) => {
+      if (err) {
+        console.log(err);
+      } else {
+        console.log(response);
+      }
+    }
+  );
+  //console.log("Item deleted");
+});
+
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`);
 });

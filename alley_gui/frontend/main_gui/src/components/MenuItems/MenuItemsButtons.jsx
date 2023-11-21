@@ -42,18 +42,6 @@ const MenuItemsButtons = () => {
     quantityPerUnit: false,
   });
 
-// const handleNumberInputChange = (e, key) => {
-//     // Allow only valid integers in the input
-//     const newValue = parseInt(e.target.value, 10);
-
-//     if (!isNaN(newValue)) {
-//       setValues({ ...values, [key]: newValue });
-//       setInputErrors({ ...inputErrors, [key]: false });
-//     } else {
-//       setInputErrors({ ...inputErrors, [key]: true });
-//     }
-//   };
-
   const handleNumberInputChange = (e, key) => {
     const newValue = e.target.value;
   
@@ -121,6 +109,57 @@ const handleDeleteDrink = (e) => {
 };
 
 
+ // Function to handle button clicks for adding drinks
+ const handleAddAddOn = (e) => {
+  // Implement logic to add a drink based on inputValues.drinkID, inputValues.drinkName, etc.
+  // You can use the inputValues state to send data to your backend or perform other actions
+  console.log("Add Drink clicked", values);
+  if (values.addOnID != "" && values.addOnName != "" && values.addOnCost != "") {
+    e.preventDefault();
+    axios
+      .post("http://localhost:4000/addAddOn", values)
+      .then((res) => console.log(res))
+      .catch((err) => console.log(err));
+  }
+};
+
+// Function to handle button clicks for updating drinks
+const handleUpdateAddOn = (e) => {
+  // Implement logic to update a drink based on inputValues.drinkID, inputValues.drinkName, etc.
+  if (values.addOnID != "" && values.addOnName != "") {
+    e.preventDefault();
+    axios
+      .post("http://localhost:4000/updateAddOnName", values)
+      .then((res) => console.log(res))
+      .catch((err) => console.log(err));
+  }
+  if (values.addOnID != "" && values.addOnCost != "") {
+    e.preventDefault();
+    axios
+      .post("http://localhost:4000/updateAddOnCost", values)
+      .then((res) => console.log(res))
+      .catch((err) => console.log(err));
+  }
+  
+  
+  console.log("Update Drink clicked", values);
+};
+
+// Function to handle button clicks for deleting drinks
+const handleDeleteAddOn = (e) => {
+  // Implement logic to delete a drink based on inputValues.drinkID, inputValues.drinkName, etc.
+  if (values.addOnID != "") {
+    e.preventDefault();
+    axios
+      .post("http://localhost:4000/deleteAddOn", values)
+      .then((res) => console.log(res))
+      .catch((err) => console.log(err));
+  }
+  
+  //onReload();
+};
+
+
 
   return (
     <div> 
@@ -170,7 +209,7 @@ const handleDeleteDrink = (e) => {
               onChange={(e) => handleNumberInputChange(e, "drinkCost")}
                 
               type="text"
-              error={inputErrors.drinkID}
+              error={inputErrors.drinkCost}
               helperText={
                inputErrors.itemId ? "Please enter a valid integer" : ""
                }
@@ -211,19 +250,48 @@ const handleDeleteDrink = (e) => {
           <div>
             <InputLabel htmlFor="addOnIdButton">Add On ID</InputLabel>
             <FormControl>
-              <TextField id="addOnIdButton" variant="filled" size= "small"/>
+              <TextField 
+              id="addOnIdButton" 
+              variant="filled" 
+              size= "small"
+              onChange={(e) => handleNumberInputChange(e, "addOnID")}
+              type="text"
+              error={inputErrors.addOnID}
+              helperText={
+               inputErrors.itemId ? "Please enter a valid integer" : ""
+               }
+               value={values.addOnID}
+              />
             </FormControl>
           </div>
           <div>
             <InputLabel htmlFor="addOnNameButton">Name</InputLabel>
             <FormControl>
-              <TextField id="addOnNameButton" variant="filled" size= "small"/>
+              <TextField 
+              id="addOnNameButton" 
+              variant="filled" 
+              size= "small"
+              onChange={(e) =>
+                setValues({ ...values, addOnName: e.target.value })
+              }
+              />
             </FormControl>
           </div>
           <div>
             <InputLabel htmlFor="addOnCostButton">Cost</InputLabel>
             <FormControl>
-              <TextField id="addOnCostButton" variant="filled" size= "small"/>
+              <TextField 
+              id="addOnCostButton" 
+              variant="filled" 
+              size= "small"
+              onChange={(e) => handleNumberInputChange(e, "addOnCost")}
+              type="text"
+              error={inputErrors.addOnCost}
+              helperText={
+               inputErrors.itemId ? "Please enter a valid integer" : ""
+               }
+               value={values.addOnCost}
+              />
             </FormControl>
           </div>
           {/* Add two more text boxes as needed */}
@@ -231,9 +299,9 @@ const handleDeleteDrink = (e) => {
 
         {/* Three buttons */}
         <div style={{ display: "flex", gap: "5px" }}>
-          <CustomButton>Add Add On </CustomButton>
-          <CustomButton>Update Add On</CustomButton>
-          <CustomButton>Delete Add On</CustomButton>
+          <CustomButton onClick={handleAddAddOn}>Add Add On </CustomButton>
+          <CustomButton onClick={handleUpdateAddOn}>Update Add On</CustomButton>
+          <CustomButton onClick={handleDeleteAddOn}>Delete Add On</CustomButton>
         </div>
         {/* Add any additional elements/buttons as needed */}
       </div>
