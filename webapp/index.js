@@ -383,6 +383,28 @@ app.get("/ingredient_items", async (req, res) => {
   }
 });
 
+// Getting ingredient database and sending it to /inventory
+app.get("/supply_reorders", async (req, res) => {
+  try {
+    console.log("Getting all the supply reorder");
+
+    const results = await pool.query("SELECT * FROM supply_reorders;");
+    res.status(200).json({
+      status: "success",
+      results: results.rows.length,
+      data: {
+        table: results,
+      },
+    });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({
+      status: "error",
+      message: "An error occurred while fetching data.",
+    });
+  }
+});
+
 app.post("/addItemIngredient", (req, res) => {
   console.log("app.addItemIngredient");
   console.log(req.body.ingredientId);
