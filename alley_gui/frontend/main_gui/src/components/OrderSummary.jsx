@@ -36,6 +36,23 @@ const OrderSummary = () => {
         sessionStorage.setItem("add_ons", JSON.stringify(orderAdd_ons))
     }, [orderAdd_ons])
 
+    function deleteDrinkFromLocal() {  
+        let selected = document.getElementsByClassName("selected")[0];
+        selected.classList.remove("selected");
+        let number = selected.children[0].innerHTML;
+
+        let storedDrinks = JSON.parse(sessionStorage.getItem('drinks'));
+        storedDrinks.splice((number - 1), 1);
+        setOrderDrinks(storedDrinks);
+    
+        let storedAddOns = JSON.parse(sessionStorage.getItem('add_ons'));
+        storedAddOns.splice((number - 1), 1);
+        setOrderAddOns(storedAddOns);
+
+        let deleteButton = document.getElementById("delete");
+        deleteButton.classList.add("grayed-button");
+    }
+
     const postOrderToDB = async(e) => {
         e.preventDefault();
 
@@ -84,7 +101,10 @@ const OrderSummary = () => {
                     <table>
                         <CashierOrder drinks={orderDrinks} add_ons={orderAdd_ons}></CashierOrder>
                     </table>
-                    <ButtonLink to={"../MakeNewOrder"} className={"bottom-button"} onClick={postOrderToDB}>Confirm</ButtonLink>
+                    <div class="columnWrapper">
+                        <button id="delete" onClick={deleteDrinkFromLocal} class="bottom-button grayed-button">Delete Selected</button>
+                        <ButtonLink to={"../MakeNewOrder"} className={"bottom-button"} onClick={postOrderToDB}>Confirm</ButtonLink>
+                    </div>
                 </div>
             </div>
         </div>

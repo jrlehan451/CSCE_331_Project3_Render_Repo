@@ -60,8 +60,14 @@ body {
     border: none;
     background-color: #9e693f;
     height: 2.5vw;
-    width: 20vw;
+    width: 13vw;
     cursor: pointer;
+}
+
+.bottom-button.grayed-button {
+    background-color: #808080;
+    cursor: none;
+    pointer-events: none;
 }
 
 table {
