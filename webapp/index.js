@@ -565,6 +565,75 @@ app.get("/addOns", async (req, res) => {
   }
 });
 
+app.get("/addBaseIngredients", async (req, res) => {
+  console.log("Entered here");
+  try {
+    console.log("Mio ");
+    const results = await pool.query("SELECT * FROM ingredients ORDER BY name;");
+    res.status(200).json({
+      status: "success",
+      results: results.rows.length,
+      data: {
+        table: results,
+      },
+    });
+    //console.log(results);
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({
+      status: "error",
+      message: "An error occurred while fetching data.",
+    });
+  }
+});
+
+app.post("/updateBaseIngredients", async (req, res) => {
+  console.log("Entered the update machine");
+  
+  try {
+    const { selectedIngredients, drinkID } = req.body; // Use "drinkID" instead of "newDrinkId"
+    console.log("The drink ID is: " + drinkID);
+    // Iterate through selected ingredients and log them
+    
+    if (!drinkID) {
+      return res.status(400).json({
+        status: "error",
+        message: "Drink ID is required.",
+      });
+    }
+    console.log("Made it here");
+
+    // Iterate through selected ingredients and log them
+    for (const ingredient of selectedIngredients) {
+      console.log("Selected Ingredient ID: " + ingredient.ingredient_id);
+      pool.query(
+      "INSERT INTO base_drink_ingredients (ingredient_id, drink_id) VALUES ($1, $2)",
+      [ingredient.ingredient_id, drinkID]
+    );
+    }
+
+    // Your logic to update the base drink ingredients can be added here
+    // For example:
+    // await pool.query(
+    //   "INSERT INTO base_drink_ingredients (ingredient_id, drink_id) VALUES ($1, $2)",
+    //   [selectedIngredient.ingredient_id, drinkID]
+    // );
+
+    res.status(200).json({
+      status: "success",
+      message: "Base drink ingredients updated successfully.",
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({
+      status: "error",
+      message: "An error occurred while updating base drink ingredients.",
+    });
+  }
+});
+
+
+
 app.post("/deleteDrink", (req, res) => {
   console.log("Server delete item");
   console.log(req.body.drinkID);
@@ -720,6 +789,33 @@ app.post("/addAddOn", (req, res) => {
 
     "INSERT INTO ingredients(ingredient_id, name, cost) VALUES ($1, $2, $3);",
     [req.body.addOnID, req.body.addOnName, req.body.addOnCost],
+    (err, response) => {
+      if (err) {
+        console.log(err);
+        // Send an error response to the client
+        res.status(500).json({
+          status: "error",
+          message: "An error occurred while adding the add-on.",
+        });
+      } else {
+        console.log(response);
+      }
+    }
+  );
+  //console.log("Item deleted");
+});
+
+app.post("/addDrink", (req, res) => {
+  console.log("Server delete item");
+  console.log(req.body.drinkID);
+  console.log(req.body.drinkName);
+  console.log(req.body.drinkCost);
+  console.log(req.body.drinkCategory);
+
+  pool.query(
+
+    "INSERT INTO drinks VALUES ( $1, $2 , $3, $4);",
+    [req.body.drinkID, req.body.drinkName, req.body.drinkCost, req.body.drinkCategory],
     (err, response) => {
       if (err) {
         console.log(err);

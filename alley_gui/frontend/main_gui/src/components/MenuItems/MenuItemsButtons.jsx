@@ -5,6 +5,7 @@ import Button from "@mui/material/Button";
 import "./MenuItems.css";
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import MenuItemPopup from "./MenuItemsPopup";
 
 
 // Define a styled button
@@ -24,6 +25,8 @@ const CustomButton = styled(Button)(({ theme }) => ({
 }));
 
 const MenuItemsButtons = () => {
+  const [openPopup, setOpenPopup] = useState(false);
+  const [selectedIngredients, setSelectedIngredients] = useState([]);
   // State to manage input values
   const [values, setValues] = useState({
     drinkID: "",
@@ -62,12 +65,89 @@ const MenuItemsButtons = () => {
     }
   };
 
+
+
+
+
+
+
+
+
  // Function to handle button clicks for adding drinks
- const handleAddDrink = () => {
+ const handleAddDrink = (e) => {
+  let errorfound = false;
+  // Implement logic to add a drink based on inputValues.drinkID, inputValues.drinkName, etc.
+  // You can use the inputValues state to send data to your backend or perform other actions
   // Implement logic to add a drink based on inputValues.drinkID, inputValues.drinkName, etc.
   // You can use the inputValues state to send data to your backend or perform other actions
   console.log("Add Drink clicked", values);
+  if (values.drinkID != "" && values.drinkName != "" && values.drinkCost != "" && values.drinkCost != "") {
+    e.preventDefault();
+
+    axios
+    .post("http://localhost:4000/addDrink", values)
+    .then((res) => {
+      if (res.data.status === "success") {
+        // Handle success (e.g., show a success message)
+        console.log(res.data.message);
+      } else {
+        // Handle error (e.g., show an error message to the user)
+        console.error(res.data.message);
+      }
+    })
+    .catch((err) => {
+      errorfound = true;
+      console.error("Error:", err);
+      alert("Error: Entered existing Drink ID");
+    });
+
+    // axios
+    //   .post("http://localhost:4000/addAddOn", values)
+    //   .then((res) => console.log(res))
+    //   .catch((err) => console.log(err));
+  }
+  else{
+    errorfound = true;
+    alert("Please fill in all required fields: Drink ID, Drink Name, Drink Cost, and Drink Category");
+  }
+  
+  if(!errorfound){
+    setOpenPopup(true);
+  }
+  console.log("Add Drink clicked", values);
+  //setOpenPopup(true);
 };
+
+
+// Function to handle selected ingredients from the popup
+const handleSelectIngredients = (selectedIngredients) => {
+  
+  // Handle selected ingredients (e.g., update state)
+  setSelectedIngredients(selectedIngredients);
+  setOpenPopup(false); // Close the popup after processing
+  //onClose();
+};
+
+// Function to handle confirming the addition of a drink with selected ingredients
+const handleConfirmAddDrink = () => {
+  // Implement logic to add a drink with selected ingredients
+  console.log("Selected Ingredients:", selectedIngredients);
+
+  // Reset selectedIngredients state
+  setSelectedIngredients([]);
+};
+
+
+
+
+
+
+
+
+
+
+
+
 
 // Function to handle button clicks for updating drinks
 const handleUpdateDrink = (e) => {
@@ -307,6 +387,7 @@ const handleDeleteAddOn = (e) => {
 };
 
   return (
+    
     <div> 
         <div className="menuItemsButtonsContainer">
         {/* Three text boxes */}
@@ -445,6 +526,12 @@ const handleDeleteAddOn = (e) => {
         </div>
 
         {/* Three buttons */}
+        <MenuItemPopup
+          open={openPopup}
+          onClose={() => setOpenPopup(false)}
+          onSelectIngredients={handleSelectIngredients}  
+          values={{ drinkID: values.drinkID }}
+        />
         <div style={{ display: "flex", gap: "5px" }}>
           <CustomButton onClick={handleAddAddOn}>Add Add On </CustomButton>
           <CustomButton onClick={handleUpdateAddOn}>Update Add On</CustomButton>
