@@ -1,5 +1,5 @@
 import CashierOrder from "./CashierOrder";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { Link, useNavigate } from 'react-router-dom';
 import axios from "axios";
 import '../drink_options.css'
@@ -11,6 +11,7 @@ function ButtonLink({ id, to, className, children }) {
 const OrderSummary = () => {
     const [orderDrinks, setOrderDrinks] = useState([]);
     const [orderAdd_ons, setOrderAddOns] = useState([]);
+    const [totalCost, setTotalCost] = useState(0.0);
 
     let navigate = useNavigate();
 
@@ -51,6 +52,8 @@ const OrderSummary = () => {
 
         let deleteButton = document.getElementById("delete");
         deleteButton.classList.add("grayed-button");
+
+        setTotalCost(calcTotalCost);
     }
 
     function selectPayment() {  
@@ -58,11 +61,9 @@ const OrderSummary = () => {
         confirmButton.classList.remove("grayed-button");
     }
 
-    const postOrderToDB = async(e) => {
-        e.preventDefault();
-
-        var drinks = JSON.parse(sessionStorage.getItem('drinks'));
-        var add_ons = JSON.parse(sessionStorage.getItem('add_ons'));
+    const calcTotalCost = useCallback(() => {
+        var drinks = orderDrinks;
+        var add_ons = orderAdd_ons;
 
         var totalCost = 0;
         for (var i = 0; i < drinks.length; ++i) {
@@ -71,6 +72,16 @@ const OrderSummary = () => {
                 totalCost += parseFloat(add_ons[i][j].cost);
             }
         }
+
+        return totalCost.toFixed(2);
+    }, [orderDrinks, orderAdd_ons]);
+
+    useEffect(() => {
+        setTotalCost(calcTotalCost);
+    }, [calcTotalCost])
+
+    const postOrderToDB = async(e) => {
+        e.preventDefault();
 
         try {     
             await axios.post("http://localhost:4000/post_order", {
@@ -109,6 +120,7 @@ const OrderSummary = () => {
                     <div class="columnWrapper">
                         <button id="delete" onClick={deleteDrinkFromLocal} class="bottom-button grayed-button">Delete Selected</button>
                         <ButtonLink id={"confirm"} to={"../MakeNewOrder"} className={"bottom-button grayed-button"} onClick={postOrderToDB}>Confirm</ButtonLink>
+                        <p class="total-cost">Total Cost: ${totalCost}</p>
                     </div>
                 </div>
             </div>

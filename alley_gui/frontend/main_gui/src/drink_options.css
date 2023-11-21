@@ -156,3 +156,10 @@ tr {
     border-radius: 8px;
     cursor: pointer;
 }
+
+.total-cost {
+    width: 13vw;
+    font-weight: 700;
+    text-align: right;
+    font-size: 1.2em;
+}
