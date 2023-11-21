@@ -9,10 +9,21 @@ import {
   TextField,
   InputLabel,
   FormControl,
+  Dialog,
+  Checkbox,
+  Button,
 } from "@mui/material";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import DialogContent from "@mui/material/DialogContent";
 
 const SupplyReorders = () => {
   const [data, setData] = useState([]);
+  const [openModal, setOpenModal] = useState(false);
+  const [selectedItems, setSelectedItems] = useState([]);
+  const [openPopup, setOpenPopup] = useState(false);
+  const [popupData, setPopupData] = useState([]);
+  const [checkedItems, setCheckedItems] = useState({});
+  const [inventoryItems, setInventoryItems] = useState([]);
 
   const columns = [
     { field: "reorder_id", headerName: "Reorder ID", width: 70, flex: 1 },
@@ -61,6 +72,55 @@ const SupplyReorders = () => {
     supplyReorders();
   }, []);
 
+  // Getting ingredient SQL query and updating the inventory backend as well
+  const addHandleSubmit = async (e) => {
+    e.preventDefault();
+
+    // Check if all required values are provided
+    if (values.reorderId && values.date) {
+      try {
+        // Check if itemId already exists in the inventory
+        const response = await axios.get(
+          "http://localhost:4000/inventory_items"
+        );
+        const jsonVals = response.data;
+
+        setPopupData(jsonVals);
+        setOpenPopup(true);
+      } catch (error) {
+        // Handle errors in a more descriptive way
+        console.error("Error during item ID check:", error);
+        return;
+      }
+
+      setOpenModal(true);
+    } else {
+      // Handle case where some required fields are not provided
+      alert("Please fill in all required fields.");
+    }
+  };
+
+  const handleCloseModal = () => {
+    setOpenModal(false);
+  };
+
+  const handleCheckboxChange = (itemId) => {
+    const isSelected = selectedItems.includes(itemId);
+    if (isSelected) {
+      setSelectedItems(selectedItems.filter((id) => id !== itemId));
+    } else {
+      setSelectedItems([...selectedItems, itemId]);
+    }
+  };
+
+  const handleInputChange = (event) => {
+    const { name, value } = event.target;
+    setValues((prevValues) => ({
+      ...prevValues,
+      [name]: value,
+    }));
+  };
+
   return (
     <ThemeProvider theme={theme}>
       <div
@@ -88,23 +148,90 @@ const SupplyReorders = () => {
             <div>
               <InputLabel htmlFor="filled-basic">Supply Reorder ID:</InputLabel>
               <FormControl>
-                <TextField id="filled-basic" variant="filled" type="number" />
+                <TextField
+                  id="filled-basic"
+                  variant="filled"
+                  type="number"
+                  name="reorderId"
+                  value={values.reorderId}
+                  onChange={handleInputChange}
+                />
               </FormControl>
             </div>
             <div>
               <InputLabel htmlFor="filled-basic">Date:</InputLabel>
               <FormControl>
-                <TextField id="filled-basic" variant="filled" type="number" />
+                <TextField
+                  id="filled-basic"
+                  variant="filled"
+                  type="date"
+                  name="date"
+                  values={values.date}
+                  onChange={handleInputChange}
+                />
               </FormControl>
             </div>
           </div>
           <div
             style={{ display: "flex", flexDirection: "column", gap: "10px" }}
           >
-            <CustomButton>Add Item</CustomButton>
-            <CustomButton>Delete Item</CustomButton>
-            <CustomButton>Update Item</CustomButton>
+            <CustomButton onClick={addHandleSubmit}>
+              Add Supply Reorder
+            </CustomButton>
+            <CustomButton>Delete Supply Reorder</CustomButton>
+            <CustomButton>View Supply Reorder</CustomButton>
           </div>
+
+          {/*Add Supply Reorder Modal */}
+          <Dialog open={openModal} onClose={handleCloseModal}>
+            <DialogContent>
+              {popupData.data &&
+              popupData.data.table &&
+              popupData.data.table.rows ? (
+                <div style={{ overflowX: "auto" }}>
+                  <table style={{ width: "100%" }}>
+                    <thead>
+                      <tr>
+                        <th>Checkbox</th>
+                        <th>Item ID</th>
+                        <th>Ingredient ID</th>
+                        <th>Name</th>
+                        <th>Count</th>
+                        <th>fill_level</th>
+                        <th>quantity_per_unit</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {popupData.data.table.rows.map((item, index) => (
+                        <tr key={index}>
+                          <td>
+                            <input
+                              type="checkbox"
+                              checked={checkedItems[item.item_id]}
+                              onChange={() =>
+                                handleCheckboxChange(item.item_id)
+                              }
+                            />
+                          </td>
+                          <td>{item.item_id}</td>
+                          <td>{item.ingredient_id}</td>
+                          <td>{item.name}</td>
+                          <td>{item.count}</td>
+                          <td>{item.fill_level}</td>
+                          <td>{item.quantityPerUnit}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              ) : (
+                <p>NO data available</p>
+              )}
+              <CustomButton onClick={() => setOpenPopup(false)}>
+                Done
+              </CustomButton>
+            </DialogContent>
+          </Dialog>
         </div>
       </div>
     </ThemeProvider>
