@@ -15,6 +15,7 @@ import {
 import Dialog from "@mui/material/Dialog";
 import DialogTitle from "@mui/material/DialogTitle";
 import DialogContent from "@mui/material/DialogContent";
+import Alert from "@mui/material/Alert";
 import DialogActions from "@mui/material/DialogActions";
 import Button from "@mui/material/Button";
 
@@ -82,7 +83,7 @@ const Inventory = () => {
 
   // Getting inventory from the backend
   useEffect(() => {
-    const inventoryItems = async () => {
+    const inventoryItems = async () => { 
       try {
         const response = await axios.get(
           "http://localhost:4000/inventory_items"
@@ -172,12 +173,28 @@ const Inventory = () => {
     fetchData();
   }, [openPopup]);
 
-  const deleteHandleSubmit = (e) => {
+  const deleteHandleSubmit = async (e) => {
     e.preventDefault();
-    axios
-      .post("http://localhost:4000/deleteItemInventory", values)
-      .then((res) => console.log(res))
-      .catch((err) => console.log(err));
+
+    try {
+      const inventoryResponse = await axios.get(
+        "http://localhost:4000/inventory_items"
+      );
+      const inventoryData = inventoryResponse.data.data.table.rows;
+
+      const itemToDelete = inventoryData.find(
+        (item) => item.item_id == values.itemId && item.name == values.name
+      );
+
+      if (itemToDelete) {
+        await axios.post("http://localhost:4000/deleteItemInventory", values);
+        console.log("Item deleted succesfully");
+      } else {
+        alert("Item with the specified itemId and name not found.");
+      }
+    } catch (error) {
+      console.error("Error during item deletion:", error);
+    }
   };
 
   const [inputErrors, setInputErrors] = useState({

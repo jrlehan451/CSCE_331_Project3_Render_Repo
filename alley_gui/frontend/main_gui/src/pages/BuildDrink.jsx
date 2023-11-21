@@ -23,6 +23,29 @@ const BuildDrink = () => {
         window.location.href = currLocation.replace("build_drink", "customer");
     };
 
+    const getCurrentTotal = () => {
+        let currDrinksInOrder = []
+        if (sessionStorage.getItem("currentOrderDrinks")) {
+            currDrinksInOrder = JSON.parse(sessionStorage.getItem("currentOrderDrinks"));
+        }
+    
+        var totalCost = 0;
+        for (var i = 0; i < currDrinksInOrder.length; i++) {
+            var currentDrink = 0;
+            currentDrink += parseFloat(currDrinksInOrder[i].drinkCost);
+            if (currDrinksInOrder[i].addOn1Id != -1) {
+            currentDrink += parseFloat(currDrinksInOrder[i].addOn1Cost);
+            }
+            if (currDrinksInOrder[i].addOn2Id != -1) {
+            currentDrink += parseFloat(currDrinksInOrder[i].addOn2Cost);
+            }
+            currentDrink *= parseInt(currDrinksInOrder[i].quantity);
+            totalCost += currentDrink;
+        }
+    
+        return "Total: " + totalCost.toFixed(2);
+      }
+
     const getSelectedDrink = () => {
         const selectedDrink = sessionStorage.getItem("customer_drink_name");
         const drinkName = document.getElementById("drinkSelected");
@@ -37,16 +60,18 @@ const BuildDrink = () => {
         drinkSize.textContent = "Size: " + size;
     };
 
-    const getAddOn1 = (addOn1Name, addOn1IngredientId) => {
+    const getAddOn1 = (addOn1Name, addOn1IngredientId, addOn1Cost) => {
         sessionStorage.setItem("customer_addOn1_name", addOn1Name);
         sessionStorage.setItem("customer_addOn1_id", addOn1IngredientId);
+        sessionStorage.setItem("customer_addOn1_cost", addOn1Cost)
         const addOn1 = document.getElementById("drinkSelectedAddOn1");
         addOn1.textContent = "Add-On #1: " + addOn1Name;
     };
 
-    const getAddOn2 = (addOn2Name, addOn2IngredientId) => {
+    const getAddOn2 = (addOn2Name, addOn2IngredientId, addOn2Cost) => {
         sessionStorage.setItem("customer_addOn2_name", addOn2Name);
         sessionStorage.setItem("customer_addOn2_id", addOn2IngredientId);
+        sessionStorage.setItem("customer_addOn2_cost", addOn2Cost)
         const addOn2 = document.getElementById("drinkSelectedAddOn2");
         addOn2.textContent = "Add-On #2: " + addOn2Name;
     };
@@ -165,21 +190,27 @@ const BuildDrink = () => {
     const addDrinkToOrder = () => {
         const drinkName = sessionStorage.getItem("customer_drink_name");
         const drinkId = sessionStorage.getItem("customer_drink_id");
+        const drinkCost = sessionStorage.getItem("customer_drink_cost")
         const size = sessionStorage.getItem("customer_drink_size");
         const addOn1Name = sessionStorage.getItem("customer_addOn1_name");
         const addOn1Id = sessionStorage.getItem("customer_addOn1_id");
+        const addOn1Cost = sessionStorage.getItem("customer_addOn1_cost")
         const addOn2Name = sessionStorage.getItem("customer_addOn2_name");
         const addOn2Id = sessionStorage.getItem("customer_addOn2_id");
+        const addOn2Cost = sessionStorage.getItem("customer_addOn2_cost");
         const quantity = sessionStorage.getItem("customer_drink_quantity");
         
         let currDrink = {
           drinkName: drinkName, 
           drinkId: drinkId, 
+          drinkCost: drinkCost,
           size: size, 
           addOn1Name: addOn1Name,
           addOn1Id: addOn1Id, 
+          addOn1Cost: addOn1Cost,
           addOn2Name: addOn2Name, 
           addOn2Id: addOn2Id, 
+          addOn2Cost: addOn2Cost,
           quantity: quantity
         };
 
@@ -191,6 +222,23 @@ const BuildDrink = () => {
         currDrinksInOrder.push(currDrink);
   
         sessionStorage.setItem("currentOrderDrinks", JSON.stringify(currDrinksInOrder));
+
+        var totalCost = 0;
+        for (var i = 0; i < currDrinksInOrder.length; i++) {
+            var currentDrink = 0;
+            currentDrink += parseFloat(currDrinksInOrder[i].drinkCost);
+            if (currDrinksInOrder[i].addOn1Id != -1) {
+            currentDrink += parseFloat(currDrinksInOrder[i].addOn1Cost);
+            }
+            if (currDrinksInOrder[i].addOn2Id != -1) {
+            currentDrink += parseFloat(currDrinksInOrder[i].addOn2Cost);
+            }
+            currentDrink *= parseInt(currDrinksInOrder[i].quantity);
+            totalCost += currentDrink;
+        }
+
+        const currCost = document.getElementById("currentTotalCost");
+        currCost.textContent = "Total: " + totalCost.toFixed(2);
     }
 
     const viewCart = () => {
@@ -240,7 +288,7 @@ const BuildDrink = () => {
                 <button
                 key={addon.ingredient_id}
                 id={addon.name}
-                onClick={() => getAddOn1(addon.name, addon.ingredient_id)}
+                onClick={() => getAddOn1(addon.name, addon.ingredient_id, addon.cost)}
                 >
                 {capitalizeName(addon.name, ' ')}
                 </button>
@@ -254,7 +302,7 @@ const BuildDrink = () => {
                 <button
                 key={addon.ingredient_id}
                 id={addon.name}
-                onClick={() => getAddOn2(addon.name, addon.ingredient_id)}
+                onClick={() => getAddOn2(addon.name, addon.ingredient_id, addon.cost)}
                 >
                 {capitalizeName(addon.name, ' ')}
                 </button>
@@ -291,7 +339,7 @@ const BuildDrink = () => {
         <div className="build-drink-next">
             <button onClick={addDrinkToOrder}>Add Drink</button>
             <button onClick={viewCart}>View Cart</button>
-            <p className="total">Total: </p>
+            <p id="currentTotalCost" className="total">{getCurrentTotal()}</p>
         </div>
     </div>
   );

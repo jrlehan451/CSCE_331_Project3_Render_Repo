@@ -23,14 +23,38 @@ const DrinkSeries = () => {
         }
     };
 
-    const buildDrink = (drinkName, drinkId) => {
+    const buildDrink = (drinkName, drinkId, drinkCost) => {
         var currLocation = window.location.href;
         const array = currLocation.split("/");
         window.location.href = currLocation.replace("drink_series/" + array[4], "build_drink");
             
         sessionStorage.setItem("customer_drink_name", drinkName);
         sessionStorage.setItem("customer_drink_id", drinkId);
+        sessionStorage.setItem("customer_drink_cost", drinkCost)
     };
+
+    const getCurrentTotal = () => {
+        let currDrinksInOrder = []
+        if (sessionStorage.getItem("currentOrderDrinks")) {
+            currDrinksInOrder = JSON.parse(sessionStorage.getItem("currentOrderDrinks"));
+        }
+
+        var totalCost = 0;
+        for (var i = 0; i < currDrinksInOrder.length; i++) {
+            var currentDrink = 0;
+            currentDrink += parseFloat(currDrinksInOrder[i].drinkCost);
+            if (currDrinksInOrder[i].addOn1Id != -1) {
+            currentDrink += parseFloat(currDrinksInOrder[i].addOn1Cost);
+            }
+            if (currDrinksInOrder[i].addOn2Id != -1) {
+            currentDrink += parseFloat(currDrinksInOrder[i].addOn2Cost);
+            }
+            currentDrink *= parseInt(currDrinksInOrder[i].quantity);
+            totalCost += currentDrink;
+        }
+
+        return "Total: " + totalCost.toFixed(2);
+    }
 
     const viewCartFromDrinkSeries = () => {
         var currLocation = window.location.href;
@@ -78,14 +102,14 @@ const DrinkSeries = () => {
                         <h1 id="drinkSeriesName" className="series-name">{capitalizeName(drinkItem.category, "_")}</h1>
                     ))}
                     {drinkSeriesItems.map((drink, index) => (
-                        <button key={index} id={drink.name} onClick={() => buildDrink(drink.name, drink.drink_id)}>
+                        <button key={index} id={drink.name} onClick={() => buildDrink(drink.name, drink.drink_id, drink.cost)}>
                         {capitalizeName(drink.name, " ")}
                         </button>
                     ))}
                 </div>
             </div>
             <div className="order-info-container">
-                <p className="total">Total: $$</p>
+                <p id="currentTotalCost" className="total">{getCurrentTotal()}</p>
                 <button onClick={viewCartFromDrinkSeries}>View Cart</button>
             </div>
         </div>
