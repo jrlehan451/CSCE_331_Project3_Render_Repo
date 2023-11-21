@@ -3,9 +3,27 @@ import axios from "axios";
 import './customer_home.css';
 
 const CustomerHome = () => {
-    const [total, setTotal] = useState(0);
-    const [selectedCategory, setSelectedCategory] = useState(null);
     const [drinkCategories, setData] = useState([]);
+
+    const getCurrentTotal = () => {
+        let currDrinksInOrder = []
+        if (sessionStorage.getItem("currentOrderDrinks")) {
+            currDrinksInOrder = JSON.parse(sessionStorage.getItem("currentOrderDrinks"));
+        }
+
+        var totalCost = 0;
+        for (var i = 0; i < currDrinksInOrder.length; i++) {
+            totalCost += parseFloat(currDrinksInOrder[i].drinkCost);
+            if (currDrinksInOrder[i].addOn1Id != -1) {
+                totalCost += parseFloat(currDrinksInOrder[i].addOn1Cost);
+            }
+            if (currDrinksInOrder[i].addOn2Id != -1) {
+                totalCost += parseFloat(currDrinksInOrder[i].addOn2Cost);
+            }
+        }
+
+        return "Total: " + totalCost.toFixed(2);
+    }
 
     const capitalizeName = (name, delimiter) => {
         const words = name.split(delimiter);
@@ -52,7 +70,7 @@ const CustomerHome = () => {
     }, []);
 
     return (
-        <div className="customer-home-background">
+        <div className="customer-home-background" onLoad={() => getCurrentTotal()}>
         <div className="customer-page">
             <div className="drink-categories-container">
             <h3 className="categories-title">DRINK SERIES</h3>
@@ -69,7 +87,7 @@ const CustomerHome = () => {
             ))}
         </div>
         <div className="order-info-container">
-            <p className="total">Total: ${total}</p>
+            <p id="currentTotalCost" className="total">{getCurrentTotal()}</p>
             <button onClick={viewCartFromCustomerHome}>View Cart</button>
         </div>
         </div>

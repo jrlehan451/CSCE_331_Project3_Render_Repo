@@ -24,6 +24,26 @@ const ViewCart = () => {
     window.location.href = currLocation.replace("view_cart", "customer_checkout");
   };
 
+  const getCurrentTotal = () => {
+    let currDrinksInOrder = []
+    if (sessionStorage.getItem("currentOrderDrinks")) {
+        currDrinksInOrder = JSON.parse(sessionStorage.getItem("currentOrderDrinks"));
+    }
+
+    var totalCost = 0;
+    for (var i = 0; i < currDrinksInOrder.length; i++) {
+        totalCost += parseFloat(currDrinksInOrder[i].drinkCost);
+        if (currDrinksInOrder[i].addOn1Id != -1) {
+            totalCost += parseFloat(currDrinksInOrder[i].addOn1Cost);
+        }
+        if (currDrinksInOrder[i].addOn2Id != -1) {
+            totalCost += parseFloat(currDrinksInOrder[i].addOn2Cost);
+        }
+    }
+
+    return "Total: " + totalCost.toFixed(2);
+  }
+
   return (
     <div className="view-cart-background">
       <button onClick={navCustomerHome} className="back-build">
@@ -46,7 +66,7 @@ const ViewCart = () => {
       </div>
 
       <div className="checkout-container">
-        <p className="total">Total: $$</p>
+        <p id="currentTotalCost" className="total">{getCurrentTotal()}</p>
         <button onClick={goToCheckout}>Checkout</button>
       </div>
     </div>
