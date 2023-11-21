@@ -9,7 +9,7 @@ import CustomerView from "./pages/CustomerView";
 import AnalyzeTrends from "./components/AnalyzeTrends";
 import Inventory from "./components/Inventory";
 import Ingredients from "./components/Ingredients";
-import MenuItems from "./components/MenuItems";
+import MenuItems from "./components/MenuItems/MenuItems";
 import SupplyReorder from "./components/SupplyReorders";
 import React, { useEffect, useState } from "react";
 import axios from "axios";

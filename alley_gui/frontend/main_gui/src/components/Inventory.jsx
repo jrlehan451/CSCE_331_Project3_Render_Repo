@@ -83,7 +83,7 @@ const Inventory = () => {
 
   // Getting inventory from the backend
   useEffect(() => {
-    const inventoryItems = async () => {
+    const inventoryItems = async () => { 
       try {
         const response = await axios.get(
           "http://localhost:4000/inventory_items"
