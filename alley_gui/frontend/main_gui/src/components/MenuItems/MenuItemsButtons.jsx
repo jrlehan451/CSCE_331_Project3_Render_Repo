@@ -72,26 +72,74 @@ const MenuItemsButtons = () => {
 // Function to handle button clicks for updating drinks
 const handleUpdateDrink = (e) => {
   // Implement logic to update a drink based on inputValues.drinkID, inputValues.drinkName, etc.
+  if(values.drinkID == ""){
+    alert("Error: Enter valid Drink ID")
+  }
+  if(values.drinkCost == "" && values.drinkName == "" && values.drinkCategory == ""){
+    alert("Error: Enter at least 1 value to update (name, cost, category)");
+  }
   if (values.drinkName != "" && values.drinkID != "") {
     e.preventDefault();
     axios
       .post("http://localhost:4000/updateMenuItemName", values)
-      .then((res) => console.log(res))
-      .catch((err) => console.log(err));
+      .then((res) => {
+        const rowCountTwo = res.data.rowCount;
+        if (res.data.status === "success") {
+          // Handle success (e.g., show a success message)
+          console.log(res.data.message);
+        } else {
+          // Handle error (e.g., show an error message to the user)
+          console.error(res.data.message);
+        }
+        if(rowCountTwo == 0){
+          alert("Error: Drink ID not found");
+        }
+      })
+      .catch((err) => {
+        console.error("Error:", err);
+      });
   }
   if (values.drinkCost != "" && values.drinkID != "") {
     e.preventDefault();
     axios
       .post("http://localhost:4000/updateMenuItemCost", values)
-      .then((res) => console.log(res))
-      .catch((err) => console.log(err));
+      .then((res) => {
+        const rowCountTwo = res.data.rowCount;
+        if (res.data.status === "success") {
+          // Handle success (e.g., show a success message)
+          console.log(res.data.message);
+        } else {
+          // Handle error (e.g., show an error message to the user)
+          console.error(res.data.message);
+        }
+        if(rowCountTwo == 0){
+          alert("Error: Drink ID not found");
+        }
+      })
+      .catch((err) => {
+        console.error("Error:", err);
+      });
   }
   if (values.drinkCategory != "" && values.drinkID != "") {
     e.preventDefault();
     axios
       .post("http://localhost:4000/updateMenuItemCategory", values)
-      .then((res) => console.log(res))
-      .catch((err) => console.log(err));
+      .then((res) => {
+        const rowCountTwo = res.data.rowCount;
+        if (res.data.status === "success") {
+          // Handle success (e.g., show a success message)
+          console.log(res.data.message);
+        } else {
+          // Handle error (e.g., show an error message to the user)
+          console.error(res.data.message);
+        }
+        if(rowCountTwo == 0){
+          alert("Error: Drink ID not found");
+        }
+      })
+      .catch((err) => {
+        console.error("Error:", err);
+      });
   }
   
   console.log("Update Drink clicked", values);
@@ -100,18 +148,37 @@ const handleUpdateDrink = (e) => {
 // Function to handle button clicks for deleting drinks
 const handleDeleteDrink = (e) => {
   // Implement logic to delete a drink based on inputValues.drinkID, inputValues.drinkName, etc.
-  e.preventDefault();
-  axios
-  .post("http://localhost:4000/deleteDrink", values)
-  .then((res) => console.log(res))
-  .catch((err) => console.log(err));
+  if(values.drinkID != ""){
+    e.preventDefault();
+    axios
+    .post("http://localhost:4000/deleteDrink", values)
+    .then((res) => {
+      const rowCountTwo = res.data.rowCount;
+      if (res.data.status === "success") {
+        // Handle success (e.g., show a success message)
+        console.log(res.data.message);
+      } else {
+        // Handle error (e.g., show an error message to the user)
+        console.error(res.data.message);
+      }
+      if(rowCountTwo == 0){
+        alert("Error: Drink ID not found");
+      }
+    })
+    .catch((err) => {
+      console.error("Error:", err);
+    });
 
-  axios
-  .post("http://localhost:4000/deleteDrinks", values)
-  .then((res) => console.log(res))
-  .catch((err) => console.log(err));
-  console.log("Delete Drink clicked", values);
-  //onReload();
+    axios
+    .post("http://localhost:4000/deleteDrinks", values)
+    .then((res) => console.log(res))
+    .catch((err) => console.log(err));
+    console.log("Delete Drink clicked", values);
+    //onReload();
+  }
+  else{
+    alert("Error: Enter a drink ID");
+  }
 };
 
 

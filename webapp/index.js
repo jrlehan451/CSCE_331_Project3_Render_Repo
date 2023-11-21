@@ -579,7 +579,15 @@ app.post("/deleteDrink", (req, res) => {
     (err, response) => {
       if (err) {
         console.log(err);
+        res.status(500).json({
+          status: "error",
+          rowCount: response.rowCount,
+          message: "An error occurred while adding the add-on.",
+        });
       } else {
+        res.status(200).json({
+          rowCount: response.rowCount,
+        })
         console.log(response);
       }
     }
@@ -598,7 +606,15 @@ app.post("/deleteDrinks", (req, res) => {
     (err, response) => {
       if (err) {
         console.log(err);
+        res.status(500).json({
+          status: "error",
+          rowCount: response.rowCount,
+          message: "An error occurred while adding the add-on.",
+        });
       } else {
+        res.status(200).json({
+          rowCount: response.rowCount,
+        })
         console.log(response);
       }
     }
@@ -620,7 +636,15 @@ app.post("/updateMenuItemName", (req, res) => {
     (err, response) => {
       if (err) {
         console.log(err);
+        res.status(500).json({
+          status: "error",
+          rowCount: response.rowCount,
+          message: "An error occurred while adding the add-on.",
+        });
       } else {
+        res.status(200).json({
+          rowCount: response.rowCount,
+        })
         console.log(response);
       }
     }
@@ -642,7 +666,15 @@ app.post("/updateMenuItemCost", (req, res) => {
     (err, response) => {
       if (err) {
         console.log(err);
+        res.status(500).json({
+          status: "error",
+          rowCount: response.rowCount,
+          message: "An error occurred while adding the add-on.",
+        });
       } else {
+        res.status(200).json({
+          rowCount: response.rowCount,
+        })
         console.log(response);
       }
     }
@@ -662,7 +694,15 @@ app.post("/updateMenuItemCategory", (req, res) => {
   (err, response) => {
     if (err) {
       console.log(err);
+      res.status(500).json({
+        status: "error",
+        rowCount: response.rowCount,
+        message: "An error occurred while adding the add-on.",
+      });
     } else {
+      res.status(200).json({
+        rowCount: response.rowCount,
+      })
       console.log(response);
     }
   }
