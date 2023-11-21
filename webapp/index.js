@@ -473,30 +473,68 @@ app.post("/deleteItemIngredient", (req, res) => {
   console.log(req.body.name);
   console.log(req.body.cost);
 
-  // "UPDATE ingredients SET inventory_id = $1 cost = $2 WHERE ingredient_id = $3",
-
+  // Fetch inventory_id from inventory_items based on ingredient_id
   pool.query(
-    "UPDATE inventory_items SET ingredient_id = $1 WHERE item_id = $2",
-    [null, req.body.inventoryId],
-    (err, response) => {
+    "SELECT item_id FROM inventory_items WHERE ingredient_id = $1",
+    [req.body.ingredientId],
+    (err, result) => {
       if (err) {
         console.log(err);
       } else {
-        console.log(response);
-      }
-    }
-  );
+        const inventoryId = result.rows[0] ? result.rows[0].item_id : null;
+        console.log("The inventoryId:");
+        console.log(inventoryId);
 
-  console.log("Assigned NULL in inventory_items database");
+        // Check if inventoryId exists
+        if (inventoryId) {
+          // If inventoryId exists, update inventory_items and then delete from ingredients
+          pool.query(
+            "UPDATE inventory_items SET ingredient_id = $1 WHERE item_id = $2",
+            [null, inventoryId],
+            (updateErr, updateResponse) => {
+              if (updateErr) {
+                console.log(updateErr);
+              } else {
+                console.log(updateResponse);
+                console.log("Assigned NULL in inventory_items database");
 
-  pool.query(
-    "DELETE FROM ingredients WHERE ingredient_id = $1 AND name = $2",
-    [req.body.ingredientId, req.body.name],
-    (err, response) => {
-      if (err) {
-        console.log(err);
-      } else {
-        console.log(response);
+                // Check if the update was successful before deleting from ingredients
+                if (updateResponse.rowCount > 0) {
+                  pool.query(
+                    "DELETE FROM ingredients WHERE ingredient_id = $1 AND name = $2",
+                    [req.body.ingredientId, req.body.name],
+                    (deleteErr, deleteResponse) => {
+                      if (deleteErr) {
+                        console.log(deleteErr);
+                        res.status(500).send("Delete unsuccessful");
+                      } else {
+                        console.log(deleteResponse);
+                        res.send("Delete successful");
+                      }
+                    }
+                  );
+                } else {
+                  res.status(500).send("Update unsuccessful");
+                }
+              }
+            }
+          );
+        } else {
+          // If inventoryId doesn't exist, directly delete from ingredients
+          pool.query(
+            "DELETE FROM ingredients WHERE ingredient_id = $1 AND name = $2",
+            [req.body.ingredientId, req.body.name],
+            (deleteErr, deleteResponse) => {
+              if (deleteErr) {
+                console.log(deleteErr);
+                res.status(500).send("Delete unsuccessful");
+              } else {
+                console.log(deleteResponse);
+                res.send("Delete successful");
+              }
+            }
+          );
+        }
       }
     }
   );
