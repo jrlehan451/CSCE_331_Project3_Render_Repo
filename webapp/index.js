@@ -606,6 +606,70 @@ app.post("/deleteDrinks", (req, res) => {
   console.log("Item deleted");
 });
 
+app.post("/updateMenuItemName", (req, res) => {
+  console.log("Update menu item name");
+  console.log(req.body.drinkID);
+  console.log(req.body.drinkName);
+  console.log(req.body.drinkCost);
+  console.log(req.body.drinkCategory);
+
+  pool.query(
+
+    "UPDATE drinks SET name = $1 WHERE drink_id = $2;",
+    [req.body.drinkName,req.body.drinkID],
+    (err, response) => {
+      if (err) {
+        console.log(err);
+      } else {
+        console.log(response);
+      }
+    }
+  );
+  console.log("Item deleted");
+});
+
+app.post("/updateMenuItemCost", (req, res) => {
+  console.log("Update menu item cost");
+  console.log(req.body.drinkID);
+  console.log(req.body.drinkName);
+  console.log(req.body.drinkCost);
+  console.log(req.body.drinkCategory);
+
+  pool.query(
+
+    "UPDATE drinks SET cost = $1 WHERE drink_id = $2;",
+    [req.body.drinkCost,req.body.drinkID],
+    (err, response) => {
+      if (err) {
+        console.log(err);
+      } else {
+        console.log(response);
+      }
+    }
+  );
+  console.log("Item deleted");
+});
+
+app.post("/updateMenuItemCategory", (req, res) => {
+  console.log("Update menu item category");
+  console.log(req.body.drinkID);
+  console.log(req.body.drinkCategory);
+
+ pool.query(
+
+  "UPDATE drinks SET category = $1 WHERE drink_id = $2;",
+  [req.body.drinkCategory,req.body.drinkID],
+  (err, response) => {
+    if (err) {
+      console.log(err);
+    } else {
+      console.log(response);
+    }
+  }
+);
+console.log("Item deleted");
+});
+
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`);
 });

@@ -76,8 +76,30 @@ const MenuItemsButtons = () => {
 };
 
 // Function to handle button clicks for updating drinks
-const handleUpdateDrink = () => {
+const handleUpdateDrink = (e) => {
   // Implement logic to update a drink based on inputValues.drinkID, inputValues.drinkName, etc.
+  if (values.drinkName != "" && values.drinkID != "") {
+    e.preventDefault();
+    axios
+      .post("http://localhost:4000/updateMenuItemName", values)
+      .then((res) => console.log(res))
+      .catch((err) => console.log(err));
+  }
+  if (values.drinkCost != "" && values.drinkID != "") {
+    e.preventDefault();
+    axios
+      .post("http://localhost:4000/updateMenuItemCost", values)
+      .then((res) => console.log(res))
+      .catch((err) => console.log(err));
+  }
+  if (values.drinkCategory != "" && values.drinkID != "") {
+    e.preventDefault();
+    axios
+      .post("http://localhost:4000/updateMenuItemCategory", values)
+      .then((res) => console.log(res))
+      .catch((err) => console.log(err));
+  }
+  
   console.log("Update Drink clicked", values);
 };
 
@@ -127,19 +149,47 @@ const handleDeleteDrink = (e) => {
           <div>
             <InputLabel htmlFor="drinkNameButton">Name</InputLabel>
             <FormControl>
-              <TextField id="drinkNameButton" variant="filled" size= "small" />
+              <TextField 
+              id="drinkNameButton" 
+              variant="filled" 
+              size= "small" 
+              onChange={(e) =>
+                setValues({ ...values, drinkName: e.target.value })
+              }
+              
+              />
             </FormControl>
           </div>
           <div>
             <InputLabel htmlFor="drinkCostButton">Cost</InputLabel>
             <FormControl>
-              <TextField id="drinkCostButton" variant="filled" size= "small" />
+              <TextField 
+              id="drinkCostButton" 
+              variant="filled" 
+              size= "small" 
+              onChange={(e) => handleNumberInputChange(e, "drinkCost")}
+                
+              type="text"
+              error={inputErrors.drinkID}
+              helperText={
+               inputErrors.itemId ? "Please enter a valid integer" : ""
+               }
+               value={values.drinkCost}
+              />
             </FormControl>
           </div>
           <div>
             <InputLabel htmlFor="drinkCategoryButton">Category</InputLabel>
             <FormControl>
-              <TextField id="drinkCategoryButton" variant="filled" size= "small" />
+              <TextField 
+              id="drinkCategoryButton" 
+              variant="filled" 
+              size= "small" 
+              onChange={(e) =>
+                setValues({ ...values, drinkCategory: e.target.value })
+              }
+              
+              />
             </FormControl>
           </div>
           {/* Add two more text boxes as needed */}
