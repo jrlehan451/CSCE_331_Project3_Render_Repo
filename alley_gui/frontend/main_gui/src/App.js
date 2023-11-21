@@ -1,7 +1,8 @@
 import "./App.css";
 import Header from "./components/Header";
 import { Route, Routes, useNavigate, useLocation } from "react-router-dom";
-import MenuView from "./pages/MenuView";
+import Login from "./pages/Login"
+import Menu from "./pages/Menu";
 import CashierView from "./pages/CashierView";
 import ManagerView from "./pages/ManagerView";
 import CustomerView from "./pages/CustomerView";
@@ -16,6 +17,7 @@ import axios from "axios";
 import DrinkSeries from "./pages/DrinkSeries";
 import BuildDrink from "./pages/BuildDrink";
 import ViewCart from "./pages/ViewCart";
+import MenuAddOns from "./pages/MenuAddOns";
 import CustomerCheckout from "./pages/CustomerCheckout";
 import DrinkOptions from "./components/DrinkOptions";
 import AddDrink from "./components/AddDrink";
@@ -60,7 +62,7 @@ function App() {
   const isHomePage = location.pathname === "/";
   return (
     <div className="App">
-      {isHomePage && <Header />}
+      {isHomePage && <Login />}
       {/* This is used for making connection between backend and frontend commented
       out for github release
       <form onSubmit={postName}>
@@ -84,6 +86,8 @@ function App() {
         <Route path="/build_drink" element={<BuildDrink />} />
         <Route path="/view_cart" element={<ViewCart />} />
         <Route path="/customer_checkout" element={<CustomerCheckout />} />
+        <Route path="/Menu" element={<Menu />} />
+        <Route path="/MenuAddOns" element={<MenuAddOns />} />
 
         <Route path="/DrinkOptions" element={<DrinkOptions capitalizeName={capitalizeName} />} />
         <Route path="/AddDrink/:category" element={<AddDrink capitalizeName={capitalizeName} />} />

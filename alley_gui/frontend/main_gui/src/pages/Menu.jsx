@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import {useParams} from 'react-router-dom'
 import './Menu.css'
 
 const Menu = () => {
@@ -21,8 +20,8 @@ const Menu = () => {
     };
   
     const navigateToMenuAddons = () => {
-      // Function to handle navigation to menu addons
-      // ...
+        var currLocation = window.location.href;
+        window.location.href = currLocation.replace("Menu", "MenuAddOns");
     };
 
     useEffect(() => {
@@ -51,7 +50,7 @@ const Menu = () => {
       <div>
         <div className="menu-title"><h1>Step 1: Choose Your Drink</h1></div>
         <button className="home-button" onClick={returnHome}> Home </button>
-        <button className="navigation" onClick={navigateToMenuAddons}> {'>'} </button>
+        <button className="navigation" onClick={navigateToMenuAddons}> {'>'}</button>
         <div className="drink-panel">
             {Object.keys(drinks).map(category => (
                 <div class = "category-panel" key={category}>
@@ -59,7 +58,6 @@ const Menu = () => {
                         {drinks[category].map(drink => (
                             <div class="drink-entry" key={category}> 
                                 <div class="drink-square">
-                                    <img src="images\peach_oolong_tea.png" />
                                 </div>
                                 <p class="drink-name">{capitalizeName(drink.name, ' ')}</p> 
                             </div>                    
