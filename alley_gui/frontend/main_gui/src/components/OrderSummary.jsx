@@ -4,8 +4,8 @@ import { Link, useNavigate } from 'react-router-dom';
 import axios from "axios";
 import '../drink_options.css'
 
-function ButtonLink({ to, className, children }) {
-    return <Link to={to}><button class={className}>{children}</button></Link>;
+function ButtonLink({ id, to, className, children }) {
+    return <Link to={to}><button id={id} class={className}>{children}</button></Link>;
 } // Should get refactored into just a separate component to be so honest
 
 const OrderSummary = () => {
@@ -53,6 +53,11 @@ const OrderSummary = () => {
         deleteButton.classList.add("grayed-button");
     }
 
+    function selectPayment() {  
+        let confirmButton = document.getElementById("confirm");
+        confirmButton.classList.remove("grayed-button");
+    }
+
     const postOrderToDB = async(e) => {
         e.preventDefault();
 
@@ -92,9 +97,9 @@ const OrderSummary = () => {
                         <input class="customer-name" type="text" id="cname" name="cname"/><br/>
                     </div>
                     <h3 class="green">Select Payment Method: </h3>
-                    <button class="payment-option">Cash</button><br/>
-                    <button class="payment-option">Credit</button><br/>
-                    <button class="payment-option">Debit</button>
+                    <button onClick={selectPayment} class="payment-option">Cash</button><br/>
+                    <button onClick={selectPayment} class="payment-option">Credit</button><br/>
+                    <button onClick={selectPayment} class="payment-option">Debit</button>
                 </div>
                 <div class="column bodyColumn">
                     <h3 class="brown">Current Order</h3>
@@ -103,7 +108,7 @@ const OrderSummary = () => {
                     </table>
                     <div class="columnWrapper">
                         <button id="delete" onClick={deleteDrinkFromLocal} class="bottom-button grayed-button">Delete Selected</button>
-                        <ButtonLink to={"../MakeNewOrder"} className={"bottom-button"} onClick={postOrderToDB}>Confirm</ButtonLink>
+                        <ButtonLink id={"confirm"} to={"../MakeNewOrder"} className={"bottom-button grayed-button"} onClick={postOrderToDB}>Confirm</ButtonLink>
                     </div>
                 </div>
             </div>

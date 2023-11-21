@@ -70,6 +70,11 @@ body {
     pointer-events: none;
 }
 
+a:has(button.bottom-button.bottom-button.grayed-button) {
+    cursor: none;
+    pointer-events: none;
+}
+
 table {
     border: 4px solid #9e693f;
     width: 45vw;
