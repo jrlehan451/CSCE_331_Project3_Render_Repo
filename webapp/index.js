@@ -637,57 +637,49 @@ app.post("/updateBaseIngredients", async (req, res) => {
 app.post("/deleteDrink", (req, res) => {
   console.log("Server delete item");
   console.log(req.body.drinkID);
-  //console.log(req.body.name);
-  //console.log(req.body.amount);
-  //console.log(req.body.quantityPerUnit);
+
+  let errorOccurred = false;
 
   pool.query(
-    //"DELETE FROM inventory_items WHERE item_id = $1 AND name = $2 AND count =$3 AND quantity_per_unit = $4",
     "DELETE FROM base_drink_ingredients WHERE drink_id = $1",
     [req.body.drinkID],
     (err, response) => {
       if (err) {
         console.log(err);
+        errorOccurred = true;
         res.status(500).json({
           status: "error",
           rowCount: response.rowCount,
-          message: "An error occurred while adding the add-on.",
+          message: "An error occurred while deleting the drink from base_drink_ingredients.",
         });
       } else {
-        res.status(200).json({
-          rowCount: response.rowCount,
-        })
         console.log(response);
+        if (!errorOccurred) {
+          // Continue with deleting from the drinks table after successfully deleting from base_drink_ingredients
+          pool.query(
+            "DELETE FROM drinks WHERE drink_id = $1",
+            [req.body.drinkID],
+            (err, response) => {
+              if (err) {
+                console.log(err);
+                res.status(500).json({
+                  status: "error",
+                  rowCount: response.rowCount,
+                  message: "An error occurred while deleting the drink from drinks.",
+                });
+              } else {
+                console.log(response);
+                res.status(200).json({
+                  rowCount: response.rowCount,
+                });
+              }
+            }
+          );
+        }
       }
     }
   );
-  console.log("Item deleted");
-});
 
-app.post("/deleteDrinks", (req, res) => {
-  console.log("Server delete item");
-  console.log(req.body.drinkID);
-
-  pool.query(
-
-    "DELETE FROM drinks WHERE drink_id = $1",
-    [req.body.drinkID],
-    (err, response) => {
-      if (err) {
-        console.log(err);
-        res.status(500).json({
-          status: "error",
-          rowCount: response.rowCount,
-          message: "An error occurred while adding the add-on.",
-        });
-      } else {
-        res.status(200).json({
-          rowCount: response.rowCount,
-        })
-        console.log(response);
-      }
-    }
-  );
   console.log("Item deleted");
 });
 

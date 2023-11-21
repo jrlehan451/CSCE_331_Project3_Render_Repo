@@ -3,7 +3,7 @@ import axios from "axios";
 import { DataGrid } from "@mui/x-data-grid";
 import './MenuItems.css';
 
-const MenuItemsTable = () => {
+const MenuItemsTable = ({reloadTable}) => {
   const [menuItemsData, setMenuItemsData] = useState([]);
   const [addOnsData, setAddOnsData] = useState([]);
 
@@ -37,7 +37,7 @@ const MenuItemsTable = () => {
     };
 
     fetchData();
-  }, []);
+  }, [reloadTable]);
 
   const menuItemsColumns = [
     { field: "drink_id", headerName: "Drink ID", width: 90, flex: 1 },

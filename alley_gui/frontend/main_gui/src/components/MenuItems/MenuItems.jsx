@@ -12,23 +12,44 @@ import './MenuItems.css';
 
 
 const MenuItems = () => {
-    //const [reloadTable, setReloadTable] = useState(false);
+    const [reloadTable, setReloadTable] = useState(false);
 
     // Function to update the state and trigger a re-render of the table
-    // const handleTableReload = () => {
-    //     setReloadTable(!reloadTable);
-    // };
+    const handleTableReload = () => {
+        setReloadTable(!reloadTable);
+    };
+
+    useEffect(() => {
+        // This effect will be triggered every time reloadTable changes
+        // Implement logic to fetch updated data and refresh the table
+        console.log("Table reloaded");
+      }, [reloadTable]);
+
     //return <div>Menu Items</div>;
     console.log("ba");
-    return (
+    // return (
+    //     <div className="MenuItemsPage">
+    //       <NavBar />
+    //       <div className="title">
+    //         <h1>Menu Items</h1>
+    //       </div>
+    //       <div className="tablesContainer">
+    //         <MenuItemsTable />
+    //         <MenuItemsButton />
+    //     </div>
+
+    //     </div>
+    //   );
+      return (
         <div className="MenuItemsPage">
           <NavBar />
           <div className="title">
             <h1>Menu Items</h1>
           </div>
           <div className="tablesContainer">
-            <MenuItemsTable />
-            <MenuItemsButton />
+            <MenuItemsTable reloadTable={reloadTable}/>
+            <MenuItemsButton onReload={handleTableReload}/>
+            
         </div>
 
         </div>

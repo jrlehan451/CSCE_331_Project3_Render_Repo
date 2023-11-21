@@ -24,10 +24,12 @@ const CustomButton = styled(Button)(({ theme }) => ({
   "&:disabled": { backgroundColor: "gray", color: "white" },
 }));
 
-const MenuItemsButtons = () => {
+const MenuItemsButtons = ({onReload}) => {
+  const [reloadTable, setReloadTable] = useState(false);
   const [openPopup, setOpenPopup] = useState(false);
   const [selectedIngredients, setSelectedIngredients] = useState([]);
   // State to manage input values
+
   const [values, setValues] = useState({
     drinkID: "",
     drinkName: "",
@@ -112,7 +114,9 @@ const MenuItemsButtons = () => {
   }
   
   if(!errorfound){
+    onReload();
     setOpenPopup(true);
+    //setReloadTable(!reloadTable);
   }
   console.log("Add Drink clicked", values);
   //setOpenPopup(true);
@@ -221,7 +225,7 @@ const handleUpdateDrink = (e) => {
         console.error("Error:", err);
       });
   }
-  
+  onReload();
   console.log("Update Drink clicked", values);
 };
 
@@ -244,21 +248,18 @@ const handleDeleteDrink = (e) => {
       if(rowCountTwo == 0){
         alert("Error: Drink ID not found");
       }
+      //setReloadTable((prev) => !prev);
     })
     .catch((err) => {
       console.error("Error:", err);
     });
-
-    axios
-    .post("http://localhost:4000/deleteDrinks", values)
-    .then((res) => console.log(res))
-    .catch((err) => console.log(err));
-    console.log("Delete Drink clicked", values);
-    //onReload();
+    onReload();
   }
   else{
     alert("Error: Enter a drink ID");
   }
+  
+  //setReloadTable(!reloadTable);
 };
 
 
@@ -294,6 +295,8 @@ const handleDeleteDrink = (e) => {
   else{
     alert("Please fill in all required fields: Add On ID, Add On Name, and Add On Cost");
   }
+  //setReloadTable(!reloadTable);
+  onReload();
   
 };
 
@@ -351,6 +354,7 @@ const handleUpdateAddOn = (e) => {
       
   }
   console.log("Update Drink clicked", values);
+  onReload();
 };
 
 // Function to handle button clicks for deleting drinks
@@ -382,7 +386,7 @@ const handleDeleteAddOn = (e) => {
   else{
     alert("Error: Please enter valid Add On ID");
   }
-  
+  onReload();
   //onReload();
 };
 
