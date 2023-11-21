@@ -9,6 +9,7 @@ import {
 } from "@mui/material";
 
 const MenuItemPopup = ({ open, onClose, onSelectIngredients, values }) => {
+  // Save the ingridients selected as base for a drink
   const [ingredients, setIngredients] = useState([]);
 
   useEffect(() => {
@@ -17,7 +18,7 @@ const MenuItemPopup = ({ open, onClose, onSelectIngredients, values }) => {
         const response = await axios.get("http://localhost:4000/addBaseIngredients");
         setIngredients(response.data.data.table.rows.map((ingredient) => ({
           ...ingredient,
-          selected: false, // Initialize selected property
+          selected: false, 
         })));
       } catch (error) {
         console.error("Error fetching ingredients:", error);
@@ -27,6 +28,7 @@ const MenuItemPopup = ({ open, onClose, onSelectIngredients, values }) => {
     fetchIngredients();
   }, []);
 
+  // Select checked items and use them to make backend call
   const handleSelectIngredients = (e) => {
     e.preventDefault();
   
@@ -42,10 +44,8 @@ const MenuItemPopup = ({ open, onClose, onSelectIngredients, values }) => {
       .then((res) => {
         const rowCountTwo = res.data.rowCount;
         if (res.data.status === "success") {
-          // Handle success (e.g., show a success message)
           console.log(res.data.message);
         } else {
-          // Handle error (e.g., show an error message to the user)
           console.error(res.data.message);
         }
         if (rowCountTwo === 0) {
@@ -53,46 +53,12 @@ const MenuItemPopup = ({ open, onClose, onSelectIngredients, values }) => {
         }
   
         onSelectIngredients(selectedIngredients);
-        onClose(); // Close the popup after processing
+        onClose(); 
       })
       .catch((err) => {
         console.error("Error:", err);
       });
   };
-  
-
-  // const handleSelectIngredients = async (e) => {
-  //   e.preventDefault();
-  
-  //   const selectedIngredients = ingredients
-  //     .filter((ingredient) => ingredient.selected)
-  //     .map((ingredient) => ({ ingredient_id: ingredient.ingredient_id }));
-  
-  //   try {
-  //     const res = await axios.post("http://localhost:4000/updateBaseIngredients", {
-  //       selectedIngredients,
-  //       drinkID: values.drinkID,
-  //     });
-  
-  //     const rowCountTwo = res.data.rowCount;
-  //     if (res.data.status === "success") {
-  //       // Handle success (e.g., show a success message)
-  //       console.log(res.data.message);
-  //     } else {
-  //       // Handle error (e.g., show an error message to the user)
-  //       console.error(res.data.message);
-  //     }
-  
-  //     if (rowCountTwo === 0) {
-  //       alert("Error: Drink ID not found");
-  //     }
-  
-  //     onSelectIngredients(selectedIngredients);
-  //     onClose(); // Close the popup after processing
-  //   } catch (err) {
-  //     console.error("Error:", err);
-  //   }
-  // };
   
 
   const handleToggleIngredient = (ingredientId) => {
@@ -121,11 +87,11 @@ const MenuItemPopup = ({ open, onClose, onSelectIngredients, values }) => {
         ))}
       </DialogContent>
       <DialogActions>
-        <Button onClick={handleSelectIngredients}>Done</Button>
-        
+
+        <Button onClick={handleSelectIngredients} style={{ color: 'white', background: '#4CAF50' }}>Done</Button>
       </DialogActions>
     </Dialog>
   );
 };
-//<Button onClick={handleSelectIngredients}>Done</Button>
+
 export default MenuItemPopup;

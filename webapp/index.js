@@ -523,9 +523,9 @@ app.post("/deleteItemInventory", (req, res) => {
 });
 
 
+// menu items call
 app.get("/menuItems", async (req, res) => {
   try {
-    //console.log("Mi ");
     const results = await pool.query("SELECT * FROM drinks ORDER BY category, name;");
     res.status(200).json({
       status: "success",
@@ -534,7 +534,6 @@ app.get("/menuItems", async (req, res) => {
         table: results,
       },
     });
-    //console.log(results);
   } catch (err) {
     console.log(err);
     res.status(500).json({
@@ -544,6 +543,7 @@ app.get("/menuItems", async (req, res) => {
   }
 });
 
+// menu items call
 app.get("/addOns", async (req, res) => {
   try {
     console.log("Mio ");
@@ -555,7 +555,6 @@ app.get("/addOns", async (req, res) => {
         table: results,
       },
     });
-    //console.log(results);
   } catch (err) {
     console.log(err);
     res.status(500).json({
@@ -565,6 +564,7 @@ app.get("/addOns", async (req, res) => {
   }
 });
 
+// menu items call
 app.get("/addBaseIngredients", async (req, res) => {
   console.log("Entered here");
   try {
@@ -587,13 +587,12 @@ app.get("/addBaseIngredients", async (req, res) => {
   }
 });
 
+// menu items call
 app.post("/updateBaseIngredients", async (req, res) => {
   console.log("Entered the update machine");
   
   try {
-    const { selectedIngredients, drinkID } = req.body; // Use "drinkID" instead of "newDrinkId"
-    console.log("The drink ID is: " + drinkID);
-    // Iterate through selected ingredients and log them
+    const { selectedIngredients, drinkID } = req.body; 
     
     if (!drinkID) {
       return res.status(400).json({
@@ -612,13 +611,6 @@ app.post("/updateBaseIngredients", async (req, res) => {
     );
     }
 
-    // Your logic to update the base drink ingredients can be added here
-    // For example:
-    // await pool.query(
-    //   "INSERT INTO base_drink_ingredients (ingredient_id, drink_id) VALUES ($1, $2)",
-    //   [selectedIngredient.ingredient_id, drinkID]
-    // );
-
     res.status(200).json({
       status: "success",
       message: "Base drink ingredients updated successfully.",
@@ -633,11 +625,8 @@ app.post("/updateBaseIngredients", async (req, res) => {
 });
 
 
-
+// menu items call
 app.post("/deleteDrink", (req, res) => {
-  console.log("Server delete item");
-  console.log(req.body.drinkID);
-
   let errorOccurred = false;
 
   pool.query(
@@ -683,13 +672,9 @@ app.post("/deleteDrink", (req, res) => {
   console.log("Item deleted");
 });
 
-app.post("/updateMenuItemName", (req, res) => {
-  console.log("Update menu item name");
-  console.log(req.body.drinkID);
-  console.log(req.body.drinkName);
-  console.log(req.body.drinkCost);
-  console.log(req.body.drinkCategory);
 
+// menu items call
+app.post("/updateMenuItemName", (req, res) => {
   pool.query(
 
     "UPDATE drinks SET name = $1 WHERE drink_id = $2;",
@@ -713,13 +698,8 @@ app.post("/updateMenuItemName", (req, res) => {
   console.log("Item deleted");
 });
 
+// menu items call
 app.post("/updateMenuItemCost", (req, res) => {
-  console.log("Update menu item cost");
-  console.log(req.body.drinkID);
-  console.log(req.body.drinkName);
-  console.log(req.body.drinkCost);
-  console.log(req.body.drinkCategory);
-
   pool.query(
 
     "UPDATE drinks SET cost = $1 WHERE drink_id = $2;",
@@ -743,11 +723,8 @@ app.post("/updateMenuItemCost", (req, res) => {
   console.log("Item deleted");
 });
 
+// menu items call
 app.post("/updateMenuItemCategory", (req, res) => {
-  console.log("Update menu item category");
-  console.log(req.body.drinkID);
-  console.log(req.body.drinkCategory);
-
  pool.query(
 
   "UPDATE drinks SET category = $1 WHERE drink_id = $2;",
@@ -771,12 +748,9 @@ app.post("/updateMenuItemCategory", (req, res) => {
 console.log("Item deleted");
 });
 
-app.post("/addAddOn", (req, res) => {
-  console.log("Server delete item");
-  console.log(req.body.addOnID);
-  console.log(req.body.addOnName);
-  console.log(req.body.addOnCost);
 
+// menu items call
+app.post("/addAddOn", (req, res) => {
   pool.query(
 
     "INSERT INTO ingredients(ingredient_id, name, cost) VALUES ($1, $2, $3);",
@@ -784,7 +758,6 @@ app.post("/addAddOn", (req, res) => {
     (err, response) => {
       if (err) {
         console.log(err);
-        // Send an error response to the client
         res.status(500).json({
           status: "error",
           message: "An error occurred while adding the add-on.",
@@ -794,24 +767,17 @@ app.post("/addAddOn", (req, res) => {
       }
     }
   );
-  //console.log("Item deleted");
 });
 
+
+// menu items call
 app.post("/addDrink", (req, res) => {
-  console.log("Server delete item");
-  console.log(req.body.drinkID);
-  console.log(req.body.drinkName);
-  console.log(req.body.drinkCost);
-  console.log(req.body.drinkCategory);
-
   pool.query(
-
     "INSERT INTO drinks VALUES ( $1, $2 , $3, $4);",
     [req.body.drinkID, req.body.drinkName, req.body.drinkCost, req.body.drinkCategory],
     (err, response) => {
       if (err) {
         console.log(err);
-        // Send an error response to the client
         res.status(500).json({
           status: "error",
           message: "An error occurred while adding the add-on.",
@@ -821,9 +787,9 @@ app.post("/addDrink", (req, res) => {
       }
     }
   );
-  //console.log("Item deleted");
 });
 
+// menu items call
 app.post("/deleteAddOn", (req, res) => {
   console.log("Server delete item");
 
@@ -846,9 +812,9 @@ app.post("/deleteAddOn", (req, res) => {
       }
     }
   );
-  //console.log("Item deleted");
 });
 
+// menu items call
 app.post("/updateAddOnName", (req, res) => {
   console.log("Server delete item");
 
@@ -871,9 +837,9 @@ app.post("/updateAddOnName", (req, res) => {
       }
     }
   );
-  //console.log("Item deleted");
 });
 
+// menu items call
 app.post("/updateAddOnCost", (req, res) => {
   console.log("Server delete item");
 
@@ -896,7 +862,6 @@ app.post("/updateAddOnCost", (req, res) => {
       }
     }
   );
-  //console.log("Item deleted");
 });
 
 app.listen(port, () => {

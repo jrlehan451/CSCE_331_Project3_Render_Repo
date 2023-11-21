@@ -1,14 +1,11 @@
-// Import necessary components from MUI
 import { TextField, FormControl, InputLabel, styled } from "@mui/material";
 import Button from "@mui/material/Button";
-//import React from "react";
 import "./MenuItems.css";
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import MenuItemPopup from "./MenuItemsPopup";
 
-
-// Define a styled button
+// Button style
 const CustomButton = styled(Button)(({ theme }) => ({
   backgroundColor: "#ffefe2",
   border: "2px solid #9e693f", 
@@ -28,8 +25,8 @@ const MenuItemsButtons = ({onReload}) => {
   const [reloadTable, setReloadTable] = useState(false);
   const [openPopup, setOpenPopup] = useState(false);
   const [selectedIngredients, setSelectedIngredients] = useState([]);
-  // State to manage input values
 
+  // Used to store input values
   const [values, setValues] = useState({
     drinkID: "",
     drinkName: "",
@@ -40,6 +37,7 @@ const MenuItemsButtons = ({onReload}) => {
     addOnCost: "",
   });
 
+  // Used to keep track of input errors
   const [inputErrors, setInputErrors] = useState({
     itemId: false,
     name: false,
@@ -47,10 +45,11 @@ const MenuItemsButtons = ({onReload}) => {
     quantityPerUnit: false,
   });
 
+  // Verify the input on the text box is of a valid format
   const handleNumberInputChange = (e, key) => {
     const newValue = e.target.value;
   
-    // Check if the entered value is a valid integer
+    // Check if the entered value is a valid integer or float
     const isValidInteger = /^[0-9]*$/.test(newValue);
     const isValidFloat = /^\d*\.?\d*$/.test(newValue);
   
@@ -68,32 +67,18 @@ const MenuItemsButtons = ({onReload}) => {
   };
 
 
-
-
-
-
-
-
-
  // Function to handle button clicks for adding drinks
  const handleAddDrink = (e) => {
   let errorfound = false;
-  // Implement logic to add a drink based on inputValues.drinkID, inputValues.drinkName, etc.
-  // You can use the inputValues state to send data to your backend or perform other actions
-  // Implement logic to add a drink based on inputValues.drinkID, inputValues.drinkName, etc.
-  // You can use the inputValues state to send data to your backend or perform other actions
   console.log("Add Drink clicked", values);
   if (values.drinkID != "" && values.drinkName != "" && values.drinkCost != "" && values.drinkCost != "") {
     e.preventDefault();
-
     axios
     .post("http://localhost:4000/addDrink", values)
     .then((res) => {
       if (res.data.status === "success") {
-        // Handle success (e.g., show a success message)
         console.log(res.data.message);
       } else {
-        // Handle error (e.g., show an error message to the user)
         console.error(res.data.message);
       }
     })
@@ -102,11 +87,6 @@ const MenuItemsButtons = ({onReload}) => {
       console.error("Error:", err);
       alert("Error: Entered existing Drink ID");
     });
-
-    // axios
-    //   .post("http://localhost:4000/addAddOn", values)
-    //   .then((res) => console.log(res))
-    //   .catch((err) => console.log(err));
   }
   else{
     errorfound = true;
@@ -115,53 +95,29 @@ const MenuItemsButtons = ({onReload}) => {
   
   if(!errorfound){
     onReload();
+    //Activate pop up
     setOpenPopup(true);
-    //setReloadTable(!reloadTable);
   }
   console.log("Add Drink clicked", values);
-  //setOpenPopup(true);
 };
 
 
 // Function to handle selected ingredients from the popup
 const handleSelectIngredients = (selectedIngredients) => {
-  
-  // Handle selected ingredients (e.g., update state)
   setSelectedIngredients(selectedIngredients);
-  setOpenPopup(false); // Close the popup after processing
-  //onClose();
+  setOpenPopup(false); 
 };
-
-// Function to handle confirming the addition of a drink with selected ingredients
-const handleConfirmAddDrink = () => {
-  // Implement logic to add a drink with selected ingredients
-  console.log("Selected Ingredients:", selectedIngredients);
-
-  // Reset selectedIngredients state
-  setSelectedIngredients([]);
-};
-
-
-
-
-
-
-
-
-
-
-
-
 
 // Function to handle button clicks for updating drinks
 const handleUpdateDrink = (e) => {
-  // Implement logic to update a drink based on inputValues.drinkID, inputValues.drinkName, etc.
+  // Check if input is valid
   if(values.drinkID == ""){
     alert("Error: Enter valid Drink ID")
   }
   if(values.drinkCost == "" && values.drinkName == "" && values.drinkCategory == ""){
     alert("Error: Enter at least 1 value to update (name, cost, category)");
   }
+  // Backend call
   if (values.drinkName != "" && values.drinkID != "") {
     e.preventDefault();
     axios
@@ -169,10 +125,8 @@ const handleUpdateDrink = (e) => {
       .then((res) => {
         const rowCountTwo = res.data.rowCount;
         if (res.data.status === "success") {
-          // Handle success (e.g., show a success message)
           console.log(res.data.message);
         } else {
-          // Handle error (e.g., show an error message to the user)
           console.error(res.data.message);
         }
         if(rowCountTwo == 0){
@@ -190,10 +144,8 @@ const handleUpdateDrink = (e) => {
       .then((res) => {
         const rowCountTwo = res.data.rowCount;
         if (res.data.status === "success") {
-          // Handle success (e.g., show a success message)
           console.log(res.data.message);
         } else {
-          // Handle error (e.g., show an error message to the user)
           console.error(res.data.message);
         }
         if(rowCountTwo == 0){
@@ -211,10 +163,8 @@ const handleUpdateDrink = (e) => {
       .then((res) => {
         const rowCountTwo = res.data.rowCount;
         if (res.data.status === "success") {
-          // Handle success (e.g., show a success message)
           console.log(res.data.message);
         } else {
-          // Handle error (e.g., show an error message to the user)
           console.error(res.data.message);
         }
         if(rowCountTwo == 0){
@@ -231,7 +181,6 @@ const handleUpdateDrink = (e) => {
 
 // Function to handle button clicks for deleting drinks
 const handleDeleteDrink = (e) => {
-  // Implement logic to delete a drink based on inputValues.drinkID, inputValues.drinkName, etc.
   if(values.drinkID != ""){
     e.preventDefault();
     axios
@@ -239,16 +188,13 @@ const handleDeleteDrink = (e) => {
     .then((res) => {
       const rowCountTwo = res.data.rowCount;
       if (res.data.status === "success") {
-        // Handle success (e.g., show a success message)
         console.log(res.data.message);
       } else {
-        // Handle error (e.g., show an error message to the user)
         console.error(res.data.message);
       }
       if(rowCountTwo == 0){
         alert("Error: Drink ID not found");
       }
-      //setReloadTable((prev) => !prev);
     })
     .catch((err) => {
       console.error("Error:", err);
@@ -258,27 +204,20 @@ const handleDeleteDrink = (e) => {
   else{
     alert("Error: Enter a drink ID");
   }
-  
-  //setReloadTable(!reloadTable);
 };
 
 
- // Function to handle button clicks for adding drinks
+ // Function to handle button clicks for adding add on
  const handleAddAddOn = (e) => {
-  // Implement logic to add a drink based on inputValues.drinkID, inputValues.drinkName, etc.
-  // You can use the inputValues state to send data to your backend or perform other actions
   console.log("Add Drink clicked", values);
   if (values.addOnID != "" && values.addOnName != "" && values.addOnCost != "") {
     e.preventDefault();
-
     axios
     .post("http://localhost:4000/addAddOn", values)
     .then((res) => {
       if (res.data.status === "success") {
-        // Handle success (e.g., show a success message)
         console.log(res.data.message);
       } else {
-        // Handle error (e.g., show an error message to the user)
         console.error(res.data.message);
       }
     })
@@ -286,23 +225,16 @@ const handleDeleteDrink = (e) => {
       console.error("Error:", err);
       alert("Error: Entered existing Add On ID");
     });
-
-    // axios
-    //   .post("http://localhost:4000/addAddOn", values)
-    //   .then((res) => console.log(res))
-    //   .catch((err) => console.log(err));
   }
   else{
     alert("Please fill in all required fields: Add On ID, Add On Name, and Add On Cost");
   }
-  //setReloadTable(!reloadTable);
   onReload();
   
 };
 
-// Function to handle button clicks for updating drinks
+// Function to handle button clicks for updating add ons
 const handleUpdateAddOn = (e) => {
-  // Implement logic to update a drink based on inputValues.drinkID, inputValues.drinkName, etc.
   if(values.addOnID == ""){
     alert("Enter Add On ID to update");
   }
@@ -316,10 +248,8 @@ const handleUpdateAddOn = (e) => {
       .then((res) => {
         const rowCountTwo = res.data.rowCount;
         if (res.data.status === "success") {
-          // Handle success (e.g., show a success message)
           console.log(res.data.message);
         } else {
-          // Handle error (e.g., show an error message to the user)
           console.error(res.data.message);
         }
         if(rowCountTwo == 0){
@@ -338,10 +268,8 @@ const handleUpdateAddOn = (e) => {
       .then((res) => {
         const rowCount = res.data.rowCount;
         if (res.data.status === "success") {
-          // Handle success (e.g., show a success message)
           console.log(res.data.message);
         } else {
-          // Handle error (e.g., show an error message to the user)
           console.error(res.data.message);
         }
         if(rowCount == 0){
@@ -353,14 +281,11 @@ const handleUpdateAddOn = (e) => {
       });
       
   }
-  console.log("Update Drink clicked", values);
   onReload();
 };
 
-// Function to handle button clicks for deleting drinks
+// Function to handle button clicks for deleting add ons
 const handleDeleteAddOn = (e) => {
-  // Implement logic to delete a drink based on inputValues.drinkID, inputValues.drinkName, etc.
-
   if (values.addOnID != "") {
     e.preventDefault();
     axios
@@ -368,10 +293,8 @@ const handleDeleteAddOn = (e) => {
       .then((res) => {
         const rowCount = res.data.rowCount;
         if (res.data.status === "success") {
-          // Handle success (e.g., show a success message)
           console.log(res.data.message);
         } else {
-          // Handle error (e.g., show an error message to the user)
           console.error(res.data.message);
         }
         if(rowCount == 0){
@@ -387,7 +310,6 @@ const handleDeleteAddOn = (e) => {
     alert("Error: Please enter valid Add On ID");
   }
   onReload();
-  //onReload();
 };
 
   return (
@@ -406,7 +328,6 @@ const handleDeleteAddOn = (e) => {
                 onChange={(e) => handleNumberInputChange(e, "drinkID")}
                 
                  type="text"
-                // //inputProps={{ pattern: "[0-9]*" }}  // Allow only numbers
                  error={inputErrors.drinkID}
                  helperText={
                    inputErrors.itemId ? "Please enter a valid integer" : ""

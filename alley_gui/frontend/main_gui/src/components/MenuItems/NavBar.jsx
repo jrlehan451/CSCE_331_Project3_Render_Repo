@@ -1,5 +1,5 @@
-//import backIcon from './pages/images';
 import backIcon from '../../pages/images/back_arrow.png'; 
+//Basig navigation bar structure
 const Navbar = () => {
     return (
       <nav className="navbar">
@@ -7,7 +7,7 @@ const Navbar = () => {
             <img
             src={backIcon}
             alt="Back"
-            className="image-small" // Apply the CSS class
+            className="image-small" 
             />
         </a>
       </nav>

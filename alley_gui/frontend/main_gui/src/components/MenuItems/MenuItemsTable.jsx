@@ -4,9 +4,11 @@ import { DataGrid } from "@mui/x-data-grid";
 import './MenuItems.css';
 
 const MenuItemsTable = ({reloadTable}) => {
+  //Store data
   const [menuItemsData, setMenuItemsData] = useState([]);
   const [addOnsData, setAddOnsData] = useState([]);
 
+  // Get data from database
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -31,7 +33,6 @@ const MenuItemsTable = ({reloadTable}) => {
         }));
         setAddOnsData(addOnsRows);
       } catch (error) {
-        // Handle errors
         console.error(error);
       }
     };
@@ -39,6 +40,7 @@ const MenuItemsTable = ({reloadTable}) => {
     fetchData();
   }, [reloadTable]);
 
+  // Create columns for tables
   const menuItemsColumns = [
     { field: "drink_id", headerName: "Drink ID", width: 90, flex: 1 },
     { field: "name", headerName: "Name", width: 200, flex: 1 },

@@ -9,9 +9,8 @@ import MenuItemsPopUp from './MenuItemsPopup';
 import NavBar from './NavBar';
 import './MenuItems.css';
 
-
-
 const MenuItems = () => {
+    //Constant used to reload tables after function
     const [reloadTable, setReloadTable] = useState(false);
 
     // Function to update the state and trigger a re-render of the table
@@ -25,21 +24,7 @@ const MenuItems = () => {
         console.log("Table reloaded");
       }, [reloadTable]);
 
-    //return <div>Menu Items</div>;
-    console.log("ba");
-    // return (
-    //     <div className="MenuItemsPage">
-    //       <NavBar />
-    //       <div className="title">
-    //         <h1>Menu Items</h1>
-    //       </div>
-    //       <div className="tablesContainer">
-    //         <MenuItemsTable />
-    //         <MenuItemsButton />
-    //     </div>
-
-    //     </div>
-    //   );
+      //Collection of all pages and reload elements
       return (
         <div className="MenuItemsPage">
           <NavBar />
