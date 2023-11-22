@@ -55,7 +55,7 @@ const Login = () => {
 
   return (
     <div>
-      <h1 className="title">The Alley</h1>
+      <h1 className="loginTitle">The Alley</h1>
       <div className="button-panel">
         <div className="top-button">
           <button className="large-button" onClick={showLoginForm} style={{ display: showForm ? 'none' : 'block' }}>Login</button>

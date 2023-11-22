@@ -67,7 +67,7 @@ const AnalyzeTrends = () => {
 
     return (
       <div>
-        <h1 className="title">Analyze Trends</h1>
+        <h1 className="loginTitle">Analyze Trends</h1>
         <button className="home-button" onClick={returnHome}> 
             <img src={HomeButton} alt="home" />
         </button>
