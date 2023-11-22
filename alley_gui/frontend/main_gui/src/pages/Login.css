@@ -51,24 +51,19 @@ body {
     margin: 10px;
 }
 
-.button-container {
-    display: flex;
-    flex-direction: column;
-    float: right;
-    margin-right: 10px;
-}
-
 .x-button {
-    font-size: 10px;
     position: absolute;
     top: 5px;
     right: 10px;
     border-radius: 2px;
-    width: 1px;
-    height: 7px;
+    width: 5%;
+    height: 13%;
 }
 
 .login-button {
+    position: absolute;
     margin-top: 70px;
     border-radius: 2px;
+    right: 10px;
+    bottom: 10px;
 }

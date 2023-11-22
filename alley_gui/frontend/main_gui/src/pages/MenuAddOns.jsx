@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import addOnImage from './images/peach_oolong_tea.png';
+import HomeButton from './images/HomeButton.png';
 import './MenuAddOns.css';
 
 const MenuAddons = () => {
@@ -43,14 +45,14 @@ const MenuAddons = () => {
     return (
       <div>
         <div className="menu-title"><h1>Step 2: Choose Your Add-Ons (Max 2)</h1></div>
-        <button className="home-button" onClick={returnHome}>Home</button>
+        <button className="home-button" onClick={returnHome}>
+            <img  src={HomeButton} alt="home" />
+        </button>
         <button className="navigationToMenu" onClick={navigateToMenu}>{'<'}</button>
         <div className="addon-container">
           {addOns.map((addon, index) => (
             <div className="addon-entry" key={index}>
-              <div className="addon-square">
-                
-              </div>
+              <img class ="addon-square" src={addOnImage} alt="Add On" />
               <div className="addon-name">{capitalizeName(addon.name, ' ')}</div>
             </div>
           ))}

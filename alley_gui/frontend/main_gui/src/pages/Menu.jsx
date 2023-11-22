@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import drinkImage from './images/peach_oolong_tea.png';
+import HomeButton from './images/HomeButton.png';
 import './Menu.css'
 
 const Menu = () => {
@@ -49,7 +51,9 @@ const Menu = () => {
     return (
       <div>
         <div className="menu-title"><h1>Step 1: Choose Your Drink</h1></div>
-        <button className="home-button" onClick={returnHome}> Home </button>
+        <button className="home-button" onClick={returnHome}>
+            <img  src={HomeButton} alt="home" />
+        </button>
         <button className="navigation" onClick={navigateToMenuAddons}> {'>'}</button>
         <div className="drink-panel">
             {Object.keys(drinks).map(category => (
@@ -57,8 +61,7 @@ const Menu = () => {
                     <h2 class="category-title"> {capitalizeName(category, '_')} </h2>
                         {drinks[category].map(drink => (
                             <div class="drink-entry" key={category}> 
-                                <div class="drink-square">
-                                </div>
+                                <img class ="drink-square" src={drinkImage} alt="Drink" />
                                 <p class="drink-name">{capitalizeName(drink.name, ' ')}</p> 
                             </div>                    
                         ))}

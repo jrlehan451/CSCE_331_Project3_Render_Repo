@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import './Login.css'
 
-const Home = () => {
+const Login = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [showForm, setShowLoginForm] = useState(false);
@@ -62,10 +62,8 @@ const Home = () => {
           <div className="login-form" style={{ display: showForm ? 'block' : 'none' }}>
             <input type="text" value={username} placeholder="Username" onChange={(e) => setUsername(e.target.value)} />
             <input type="password" value={password} placeholder="Password" onChange={(e) => setPassword(e.target.value)} />
-            <div className="button-container">
-              <button className="x-button" onClick={showLoginForm}>X</button>
-              <button className="login-button" onClick={authenticateUser}>Login</button>
-            </div>
+            <button className="x-button" onClick={showLoginForm}>X</button>
+            <button className="login-button" onClick={authenticateUser}>Login</button>
           </div>
         </div>
         <div className="lower-button">
@@ -76,4 +74,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default Login;

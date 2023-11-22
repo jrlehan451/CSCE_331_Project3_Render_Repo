@@ -1,0 +1,40 @@
+.GoButton {
+    color: #fff;
+    background-color: #9e693f;
+    border: none;
+    padding: 8px 12px;
+    cursor: pointer;
+    margin-bottom: 10px;
+    margin-left: 5px;
+  }
+
+  /* Style for the labels and input placeholders */
+.label,
+#start-timestamp,
+#end-timestamp {
+  color: #9e693f;
+}
+
+/* Style for the selection field */
+#trend-choice {
+  color: #9e693f;
+  background-color: #fff; /* Optional: Set a background color for better visibility */
+}
+
+.selection {
+    color: #9e693f;
+}
+
+.timestamp-section{
+    color: #9e693f;
+    display: flex;
+    justify-content: space-between;
+}
+
+.start-timestamp-section {
+    margin-right: 20px; /* Adjust the gap between the sections as needed */
+  }
+  
+  .end-timestamp-section {
+    margin-left: 20px;
+  }

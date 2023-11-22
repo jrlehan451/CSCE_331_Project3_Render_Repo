@@ -16,7 +16,12 @@ body {
     border : 0px;
     background-color: #ffefe2;
     color: #8b9477; 
-    font-size: 40px;
+}
+
+.home-button img {
+    width: 50px;
+    height: 20%;
+    right: 10px; 
 }
 
 .navigation {
@@ -43,16 +48,16 @@ body {
     margin: 10px;
     text-align: center;
     color: #9e693f;
-    display: flex;
+    display: inline-block;
     flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    align-items: center;
+    justify-content: flex-start;
+    align-items:start;
+
 }
 
 .category-title {
     width: 100%; 
-    font-size: 32px; 
+    font-size: 48px; 
     margin-bottom: 10px; 
 }
 
@@ -63,11 +68,10 @@ body {
     display: inline-block; 
     vertical-align: top; 
     text-align: center;
+    min-height: 50%;
 }
 
 .drink-square {
     width: 100%;
-    padding-top: 100%; 
-    background-color: #888886;
     border: 1px solid #25371d; 
 }
