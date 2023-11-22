@@ -331,33 +331,35 @@ const SupplyReorders = () => {
                       </tr>
                     </thead>
                     <tbody>
-                      {popupData.data.table.rows.map((item, index) => (
-                        <tr key={index}>
-                          <td>
-                            <input
-                              type="checkbox"
-                              checked={checkedItems[item.inventory_id]}
-                              onChange={() =>
-                                handleCheckboxChange(item.inventory_id)
-                              }
-                            />
-                          </td>
-                          <td>{item.ingredient_id}</td>
-                          <td>{item.inventory_id}</td>
+                      {popupData.data.table.rows
+                        .filter((item) => item.inventory_id !== null)
+                        .map((item, index) => (
+                          <tr key={index}>
+                            <td>
+                              <input
+                                type="checkbox"
+                                checked={checkedItems[item.inventory_id]}
+                                onChange={() =>
+                                  handleCheckboxChange(item.inventory_id)
+                                }
+                              />
+                            </td>
+                            <td>{item.ingredient_id}</td>
+                            <td>{item.inventory_id}</td>
 
-                          <td>{item.name}</td>
-                          <td>{item.cost}</td>
-                          <td>
-                            <TextField
-                              type="number"
-                              value={item.amount}
-                              onChange={(e) =>
-                                handleAmountChange(e, item.inventory_id)
-                              }
-                            />
-                          </td>
-                        </tr>
-                      ))}
+                            <td>{item.name}</td>
+                            <td>{item.cost}</td>
+                            <td>
+                              <TextField
+                                type="number"
+                                value={item.amount}
+                                onChange={(e) =>
+                                  handleAmountChange(e, item.inventory_id)
+                                }
+                              />
+                            </td>
+                          </tr>
+                        ))}
                     </tbody>
                   </table>
                 </div>
