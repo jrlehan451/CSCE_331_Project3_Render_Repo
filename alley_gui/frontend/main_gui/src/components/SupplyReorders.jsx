@@ -21,9 +21,17 @@ const SupplyReorders = () => {
   const [openModal, setOpenModal] = useState(false);
   const [selectedItems, setSelectedItems] = useState([]);
   const [openPopup, setOpenPopup] = useState(false);
-  const [popupData, setPopupData] = useState([]);
+  const [popupData, setPopupData] = useState({
+    data: {
+      table: {
+        rows: [],
+      },
+    },
+  });
   const [checkedItems, setCheckedItems] = useState({});
   const [inventoryItems, setInventoryItems] = useState([]);
+  const [openViewPopup, setOpenViewPopup] = useState(false);
+  const [selectedInventoryItems, setSelectedInventoryItems] = useState([]);
 
   const columns = [
     { field: "reorder_id", headerName: "Reorder ID", width: 70, flex: 1 },
@@ -33,7 +41,29 @@ const SupplyReorders = () => {
   const [values, setValues] = useState({
     reorderId: "",
     date: "",
+    amounts: {},
   });
+
+  const sendSelectedItemsToBackend = async (selectedItems, amounts) => {
+    console.log("Selected Items to be sent:", selectedItems);
+    console.log("Amounts to be sent:", amounts);
+
+    try {
+      const response = await axios.post(
+        "http://localhost:4000/save_selected_items",
+        {
+          selectedItems: selectedItems,
+          amounts: amounts,
+          reorder_id: values.reorderId,
+          date: values.date,
+        }
+      );
+
+      console.log("Response from backend:", response.data);
+    } catch (error) {
+      console.error("Error sending selected items to backend:", error);
+    }
+  };
 
   const CustomButton = styled(ListItemButton)(({ theme }) => ({
     backgroundColor: "#ffefe2",
@@ -72,6 +102,21 @@ const SupplyReorders = () => {
     supplyReorders();
   }, []);
 
+  const viewHandleSubmit = async () => {
+    try {
+      const response = await axios.get(
+        "http://localhost:4000/view_supply_reorder"
+      );
+      const viewData = response.data;
+
+      //setViewPopupData(viewData);
+
+      setOpenViewPopup(true);
+    } catch (error) {
+      console.error("Error during view supply reorder:", error);
+    }
+  };
+
   // Getting ingredient SQL query and updating the inventory backend as well
   const addHandleSubmit = async (e) => {
     e.preventDefault();
@@ -81,11 +126,27 @@ const SupplyReorders = () => {
       try {
         // Check if itemId already exists in the inventory
         const response = await axios.get(
-          "http://localhost:4000/inventory_items"
+          "http://localhost:4000/ingredient_items"
         );
         const jsonVals = response.data;
 
-        setPopupData(jsonVals);
+        // Assuming "amount" is a property in your backend response
+        const rowsWithAmount = jsonVals.data.table.rows.map((item, index) => ({
+          ...item,
+          amount: item.amount || 0, // Set the default amount value, or fetch it from the backend if available
+        }));
+
+        setPopupData({
+          ...jsonVals,
+          data: {
+            ...jsonVals.data,
+            table: {
+              ...jsonVals.data.table,
+              rows: rowsWithAmount,
+            },
+          },
+        });
+
         setOpenPopup(true);
       } catch (error) {
         // Handle errors in a more descriptive way
@@ -104,15 +165,60 @@ const SupplyReorders = () => {
     setOpenModal(false);
   };
 
-  const handleCheckboxChange = (itemId) => {
-    const isSelected = selectedItems.includes(itemId);
+  const handleCheckboxChange = (inventory_id) => {
+    const isSelected = selectedItems.includes(inventory_id);
     if (isSelected) {
-      setSelectedItems(selectedItems.filter((id) => id !== itemId));
+      setSelectedItems(selectedItems.filter((id) => id !== inventory_id));
+      setSelectedInventoryItems(
+        selectedInventoryItems.filter(
+          (item) => item.inventory_id !== inventory_id
+        )
+      );
     } else {
-      setSelectedItems([...selectedItems, itemId]);
+      console.log("popupData:", popupData);
+      console.log("popupData.data:", popupData.data);
+      console.log("popupData.data.table:", popupData.data.table);
+      console.log("popupData.data.table.rows:", popupData.data.table.rows);
+      setSelectedItems([...selectedItems, inventory_id]);
+      const selectedItem = popupData.data.table.rows.find(
+        (item) => item.inventory_id === inventory_id
+      );
+      setSelectedInventoryItems([...selectedInventoryItems, selectedItem]);
     }
   };
 
+  const handleAmountChange = (e, inventory_id) => {
+    const { value } = e.target;
+    console.log("Inventory ID:", inventory_id);
+    console.log("New Amount Value:", value);
+
+    setValues((prevValues) => ({
+      ...prevValues,
+      amounts: {
+        ...prevValues.amounts,
+        [inventory_id]: parseInt(value, 10),
+      },
+    }));
+
+    setPopupData((prevData) => {
+      const updatedRows = prevData.data.table.rows.map((item) =>
+        item.inventory_id === inventory_id
+          ? { ...item, amount: parseInt(value, 10) }
+          : item
+      );
+
+      return {
+        ...prevData,
+        data: {
+          ...prevData.data,
+          table: {
+            ...prevData.data.table,
+            rows: updatedRows,
+          },
+        },
+      };
+    });
+  };
   const handleInputChange = (event) => {
     const { name, value } = event.target;
     setValues((prevValues) => ({
@@ -179,8 +285,31 @@ const SupplyReorders = () => {
               Add Supply Reorder
             </CustomButton>
             <CustomButton>Delete Supply Reorder</CustomButton>
-            <CustomButton>View Supply Reorder</CustomButton>
+            <CustomButton onClick={viewHandleSubmit}>
+              View Supply Reorder
+            </CustomButton>
           </div>
+
+          {/* View Supply Reorder Modal 
+          <Dialog open={openViewPopup} onClose={() => setOpenViewPopup(false)}>
+            <DialogContent>
+             
+              {viewPopupData.data &&
+              viewPopupData.data.table &&
+              viewPopupData.data.table.rows ? (
+                <div style={{ overflowX: "auto" }}>
+                  <table style={{ width: "100%" }}>
+                    {/* ... (similar table structure as in the Add Supply Reorder Modal) 
+                  </table>
+                </div>
+              ) : (
+                <p>NO data available for view</p>
+              )}
+              <CustomButton onClick={() => setOpenViewPopup(false)}>
+                Close
+              </CustomButton>
+            </DialogContent>
+          </Dialog>*/}
 
           {/*Add Supply Reorder Modal */}
           <Dialog open={openModal} onClose={handleCloseModal}>
@@ -193,12 +322,12 @@ const SupplyReorders = () => {
                     <thead>
                       <tr>
                         <th>Checkbox</th>
-                        <th>Item ID</th>
                         <th>Ingredient ID</th>
+                        <th>Inventory ID</th>
+
                         <th>Name</th>
-                        <th>Count</th>
-                        <th>fill_level</th>
-                        <th>quantity_per_unit</th>
+                        <th>Cost</th>
+                        <th>Amount</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -207,18 +336,26 @@ const SupplyReorders = () => {
                           <td>
                             <input
                               type="checkbox"
-                              checked={checkedItems[item.item_id]}
+                              checked={checkedItems[item.inventory_id]}
                               onChange={() =>
-                                handleCheckboxChange(item.item_id)
+                                handleCheckboxChange(item.inventory_id)
                               }
                             />
                           </td>
-                          <td>{item.item_id}</td>
                           <td>{item.ingredient_id}</td>
+                          <td>{item.inventory_id}</td>
+
                           <td>{item.name}</td>
-                          <td>{item.count}</td>
-                          <td>{item.fill_level}</td>
-                          <td>{item.quantityPerUnit}</td>
+                          <td>{item.cost}</td>
+                          <td>
+                            <TextField
+                              type="number"
+                              value={item.amount}
+                              onChange={(e) =>
+                                handleAmountChange(e, item.inventory_id)
+                              }
+                            />
+                          </td>
                         </tr>
                       ))}
                     </tbody>
@@ -227,7 +364,22 @@ const SupplyReorders = () => {
               ) : (
                 <p>NO data available</p>
               )}
-              <CustomButton onClick={() => setOpenPopup(false)}>
+              <CustomButton
+                onClick={() => {
+                  console.log(
+                    "Selected Inventory Items:",
+                    selectedInventoryItems
+                  );
+
+                  sendSelectedItemsToBackend(
+                    selectedInventoryItems,
+                    values.amounts
+                  );
+
+                  setOpenPopup(false);
+                  handleCloseModal();
+                }}
+              >
                 Done
               </CustomButton>
             </DialogContent>

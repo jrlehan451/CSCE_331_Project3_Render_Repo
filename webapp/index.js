@@ -85,7 +85,9 @@ app.get("/user", (req, res) => {
 
 app.get("/add_on_jsx", async (req, res) => {
   try {
-    const results = await pool.query("SELECT * FROM ingredients WHERE cost > 0;");
+    const results = await pool.query(
+      "SELECT * FROM ingredients WHERE cost > 0;"
+    );
     res.status(200).json({
       status: "success",
       results: results.rows.length,
@@ -206,7 +208,7 @@ app.get("/drink_categories", async (req, res) => {
     res.status(200).json({
       status: "success",
       results: results.rows,
-      data: {results},
+      data: { results },
     });
   } catch (err) {
     console.log(err);
@@ -217,24 +219,29 @@ app.get("/drink_categories", async (req, res) => {
   }
 });
 
-
-app.get('/drink_series_items', async (req, res) => {
+app.get("/drink_series_items", async (req, res) => {
   try {
     category = req.query.category;
     console.log(category);
-    const drinkCategoriesQuery = await pool.query('SELECT DISTINCT category FROM drinks;');
-    const drinksQuery = await pool.query('SELECT * FROM drinks WHERE category = $1', [category]);
+    const drinkCategoriesQuery = await pool.query(
+      "SELECT DISTINCT category FROM drinks;"
+    );
+    const drinksQuery = await pool.query(
+      "SELECT * FROM drinks WHERE category = $1",
+      [category]
+    );
 
-    res.status(200).json({ 
+    res.status(200).json({
       status: "success",
 
       data: {
-        categories: drinkCategoriesQuery.rows, 
-        drinks: drinksQuery.rows},
+        categories: drinkCategoriesQuery.rows,
+        drinks: drinksQuery.rows,
+      },
     });
   } catch (error) {
-    console.error('Error fetching drink series:', error);
-    res.status(500).json({ error: 'Internal Server Error' });
+    console.error("Error fetching drink series:", error);
+    res.status(500).json({ error: "Internal Server Error" });
   }
 });
 
@@ -242,11 +249,13 @@ app.get("/add_ons", async (req, res) => {
   try {
     console.log("Getting all the add ons");
 
-    const results = await pool.query("SELECT * FROM ingredients WHERE cost > 0;");
+    const results = await pool.query(
+      "SELECT * FROM ingredients WHERE cost > 0;"
+    );
     res.status(200).json({
       status: "success",
       results: results.rows,
-      data: {results},
+      data: { results },
     });
   } catch (err) {
     console.log(err);
@@ -273,30 +282,37 @@ app.post("/post_order", jsonParser, (req, res) => {
   drinks = JSON.parse(req.body.drinks);
   add_ons = JSON.parse(req.body.add_ons);
 
-    pool
-        .query('SELECT order_id FROM orders ORDER BY order_id DESC LIMIT 1;')
-        .then(query_res => {
-            nextOrderId = query_res.rows[0].order_id + 1; 
-            
-            pool
-                .query('INSERT INTO orders(order_id, name, timestamp, cost) VALUES($1, $2, $3, $4)',
-                [nextOrderId, req.body.customer, new Date().toISOString().slice(0, 19).replace('T', ' '), req.body.totalCost],
-                (err, response) => {
-                    if (err) {
-                        console.log(err);
-                    }
-                });
-            
-            for (let i = 0; i < drinks.length; ++i) {
-                pool
-                    .query('INSERT INTO drink_orders(drink_id, order_id, number) VALUES($1, $2, $3)',
-                    [parseInt(drinks[i].id), nextOrderId, i + 1],
-                    (err, response) => {
-                        if (err) {
-                            console.log(err);
-                        }
-                    });
+  pool
+    .query("SELECT order_id FROM orders ORDER BY order_id DESC LIMIT 1;")
+    .then((query_res) => {
+      nextOrderId = query_res.rows[0].order_id + 1;
+
+      pool.query(
+        "INSERT INTO orders(order_id, name, timestamp, cost) VALUES($1, $2, $3, $4)",
+        [
+          nextOrderId,
+          req.body.customer,
+          new Date().toISOString().slice(0, 19).replace("T", " "),
+          req.body.totalCost,
+        ],
+        (err, response) => {
+          if (err) {
+            console.log(err);
+          }
+        }
+      );
+
+      for (let i = 0; i < drinks.length; ++i) {
+        pool.query(
+          "INSERT INTO drink_orders(drink_id, order_id, number) VALUES($1, $2, $3)",
+          [parseInt(drinks[i].id), nextOrderId, i + 1],
+          (err, response) => {
+            if (err) {
+              console.log(err);
             }
+          }
+        );
+      }
 
       for (let i = 0; i < add_ons.length; ++i) {
         for (let j = 0; j < add_ons[i].length; ++j) {
@@ -323,32 +339,39 @@ app.post("/post_customer_order", jsonParser, (req, res) => {
 
   currDrinksInOrder = JSON.parse(req.body.currDrinksInOrder);
 
-    pool
-        .query('SELECT order_id FROM orders ORDER BY order_id DESC LIMIT 1;')
-        .then(query_res => {
-            nextOrderId = query_res.rows[0].order_id + 1; 
-            
-            pool
-              .query('INSERT INTO orders(order_id, name, timestamp, cost) VALUES($1, $2, $3, $4)',
-                [nextOrderId, req.body.customer, new Date().toISOString().slice(0, 19).replace('T', ' '), req.body.totalCost],
-                (err, response) => {
-                  if (err) {
-                    console.log(err);
-                  }
-                });
-            
-            for (let i = 0; i < currDrinksInOrder.length; ++i) {
-              for (let j = 0; j < currDrinksInOrder[i].quantity; ++j) {
-                pool
-                .query('INSERT INTO drink_orders(drink_id, order_id, number) VALUES($1, $2, $3)',
-                [parseInt(currDrinksInOrder[i].drinkId), nextOrderId, i + 1],
-                (err, response) => {
-                  if (err) {
-                    console.log(err);
-                  }
-                });
+  pool
+    .query("SELECT order_id FROM orders ORDER BY order_id DESC LIMIT 1;")
+    .then((query_res) => {
+      nextOrderId = query_res.rows[0].order_id + 1;
+
+      pool.query(
+        "INSERT INTO orders(order_id, name, timestamp, cost) VALUES($1, $2, $3, $4)",
+        [
+          nextOrderId,
+          req.body.customer,
+          new Date().toISOString().slice(0, 19).replace("T", " "),
+          req.body.totalCost,
+        ],
+        (err, response) => {
+          if (err) {
+            console.log(err);
+          }
+        }
+      );
+
+      for (let i = 0; i < currDrinksInOrder.length; ++i) {
+        for (let j = 0; j < currDrinksInOrder[i].quantity; ++j) {
+          pool.query(
+            "INSERT INTO drink_orders(drink_id, order_id, number) VALUES($1, $2, $3)",
+            [parseInt(currDrinksInOrder[i].drinkId), nextOrderId, i + 1],
+            (err, response) => {
+              if (err) {
+                console.log(err);
               }
             }
+          );
+        }
+      }
 
       for (let i = 0; i < currDrinksInOrder.length; ++i) {
         for (let j = 0; j < currDrinksInOrder[i].quantity; ++j) {
@@ -530,6 +553,13 @@ app.get("/inventory_items", async (req, res) => {
   }
 });
 
+app.post("/save_selected_items", (req, res) => {
+  const { selectedItems, reorder_id, date, amounts } = req.body;
+
+  console.log("Received data:", selectedItems, reorder_id, date, amounts);
+
+  res.json({ success: true, message: "Date received successfully." });
+});
 
 // Getting ingredient database and sending it to /inventory
 app.get("/ingredient_items", async (req, res) => {
@@ -811,11 +841,12 @@ app.post("/deleteItemInventory", (req, res) => {
   );
 });
 
-
 // menu items call
 app.get("/menuItems", async (req, res) => {
   try {
-    const results = await pool.query("SELECT * FROM drinks ORDER BY category, name;");
+    const results = await pool.query(
+      "SELECT * FROM drinks ORDER BY category, name;"
+    );
     res.status(200).json({
       status: "success",
       results: results.rows.length,
@@ -836,7 +867,9 @@ app.get("/menuItems", async (req, res) => {
 app.get("/addOns", async (req, res) => {
   try {
     console.log("Mio ");
-    const results = await pool.query("SELECT * FROM ingredients WHERE cost > 0 ORDER BY name;");
+    const results = await pool.query(
+      "SELECT * FROM ingredients WHERE cost > 0 ORDER BY name;"
+    );
     res.status(200).json({
       status: "success",
       results: results.rows.length,
@@ -858,7 +891,9 @@ app.get("/addBaseIngredients", async (req, res) => {
   console.log("Entered here");
   try {
     console.log("Mio ");
-    const results = await pool.query("SELECT * FROM ingredients ORDER BY name;");
+    const results = await pool.query(
+      "SELECT * FROM ingredients ORDER BY name;"
+    );
     res.status(200).json({
       status: "success",
       results: results.rows.length,
@@ -879,10 +914,10 @@ app.get("/addBaseIngredients", async (req, res) => {
 // menu items call
 app.post("/updateBaseIngredients", async (req, res) => {
   console.log("Entered the update machine");
-  
+
   try {
-    const { selectedIngredients, drinkID } = req.body; 
-    
+    const { selectedIngredients, drinkID } = req.body;
+
     if (!drinkID) {
       return res.status(400).json({
         status: "error",
@@ -895,9 +930,9 @@ app.post("/updateBaseIngredients", async (req, res) => {
     for (const ingredient of selectedIngredients) {
       console.log("Selected Ingredient ID: " + ingredient.ingredient_id);
       pool.query(
-      "INSERT INTO base_drink_ingredients (ingredient_id, drink_id) VALUES ($1, $2)",
-      [ingredient.ingredient_id, drinkID]
-    );
+        "INSERT INTO base_drink_ingredients (ingredient_id, drink_id) VALUES ($1, $2)",
+        [ingredient.ingredient_id, drinkID]
+      );
     }
 
     res.status(200).json({
@@ -913,7 +948,6 @@ app.post("/updateBaseIngredients", async (req, res) => {
   }
 });
 
-
 // menu items call
 app.post("/deleteDrink", (req, res) => {
   let errorOccurred = false;
@@ -928,7 +962,8 @@ app.post("/deleteDrink", (req, res) => {
         res.status(500).json({
           status: "error",
           rowCount: response.rowCount,
-          message: "An error occurred while deleting the drink from base_drink_ingredients.",
+          message:
+            "An error occurred while deleting the drink from base_drink_ingredients.",
         });
       } else {
         console.log(response);
@@ -943,7 +978,8 @@ app.post("/deleteDrink", (req, res) => {
                 res.status(500).json({
                   status: "error",
                   rowCount: response.rowCount,
-                  message: "An error occurred while deleting the drink from drinks.",
+                  message:
+                    "An error occurred while deleting the drink from drinks.",
                 });
               } else {
                 console.log(response);
@@ -961,13 +997,11 @@ app.post("/deleteDrink", (req, res) => {
   console.log("Item deleted");
 });
 
-
 // menu items call
 app.post("/updateMenuItemName", (req, res) => {
   pool.query(
-
     "UPDATE drinks SET name = $1 WHERE drink_id = $2;",
-    [req.body.drinkName,req.body.drinkID],
+    [req.body.drinkName, req.body.drinkID],
     (err, response) => {
       if (err) {
         console.log(err);
@@ -979,7 +1013,7 @@ app.post("/updateMenuItemName", (req, res) => {
       } else {
         res.status(200).json({
           rowCount: response.rowCount,
-        })
+        });
         console.log(response);
       }
     }
@@ -990,9 +1024,8 @@ app.post("/updateMenuItemName", (req, res) => {
 // menu items call
 app.post("/updateMenuItemCost", (req, res) => {
   pool.query(
-
     "UPDATE drinks SET cost = $1 WHERE drink_id = $2;",
-    [req.body.drinkCost,req.body.drinkID],
+    [req.body.drinkCost, req.body.drinkID],
     (err, response) => {
       if (err) {
         console.log(err);
@@ -1004,7 +1037,7 @@ app.post("/updateMenuItemCost", (req, res) => {
       } else {
         res.status(200).json({
           rowCount: response.rowCount,
-        })
+        });
         console.log(response);
       }
     }
@@ -1014,34 +1047,31 @@ app.post("/updateMenuItemCost", (req, res) => {
 
 // menu items call
 app.post("/updateMenuItemCategory", (req, res) => {
- pool.query(
-
-  "UPDATE drinks SET category = $1 WHERE drink_id = $2;",
-  [req.body.drinkCategory,req.body.drinkID],
-  (err, response) => {
-    if (err) {
-      console.log(err);
-      res.status(500).json({
-        status: "error",
-        rowCount: response.rowCount,
-        message: "An error occurred while adding the add-on.",
-      });
-    } else {
-      res.status(200).json({
-        rowCount: response.rowCount,
-      })
-      console.log(response);
+  pool.query(
+    "UPDATE drinks SET category = $1 WHERE drink_id = $2;",
+    [req.body.drinkCategory, req.body.drinkID],
+    (err, response) => {
+      if (err) {
+        console.log(err);
+        res.status(500).json({
+          status: "error",
+          rowCount: response.rowCount,
+          message: "An error occurred while adding the add-on.",
+        });
+      } else {
+        res.status(200).json({
+          rowCount: response.rowCount,
+        });
+        console.log(response);
+      }
     }
-  }
-);
-console.log("Item deleted");
+  );
+  console.log("Item deleted");
 });
-
 
 // menu items call
 app.post("/addAddOn", (req, res) => {
   pool.query(
-
     "INSERT INTO ingredients(ingredient_id, name, cost) VALUES ($1, $2, $3);",
     [req.body.addOnID, req.body.addOnName, req.body.addOnCost],
     (err, response) => {
@@ -1058,12 +1088,16 @@ app.post("/addAddOn", (req, res) => {
   );
 });
 
-
 // menu items call
 app.post("/addDrink", (req, res) => {
   pool.query(
     "INSERT INTO drinks VALUES ( $1, $2 , $3, $4);",
-    [req.body.drinkID, req.body.drinkName, req.body.drinkCost, req.body.drinkCategory],
+    [
+      req.body.drinkID,
+      req.body.drinkName,
+      req.body.drinkCost,
+      req.body.drinkCategory,
+    ],
     (err, response) => {
       if (err) {
         console.log(err);
@@ -1096,7 +1130,7 @@ app.post("/deleteAddOn", (req, res) => {
       } else {
         res.status(200).json({
           rowCount: response.rowCount,
-        })
+        });
         console.log(response);
       }
     }
@@ -1121,7 +1155,7 @@ app.post("/updateAddOnName", (req, res) => {
       } else {
         res.status(200).json({
           rowCount: response.rowCount,
-        })
+        });
         console.log(response);
       }
     }
@@ -1146,7 +1180,7 @@ app.post("/updateAddOnCost", (req, res) => {
       } else {
         res.status(200).json({
           rowCount: response.rowCount,
-        })
+        });
         console.log(response);
       }
     }
