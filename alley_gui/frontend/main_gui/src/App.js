@@ -31,7 +31,7 @@ function App() {
   const [home, setHome] = useState("");
 
   useEffect(() => {
-    axios.get("http://localhost:4000/home").then(function (response) {
+    axios.get("https://thealley.onrender.com/home").then(function (response) {
       setHome(response.data);
     });
   }, []);
