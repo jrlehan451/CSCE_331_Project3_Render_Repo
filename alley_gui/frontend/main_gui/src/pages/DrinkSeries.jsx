@@ -68,7 +68,7 @@ const DrinkSeries = () => {
         const drinkSeries = async () => {
         try {
             const response = await axios.get(
-            "http://localhost:4000/drink_series_items", {params: {category : category}}
+            "https://thealley.onrender.com/drink_series_items", {params: {category : category}}
             );
             const jsonVals = await response.data;
             console.log(jsonVals.data);
