@@ -4,8 +4,8 @@ import { Link, useNavigate } from 'react-router-dom';
 import axios from "axios";
 import '../drink_options.css'
 
-function ButtonLink({ id, to, className, children }) {
-    return <Link to={to}><button id={id} class={className}>{children}</button></Link>;
+function ButtonLink({ id, to, className, onClick, children }) {
+    return <Link to={to} onClick={onClick}><button id={id} class={className}>{children}</button></Link>;
 } // Should get refactored into just a separate component to be so honest
 
 const OrderSummary = () => {
@@ -88,11 +88,15 @@ const OrderSummary = () => {
                 drinks: sessionStorage.getItem('drinks'),
                 add_ons: sessionStorage.getItem('add_ons'),
                 customer: document.getElementById("cname").value,
-                totalCost: totalCost.toFixed(2)
+                totalCost: totalCost
             });
         } catch(err) {
             console.error(`Error: ${err}`);
         }
+
+        navigate("/MakeNewOrder");
+        //var currLocation = window.location.href;
+        //location.href = currLocation.replace("OrderSummary", "MakeNewOrder");
     }
 
     return (
