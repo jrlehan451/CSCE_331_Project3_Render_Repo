@@ -562,12 +562,44 @@ app.post("/addSupplyReorder", (req, res) => {
   res.json({ success: true, message: "Date received successfully." });
 });
 
+// Getting all necessary data for View supply reorder
 app.post("/viewSupplyReorder", (req, res) => {
   const { reorder_id, date } = req.body;
 
   console.log("Received data:", reorder_id, date);
 
   res.json({ success: true, message: "Date received successfully." });
+});
+
+// Getting all necessary data for delete supply reorder
+app.post("/deleteSupplyReorder", (req, res) => {
+  const { reorder_id, date } = req.body;
+
+  console.log("Received data:", reorder_id, date);
+
+  res.json({ success: true, message: "Date received successfully." });
+});
+
+// Getting ingredient database and sending it to /inventory
+app.get("/reorder_items", async (req, res) => {
+  try {
+    console.log("Getting all the reorder_items");
+
+    const results = await pool.query("SELECT * FROM reorder_items;");
+    res.status(200).json({
+      status: "success",
+      results: results.rows.length,
+      data: {
+        table: results,
+      },
+    });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({
+      status: "error",
+      message: "An error occurred while fetching data.",
+    });
+  }
 });
 
 // Getting ingredient database and sending it to /inventory

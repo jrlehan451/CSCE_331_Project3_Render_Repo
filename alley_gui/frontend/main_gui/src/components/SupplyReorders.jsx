@@ -32,6 +32,7 @@ const SupplyReorders = () => {
   const [inventoryItems, setInventoryItems] = useState([]);
   const [openViewPopup, setOpenViewPopup] = useState(false);
   const [selectedInventoryItems, setSelectedInventoryItems] = useState([]);
+  const [reorderItemsData, setReorderItemsData] = useState([]);
 
   const columns = [
     { field: "reorder_id", headerName: "Reorder ID", width: 70, flex: 1 },
@@ -105,9 +106,59 @@ const SupplyReorders = () => {
   const viewHandleSubmit = async () => {
     console.log("Sending reorderId:", values.reorderId);
     console.log("Sending date: ", values.date);
+
     try {
       const response = await axios.post(
         "http://localhost:4000/viewSupplyReorder",
+        {
+          reorder_id: values.reorderId,
+          date: values.date,
+        }
+      );
+      const viewData = response.data;
+
+      //setViewPopupData(viewData);
+
+      const responseReorderItem = await axios.get(
+        "http://localhost:4000/reorder_items"
+      );
+      const reorderItemsData = responseReorderItem.data;
+
+      if (
+        reorderItemsData &&
+        reorderItemsData.data &&
+        reorderItemsData.data.table
+      ) {
+        console.log("Reorder Items Data:", reorderItemsData.data.table.rows);
+        console.log("Reorderid:", values.reorderId);
+
+        const filteredData = reorderItemsData.data.table.rows.filter(
+          (item) => item.reorder_id.toString() === values.reorderId.toString()
+        );
+
+        console.log("Reorder Items Data:", filteredData);
+
+        if (filteredData.length === 0) {
+          alert("Reorder ID doesn't exist. Please re-enter the data.");
+        } else {
+          setReorderItemsData(filteredData);
+
+          setOpenViewPopup(true);
+        }
+      } else {
+        console.log("No data available for reorder_items");
+      }
+    } catch (error) {
+      console.log("Error during fetching reorder_items data:", error);
+    }
+  };
+
+  const deleteHandleSubmit = async () => {
+    console.log("Sending reorderId:", values.reorderId);
+    console.log("Sending date: ", values.date);
+    try {
+      const response = await axios.post(
+        "http://localhost:4000/deleteSupplyReorder",
         {
           reorder_id: values.reorderId,
           date: values.date,
@@ -284,13 +335,16 @@ const SupplyReorders = () => {
               </FormControl>
             </div>
           </div>
+
           <div
             style={{ display: "flex", flexDirection: "column", gap: "10px" }}
           >
             <CustomButton onClick={addHandleSubmit}>
               Add Supply Reorder
             </CustomButton>
-            <CustomButton>Delete Supply Reorder</CustomButton>
+            <CustomButton onClick={deleteHandleSubmit}>
+              Delete Supply Reorder
+            </CustomButton>
             <CustomButton onClick={viewHandleSubmit}>
               View Supply Reorder
             </CustomButton>
@@ -386,6 +440,39 @@ const SupplyReorders = () => {
                 }}
               >
                 Done
+              </CustomButton>
+            </DialogContent>
+          </Dialog>
+
+          {/* View Supply Reorder Modal */}
+          <Dialog open={openViewPopup} onClose={() => setOpenViewPopup(false)}>
+            <DialogContent>
+              {reorderItemsData && reorderItemsData.length > 0 ? (
+                <div style={{ overflowX: "auto" }}>
+                  <table style={{ width: "100%" }}>
+                    <thead>
+                      <tr>
+                        <th>Reorder ID</th>
+                        <th>Item ID</th>
+                        <th>Amount</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {reorderItemsData.map((item, index) => (
+                        <tr key={index}>
+                          <td>{item.reorder_id}</td>
+                          <td>{item.item_id}</td>
+                          <td>{item.amount}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              ) : (
+                <p>No data available</p>
+              )}
+              <CustomButton onClick={() => setOpenViewPopup(false)}>
+                Close
               </CustomButton>
             </DialogContent>
           </Dialog>
