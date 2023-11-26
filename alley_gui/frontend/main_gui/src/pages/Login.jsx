@@ -12,7 +12,7 @@ const Login = () => {
     const getEmployees = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:4000/login_jsx"
+          "https://thealley.onrender.com/login_jsx"
         );
         const jsonVals = await response.data;
         console.log("Working");
