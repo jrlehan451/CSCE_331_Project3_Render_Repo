@@ -250,7 +250,7 @@ const BuildDrink = () => {
         const drinkCategories = async () => {
         try {
             const response = await axios.get(
-            "http://localhost:4000/add_ons"
+            "https://thealley.onrender.com/add_ons"
             );
             const jsonVals = await response.data;
             console.log("Working");
