@@ -552,14 +552,55 @@ app.get("/inventory_items", async (req, res) => {
     });
   }
 });
-
-// Getting all necessary data for adding supply reorder
 app.post("/addSupplyReorder", (req, res) => {
   const { selectedItems, reorder_id, date, amounts } = req.body;
 
-  console.log("Received data:", selectedItems, reorder_id, date, amounts);
+  console.log("amounts:", amounts);
+  console.log("reorder ID:", reorder_id);
+  console.log("Date:", date);
 
-  res.json({ success: true, message: "Date received successfully." });
+  const values = Object.entries(amounts).map(([item_id, amount]) => [
+    reorder_id,
+    item_id,
+    amount,
+  ]);
+
+  let placeholders = [];
+  let flattenedValues = [];
+
+  for (let i = 0; i < values.length; i++) {
+    const offset = i * 3;
+    placeholders.push(`($${offset + 1}, $${offset + 2}, $${offset + 3})`);
+    flattenedValues = flattenedValues.concat(values[i]);
+  }
+
+  pool.query(
+    `INSERT INTO reorder_items (reorder_id, item_id, amount) VALUES ${placeholders.join(
+      ", "
+    )};`,
+    flattenedValues,
+    (err, response) => {
+      if (err) {
+        console.log(err);
+        res.status(500).json({ success: false, message: "Error in database." });
+      } else {
+        console.log(response);
+      }
+    }
+  );
+
+  pool.query(
+    "INSERT INTO supply_reorders (reorder_id, date) VALUES ($1, $2);",
+    [reorder_id, date],
+    (err, response) => {
+      if (err) {
+        console.log(err);
+        res.status(500).json({ success: false, message: "Error in database." });
+      } else {
+        console.log(response);
+      }
+    }
+  );
 });
 
 // Getting all necessary data for View supply reorder
@@ -577,7 +618,34 @@ app.post("/deleteSupplyReorder", (req, res) => {
 
   console.log("Received data:", reorder_id, date);
 
-  res.json({ success: true, message: "Date received successfully." });
+  // First query to delete from reorder_items
+  pool.query(
+    "DELETE FROM reorder_items WHERE reorder_id = $1",
+    [reorder_id],
+    (deleteErr1, deleteResponse1) => {
+      if (deleteErr1) {
+        console.log(deleteErr1);
+        res.status(500).send("Delete unsuccessful");
+      } else {
+        console.log(deleteResponse1);
+
+        // Second query to delete from supply_reorders
+        pool.query(
+          "DELETE FROM supply_reorders WHERE reorder_id = $1",
+          [reorder_id],
+          (deleteErr2, deleteResponse2) => {
+            if (deleteErr2) {
+              console.log(deleteErr2);
+              res.status(500).send("Delete unsuccessful");
+            } else {
+              console.log(deleteResponse2);
+              res.json({ success: true, message: "Delete successful" });
+            }
+          }
+        );
+      }
+    }
+  );
 });
 
 // Getting ingredient database and sending it to /inventory

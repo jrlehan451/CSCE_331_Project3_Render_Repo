@@ -156,21 +156,60 @@ const SupplyReorders = () => {
   const deleteHandleSubmit = async () => {
     console.log("Sending reorderId:", values.reorderId);
     console.log("Sending date: ", values.date);
-    try {
-      const response = await axios.post(
-        "http://localhost:4000/deleteSupplyReorder",
-        {
-          reorder_id: values.reorderId,
-          date: values.date,
+
+    const responseReorderItem = await axios.get(
+      "http://localhost:4000/supply_reorders"
+    );
+    const reorderItemsData = responseReorderItem.data;
+
+    if (
+      reorderItemsData &&
+      reorderItemsData.data &&
+      reorderItemsData.data.table
+    ) {
+      console.log("Reorder Items Data:", reorderItemsData.data.table.rows);
+      console.log("Reorderid:", values.reorderId);
+
+      const filteredData = reorderItemsData.data.table.rows.filter((item) => {
+        console.log("Item reorder_id type:", typeof item.reorder_id);
+        console.log("values.reorderId type:", typeof values.reorderId);
+        console.log("Item reorder_id:", item.reorder_id);
+        console.log("values.reorderId:", values.reorderId);
+
+        const itemReorderId = parseInt(item.reorder_id, 10);
+        const valuesReorderId = parseInt(values.reorderId, 10);
+        console.log("Parsed Item reorder_id:", itemReorderId);
+        console.log("Parsed values.reorderId:", valuesReorderId);
+
+        return itemReorderId === valuesReorderId;
+      });
+
+      // const filteredData = reorderItemsData.data.table.rows.filter(
+      //   (item) => item.reorder_id === parseInt(values.reorderId, 10)
+      // );
+
+      console.log("Reorder Items Data:", filteredData);
+
+      if (filteredData.length === 0) {
+        alert("Reorder ID doesn't exist. Please re-enter the data.");
+      } else {
+        try {
+          const response = await axios.post(
+            "http://localhost:4000/deleteSupplyReorder",
+            {
+              reorder_id: values.reorderId,
+              date: values.date,
+            }
+          );
+          const viewData = response.data;
+
+          //setViewPopupData(viewData);
+
+          //setOpenViewPopup(true);
+        } catch (error) {
+          console.error("Error during view supply reorder:", error);
         }
-      );
-      const viewData = response.data;
-
-      //setViewPopupData(viewData);
-
-      setOpenViewPopup(true);
-    } catch (error) {
-      console.error("Error during view supply reorder:", error);
+      }
     }
   };
 
