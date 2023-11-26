@@ -15,31 +15,31 @@ const AnalyzeTrends = () => {
       try {
         let response;
         if (selectedTrend === 'Restock Report') {
-          response = await axios.get('http://localhost:4000/RestockReport', {
+          response = await axios.get('https://thealley.onrender.com/RestockReport', {
 
           });
         } else if (selectedTrend === 'Excess Report') {
-          response = await axios.get('http://localhost:4000/ExcessReport', {
+          response = await axios.get('https://thealley.onrender.com/ExcessReport', {
             params: {
               startTimestamp,
             },
           });
         } else if (selectedTrend === 'Sales Report') {
-          response = await axios.get('http://localhost:4000/SalesReport', {
+          response = await axios.get('https://thealley.onrender.com/SalesReport', {
             params: {
               startTimestamp,
               endTimestamp,
             },
           });
         } else if (selectedTrend === 'What Sells Together') {
-          response = await axios.get('http://localhost:4000/WhatSellsTogether', {
+          response = await axios.get('https://thealley.onrender.com/WhatSellsTogether', {
             params: {
               startTimestamp,
               endTimestamp,
             },
           });
         } else if (selectedTrend === 'Menu Item Popularity Analysis') {
-          response = await axios.get('http://localhost:4000/MenuItemPopularityAnalysis', {
+          response = await axios.get('https://thealley.onrender.com/MenuItemPopularityAnalysis', {
             params: {
               startTimestamp,
               endTimestamp,
