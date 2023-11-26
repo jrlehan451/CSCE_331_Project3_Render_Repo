@@ -553,10 +553,19 @@ app.get("/inventory_items", async (req, res) => {
   }
 });
 
-app.post("/save_selected_items", (req, res) => {
+// Getting all necessary data for adding supply reorder
+app.post("/addSupplyReorder", (req, res) => {
   const { selectedItems, reorder_id, date, amounts } = req.body;
 
   console.log("Received data:", selectedItems, reorder_id, date, amounts);
+
+  res.json({ success: true, message: "Date received successfully." });
+});
+
+app.post("/viewSupplyReorder", (req, res) => {
+  const { reorder_id, date } = req.body;
+
+  console.log("Received data:", reorder_id, date);
 
   res.json({ success: true, message: "Date received successfully." });
 });

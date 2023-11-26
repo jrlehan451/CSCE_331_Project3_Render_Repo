@@ -44,13 +44,13 @@ const SupplyReorders = () => {
     amounts: {},
   });
 
-  const sendSelectedItemsToBackend = async (selectedItems, amounts) => {
+  const addSupplyReorder = async (selectedItems, amounts) => {
     console.log("Selected Items to be sent:", selectedItems);
     console.log("Amounts to be sent:", amounts);
 
     try {
       const response = await axios.post(
-        "http://localhost:4000/save_selected_items",
+        "http://localhost:4000/addSupplyReorder",
         {
           selectedItems: selectedItems,
           amounts: amounts,
@@ -103,9 +103,15 @@ const SupplyReorders = () => {
   }, []);
 
   const viewHandleSubmit = async () => {
+    console.log("Sending reorderId:", values.reorderId);
+    console.log("Sending date: ", values.date);
     try {
-      const response = await axios.get(
-        "http://localhost:4000/view_supply_reorder"
+      const response = await axios.post(
+        "http://localhost:4000/viewSupplyReorder",
+        {
+          reorder_id: values.reorderId,
+          date: values.date,
+        }
       );
       const viewData = response.data;
 
@@ -373,10 +379,7 @@ const SupplyReorders = () => {
                     selectedInventoryItems
                   );
 
-                  sendSelectedItemsToBackend(
-                    selectedInventoryItems,
-                    values.amounts
-                  );
+                  addSupplyReorder(selectedInventoryItems, values.amounts);
 
                   setOpenPopup(false);
                   handleCloseModal();
