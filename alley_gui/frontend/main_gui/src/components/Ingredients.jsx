@@ -88,7 +88,7 @@ const Ingredients = () => {
     const ingredientItems = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:4000/ingredient_items"
+          "https://thealley.onrender.com/ingredient_items"
         );
         const jsonVals = await response.data;
         console.log("Working");
@@ -117,7 +117,7 @@ const Ingredients = () => {
     const fetchData = async () => {
       if (!openPopup) {
         // Popup is closed, perform the axios POST request
-        await axios.post("http://localhost:4000/addItemIngredient", values);
+        await axios.post("https://thealley.onrender.com/addItemIngredient", values);
 
         setValues({ ...values, ingredientId: "" });
       }
@@ -131,7 +131,7 @@ const Ingredients = () => {
 
     try {
       const ingredientResponse = await axios.get(
-        "http://localhost:4000/ingredient_items"
+        "https://thealley.onrender.com/ingredient_items"
       );
       const ingredientData = ingredientResponse.data.data.table.rows;
 
@@ -143,7 +143,7 @@ const Ingredients = () => {
       if (itemToDelete) {
         // // Fetch the corresponding inventory_id
 
-        await axios.post("http://localhost:4000/deleteItemIngredient", values);
+        await axios.post("https://thealley.onrender.com/deleteItemIngredient", values);
         console.log("Item deleted succesfully");
       } else {
         alert("Item with the specified ingredientId and name not found.");
@@ -166,7 +166,7 @@ const Ingredients = () => {
       try {
         // Check if itemId already exists in the inventory
         const inventoryResponse = await axios.get(
-          "http://localhost:4000/ingredient_items"
+          "https://thealley.onrender.com/ingredient_items"
         );
         const inventoryData = inventoryResponse.data.data.table.rows;
 
@@ -183,7 +183,7 @@ const Ingredients = () => {
         } else {
           // Continue fetching data and displaying the popup
           const response = await axios.get(
-            "http://localhost:4000/inventory_items"
+            "https://thealley.onrender.com/inventory_items"
           );
           const jsonVals = response.data;
 
