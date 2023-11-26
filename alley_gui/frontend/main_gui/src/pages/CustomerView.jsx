@@ -56,7 +56,7 @@ const CustomerHome = () => {
         const drinkCategories = async () => {
         try {
             const response = await axios.get(
-            "http://localhost:4000/drink_categories"
+            "https://thealley.onrender.com/drink_categories"
             );
             const jsonVals = await response.data;
             console.log("Working");
