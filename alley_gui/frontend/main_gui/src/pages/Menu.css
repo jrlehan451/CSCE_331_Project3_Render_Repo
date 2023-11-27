@@ -1,0 +1,77 @@
+body {
+    background-color: #ffefe2; 
+}
+
+.menu-title {
+    color: #8b9477; 
+    font-size: 24px; 
+    text-align: center;
+    padding: 10px; 
+}
+
+.home-button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    border : 0px;
+    background-color: #ffefe2;
+    color: #8b9477; 
+}
+
+.home-button img {
+    width: 50px;
+    height: 20%;
+    right: 10px; 
+}
+
+.navigation {
+    position: fixed; 
+    bottom: 40%;
+    right: 20px; 
+    background-color: #ffefe2;
+    font-size: 100px;
+    border: 0px;
+}
+
+.drink-panel {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin: 0 1in;
+}
+
+.category-panel {
+    width: 45%; 
+    font-size: 16px;
+    padding: 10px;
+    margin: 10px;
+    text-align: center;
+    color: #9e693f;
+    display: inline-block;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items:start;
+
+}
+
+.category-title {
+    width: 100%; 
+    font-size: 48px; 
+    margin-bottom: 10px; 
+}
+
+.drink-entry{
+    width: 25%;
+    padding: 10px;
+    margin: 5px;
+    display: inline-block; 
+    vertical-align: top; 
+    text-align: center;
+    min-height: 50%;
+}
+
+.drink-square {
+    width: 100%;
+    border: 1px solid #25371d; 
+}

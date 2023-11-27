@@ -1,8 +1,18 @@
 function select(element) {
-    element.classList.add("selected");
-    getSiblings(element).forEach(s => {
-        s.classList.remove("selected");
-    }); 
+    if (element.classList.contains("selected")) {
+        element.classList.remove("selected");
+
+        let deleteButton = document.getElementById("delete");
+        deleteButton.classList.add("grayed-button");
+    } else {
+        element.classList.add("selected");
+        getSiblings(element).forEach(s => {
+            s.classList.remove("selected");
+        }); 
+
+        let deleteButton = document.getElementById("delete");
+        deleteButton.classList.remove("grayed-button");
+    }
 }
 
 function redirect(event) {
@@ -55,7 +65,7 @@ function CashierOrder({drinks, add_ons}) {
 
             rows.push(<tr key={i} class="order-row" onClick={redirect} dangerouslySetInnerHTML={{__html: tr}}></tr>);
         } 
-        rows.push(<div class="filler-rows"></div>);
+        rows.push(<div key="filler" class="filler-rows"></div>);
         return rows;
     }
 

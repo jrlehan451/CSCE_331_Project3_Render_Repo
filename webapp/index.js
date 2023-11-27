@@ -57,6 +57,25 @@ app.get("/", (req, res) => {
   });
 });
 
+app.get("/login_jsx", async (req, res) => {
+  try {
+    const results = await pool.query("SELECT * FROM employees;");
+    res.status(200).json({
+      status: "success",
+      results: results.rows.length,
+      data: {
+        employees: results,
+      },
+    });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({
+      status: "error",
+      message: "An error occurred while fetching data.",
+    });
+  }
+});
+
 app.get("/manager_main", (req, res) => {
   const data = { name: "Mario" };
   res.render("manager_main", data);
@@ -489,6 +508,42 @@ app.get("/menu", (req, res) => {
   });
 });
 
+app.get("/menu_jsx", async (req, res) => {
+  const drinksByCategory = {};
+  try {
+    const results = await pool
+      .query("SELECT * FROM drinks;")
+      .then((query_res) => {
+        const drinks = query_res.rows;
+
+        // Organize drinks by category
+        drinks.forEach((drink) => {
+          const category = drink.category;
+
+          if (!drinksByCategory[category]) {
+            drinksByCategory[category] = [];
+          }
+
+          drinksByCategory[category].push(drink);
+        });
+      });
+
+    console.log(drinksByCategory);
+    res.status(200).json({
+      status: "success",
+      data: {
+        drinksByCategory: drinksByCategory,
+      },
+    });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({
+      status: "error",
+      message: "An error occurred while fetching data.",
+    });
+  }
+});
+
 app.get("/menu_addons", (req, res) => {
   addOns = [];
 
@@ -502,6 +557,27 @@ app.get("/menu_addons", (req, res) => {
       const data = { addOns: addOns };
       res.render("menu_addons", data);
     });
+});
+
+app.get("/menu_addons_jsx", async (req, res) => {
+  try {
+    console.log("Getting all the add ons");
+
+    const results = await pool.query(
+      "SELECT * FROM ingredients WHERE cost > 0;"
+    );
+    res.status(200).json({
+      status: "success",
+      results: results.rows,
+      data: { results },
+    });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({
+      status: "error",
+      message: "An error occurred while fetching data.",
+    });
+  }
 });
 
 app.get("/inventory", (req, res) => {
@@ -999,6 +1075,62 @@ app.post("/deleteItemInventory", (req, res) => {
     }
   );
 });
+
+app.get("/ExcessReport", async (req, res) => {
+  try {
+    category = req.query.category;
+    console.log(category);
+    const drinkCategoriesQuery = await pool.query(
+      "SELECT DISTINCT category FROM drinks;"
+    );
+    const drinksQuery = await pool.query(
+      "SELECT * FROM drinks WHERE category = $1",
+      [category]
+    );
+
+    res.status(200).json({
+      status: "success",
+
+      data: {
+        categories: drinkCategoriesQuery.rows,
+        drinks: drinksQuery.rows,
+      },
+    });
+  } catch (error) {
+    console.error("Error fetching drink series:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
+app.get("/MenuItemsPopularityAnalysis", async (req, res) => {});
+
+app.get("/RestockReport", async (req, res) => {
+  try {
+    console.log("Getting Restock Report");
+
+    const results = await pool.query(
+      "SELECT * FROM inventory_items WHERE count < fill_level GROUP BY fill_level, item_id ORDER BY name;"
+    );
+    console.log(results);
+    res.status(200).json({
+      status: "success",
+      results: results.rows.length,
+      data: {
+        inventory: results,
+      },
+    });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({
+      status: "error",
+      message: "An error occurred while fetching data.",
+    });
+  }
+});
+
+app.get("/SalesReport", async (req, res) => {});
+
+app.get("/WhatSalesTogether", async (req, res) => {});
 
 // menu items call
 app.get("/menuItems", async (req, res) => {
