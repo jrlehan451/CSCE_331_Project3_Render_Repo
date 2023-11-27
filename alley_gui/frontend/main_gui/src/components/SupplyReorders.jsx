@@ -15,6 +15,7 @@ import {
 } from "@mui/material";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import DialogContent from "@mui/material/DialogContent";
+import NavBar from "./MenuItems/NavBar";
 
 const SupplyReorders = () => {
   const [data, setData] = useState([]);
@@ -101,6 +102,11 @@ const SupplyReorders = () => {
     };
 
     supplyReorders();
+
+    const refreshInterval = 2000;
+    const refreshTimer = setInterval(supplyReorders, refreshInterval);
+
+    return () => clearInterval(refreshTimer);
   }, []);
 
   const viewHandleSubmit = async () => {
@@ -325,6 +331,8 @@ const SupplyReorders = () => {
 
   return (
     <ThemeProvider theme={theme}>
+      <NavBar />
+
       <div
         style={{
           backgroundColor: theme.palette.primary.main,

@@ -12,6 +12,8 @@ import {
   FormControl,
 } from "@mui/material";
 
+import NavBar from "./MenuItems/NavBar";
+
 import Dialog from "@mui/material/Dialog";
 import DialogTitle from "@mui/material/DialogTitle";
 import DialogContent from "@mui/material/DialogContent";
@@ -83,7 +85,7 @@ const Inventory = () => {
 
   // Getting inventory from the backend
   useEffect(() => {
-    const inventoryItems = async () => { 
+    const inventoryItems = async () => {
       try {
         const response = await axios.get(
           "http://localhost:4000/inventory_items"
@@ -109,7 +111,10 @@ const Inventory = () => {
       }
     };
 
-    inventoryItems();
+    const refreshInterval = 2000;
+    const refreshTimer = setInterval(inventoryItems, refreshInterval);
+
+    return () => clearInterval(refreshTimer);
   }, []);
 
   // Getting ingredient SQL query and updating the inventory backend as well
@@ -226,6 +231,8 @@ const Inventory = () => {
 
   return (
     <ThemeProvider theme={theme}>
+      <NavBar />
+
       <Dialog
         open={openPopup}
         onClose={() => setOpenPopup(false)}

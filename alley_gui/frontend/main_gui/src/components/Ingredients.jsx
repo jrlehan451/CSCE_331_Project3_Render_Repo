@@ -15,6 +15,7 @@ import Dialog from "@mui/material/Dialog";
 
 import DialogTitle from "@mui/material/DialogTitle";
 import DialogContent from "@mui/material/DialogContent";
+import NavBar from "./MenuItems/NavBar";
 
 const Ingredients = () => {
   // Creating custom buttons
@@ -84,33 +85,37 @@ const Ingredients = () => {
   };
 
   // Getting inventory from the backend
-  useEffect(() => {
-    const ingredientItems = async () => {
-      try {
-        const response = await axios.get(
-          "http://localhost:4000/ingredient_items"
-        );
-        const jsonVals = await response.data;
-        console.log("Working");
-        console.log(jsonVals.data.table);
-        // the item. names are from the database and left side values are from our const columns
-        const rowsWithId = jsonVals.data.table.rows.map(
-          (item, ingredient_id) => ({
-            id: ingredient_id,
-            ingredientId: item.ingredient_id,
-            inventoryId: item.inventory_id,
-            name: item.name,
-            cost: item.cost,
-          })
-        );
-        setData(rowsWithId);
-      } catch (err) {
-        console.log("ERROR");
-        console.error(err.message);
-      }
-    };
+  const ingredientItems = async () => {
+    try {
+      const response = await axios.get(
+        "http://localhost:4000/ingredient_items"
+      );
+      const jsonVals = await response.data;
+      console.log("Working");
+      console.log(jsonVals.data.table);
+      // the item. names are from the database and left side values are from our const columns
+      const rowsWithId = jsonVals.data.table.rows.map(
+        (item, ingredient_id) => ({
+          id: ingredient_id,
+          ingredientId: item.ingredient_id,
+          inventoryId: item.inventory_id,
+          name: item.name,
+          cost: item.cost,
+        })
+      );
+      setData(rowsWithId);
+    } catch (err) {
+      console.log("ERROR");
+      console.error(err.message);
+    }
+  };
 
+  useEffect(() => {
     ingredientItems();
+
+    const refreshTimer = setInterval(ingredientItems, 2000);
+
+    return () => clearInterval(refreshTimer);
   }, []);
 
   useEffect(() => {
@@ -150,6 +155,32 @@ const Ingredients = () => {
       }
     } catch (error) {
       console.error("Error during item deletion:", error);
+    }
+  };
+
+  const updateHandleSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      const ingredientResponse = await axios.get(
+        "http://localhost:4000/ingredient_items"
+      );
+      const ingredientData = ingredientResponse.data.data.table.rows;
+
+      const itemToDelete = ingredientData.find(
+        (item) => item.ingredient_id == values.ingredientId
+      );
+
+      if (itemToDelete) {
+        // // Fetch the corresponding inventory_id
+
+        await axios.post("http://localhost:4000/updateItemIngredient", values);
+        console.log("Item updated succesfully");
+      } else {
+        alert("Item with the specified ingredientId not found.");
+      }
+    } catch (error) {
+      console.error("Error during item updation:", error);
     }
   };
 
@@ -202,6 +233,8 @@ const Ingredients = () => {
 
   return (
     <ThemeProvider theme={theme}>
+      <NavBar />
+
       <Dialog
         open={openPopup}
         onClose={() => setOpenPopup(false)}
@@ -328,7 +361,9 @@ const Ingredients = () => {
           <CustomButton onClick={deleteHandleSubmit}>
             Delete ingredient
           </CustomButton>
-          <CustomButton>Update ingredient</CustomButton>
+          <CustomButton onClick={updateHandleSubmit}>
+            Update ingredient
+          </CustomButton>
         </div>
       </div>
     </ThemeProvider>

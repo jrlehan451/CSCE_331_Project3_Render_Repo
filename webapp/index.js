@@ -797,6 +797,56 @@ app.get("/inventory_items/:itemId", (req, res) => {
   );
 });
 
+app.post("/updateItemIngredient", (req, res) => {
+  console.log("UpdateItemIngredient");
+  console.log(req.body.ingredientId);
+  console.log(req.body.inventoryId);
+  console.log(req.body.name);
+  console.log(req.body.cost);
+
+  if (req.body.cost && req.body.name) {
+    pool.query(
+      "UPDATE ingredients SET name = $1, cost = $2 WHERE ingredient_id = $3",
+      [req.body.name, req.body.cost, req.body.ingredientId],
+      (err, response) => {
+        if (err) {
+          console.log(err);
+          res.status(500).send("Update unsuccessful");
+        } else {
+          console.log(response);
+          res.send("Update successful");
+        }
+      }
+    );
+  } else if (req.body.cost) {
+    pool.query(
+      "UPDATE ingredients SET cost = $1 WHERE ingredient_id = $2",
+      [req.body.cost, req.body.ingredientId],
+      (err, response) => {
+        if (err) {
+          console.log(err);
+          res.status(500).send("Update unsuccessful");
+        } else {
+          console.log(response);
+          res.send("Update successful");
+        }
+      }
+    );
+  } else {
+    pool.query(
+      "UPDATE ingredients SET name = $1 WHERE ingredient_id = $2",
+      [req.body.name, req.body.ingredientId],
+      (err, response) => {
+        if (err) {
+          console.log(err);
+        } else {
+          console.log(response);
+        }
+      }
+    );
+  }
+});
+
 app.post("/deleteItemIngredient", (req, res) => {
   console.log("app.deleteItemIngredient");
   console.log(req.body.ingredientId);
