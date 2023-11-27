@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import drinkImage from './images/peach_oolong_tea.png';
 import HomeButton from './images/HomeButton.png';
+import arrow from './images/back_arrow.png';
+
 import './Menu.css'
 
 const Menu = () => {
@@ -15,7 +16,14 @@ const Menu = () => {
         }
       
         return words.join(" ");
-      };
+    };
+
+    function getImage(name){
+        name = "/drink_images/" + name;
+        name += ".png"
+        const words = name.split(" ");
+        return words.join("_");
+    }
   
     const returnHome = () => {
         window.location.href = "/";
@@ -50,18 +58,20 @@ const Menu = () => {
 
     return (
       <div>
-        <div className="menu-title"><h1>Step 1: Choose Your Drink</h1></div>
+        <h1 className="menu-title">Step 1: Choose Your Drink</h1>
         <button className="home-button" onClick={returnHome}>
-            <img  src={HomeButton} alt="home" />
+            <img src={HomeButton} alt="home" />
         </button>
-        <button className="navigation" onClick={navigateToMenuAddons}> {'>'}</button>
+        <button className="navigationToMenuAddOns" onClick={navigateToMenuAddons}>
+            <img src={arrow} alt="arrow" />
+        </button>
         <div className="drink-panel">
             {Object.keys(drinks).map(category => (
                 <div class = "category-panel" key={category}>
                     <h2 class="category-title"> {capitalizeName(category, '_')} </h2>
                         {drinks[category].map(drink => (
-                            <div class="drink-entry" key={category}> 
-                                <img class ="drink-square" src={drinkImage} alt="Drink" />
+                            <div class="drink-entry" key={drink}> 
+                                <img class ="drink-square" src={getImage(category)} alt={capitalizeName(drink.name, ' ')} />
                                 <p class="drink-name">{capitalizeName(drink.name, ' ')}</p> 
                             </div>                    
                         ))}

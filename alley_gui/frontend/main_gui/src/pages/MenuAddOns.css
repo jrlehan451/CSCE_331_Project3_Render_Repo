@@ -1,30 +1,17 @@
-body {
-    background-color: #ffefe2; 
-}
-
-.menu-title {
-    color: #8b9477; 
-    font-size: 24px; 
-    text-align: center;
-    padding: 10px; 
-}
-
-.home-button {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    border : 0px;
-    background-color: #ffefe2;
-    font-size: 40px;
-}
-
-.navigationToMenu{
+.navigationToMenu {
     position: fixed; 
-    bottom: 40%;
-    left: 20px; 
+    bottom: 40vh;
+    left: 2vh; 
     background-color: #ffefe2;
-    font-size: 100px;
-    border: 0px;
+    border: 0;
+    padding: 1vh;
+    cursor:pointer;
+}
+
+.navigationToMenu img {
+    height: 5vh;
+    width: 5vw;
+    position:fixed;
 }
 
 .addon-container{
@@ -33,13 +20,15 @@ body {
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: space-between;
-    margin: 0 1in;
+    margin: 0 10vw;
+    margin-bottom: 5vh;
+    font-size: 1.1vw;
 }
 
 .addon-entry{
-    width: 16%;
-    padding: 10px;
-    margin: 5px;
+    width: 13vw;
+    padding: 1vh;
+    margin: .5vh;
     display: inline-block; 
     vertical-align: top; 
     text-align: center;
@@ -48,5 +37,5 @@ body {
 
 .addon-square {
     width: 100%;
-    border: 1px solid #25371d; 
+    border: .1vh solid #25371d; 
 }
