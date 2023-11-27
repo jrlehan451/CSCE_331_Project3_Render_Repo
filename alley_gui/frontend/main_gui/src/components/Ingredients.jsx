@@ -15,15 +15,20 @@ import Dialog from "@mui/material/Dialog";
 
 import DialogTitle from "@mui/material/DialogTitle";
 import DialogContent from "@mui/material/DialogContent";
+import NavBar from "./MenuItems/NavBar";
+import "./MenuItems/MenuItems.css";
 
 const Ingredients = () => {
   // Creating custom buttons
   const CustomButton = styled(ListItemButton)(({ theme }) => ({
     backgroundColor: "#ffefe2",
-    color: "black",
+    border: "2px solid #9e693f",
+    color: "#9e693f",
+    fontWeight: "bold",
     margin: 10,
-    borderRadius: "8px",
-    width: "200px",
+    marginTop: 25,
+    borderRadius: "80px",
+    width: "150px",
     minHeight: "40px",
     maxHeight: "60px",
     "&:hover": { backgroundColor: "lightblue" },
@@ -84,33 +89,37 @@ const Ingredients = () => {
   };
 
   // Getting inventory from the backend
-  useEffect(() => {
-    const ingredientItems = async () => {
-      try {
-        const response = await axios.get(
-          "http://localhost:4000/ingredient_items"
-        );
-        const jsonVals = await response.data;
-        console.log("Working");
-        console.log(jsonVals.data.table);
-        // the item. names are from the database and left side values are from our const columns
-        const rowsWithId = jsonVals.data.table.rows.map(
-          (item, ingredient_id) => ({
-            id: ingredient_id,
-            ingredientId: item.ingredient_id,
-            inventoryId: item.inventory_id,
-            name: item.name,
-            cost: item.cost,
-          })
-        );
-        setData(rowsWithId);
-      } catch (err) {
-        console.log("ERROR");
-        console.error(err.message);
-      }
-    };
+  const ingredientItems = async () => {
+    try {
+      const response = await axios.get(
+        "http://localhost:4000/ingredient_items"
+      );
+      const jsonVals = await response.data;
+      console.log("Working");
+      console.log(jsonVals.data.table);
+      // the item. names are from the database and left side values are from our const columns
+      const rowsWithId = jsonVals.data.table.rows.map(
+        (item, ingredient_id) => ({
+          id: ingredient_id,
+          ingredientId: item.ingredient_id,
+          inventoryId: item.inventory_id,
+          name: item.name,
+          cost: item.cost,
+        })
+      );
+      setData(rowsWithId);
+    } catch (err) {
+      console.log("ERROR");
+      console.error(err.message);
+    }
+  };
 
+  useEffect(() => {
     ingredientItems();
+
+    const refreshTimer = setInterval(ingredientItems, 2000);
+
+    return () => clearInterval(refreshTimer);
   }, []);
 
   useEffect(() => {
@@ -150,6 +159,32 @@ const Ingredients = () => {
       }
     } catch (error) {
       console.error("Error during item deletion:", error);
+    }
+  };
+
+  const updateHandleSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      const ingredientResponse = await axios.get(
+        "http://localhost:4000/ingredient_items"
+      );
+      const ingredientData = ingredientResponse.data.data.table.rows;
+
+      const itemToDelete = ingredientData.find(
+        (item) => item.ingredient_id == values.ingredientId
+      );
+
+      if (itemToDelete) {
+        // // Fetch the corresponding inventory_id
+
+        await axios.post("http://localhost:4000/updateItemIngredient", values);
+        console.log("Item updated succesfully");
+      } else {
+        alert("Item with the specified ingredientId not found.");
+      }
+    } catch (error) {
+      console.error("Error during item updation:", error);
     }
   };
 
@@ -202,6 +237,8 @@ const Ingredients = () => {
 
   return (
     <ThemeProvider theme={theme}>
+      <NavBar />
+
       <Dialog
         open={openPopup}
         onClose={() => setOpenPopup(false)}
@@ -266,9 +303,10 @@ const Ingredients = () => {
         }}
       >
         <h1>Ingredient Page</h1>
-
-        <div style={{ height: 400, width: "80vw", marginBottom: "20px" }}>
-          <DataGrid rows={data} columns={columns} columnBuffer={2} />
+        <div class="tablesInfo">
+          <div style={{ height: 400, width: "80vw", marginBottom: "20px" }}>
+            <DataGrid rows={data} columns={columns} columnBuffer={2} />
+          </div>
         </div>
 
         <div
@@ -328,7 +366,9 @@ const Ingredients = () => {
           <CustomButton onClick={deleteHandleSubmit}>
             Delete ingredient
           </CustomButton>
-          <CustomButton>Update ingredient</CustomButton>
+          <CustomButton onClick={updateHandleSubmit}>
+            Update ingredient
+          </CustomButton>
         </div>
       </div>
     </ThemeProvider>
