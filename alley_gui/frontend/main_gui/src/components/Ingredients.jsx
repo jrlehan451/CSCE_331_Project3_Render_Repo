@@ -92,7 +92,7 @@ const Ingredients = () => {
   const ingredientItems = async () => {
     try {
       const response = await axios.get(
-        "http://localhost:4000/ingredient_items"
+        "https://thealley.onrender.com/ingredient_items"
       );
       const jsonVals = await response.data;
       console.log("Working");
@@ -167,7 +167,7 @@ const Ingredients = () => {
 
     try {
       const ingredientResponse = await axios.get(
-        "http://localhost:4000/ingredient_items"
+        "https://thealley.onrender.com/ingredient_items"
       );
       const ingredientData = ingredientResponse.data.data.table.rows;
 
@@ -178,7 +178,7 @@ const Ingredients = () => {
       if (itemToDelete) {
         // // Fetch the corresponding inventory_id
 
-        await axios.post("http://localhost:4000/updateItemIngredient", values);
+        await axios.post("https://thealley.onrender.com/updateItemIngredient", values);
         console.log("Item updated succesfully");
       } else {
         alert("Item with the specified ingredientId not found.");
