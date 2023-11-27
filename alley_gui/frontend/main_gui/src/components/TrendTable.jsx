@@ -19,6 +19,21 @@ const TrendTable = ({ jsonData }) => {
       
         return words.join(" ");
     };
+
+    function formatCellValue(columnName, cellValue) {
+        switch (columnName) {
+          case 'name':
+          case 'drink_1':
+          case 'drink_2':
+          case 'add_on_name':
+          case 'drink_name':
+            return capitalizeName(cellValue.trim(), ' ');
+          case 'total_sales':
+            return Number(cellValue).toFixed(2);
+          default:
+            return cellValue;
+        }
+      }
   
     const renderTableHeader = () => {
       const columnNames = getColumnNames();
@@ -27,7 +42,7 @@ const TrendTable = ({ jsonData }) => {
         <thead>
           <tr>
             {columnNames.map((columnName, index) => (
-              <th key={index}>{capitalizeName(columnName, '_')}</th>
+              <th key={index}>{capitalizeName(columnName.trim(), '_')}</th>
             ))}
           </tr>
         </thead>
@@ -40,7 +55,7 @@ const TrendTable = ({ jsonData }) => {
           {jsonData.map((row, rowIndex) => (
             <tr key={rowIndex}>
               {Object.values(row).map((cellValue, cellIndex) => (
-                <td key={cellIndex}>{cellValue}</td>
+                <td key={cellIndex}>{formatCellValue(getColumnNames()[cellIndex], cellValue)}</td>
               ))}
             </tr>
           ))}

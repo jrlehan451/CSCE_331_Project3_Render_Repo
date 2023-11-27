@@ -128,15 +128,19 @@ const AnalyzeTrends = () => {
         </div>
 
         <div className="timestamp-section">
-          <div className="start-timestamp-section">
-            <label htmlFor="start-timestamp">Start Time:</label>
-            <input type="text" id="start-timestamp" placeholder="YYYY:MM:DD HH:MM:SS" value={startTimestamp} onChange={(e) => setStartTimestamp(e.target.value)} />
-          </div>
+          {selectedTrend !== 'Restock Report' && (
+            <div className="start-timestamp-section">
+              <label htmlFor="start-timestamp">Start Time:</label>
+              <input type="text" id="start-timestamp" placeholder="YYYY:MM:DD HH:MM:SS" value={startTimestamp} onChange={(e) => setStartTimestamp(e.target.value)} />
+            </div>
+          )}
           
-          <div className="end-timestamp-section">
-            <label htmlFor="end-timestamp">End Time:</label>
-            <input type="text" id="end-timestamp" placeholder="YYYY:MM:DD HH:MM:SS" value={endTimestamp} readOnly={isExcessReport} onChange={(e) => setEndTimestamp(e.target.value)}/>
-          </div>
+          {selectedTrend !== 'Restock Report' && (
+            <div className="end-timestamp-section">
+              <label htmlFor="end-timestamp">End Time:</label>
+              <input type="text" id="end-timestamp" placeholder="YYYY:MM:DD HH:MM:SS" value={endTimestamp} readOnly={isExcessReport} style={{ backgroundColor: isExcessReport ? '#D3D3D3' : '#FFF' }} onChange={(e) => setEndTimestamp(e.target.value)}/>
+            </div>
+          )}
         </div>
 
         <div className="trend-panel">

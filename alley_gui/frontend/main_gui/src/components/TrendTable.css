@@ -22,7 +22,7 @@
 
 
 .trend-table tr {
-  border-bottom: .1vh solid #9e693f; 
+  border-bottom: .1vh solid #9e693f;
 }
 
 .trend-table tr:last-child {
@@ -36,4 +36,3 @@
 .trend-table td:last-child {
   border-right: none; 
 }
-
