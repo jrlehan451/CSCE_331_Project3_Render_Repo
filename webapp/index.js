@@ -887,32 +887,131 @@ app.post("/deleteItemInventory", (req, res) => {
 
 app.get('/ExcessReport', async (req, res) => {
   try {
-    category = req.query.category;
-    console.log(category);
-    const drinkCategoriesQuery = await pool.query('SELECT DISTINCT category FROM drinks;');
-    const drinksQuery = await pool.query('SELECT * FROM drinks WHERE category = $1', [category]);
-
-    res.status(200).json({ 
+    console.log("Getting Excess Report");
+    console.log(req.query.startTimestamp, req.query.endTimestamp);
+    const query = {
+      text: `
+        WITH ItemTotals AS (
+          SELECT
+            ri.item_id,
+            SUM(ri.amount) AS total_amount
+          FROM
+            reorder_items ri
+          WHERE
+            ri.reorder_id IN (
+              SELECT
+                reorder_id
+              FROM
+                supply_reorders
+              WHERE
+                date BETWEEN $1 AND $2
+            )
+          GROUP BY
+            ri.item_id
+        )
+        SELECT
+          it.item_id,
+          ii.name
+        FROM
+          ItemTotals it
+          RIGHT JOIN inventory_items ii ON it.item_id = ii.item_id
+        GROUP BY
+          it.item_id, ii.name
+        HAVING
+          SUM(it.total_amount) < 0.1 * MAX(ii.fill_level)
+        UNION
+        SELECT
+          ii.item_id,
+          ii.name
+        FROM
+          inventory_items ii
+        WHERE
+          ii.item_id NOT IN (
+            SELECT
+              DISTINCT(ri.item_id)
+            FROM
+              reorder_items ri
+            WHERE
+              ri.reorder_id IN (
+                SELECT
+                  reorder_id
+                FROM
+                  supply_reorders
+                WHERE
+                  date BETWEEN $1 AND $2
+              )
+          )
+      `,
+      values: [req.query.startTimestamp, req.query.endTimestamp],
+    };
+    const results = await pool.query(query);
+    res.status(200).json({
       status: "success",
-
+      results: results.rows.length,
       data: {
-        categories: drinkCategoriesQuery.rows, 
-        drinks: drinksQuery.rows},
+        inventory: results,
+      },
     });
-  } catch (error) {
-    console.error('Error fetching drink series:', error);
-    res.status(500).json({ error: 'Internal Server Error' });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({
+      status: "error",
+      message: "An error occurred while fetching data.",
+    });
   }
 });
 
-app.get("/MenuItemsPopularityAnalysis", async (req, res) =>{
-  
+app.get('/MenuItemPopularityAnalysis', async (req, res) => {
+  try {
+    console.log("Getting Menu Item Popularity Analysis");
+    console.log(req.query.startTimestamp, req.query.endTimestamp, req.query.number);
+
+    const query = {
+      text: `
+        SELECT
+          ROW_NUMBER() OVER (ORDER BY quantity DESC) AS rank,
+          name,
+          quantity
+        FROM (
+          SELECT
+            d.name AS name,
+            SUM(1) AS quantity
+          FROM
+            drink_orders AS d_o
+            JOIN drinks AS d ON d_o.drink_id = d.drink_id
+            JOIN orders AS o ON d_o.order_id = o.order_id
+          WHERE
+            o.timestamp >= $1 AND o.timestamp <= $2
+          GROUP BY
+            d.name
+        ) drinkSums
+        ORDER BY
+          rank
+        LIMIT $3;
+      `,
+      values: [req.query.startTimestamp, req.query.endTimestamp, req.query.number],
+    };
+
+    const results = await pool.query(query);
+    res.status(200).json({
+      status: "success",
+      results: results.rows.length,
+      data: {
+        inventory: results,
+      },
+    });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({
+      status: "error",
+      message: "An error occurred while fetching data.",
+    });
+  }
 });
 
 app.get("/RestockReport", async (req, res) =>{
   try {
     console.log("Getting Restock Report");
-
     const results = await pool.query("SELECT * FROM inventory_items WHERE count < fill_level GROUP BY fill_level, item_id ORDER BY name;");
     console.log(results);
     res.status(200).json({

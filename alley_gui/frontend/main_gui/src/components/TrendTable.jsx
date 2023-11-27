@@ -1,33 +1,63 @@
 import React from 'react';
+import './TrendTable.css'
 
 const TrendTable = ({ jsonData }) => {
-    if (!jsonData || jsonData.length === 0) {
-        return <p>No data available</p>;
-    }
+    const getColumnNames = () => {
+        if (jsonData.length === 0) {
+            return [];
+        }
+        const firstRow = jsonData[0];
+        return Object.keys(firstRow);
+    };
 
-    // Extracting headers from the first object in jsonData
-    const headers = Object.keys(jsonData[0]);
-
-    return (
-        <table>
+    function capitalizeName(name, delimiter) {
+        const words = name.split(delimiter);
+      
+        for (let i = 0; i < words.length; i++) {
+          words[i] = words[i][0].toUpperCase() + words[i].substr(1);
+        }
+      
+        return words.join(" ");
+    };
+  
+    const renderTableHeader = () => {
+      const columnNames = getColumnNames();
+  
+      return (
         <thead>
-            <tr>
-            {headers.map(header => (
-                <th key={header}>{header}</th>
+          <tr>
+            {columnNames.map((columnName, index) => (
+              <th key={index}>{capitalizeName(columnName, '_')}</th>
             ))}
-            </tr>
+          </tr>
         </thead>
-        <tbody>
-            {jsonData.map((row, index) => (
-            <tr key={index}>
-                {headers.map(header => (
-                <td key={header}>{row[header]}</td>
-                ))}
-            </tr>
-            ))}
-        </tbody>
-        </table>
-    );
-};
+      );
+    };
+  
+    const renderTableBody = () => {
+        const columnNames = getColumnNames();
 
-export default TrendTable;
+        return (
+        <tbody>
+          {jsonData.map((row, rowIndex) => (
+            <tr key={rowIndex}>
+              {Object.values(row).map((cellValue, cellIndex) => (
+                <td key={cellIndex}>{cellValue}</td>
+              ))}
+            </tr>
+          ))}
+        </tbody>
+      );
+    };
+  
+    return (
+      <div className="trend-table-container">
+        <table className="trend-table">
+          {renderTableHeader()}
+          {renderTableBody()}
+        </table>
+      </div>
+    );
+  };
+  
+  export default TrendTable;

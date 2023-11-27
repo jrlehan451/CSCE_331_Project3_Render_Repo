@@ -1,0 +1,39 @@
+.trend-table-container {
+  overflow-y: auto; 
+  max-height: 60vh;
+  font-size: 1vw;
+}
+  
+.trend-table {
+  width: 100%;
+  border: 0;
+}
+
+.trend-table th,
+.trend-table td {
+  border: .1vh solid #9e693f; 
+  padding: 1vh;
+  text-align: left;
+}
+
+.trend-table th {
+  background-color: #8b9477; 
+}
+
+
+.trend-table tr {
+  border-bottom: .1vh solid #9e693f; 
+}
+
+.trend-table tr:last-child {
+  border-bottom: none; 
+}
+
+.trend-table td {
+  border-right: .1vh solid #9e693f; 
+}
+
+.trend-table td:last-child {
+  border-right: none; 
+}
+
