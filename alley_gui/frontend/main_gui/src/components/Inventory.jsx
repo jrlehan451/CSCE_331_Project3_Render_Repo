@@ -17,6 +17,8 @@ import NavBar from "./MenuItems/NavBar";
 import Dialog from "@mui/material/Dialog";
 import DialogTitle from "@mui/material/DialogTitle";
 import DialogContent from "@mui/material/DialogContent";
+import "./MenuItems/MenuItems.css";
+
 import Alert from "@mui/material/Alert";
 import DialogActions from "@mui/material/DialogActions";
 import Button from "@mui/material/Button";
@@ -26,10 +28,13 @@ const Inventory = () => {
   // Creating custom buttons
   const CustomButton = styled(ListItemButton)(({ theme }) => ({
     backgroundColor: "#ffefe2",
-    color: "black",
+    border: "2px solid #9e693f",
+    color: "#9e693f",
+    fontWeight: "bold",
     margin: 10,
-    borderRadius: "8px",
-    width: "200px",
+    marginTop: 25,
+    borderRadius: "80px",
+    width: "150px",
     minHeight: "40px",
     maxHeight: "60px",
     "&:hover": { backgroundColor: "lightblue" },
@@ -295,9 +300,10 @@ const Inventory = () => {
         }}
       >
         <h1>Inventory Page</h1>
-
-        <div style={{ height: 400, width: "80vw", marginBottom: "20px" }}>
-          <DataGrid rows={data} columns={columns} columnBuffer={2} />
+        <div class="tablesInfo">
+          <div style={{ height: 400, width: "80vw", marginBottom: "20px" }}>
+            <DataGrid rows={data} columns={columns} columnBuffer={2} />
+          </div>
         </div>
 
         <div

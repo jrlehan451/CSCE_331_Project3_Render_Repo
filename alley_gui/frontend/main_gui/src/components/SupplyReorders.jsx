@@ -16,6 +16,7 @@ import {
 import FormControlLabel from "@mui/material/FormControlLabel";
 import DialogContent from "@mui/material/DialogContent";
 import NavBar from "./MenuItems/NavBar";
+import "./MenuItems/MenuItems.css";
 
 const SupplyReorders = () => {
   const [data, setData] = useState([]);
@@ -69,10 +70,13 @@ const SupplyReorders = () => {
 
   const CustomButton = styled(ListItemButton)(({ theme }) => ({
     backgroundColor: "#ffefe2",
-    color: "black",
-    margin: 10,
-    borderRadius: "8px",
-    width: "200px",
+    border: "2px solid #9e693f",
+    color: "#9e693f",
+    fontWeight: "bold",
+    margin: 5,
+    marginTop: 10,
+    borderRadius: "80px",
+    width: "190px",
     minHeight: "40px",
     maxHeight: "60px",
     "&:hover": { backgroundColor: "lightblue" },
@@ -341,8 +345,10 @@ const SupplyReorders = () => {
           height: "100vh",
         }}
       >
-        <div style={{ flex: 1, overflowY: "auto" }}>
-          <DataGrid rows={data} columns={columns} columnBuffer={2} />
+        <div class="tablesInfo">
+          <div style={{ flex: 1, overflow: "auto", height: "65vh" }}>
+            <DataGrid rows={data} columns={columns} columnBuffer={2} />
+          </div>
         </div>
         <div
           style={{
