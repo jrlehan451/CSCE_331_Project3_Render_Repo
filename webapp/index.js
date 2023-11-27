@@ -885,7 +885,7 @@ app.post("/deleteItemInventory", (req, res) => {
   );
 });
 
-app.get('/ExcessReport', async (req, res) => {
+app.get("/ExcessReport", async (req, res) => {
   try {
     console.log("Getting Excess Report");
     console.log(req.query.startTimestamp, req.query.endTimestamp);
@@ -961,7 +961,7 @@ app.get('/ExcessReport', async (req, res) => {
   }
 });
 
-app.get('/MenuItemPopularityAnalysis', async (req, res) => {
+app.get("/MenuItemPopularityAnalysis", async (req, res) => {
   try {
     console.log("Getting Menu Item Popularity Analysis");
     console.log(req.query.startTimestamp, req.query.endTimestamp, req.query.number);
@@ -1030,11 +1030,104 @@ app.get("/RestockReport", async (req, res) =>{
   }
 });
 
-app.get("/SalesReport", async (req, res) =>{
+app.get("/SalesReport", async (req, res) => {
+  try {
+    console.log("Getting Sales Report");
 
+    const drinkQuery = {
+      text: `
+        SELECT d.name AS drink_name, SUM(d.cost) AS total_sales
+        FROM drink_orders AS d_o
+        JOIN drinks AS d ON d_o.drink_id = d.drink_id
+        JOIN orders AS o ON d_o.order_id = o.order_id
+        WHERE o.timestamp >= $1 AND o.timestamp <= $2
+        GROUP BY d.name, d.cost ORDER BY total_sales DESC;
+      `,
+      values: [req.query.startTimestamp, req.query.endTimestamp],
+    };
+
+    const addonQuery = {
+      text: `
+        SELECT i.name AS add_on_name, SUM(i.cost) AS total_sales
+        FROM add_ons AS ao
+        JOIN ingredients AS i ON ao.ingredient_id = i.ingredient_id
+        JOIN orders AS o ON ao.order_id = o.order_id
+        WHERE o.timestamp >= $1 AND o.timestamp <= $2 AND i.cost > 0
+        GROUP BY i.name, i.cost ORDER BY total_sales DESC;
+      `,
+      values: [req.query.startTimestamp, req.query.endTimestamp],
+    };
+
+    const drinkResults = await pool.query(drinkQuery);
+    const addonResults = await pool.query(addonQuery);
+
+    res.status(200).json({
+      status: "success",
+      results: {
+        inventory: drinkResults.rows.length,
+        addons: addonResults.rows.length,
+      },
+      data: {
+        inventory: drinkResults,
+        addons: addonResults,
+      },
+    });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({
+      status: "error",
+      message: "An error occurred while fetching data.",
+    });
+  }
 });
 
 app.get("/WhatSalesTogether", async (req, res) =>{
+  try {
+    console.log("Getting What Sales Together");
+    const query = {
+      text: `
+        WITH CombinedOrders AS (
+          SELECT
+            o1.drink_id AS drink1,
+            o2.drink_id AS drink2
+          FROM
+            drink_orders o1
+            JOIN drink_orders o2 ON o1.order_id = o2.order_id AND o1.number < o2.number
+            JOIN orders ord1 ON o1.order_id = ord1.order_id
+          WHERE
+            o1.drink_id < o2.drink_id AND ord1.timestamp BETWEEN $1 AND $2
+        )
+        SELECT
+          dm1.name AS drink_1,
+          dm2.name AS drink_2,
+          COUNT(*) AS frequency
+        FROM
+          CombinedOrders c
+          JOIN drinks dm1 ON c.drink1 = dm1.drink_id
+          JOIN drinks dm2 ON c.drink2 = dm2.drink_id
+        GROUP BY
+          c.drink1, dm1.name, c.drink2, dm2.name
+        ORDER BY
+          frequency DESC;
+      `,
+      values: [req.query.startTimestamp, req.query.endTimestamp],
+    };
+    const results = await pool.query(query);
+    console.log(results);
+    res.status(200).json({
+      status: "success",
+      results: results.rows.length,
+      data: {
+        inventory: results,
+      },
+    });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({
+      status: "error",
+      message: "An error occurred while fetching data.",
+    });
+  }
 
 });
 
