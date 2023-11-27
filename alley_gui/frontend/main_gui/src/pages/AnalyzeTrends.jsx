@@ -11,6 +11,7 @@ const AnalyzeTrends = () => {
     const [endTimestamp, setEndTimestamp] = useState(getCurrentDate());
     const [number, setNumber] = useState(1);
     const [tableData, setTableData] = useState([]);
+    const [table2Data, setTable2Data] = useState([]);
     const [isExcessReport, setIsExcessReport] = useState(true);
 
     useEffect(() => {
@@ -23,24 +24,28 @@ const AnalyzeTrends = () => {
         setEndTimestamp('');
       }
       setStartTimestamp('');
+      setNumber(1);
+      setTableData([]);
+      setTable2Data([]);
     }, [selectedTrend]);
 
     const generateTrend = async () => {
       let valid = true;
 
-      if(selectedTrend != 'Restock Report'){
+      if(selectedTrend !== 'Restock Report'){
         if(!isValidDateTimeFormat(startTimestamp)){
           alert("Starting timestamp is not valid. Please enter in the format \n(YYYY-MM-DD HH:MM:SS)");
           valid = false;
         }
       }
 
-      if(selectedTrend != 'Restock Report' && selectedTrend != 'Excess Report'){
+      if(selectedTrend !== 'Restock Report' && selectedTrend !== 'Excess Report'){
         if(!isValidDateTimeFormat(endTimestamp)){
           alert("End timestamp is not valid. Please enter in the format \n(YYYY-MM-DD HH:MM:SS)");
           valid = false;
         }
       }
+
       if(valid){
         try {
           let response;
@@ -56,6 +61,10 @@ const AnalyzeTrends = () => {
           const jsonVals = await response.data;
           console.log('Data received:', jsonVals.data.inventory);
           setTableData(jsonVals.data.inventory.rows);
+          if(selectedTrend === 'Sales Report'){
+            console.log('Data received:', jsonVals.data.addons);
+            setTable2Data(jsonVals.data.addons.rows)
+          }
         } catch (error) {
           console.error('Error generating trend:', error.message);
         }
@@ -105,7 +114,7 @@ const AnalyzeTrends = () => {
             <option value="Menu Item Popularity Analysis">Menu Item Popularity Analysis</option>
             <option value="Restock Report">Restock Report</option>
             <option value="Sales Report">Sales Report</option>
-            <option value="What Sales Toegther">What Sales Together</option>
+            <option value="What Sales Together">What Sales Together</option>
           </select>
 
           <button class="GoButton" onClick={generateTrend}>Go</button>
@@ -132,6 +141,7 @@ const AnalyzeTrends = () => {
 
         <div className="trend-panel">
             {tableData.length > 0 && <TrendTable jsonData={tableData} />}
+            {table2Data.length > 0 && <TrendTable jsonData={table2Data} />}
         </div>
       </div>
     );

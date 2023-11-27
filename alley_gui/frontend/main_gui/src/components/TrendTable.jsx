@@ -35,8 +35,6 @@ const TrendTable = ({ jsonData }) => {
     };
   
     const renderTableBody = () => {
-        const columnNames = getColumnNames();
-
         return (
         <tbody>
           {jsonData.map((row, rowIndex) => (
