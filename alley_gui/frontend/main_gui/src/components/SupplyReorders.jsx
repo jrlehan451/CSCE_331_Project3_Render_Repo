@@ -53,7 +53,7 @@ const SupplyReorders = () => {
 
     try {
       const response = await axios.post(
-        "http://localhost:4000/addSupplyReorder",
+        "https://thealley.onrender.com/addSupplyReorder",
         {
           selectedItems: selectedItems,
           amounts: amounts,
