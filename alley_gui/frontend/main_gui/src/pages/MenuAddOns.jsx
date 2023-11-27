@@ -38,7 +38,7 @@ const MenuAddons = () => {
         const getAddOns = async () => {
           try {
             const response = await axios.get(
-              "http://localhost:4000/add_on_jsx"
+              "https://thealley.onrender.com/add_on_jsx"
             );
             const jsonVals = await response.data;
             setAddOns(jsonVals.data.add_ons.rows);

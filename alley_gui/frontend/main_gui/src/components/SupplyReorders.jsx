@@ -88,7 +88,7 @@ const SupplyReorders = () => {
     const supplyReorders = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:4000/supply_reorders"
+          "https://thealley.onrender.com/supply_reorders"
         );
         const jsonVals = await response.data;
         console.log("Working");

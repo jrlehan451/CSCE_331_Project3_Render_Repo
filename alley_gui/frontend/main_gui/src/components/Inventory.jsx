@@ -93,7 +93,7 @@ const Inventory = () => {
     const inventoryItems = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:4000/inventory_items"
+          "https://thealley.onrender.com/inventory_items"
         );
         const jsonVals = await response.data;
         console.log("Working");
@@ -136,7 +136,7 @@ const Inventory = () => {
       try {
         // Check if itemId already exists in the inventory
         const inventoryResponse = await axios.get(
-          "http://localhost:4000/inventory_items"
+          "https://thealley.onrender.com/inventory_items"
         );
         const inventoryData = inventoryResponse.data.data.table.rows;
 
@@ -153,7 +153,7 @@ const Inventory = () => {
         } else {
           // Continue fetching data and displaying the popup
           const response = await axios.get(
-            "http://localhost:4000/ingredient_items"
+            "https://thealley.onrender.com/ingredient_items"
           );
           const jsonVals = response.data;
 
@@ -174,7 +174,7 @@ const Inventory = () => {
     const fetchData = async () => {
       if (!openPopup) {
         // Popup is closed, perform the axios POST request
-        await axios.post("http://localhost:4000/addItemInventory", values);
+        await axios.post("https://thealley.onrender.com/addItemInventory", values);
 
         setValues({ ...values, ingredientId: "" });
       }
@@ -188,7 +188,7 @@ const Inventory = () => {
 
     try {
       const inventoryResponse = await axios.get(
-        "http://localhost:4000/inventory_items"
+        "https://thealley.onrender.com/inventory_items"
       );
       const inventoryData = inventoryResponse.data.data.table.rows;
 
@@ -197,7 +197,7 @@ const Inventory = () => {
       );
 
       if (itemToDelete) {
-        await axios.post("http://localhost:4000/deleteItemInventory", values);
+        await axios.post("https://thealley.onrender.com/deleteItemInventory", values);
         console.log("Item deleted succesfully");
       } else {
         alert("Item with the specified itemId and name not found.");
@@ -229,7 +229,7 @@ const Inventory = () => {
   const updateHandleSubmit = (e) => {
     e.preventDefault();
     axios
-      .post("http://localhost:4000/updateItemInventory", values)
+      .post("https://thealley.onrender.com/updateItemInventory", values)
       .then((res) => console.log(res))
       .catch((err) => console.log(err));
   };

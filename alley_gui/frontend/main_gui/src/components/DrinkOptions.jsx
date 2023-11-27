@@ -14,7 +14,7 @@ const DrinkOptions = ({capitalizeName}) => {
       const drinkOptions = async () => {
         try {
           const response = await axios.get(
-            "http://localhost:4000/drink_options_jsx"
+            "https://thealley.onrender.com/drink_options_jsx"
           );
           const jsonVals = await response.data;
           console.log("Working");

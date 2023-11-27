@@ -31,7 +31,7 @@ function App() {
   const [home, setHome] = useState("");
 
   useEffect(() => {
-    axios.get("http://localhost:4000/home").then(function (response) {
+    axios.get("https://thealley.onrender.com/home").then(function (response) {
       setHome(response.data);
     });
   }, []);
@@ -40,7 +40,7 @@ function App() {
     e.preventDefault();
 
     try {
-      await axios.post("http://localhost:4000/post_name", {
+      await axios.post("https://thealley.onrender.com/post_name", {
         name,
       });
     } catch (error) {

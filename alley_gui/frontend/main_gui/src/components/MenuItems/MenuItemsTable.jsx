@@ -13,7 +13,7 @@ const MenuItemsTable = ({reloadTable}) => {
     const fetchData = async () => {
       try {
         // Fetch data for menu items
-        const menuItemsResponse = await axios.get("http://localhost:4000/menuItems");
+        const menuItemsResponse = await axios.get("https://thealley.onrender.com/menuItems");
         const menuItemsRows = menuItemsResponse.data.data.table.rows.map((item, id) => ({
           id,
           drink_id: item.drink_id,
@@ -24,7 +24,7 @@ const MenuItemsTable = ({reloadTable}) => {
         setMenuItemsData(menuItemsRows);
 
         // Fetch data for add-ons
-        const addOnsResponse = await axios.get("http://localhost:4000/addOns");
+        const addOnsResponse = await axios.get("https://thealley.onrender.com/addOns");
         const addOnsRows = addOnsResponse.data.data.table.rows.map((item, id) => ({
           id,
           ingredient_id: item.ingredient_id,

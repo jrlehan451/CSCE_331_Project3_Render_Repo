@@ -84,7 +84,7 @@ const OrderSummary = () => {
         e.preventDefault();
 
         try {     
-            await axios.post("http://localhost:4000/post_order", {
+            await axios.post("https://thealley.onrender.com/post_order", {
                 drinks: sessionStorage.getItem('drinks'),
                 add_ons: sessionStorage.getItem('add_ons'),
                 customer: document.getElementById("cname").value,
