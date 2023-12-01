@@ -53,15 +53,16 @@
     width: 9vw;
     height: 9vw;
     float: left;
-    background: #ffefe2;   
+    background: #8b9477;   
     border: 2px solid #8b9477;
     margin: 1vw;
     white-space:normal;
     word-break: break-word;
     cursor: pointer;
-    color: #8b9477;
+    color: #25371d;
     font-family: 'Perpetua', serif;
     font-weight: bold;
+    font-size: x-small;
 }
 
 .series-name {
@@ -109,4 +110,12 @@
     color: #25371d;
     font-family: 'Perpetua', serif;
     font-size: 3vw;
+}
+
+.drink-square {
+    margin-left: 1vw;
+    margin-right: 1vw;
+    width: 5vw;
+    display: center;
+    border: .1vh solid #25371d; 
 }

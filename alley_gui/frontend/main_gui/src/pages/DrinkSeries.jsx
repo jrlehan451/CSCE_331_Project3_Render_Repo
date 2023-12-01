@@ -64,6 +64,13 @@ const DrinkSeries = () => {
 
     const {category} = useParams();
 
+    function getImage(name){
+        name = "/drink_images/" + name;
+        name += ".png"
+        const words = name.split(" ");
+        return words.join("_");
+    }
+
     useEffect(() => {
         const drinkSeries = async () => {
         try {
@@ -102,7 +109,8 @@ const DrinkSeries = () => {
                         <h1 id="drinkSeriesName" className="series-name">{capitalizeName(drinkItem.category, "_")}</h1>
                     ))}
                     {drinkSeriesItems.map((drink, index) => (
-                        <button key={index} id={drink.name} onClick={() => buildDrink(drink.name, drink.drink_id, drink.cost)}>
+                        <button key={index} alt={capitalizeName(drink.name, ' ')} id={drink.name} onClick={() => buildDrink(drink.name, drink.drink_id, drink.cost)}>
+                        <img class="drink-square" src={getImage(drink.category)} alt={capitalizeName(drink.name, ' ')} />
                         {capitalizeName(drink.name, " ")}
                         </button>
                     ))}
