@@ -250,7 +250,7 @@ const BuildDrink = () => {
         const drinkCategories = async () => {
         try {
             const response = await axios.get(
-            "https://thealley.onrender.com/add_ons"
+            "http://localhost:4000/add_ons"
             );
             const jsonVals = await response.data;
             console.log("Working");
@@ -312,9 +312,9 @@ const BuildDrink = () => {
             
         <div id="quantity" className="build-option-container">
             <h1 className="option-name">Choose Your Quantity</h1>
-            <button id="decrement">-</button>
-            <button id="increment">+</button>
-            <button onClick={getQuantity}>Submit</button>
+            <button id="decrement" style={{fontSize: 70}}>-</button>
+            <button id="increment" style={{fontSize: 70}}>+</button>
+            <button onClick={getQuantity} style={{fontSize: 20}}>Submit</button>
             <h3 className="quantity"><span id="display">0</span></h3>
         </div>
 

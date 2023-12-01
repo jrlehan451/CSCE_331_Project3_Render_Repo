@@ -64,13 +64,13 @@
     width: 9vw;
     height: 9vw;
     float: left;
-    background: #ffefe2;   
+    background: #9e693f;   
     border: 2px solid #9e693f;
     margin: 1vw;
     white-space:normal;
     word-break: break-word;
     cursor: pointer;
-    color: #9e693f;
+    color: #ffefe2;
     font-family: 'Perpetua', serif;
     font-weight: bold;
 }
@@ -96,7 +96,7 @@
     width: 70vw;
     display: flex;
     border: 2px solid #8b9477;
-    background: #ffefe2;
+    background: #8b9477;
 }
 
 .build-drink-text {
