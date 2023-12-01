@@ -20,7 +20,7 @@
     border-radius: 12vw;
     float: left;
     border: 2px solid #9e693f;
-    background: #ffefe2;
+    background: #9e693f;
     margin-left: 1vw;
     margin-right: 1vw;
     margin-top: 0.5vw;
@@ -28,7 +28,7 @@
     white-space: normal;
     word-break: break-word;
     cursor: pointer;
-    color: #9e693f;
+    color: #ffefe2;
     font-family: 'Perpetua', serif;
     font-weight: bold;
 }
