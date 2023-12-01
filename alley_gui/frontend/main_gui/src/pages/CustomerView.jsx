@@ -4,6 +4,7 @@ import './customer_home.css';
 
 const CustomerHome = () => {
     const [drinkCategories, setData] = useState([]);
+    const [popularDrinks, setDrinks] = useState([]);
 
     const getCurrentTotal = () => {
         let currDrinksInOrder = []
@@ -52,11 +53,27 @@ const CustomerHome = () => {
         window.location.href = currLocation.replace("customer", "view_cart");
     };
 
+    const buildDrink = (drinkName, drinkId, drinkCost) => {
+        var currLocation = window.location.href;
+        window.location.href = currLocation.replace("customer", "build_drink");
+            
+        sessionStorage.setItem("customer_drink_name", drinkName);
+        sessionStorage.setItem("customer_drink_id", drinkId);
+        sessionStorage.setItem("customer_drink_cost", drinkCost)
+    };
+
+    function getImage(name){
+        name = "/drink_images/" + name;
+        name += ".png"
+        const words = name.split(" ");
+        return words.join("_");
+    }
+
     useEffect(() => {
         const drinkCategories = async () => {
         try {
             const response = await axios.get(
-            "https://thealley.onrender.com/drink_categories"
+                "https://thealley.onrender.com/drink_categories"
             );
             const jsonVals = await response.data;
             console.log("Working");
@@ -70,6 +87,24 @@ const CustomerHome = () => {
         };
 
         drinkCategories();
+
+        const popularDrinks = async () => {
+            try {
+                const reponse2 = await axios.get(
+                    "https://thealley.onrender.com/CustomerPopularityAnalysis"
+                )
+                const jsonVals2 = await reponse2.data;
+                console.log(jsonVals2.data);
+                const popularDrinks = jsonVals2.data.results.rows;
+                console.log(popularDrinks);
+                setDrinks(popularDrinks);
+            } catch (err) {
+                console.log("ERROR");
+                console.error(err.message);
+            }
+        };
+
+        popularDrinks();
     }, []);
 
     return (
@@ -78,15 +113,22 @@ const CustomerHome = () => {
             <div className="drink-categories-container">
             <h3 className="categories-title">DRINK SERIES</h3>
             {drinkCategories.map((category, index) => (
-                <button key={index} onClick={() => getDrinkSeries(category.category)}>
+                <button key={index} onClick={() => getDrinkSeries(category.category)} >
                 {capitalizeName(category.category, '_')}
                 </button>
             ))}
             </div>
         </div>
         <div className="category-items-container">
-            {[...Array(18)].map((_, index) => (
+            <h1 id="drinkSeriesName" className="series-name">Customer Favorites</h1>
+            {/* {[...Array(18)].map((_, index) => (
             <button key={index}>Popular Drink</button>
+            ))} */}
+            {popularDrinks.map((drink, index) => (
+                <button key={index} alt={capitalizeName(drink.name, ' ')} id={drink.name} onClick={() => buildDrink(drink.name, drink.drink_id, drink.cost)}>
+                    <img class="drink-square" src={getImage(drink.category)} alt={capitalizeName(drink.name, ' ')} />
+                    {capitalizeName(drink.name, " ")}
+                </button>
             ))}
         </div>
         <div className="order-info-container">
