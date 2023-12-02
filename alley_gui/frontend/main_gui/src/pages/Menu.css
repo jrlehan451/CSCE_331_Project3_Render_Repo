@@ -74,9 +74,13 @@
     vertical-align: top; 
     text-align: center;
     min-height: 5vh;
+    overflow: hidden;
 }
 
 .drink-square {
     width: 100%;
     border: .1vh solid #25371d; 
+    background-color: #ececec;
+    height: 80%;
+    object-fit: cover;
 }
