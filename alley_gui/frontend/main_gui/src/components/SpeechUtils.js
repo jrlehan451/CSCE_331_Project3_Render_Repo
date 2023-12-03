@@ -26,4 +26,29 @@ const handleTextFieldSpeech = (label, value) => {
   speechSynthesis.speak(speech);
 };
 
-export { handleHover, handleMouseOut, handleTextFieldSpeech };
+const handleTableFieldSpeech = (fieldValue) => {
+  console.log("Text to be spoken:", fieldValue);
+
+  // Speak the text using the SpeechSynthesis API
+  const speech = new SpeechSynthesisUtterance(fieldValue);
+  speech.onstart = () => {
+    console.log("Speech synthesis started");
+  };
+
+  speech.onend = () => {
+    console.log("Speech synthesis ended");
+  };
+
+  speech.onerror = (event) => {
+    console.error("Speech synthesis error:", event);
+  };
+
+  speechSynthesis.speak(speech);
+};
+
+export {
+  handleHover,
+  handleMouseOut,
+  handleTextFieldSpeech,
+  handleTableFieldSpeech,
+};

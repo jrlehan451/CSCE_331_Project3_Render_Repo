@@ -1,4 +1,3 @@
-// TextToSpeech.js
 import React, { useEffect } from "react";
 import {
   handleHover,
@@ -20,7 +19,7 @@ const TextToSpeech = ({
 
     if (buttonText) {
       // Handle button text
-      handleHover(null, isHoverEnabled, buttonText);
+      handleHover(buttonText, isHoverEnabled);
     } else {
       // Handle text field labels and values
       handleTextFieldSpeech(label, value);
@@ -29,8 +28,8 @@ const TextToSpeech = ({
 
   useEffect(() => {
     if (isHoverEnabled && selectedRow && rowData) {
-      const textToSpeak = `Item ID ${rowData.itemId}, Name ${rowData.name} Amount ${rowData.amount}, Quantity Per Unit ${rowData.quantityPerUnit} `;
-      handleHover({ target: { textContent: textToSpeak } }, isHoverEnabled);
+      const textToSpeak = `Item ID ${rowData.itemId}, Name ${rowData.name}, Amount ${rowData.amount}, Quantity Per Unit ${rowData.quantityPerUnit}`;
+      handleHover(textToSpeak, isHoverEnabled);
     }
   }, [isHoverEnabled, selectedRow, rowData]);
 

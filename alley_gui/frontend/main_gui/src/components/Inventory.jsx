@@ -22,6 +22,7 @@ import {
   handleHover,
   handleMouseOut,
   handleTextFieldSpeech,
+  handleTableFieldSpeech,
 } from "./SpeechUtils";
 
 import "./MenuItems/MenuItems.css";
@@ -94,6 +95,21 @@ const Inventory = () => {
       setValues({ ...values, ingredientId });
     } else {
       setValues({ ...values, ingredientId: "" });
+    }
+  };
+
+  const handleGridCellHover = (params) => {
+    console.log("handleGridCellHover is called!");
+
+    if (isHoverEnabled) {
+      console.log("isHoverEnabled is false");
+
+      const cellContent = params.value.toString();
+      console.log("Cell Content:", cellContent);
+
+      // Call the handleHover function to initiate text-to-speech
+      handleTableFieldSpeech(cellContent);
+      //handleTableFieldSpeech("This is a test");
     }
   };
 
@@ -313,19 +329,17 @@ const Inventory = () => {
           <div style={{ height: 400, width: "80vw", marginBottom: "20px" }}>
             <DataGrid
               rows={data}
-              columns={columns}
-              onMouseOver={(params, event) => {
-                console.log("DataGrid Mouse Over Event");
-
-                if (!isHoverEnabled) {
-                  const cellContent = params.value;
-                  handleTextFieldSpeech("Cell Content", cellContent.toString());
-                }
-              }}
-              onMouseOut={() => {
-                console.log("Mouse Out Event");
-                handleMouseOut();
-              }}
+              columns={columns.map((column) => ({
+                ...column,
+                renderCell: (params) => (
+                  <div
+                    onMouseOver={() => handleGridCellHover(params)}
+                    onMouseOut={handleMouseOut}
+                  >
+                    {params.value}
+                  </div>
+                ),
+              }))}
             />
           </div>
         </div>
