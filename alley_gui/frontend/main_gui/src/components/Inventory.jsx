@@ -28,6 +28,10 @@ import Button from "@mui/material/Button";
 
 //import axios from "axios"; // Make sure to import axios for HTTP requests
 const Inventory = () => {
+  const toggleHover = () => {
+    setIsHoverEnabled((prevIsHoverEnabled) => !prevIsHoverEnabled);
+  };
+
   // Creating custom buttons
   const CustomButton = styled(ListItemButton)(({ theme }) => ({
     backgroundColor: "#ffefe2",
@@ -339,6 +343,15 @@ const Inventory = () => {
                   helperText={
                     inputErrors.itemId ? "Please enter a valid integer" : ""
                   }
+                  onMouseOver={(e) =>
+                    handleHover(
+                      e,
+                      isHoverEnabled,
+                      "Item ID:",
+                      values.itemId.toString
+                    )
+                  }
+                  onMouseOut={handleMouseOut}
                 />
               </FormControl>
             </div>
@@ -400,11 +413,26 @@ const Inventory = () => {
             }}
           >
             <div style={{ display: "flex", gap: "5px" }}>
-              <CustomButton onClick={addHandleSubmit}>Add Item </CustomButton>
-              <CustomButton onClick={deleteHandleSubmit}>
+              <CustomButton
+                onClick={addHandleSubmit}
+                onMouseOver={(e) => handleHover(e, isHoverEnabled)}
+                onMouseOut={handleMouseOut}
+              >
+                Add Item{" "}
+              </CustomButton>
+              <CustomButton
+                onClick={deleteHandleSubmit}
+                onMouseOver={(e) => handleHover(e, isHoverEnabled)}
+                onMouseOut={handleMouseOut}
+              >
                 Delete Item
               </CustomButton>
-              <CustomButton>Update Item</CustomButton>
+              <CustomButton
+                onMouseOver={(e) => handleHover(e, isHoverEnabled)}
+                onMouseOut={handleMouseOut}
+              >
+                Update Item
+              </CustomButton>
             </div>
 
             <CustomButton
@@ -414,7 +442,10 @@ const Inventory = () => {
             >
               Apply Recommended Adjustments
             </CustomButton>
-            <TextToSpeech isHoverEnabled={isHoverEnabled} />
+            <TextToSpeech
+              isHoverEnabled={isHoverEnabled}
+              toggleHover={toggleHover}
+            />
           </div>
         </div>
       </div>

@@ -1,4 +1,5 @@
 const handleHover = (event, isHoverEnabled) => {
+  console.log("handleHover - isHoverEnabled:", isHoverEnabled);
   if (isHoverEnabled) {
     const textContent = event.target.textContent;
 

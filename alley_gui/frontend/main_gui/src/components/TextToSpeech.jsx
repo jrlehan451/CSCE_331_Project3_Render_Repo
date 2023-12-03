@@ -1,15 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import { handleHover, handleMouseOut } from "./SpeechUtils";
 
-const TextToSpeech = ({ isHoverEnabled }) => {
-  const toggleHover = () => {
-    handleHover(isHoverEnabled);
-  };
-
+const TextToSpeech = ({ isHoverEnabled, toggleHover }) => {
   return (
     <div className="App">
       <button onClick={toggleHover}>
-        {isHoverEnabled ? "Disable Hover" : "Enable Hover"}
+        {isHoverEnabled ? "Disable Text To Speech" : "Enable Text To Speech"}
       </button>
     </div>
   );
