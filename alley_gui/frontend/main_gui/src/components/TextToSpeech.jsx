@@ -28,7 +28,7 @@ const TextToSpeech = ({
   return (
     <div className="App">
       <button onClick={handleToggleHover}>
-        {buttonText || "Enable/Disable Text To Speech"}
+        {isHoverEnabled ? "Disable Text To Speech" : "Enable Text To Speech"}
       </button>
     </div>
   );
