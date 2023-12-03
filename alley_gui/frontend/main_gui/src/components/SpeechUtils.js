@@ -2,11 +2,15 @@ const handleHover = (event, isHoverEnabled) => {
   console.log("handleHover - isHoverEnabled:", isHoverEnabled);
   if (isHoverEnabled) {
     const textContent = event.target.textContent;
-    console.log("Text to be spoken:", textContent);
+    if (textContent !== undefined && textContent !== null) {
+      console.log("Text to be spoken:", textContent);
 
-    // Speak the text using the SpeechSynthesis API
-    const speech = new SpeechSynthesisUtterance(textContent);
-    speechSynthesis.speak(speech);
+      // Speak the text using the SpeechSynthesis API
+      const speech = new SpeechSynthesisUtterance(textContent);
+      speechSynthesis.speak(speech);
+    } else {
+      console.log("Text content is undefined or empty.");
+    }
   }
 };
 
@@ -18,7 +22,7 @@ const handleMouseOut = () => {
 
 // SpeechUtils.js
 const handleTextFieldSpeech = (label, value) => {
-  const textContent = `${label} ${value}`;
+  const textContent = value !== undefined ? `${label} ${value}` : label;
   console.log("Text to be spoken:", textContent);
 
   // Speak the text using the SpeechSynthesis API

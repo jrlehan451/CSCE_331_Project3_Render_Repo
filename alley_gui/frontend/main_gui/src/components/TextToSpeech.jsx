@@ -17,6 +17,12 @@ const TextToSpeech = ({
   const handleToggleHover = () => {
     toggleHover();
 
+    // Speak the status explicitly
+    const statusText = isHoverEnabled
+      ? "Text To Speech Disabled"
+      : "Text To Speech Enabled";
+    handleTextFieldSpeech(statusText);
+
     if (buttonText) {
       // Handle button text
       handleHover(buttonText, isHoverEnabled);

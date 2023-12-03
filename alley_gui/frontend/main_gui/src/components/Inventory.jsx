@@ -74,7 +74,7 @@ const Inventory = () => {
   const [checkedItems, setCheckedItems] = useState({});
   const [data, setData] = useState([]);
   const [openPopup, setOpenPopup] = useState(false);
-  const [isHoverEnabled, setIsHoverEnabled] = useState(true);
+  const [isHoverEnabled, setIsHoverEnabled] = useState(false);
 
   const [popupData, setPopupData] = useState([]);
   const [values, setValues] = useState({
