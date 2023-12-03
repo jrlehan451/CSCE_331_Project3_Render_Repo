@@ -7,6 +7,7 @@
 .trend-table {
   width: 100%;
   border: 0;
+  height: 5vh;
 }
 
 .trend-table th,
@@ -22,7 +23,8 @@
 
 
 .trend-table tr {
-  border-bottom: .1vh solid #9e693f; 
+  border-bottom: .1vh solid #9e693f;
+  cursor:default;
 }
 
 .trend-table tr:last-child {
@@ -36,4 +38,3 @@
 .trend-table td:last-child {
   border-right: none; 
 }
-

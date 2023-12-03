@@ -71,7 +71,7 @@ const Menu = () => {
                     <h2 class="category-title"> {capitalizeName(category, '_')} </h2>
                         {drinks[category].map(drink => (
                             <div class="drink-entry" key={drink}> 
-                                <img class ="drink-square" src={getImage(category)} alt={capitalizeName(drink.name, ' ')} />
+                                <img class ="drink-square" src={getImage(category)} alt={capitalizeName(drink.name, ' ')} onError={(e) => {e.target.src = "/drink_images/placeholder.png"}} />
                                 <p class="drink-name">{capitalizeName(drink.name, ' ')}</p> 
                             </div>                    
                         ))}

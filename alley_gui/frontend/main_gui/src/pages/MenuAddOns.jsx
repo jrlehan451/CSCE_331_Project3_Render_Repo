@@ -28,7 +28,7 @@ const MenuAddons = () => {
     };
 
     function getImage(name){
-      name = "/addOn_images/" + "tapioca";
+      name = "/addOn_images/" + name;
       name += ".png"
       const words = name.split(" ");
       return words.join("_");
@@ -62,7 +62,7 @@ const MenuAddons = () => {
         <div className="addon-container">
           {addOns.map((addon, index) => (
             <div className="addon-entry" key={index}>
-              <img class ="addon-square" src={getImage(addon.name)} alt={addon.name}/>
+              <img class ="addon-square" src={getImage(addon.name)} alt={capitalizeName(addon.name, ' ')} onError={(e) => {e.target.src = "/addOn_images/placeholder.png"}}/>
               <div className="addon-name">{capitalizeName(addon.name, ' ')}</div>
             </div>
           ))}

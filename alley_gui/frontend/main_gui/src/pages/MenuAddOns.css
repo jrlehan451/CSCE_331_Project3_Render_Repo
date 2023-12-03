@@ -26,6 +26,7 @@
 
 .addon-entry{
     width: 13vw;
+    height: 16vh;
     padding: 1vh;
     margin: .5vh;
     display: inline-block; 
@@ -35,6 +36,9 @@
 }
 
 .addon-square {
-    width: 100%;
+    width: 80%;
     border: .1vh solid #25371d; 
+    background-color: #ececec;
+    height: 80%;
+    object-fit: cover;
 }
