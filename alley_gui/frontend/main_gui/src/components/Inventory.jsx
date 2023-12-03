@@ -363,6 +363,8 @@ const Inventory = () => {
                   onChange={(e) =>
                     setValues({ ...values, name: e.target.value })
                   }
+                  onMouseOver={() => handleTextFieldSpeech("Name", values.name)}
+                  onMouseOut={handleMouseOut}
                 />
               </FormControl>
             </div>
@@ -379,6 +381,10 @@ const Inventory = () => {
                   helperText={
                     inputErrors.amount ? "Please enter a valid integer" : ""
                   }
+                  onMouseOver={() =>
+                    handleTextFieldSpeech("Amount", values.amount.toString())
+                  }
+                  onMouseOut={handleMouseOut}
                 />
               </FormControl>
             </div>
@@ -390,6 +396,12 @@ const Inventory = () => {
                   variant="filled"
                   onChange={(e) =>
                     handleNumberInputChange(e, "quantityPerUnit")
+                  }
+                  onMouseOver={() =>
+                    handleTextFieldSpeech(
+                      "Quantity Per Unit",
+                      values.quantityPerUnit
+                    )
                   }
                   value={values.quantityPerUnit}
                   type="number"
