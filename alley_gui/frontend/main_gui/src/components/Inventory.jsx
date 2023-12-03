@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import TextToSpeech from "./TextToSpeech";
 import axios from "axios";
 import { DataGrid, GridColDef, GridValueGetterParams } from "@mui/x-data-grid";
 import { ThemeProvider } from "@mui/material/styles";
@@ -17,6 +18,8 @@ import NavBar from "./MenuItems/NavBar";
 import Dialog from "@mui/material/Dialog";
 import DialogTitle from "@mui/material/DialogTitle";
 import DialogContent from "@mui/material/DialogContent";
+import { handleHover, handleMouseOut } from "./SpeechUtils";
+
 import "./MenuItems/MenuItems.css";
 
 import Alert from "@mui/material/Alert";
@@ -66,6 +69,8 @@ const Inventory = () => {
   const [checkedItems, setCheckedItems] = useState({});
   const [data, setData] = useState([]);
   const [openPopup, setOpenPopup] = useState(false);
+  const [isHoverEnabled, setIsHoverEnabled] = useState(true);
+
   const [popupData, setPopupData] = useState([]);
   const [values, setValues] = useState({
     itemId: "",
@@ -402,9 +407,14 @@ const Inventory = () => {
               <CustomButton>Update Item</CustomButton>
             </div>
 
-            <CustomButton style={{ width: "90%" }}>
+            <CustomButton
+              onMouseOver={(e) => handleHover(e, isHoverEnabled)}
+              onMouseOut={handleMouseOut}
+              style={{ width: "90%" }}
+            >
               Apply Recommended Adjustments
             </CustomButton>
+            <TextToSpeech isHoverEnabled={isHoverEnabled} />
           </div>
         </div>
       </div>
