@@ -26,10 +26,6 @@ import {
 
 import "./MenuItems/MenuItems.css";
 
-import Alert from "@mui/material/Alert";
-import DialogActions from "@mui/material/DialogActions";
-import Button from "@mui/material/Button";
-
 //import axios from "axios"; // Make sure to import axios for HTTP requests
 const Inventory = () => {
   const toggleHover = () => {
@@ -315,7 +311,22 @@ const Inventory = () => {
         <h1>Inventory Page</h1>
         <div class="tablesInfo">
           <div style={{ height: 400, width: "80vw", marginBottom: "20px" }}>
-            <DataGrid rows={data} columns={columns} columnBuffer={2} />
+            <DataGrid
+              rows={data}
+              columns={columns}
+              onMouseOver={(params, event) => {
+                console.log("DataGrid Mouse Over Event");
+
+                if (!isHoverEnabled) {
+                  const cellContent = params.value;
+                  handleTextFieldSpeech("Cell Content", cellContent.toString());
+                }
+              }}
+              onMouseOut={() => {
+                console.log("Mouse Out Event");
+                handleMouseOut();
+              }}
+            />
           </div>
         </div>
 

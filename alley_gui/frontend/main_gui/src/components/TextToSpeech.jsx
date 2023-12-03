@@ -1,5 +1,5 @@
 // TextToSpeech.js
-import React from "react";
+import React, { useEffect } from "react";
 import {
   handleHover,
   handleMouseOut,
@@ -9,6 +9,8 @@ import {
 const TextToSpeech = ({
   isHoverEnabled,
   toggleHover,
+  selectedRow,
+  rowData,
   label,
   value,
   buttonText,
@@ -24,6 +26,13 @@ const TextToSpeech = ({
       handleTextFieldSpeech(label, value);
     }
   };
+
+  useEffect(() => {
+    if (isHoverEnabled && selectedRow && rowData) {
+      const textToSpeak = `Item ID ${rowData.itemId}, Name ${rowData.name} Amount ${rowData.amount}, Quantity Per Unit ${rowData.quantityPerUnit} `;
+      handleHover({ target: { textContent: textToSpeak } }, isHoverEnabled);
+    }
+  }, [isHoverEnabled, selectedRow, rowData]);
 
   return (
     <div className="App">
