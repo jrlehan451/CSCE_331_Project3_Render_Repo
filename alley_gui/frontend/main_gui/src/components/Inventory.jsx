@@ -18,7 +18,11 @@ import NavBar from "./MenuItems/NavBar";
 import Dialog from "@mui/material/Dialog";
 import DialogTitle from "@mui/material/DialogTitle";
 import DialogContent from "@mui/material/DialogContent";
-import { handleHover, handleMouseOut } from "./SpeechUtils";
+import {
+  handleHover,
+  handleMouseOut,
+  handleTextFieldSpeech,
+} from "./SpeechUtils";
 
 import "./MenuItems/MenuItems.css";
 
@@ -343,13 +347,8 @@ const Inventory = () => {
                   helperText={
                     inputErrors.itemId ? "Please enter a valid integer" : ""
                   }
-                  onMouseOver={(e) =>
-                    handleHover(
-                      e,
-                      isHoverEnabled,
-                      "Item ID:",
-                      values.itemId.toString
-                    )
+                  onMouseOver={() =>
+                    handleTextFieldSpeech("Item ID", values.itemId.toString())
                   }
                   onMouseOut={handleMouseOut}
                 />

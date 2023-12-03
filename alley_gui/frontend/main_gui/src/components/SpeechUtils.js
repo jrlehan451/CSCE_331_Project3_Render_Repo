@@ -10,8 +10,18 @@ const handleHover = (event, isHoverEnabled) => {
 };
 
 const handleMouseOut = () => {
+  console.log("handleMouseOut");
   // Cancel any ongoing speech
   speechSynthesis.cancel();
 };
 
-export { handleHover, handleMouseOut };
+// SpeechUtils.js
+const handleTextFieldSpeech = (label, value) => {
+  const textContent = `${label} ${value}`;
+
+  // Speak the text using the SpeechSynthesis API
+  const speech = new SpeechSynthesisUtterance(textContent);
+  speechSynthesis.speak(speech);
+};
+
+export { handleHover, handleMouseOut, handleTextFieldSpeech };
