@@ -119,3 +119,125 @@
     display: center;
     border: .1vh solid #25371d; 
 }
+
+.contrast .customer-home-background {
+    background-color: black;
+    height: 100%;
+    width: 100%;
+}
+
+.contrast .drink-categories-container {
+    margin-top: 0.5vw;
+    margin-left: 0.5vw;
+    width: 17vw;
+    border: 2px solid #f0d589;
+    float: left;
+    background: black;
+    overflow-y: auto;
+}
+
+.contrast .drink-categories-container > button {
+    width: 15vw;
+    height: 3vw;
+    border-radius: 12vw;
+    float: left;
+    border: 2px solid #f0d589;
+    background: #f0d589;
+    margin-left: 1vw;
+    margin-right: 1vw;
+    margin-top: 0.5vw;
+    margin-bottom: 0.5vw;
+    white-space: normal;
+    word-break: break-word;
+    cursor: pointer;
+    color: black;
+    font-family: 'Perpetua', serif;
+    font-weight: bold;
+}
+
+.contrast .categories-title {
+    text-align: center;
+    margin-bottom: 0.75vw;
+    color: #f0d589;
+    font-family: 'Perpetua', serif;
+}
+
+.contrast .category-items-container {
+    margin-top: 3.5vw;
+    margin-left: 2.5vw;
+    margin-right: 1vw;
+    width: 75vw;
+    height: 37vw;
+    float: left;
+}
+
+.contrast .category-items-container > button {
+    width: 9vw;
+    height: 9vw;
+    float: left;
+    background: #d7f2a6;   
+    border: 2px solid #d7f2a6;
+    margin: 1vw;
+    white-space:normal;
+    word-break: break-word;
+    cursor: pointer;
+    color: black;
+    font-family: 'Perpetua', serif;
+    font-weight: bold;
+    font-size: x-small;
+}
+
+.contrast .series-name {
+    text-align: center;
+    margin-bottom: 0.75vw;
+    color: #d7f2a6;
+    font-family: 'Perpetua', serif;
+}
+
+.contrast .order-info-container {
+    background-color: black;
+    float: right;
+    margin-top: 1vw;
+    margin-left: 3.5vw;
+    margin-right: 1vw;
+    width: 40vw;
+    height: 5vw;
+}
+
+.contrast .order-info-container > button {
+    width: 10vw;
+    height: 4vw;
+    border-radius: 12vw;
+    float: right;
+    border: 2px solid black;
+    background: #d7f2a6;
+    margin-left: 1vw;
+    margin-right: 1vw;
+    margin-top: 0.5vw;
+    margin-bottom: 0.5vw;
+    white-space: normal;
+    word-break: break-word;
+    cursor: pointer;
+    color: black;
+    font-family: 'Perpetua', serif;
+    font-weight: bold;
+}
+
+.contrast .total {
+    margin-top: 0.5vw;
+    margin-bottom: 0.5vw;
+    display: inline;
+    float: left;
+    color: #d7f2a6;
+    background-color: black;
+    font-family: 'Perpetua', serif;
+    font-size: 3vw;
+}
+
+.contrast .drink-square {
+    margin-left: 1vw;
+    margin-right: 1vw;
+    width: 5vw;
+    display: center;
+    border: .1vh solid black; 
+}

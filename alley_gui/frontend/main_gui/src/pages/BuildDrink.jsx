@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from "axios";
-// import './build_drink.css';
-import './build_drinkHC.css';
+import './build_drink.css';
 import backArrowImage from './images/back_arrow.png';
 
 const BuildDrink = () => {
@@ -48,6 +47,16 @@ const BuildDrink = () => {
       }
 
     const getSelectedDrink = () => {
+        if (sessionStorage.getItem("high_contrast_mode")) {
+            const body = document.querySelector('body');
+            if (body.classList.contains("contrast") == false) {
+              body.classList.add("contrast");
+            }
+        } else {
+            const body = document.querySelector('body');
+            body.classList.remove("contrast");
+        }
+
         const selectedDrink = sessionStorage.getItem("customer_drink_name");
         const drinkName = document.getElementById("drinkSelected");
         drinkName.textContent = "Selected Drink: " + selectedDrink;
@@ -223,6 +232,17 @@ const BuildDrink = () => {
         return words.join("_");
     }
 
+    const highContrastMode = () => {
+        const body = document.querySelector('body');
+        if (body.classList.contains("contrast")) {
+          body.classList.remove("contrast");
+          sessionStorage.setItem("high_contrast_mode", false);
+        } else {
+          body.classList.add("contrast");
+          sessionStorage.setItem("high_contrast_mode", true);
+        }
+    }
+
     useEffect(() => {
         const drinkCategories = async () => {
         try {
@@ -245,6 +265,7 @@ const BuildDrink = () => {
 
   return (
     <div className="build-drink-background" onLoad={() => getSelectedDrink()}>
+        <button onClick={highContrastMode}>test</button>
         <button className="back-button" onClick={backCustomerHome}>
             <img src={backArrowImage} alt="Back Arrow" width="60%" height="10%" />
         </button>
