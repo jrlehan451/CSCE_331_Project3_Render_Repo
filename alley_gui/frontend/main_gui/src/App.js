@@ -94,6 +94,19 @@ function App() {
     return words.join(" ");
   }
 
+  const highContrastMode = () => {
+    const body = document.querySelector('body');
+    if (body.classList.contains("contrast")) {
+      body.classList.remove("contrast");
+      document.body.style.backgroundColor = '#ffefe2';
+      sessionStorage.setItem("high_contrast_mode", false);
+    } else {
+      body.classList.add("contrast");
+      document.body.style.backgroundColor = 'black';
+      sessionStorage.setItem("high_contrast_mode", true);
+    }
+  }
+
   const isHomePage = location.pathname === "/";
   return (
     <div className="App">
@@ -155,7 +168,7 @@ function App() {
         <img src = {backIcon} className="image" />
         {magnify}
       </button>
-      <button className="high-contrast">
+      <button className="high-contrast" onClick={highContrastMode}>
         <img src = {contrastIcon} className="image" />
       </button>
       <button className="translate">
