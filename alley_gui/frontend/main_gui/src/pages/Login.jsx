@@ -53,7 +53,7 @@ const Login = () => {
 
     const fetchWeatherData = async (latitude, longitude) =>{
       try {
-        const response = await axios.get("http:///thealley.onrender.com/weather", {
+        const response = await axios.get("https://thealley.onrender.com/weather", {
           params: {
             latitude,
             longitude
