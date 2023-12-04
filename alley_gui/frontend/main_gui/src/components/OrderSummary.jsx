@@ -80,29 +80,6 @@ const OrderSummary = () => {
         setTotalCost(calcTotalCost);
     }, [calcTotalCost])
 
-    const highContrastMode = () => {
-        const body = document.querySelector('body');
-        if (body.classList.contains("contrast")) {
-          body.classList.remove("contrast");
-          sessionStorage.setItem("high_contrast_mode", false);
-        } else {
-          body.classList.add("contrast");
-          sessionStorage.setItem("high_contrast_mode", true);
-        }
-      }
-    
-      const loadCurrentMode = () => {
-        if (sessionStorage.getItem("high_contrast_mode")) {
-          const body = document.querySelector('body');
-          if (body.classList.contains("contrast") == false) {
-            body.classList.add("contrast");
-          }
-        } else {
-          const body = document.querySelector('body');
-          body.classList.remove("contrast");
-        }
-      }
-
     const postOrderToDB = async(e) => {
         e.preventDefault();
 
@@ -123,8 +100,7 @@ const OrderSummary = () => {
     }
 
     return (
-        <div onLoad={() => loadCurrentMode()}>
-            <button onClick={highContrastMode}>test</button>
+        <div>
             <span class= "back" onClick={() => navigate(-1)}></span>
             <div class="columnWrapper">
                 <h1 class="green">Order Summary</h1>
