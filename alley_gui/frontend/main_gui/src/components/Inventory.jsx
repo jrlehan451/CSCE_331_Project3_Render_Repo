@@ -315,14 +315,6 @@ const Inventory = () => {
     }
    };
 
-  const updateHandleSubmit = (e) => {
-    e.preventDefault();
-    axios
-      .post("https://thealley.onrender.com/updateItemInventory", values)
-      .then((res) => console.log(res))
-      .catch((err) => console.log(err));
-  };
-
   const highContrastMode = () => {
     const body = document.querySelector('body');
     if (body.classList.contains("contrast")) {

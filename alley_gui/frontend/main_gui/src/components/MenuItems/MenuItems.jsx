@@ -28,11 +28,6 @@ const MenuItems = () => {
         setReloadTable(!reloadTable);
     };
 
-  // Function to update the state and trigger a re-render of the table
-  const handleTableReload = () => {
-    setReloadTable(!reloadTable);
-  };
-
   useEffect(() => {
     // This effect will be triggered every time reloadTable changes
     // Implement logic to fetch updated data and refresh the table
