@@ -1,6 +1,6 @@
 .navigationToMenu {
     position: fixed; 
-    bottom: 40vh;
+    bottom: 30vh;
     left: 2vh; 
     background-color: #ffefe2;
     border: 0;
@@ -45,7 +45,7 @@
 
 .contrast .navigationToMenu {
     position: fixed; 
-    bottom: 40vh;
+    bottom: 30vh;
     left: 2vh; 
     background-color: #fdffdb;
     border: 0;

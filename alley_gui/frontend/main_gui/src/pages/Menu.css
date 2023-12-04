@@ -23,7 +23,7 @@
 
 .navigationToMenuAddOns {
     position: fixed; 
-    bottom: 40vh;
+    bottom: 30vh;
     right: 2vh; 
     background-color: #ffefe2;
     border: 0;
@@ -110,7 +110,7 @@
 
 .contrast .navigationToMenuAddOns {
     position: fixed; 
-    bottom: 40vh;
+    bottom: 30vh;
     right: 2vh; 
     background-color: #fdffdb;
     border: 0;
