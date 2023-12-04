@@ -131,44 +131,44 @@ const MenuItemsButtons = ({ onReload }) => {
   };
 
   // Function to handle button clicks for adding drinks
-  const handleAddDrink = (e) => {
-    let errorfound = false;
-    console.log("Add Drink clicked", values);
-    if (
-      values.drinkID != "" &&
-      values.drinkName != "" &&
-      values.drinkCost != "" &&
-      values.drinkCost != ""
-    ) {
-      e.preventDefault();
-      axios
-        .post("https://thealley.onrender.com/addDrink", values)
-        .then((res) => {
-          if (res.data.status === "success") {
-            console.log(res.data.message);
-          } else {
-            console.error(res.data.message);
-          }
-        })
-        .catch((err) => {
-          errorfound = true;
-          console.error("Error:", err);
-          alert("Error: Entered existing Drink ID");
-        });
-    } else {
-      errorfound = true;
-      alert(
-        "Please fill in all required fields: Drink ID, Drink Name, Drink Cost, and Drink Category"
-      );
-    }
+  // const handleAddDrink = (e) => {
+  //   let errorfound = false;
+  //   console.log("Add Drink clicked", values);
+  //   if (
+  //     values.drinkID != "" &&
+  //     values.drinkName != "" &&
+  //     values.drinkCost != "" &&
+  //     values.drinkCost != ""
+  //   ) {
+  //     e.preventDefault();
+  //     axios
+  //       .post("https://thealley.onrender.com/addDrink", values)
+  //       .then((res) => {
+  //         if (res.data.status === "success") {
+  //           console.log(res.data.message);
+  //         } else {
+  //           console.error(res.data.message);
+  //         }
+  //       })
+  //       .catch((err) => {
+  //         errorfound = true;
+  //         console.error("Error:", err);
+  //         alert("Error: Entered existing Drink ID");
+  //       });
+  //   } else {
+  //     errorfound = true;
+  //     alert(
+  //       "Please fill in all required fields: Drink ID, Drink Name, Drink Cost, and Drink Category"
+  //     );
+  //   }
 
-    if (!errorfound) {
-      onReload();
-      //Activate pop up
-      setOpenPopup(true);
-    }
-    console.log("Add Drink clicked", values);
-  };
+  //   if (!errorfound) {
+  //     onReload();
+  //     //Activate pop up
+  //     setOpenPopup(true);
+  //   }
+  //   console.log("Add Drink clicked", values);
+  // };
 
   // Function to handle selected ingredients from the popup
   const handleSelectIngredients = (selectedIngredients) => {

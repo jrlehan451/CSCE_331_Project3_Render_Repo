@@ -85,11 +85,6 @@ const AnalyzeTrends = () => {
         response = await axios.get(
           `http://localhost:4000/${removeSpaces(selectedTrend)}`,
           {
-      if(valid){
-        try {
-          let response;
-          // Use the selectedTrend to dynamically construct the API endpoint
-          response = await axios.get(`https://thealley.onrender.com/${removeSpaces(selectedTrend)}`, {
             params: {
               startTimestamp,
               endTimestamp,
@@ -97,6 +92,18 @@ const AnalyzeTrends = () => {
             },
           }
         );
+        // if(valid){
+        //   try {
+        //     let response;
+        //     // Use the selectedTrend to dynamically construct the API endpoint
+        //     response = await axios.get(`https://thealley.onrender.com/${removeSpaces(selectedTrend)}`, {
+        //       params: {
+        //         startTimestamp,
+        //         endTimestamp,
+        //         number,
+        //       },
+        //     }
+        //   );
 
         const jsonVals = await response.data;
         console.log("Data received:", jsonVals.data.inventory);
