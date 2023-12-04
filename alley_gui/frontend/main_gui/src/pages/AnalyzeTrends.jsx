@@ -83,7 +83,7 @@ const AnalyzeTrends = () => {
         let response;
         // Use the selectedTrend to dynamically construct the API endpoint
         response = await axios.get(
-          `http://localhost:4000/${removeSpaces(selectedTrend)}`,
+          `https://thealley.onrender.com/${removeSpaces(selectedTrend)}`,
           {
             params: {
               startTimestamp,

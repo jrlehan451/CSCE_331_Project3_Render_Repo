@@ -36,10 +36,8 @@ const Menu = () => {
 
     const highContrastMode = () => {
         const body = document.querySelector('body');
-        console.log(body.classList.contains("contrast"));
         if (body.classList.contains("contrast")) {
           body.classList.remove("contrast");
-          console.log("in conditional");
           sessionStorage.setItem("high_contrast_mode", false);
         } else {
           body.classList.add("contrast");

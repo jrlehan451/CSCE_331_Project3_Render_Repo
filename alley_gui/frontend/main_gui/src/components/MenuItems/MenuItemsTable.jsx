@@ -38,7 +38,7 @@ const MenuItemsTable = ({ reloadTable }) => {
       try {
         // Fetch data for menu items
         const menuItemsResponse = await axios.get(
-          "http://localhost:4000/menuItems"
+          "https://thealley.onrender.com/menuItems"
         );
         const menuItemsRows = menuItemsResponse.data.data.table.rows.map(
           (item, id) => ({

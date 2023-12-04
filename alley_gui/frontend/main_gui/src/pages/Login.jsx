@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import './Login.css'
-// import './LoginHC.css'
 
 const Login = () => {
   const [username, setUsername] = useState('');

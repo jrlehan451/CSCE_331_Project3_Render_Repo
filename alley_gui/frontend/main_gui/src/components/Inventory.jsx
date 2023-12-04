@@ -209,7 +209,7 @@ const Inventory = () => {
 
     try {
       const inventoryResponse = await axios.get(
-        "http://localhost:4000/inventory_items"
+        "https://thealley.onrender.com/inventory_items"
       );
       const inventoryData = inventoryResponse.data.data.table.rows;
   
@@ -219,19 +219,19 @@ const Inventory = () => {
 
       if (itemToUpdate) {
         if (values.name != "" && values.itemId != "") {
-          await axios.post("http://localhost:4000/updateInventoryName", values);
+          await axios.post("https://thealley.onrender.com/updateInventoryName", values);
           console.log("Item in inventory name updated succesfully");
         }
         if (values.amount != "" && values.itemId != "") {
-          await axios.post("http://localhost:4000/updateInventoryCount", values);
+          await axios.post("https://thealley.onrender.com/updateInventoryCount", values);
           console.log("Item in inventory count updated succesfully");
         }
         if (values.quantityPerUnit != "" && values.itemId != "") {
-          await axios.post("http://localhost:4000/updateInventoryQuantityUnit", values);
+          await axios.post("https://thealley.onrender.com/updateInventoryQuantityUnit", values);
           console.log("Item in inventory quantity per unit updated succesfully");
         }
         if (values.fillLevel != "" && values.itemId != "") {
-          await axios.post("http://localhost:4000/updateInventoryFillLevel", values);
+          await axios.post("https://thealley.onrender.com/updateInventoryFillLevel", values);
           console.log("Item in inventory quantity per unit updated succesfully");
         }
       } else {

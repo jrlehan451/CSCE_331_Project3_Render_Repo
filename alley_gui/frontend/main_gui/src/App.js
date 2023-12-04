@@ -26,6 +26,9 @@ import AddOn from "./components/AddOn";
 import OrderSummary from "./components/OrderSummary";
 import MakeNewOrder from "./components/MakeNewOrder";
 import backIcon from './pages/images/magnifyingGlass.png'; 
+import contrastIcon from './pages/images/contrast.png';
+import translateIcon from './pages/images/translate.png';
+import speechIcon from './pages/images/speech.jpg';
 import TextToSpeech from "./components/TextToSpeech";
 
 //BrowserRouter basename="/tutorial"> for
@@ -151,6 +154,15 @@ function App() {
       <button className="toggle" onClick={toggleMagnify}>
         <img src = {backIcon} className="image" />
         {magnify}
+      </button>
+      <button className="high-contrast">
+        <img src = {contrastIcon} className="image" />
+      </button>
+      <button className="translate">
+        <img src = {translateIcon} className="image" />
+      </button>
+      <button className="speech">
+        <img src = {speechIcon} className="image" />
       </button>
     </div>
   );
