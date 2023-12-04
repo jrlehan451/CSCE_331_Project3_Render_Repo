@@ -127,7 +127,7 @@ function LanguageSelect() {
 
     return (
         <div>
-            <select value={language} onChange={selectLang}>
+            <select class="langSelect" value={language} onChange={selectLang}>
                 {options.map((option) => (
                 <option class="languageOption" key={option.key} value={option.value}>{option.key}</option>
                 ))}  

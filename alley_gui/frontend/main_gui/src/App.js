@@ -129,7 +129,6 @@ function App() {
         style={{left: `${mousePosition.x - 80}px`,top: `${mousePosition.y - 80}px`}}
       />
       
-      <LanguageSelect></LanguageSelect>
       {isHomePage && <Login />}
       {/* This is used for making connection between backend and frontend commented
       out for github release
@@ -187,6 +186,7 @@ function App() {
       </button>
       <button className="translate">
         <img src = {translateIcon} className="image" />
+        <LanguageSelect></LanguageSelect>
       </button>
       <button className="speech">
         <img src = {speechIcon} className="image" />
