@@ -87,3 +87,93 @@ body {
     border-width: .2vh;
     padding:0;
 }
+
+.contrast .body {
+    background-color: black;
+}
+
+.contrast .loginTitle {
+    text-align: center;
+    color: #d7f2a6; 
+    font-size: 9vw; 
+}
+
+.contrast .button-panel {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 30vh; 
+    margin-top: 10vh;
+}
+
+.contrast .top-button {
+    margin-bottom: 1vh; 
+}
+
+.contrast .lower-button {
+    margin-top: 1vh; 
+}
+
+.contrast .large-button {
+    width: 50vw; 
+    height: 23vh;
+    border-radius: 2.3vh; 
+    background-color: #d7f2a6; 
+    color: black; 
+    font-size: 4vw; 
+    border: .1vw #fdffdb solid;
+    cursor: pointer;
+}
+
+.contrast .login-form {
+    display: none;
+    background-color: #d7f2a6; 
+    border-radius: 2.3vh;
+    width: 49.7vw; 
+    height: 22.5vh;
+    border: .1vw black solid;
+    position: relative;
+
+}
+
+.contrast .login-form input {
+    display: block;
+    width: 20vw;
+    margin: 1vh;
+    height: 2vh;
+    font-size: 1vw;
+    border: .1vw;
+    padding: .1vh;
+}
+
+.contrast .login-form input:focus{
+    outline: .1vh;
+}
+
+.contrast .x-button {
+    position: absolute;
+    top: 1vh;
+    right: 1vw;
+    border-radius: .1vw;
+    width: 2vw;
+    height: 2vw;
+    font-size: 1vw;
+    cursor: pointer;
+    border-width: .2vh;
+    padding:0;
+}
+
+.contrast .login-button {
+    width: 4vw;
+    height: 2vw;
+    position: absolute;
+    margin-top: 5vw;
+    border-radius: .1vw;
+    right: 2vh;
+    bottom: 2vh;
+    font-size: 1vw;
+    cursor: pointer;
+    border-width: .2vh;
+    padding:0;
+}

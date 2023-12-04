@@ -163,3 +163,171 @@ tr {
     text-align: right;
     font-size: 1.2em;
 }
+
+.contrast body {
+    background-color: black;
+}
+
+.contrast .green {
+    color: #d7f2a6;
+}
+
+.contrast .brown {
+    color: #f0d589;
+}
+
+.contrast .button-container {
+    width: 40vw;
+    overflow-y: auto;
+}
+
+.contrast .button-container.double {
+    width: 72vw;
+}
+
+.contrast .button-container > a > button, .contrast .button-container > button {
+    width: 16vw;
+    height: 5vw;
+    background: #d7f2a6;   
+    margin: 1vw;
+    white-space:normal;
+    word-break: break-word;
+    cursor: pointer;
+    border-radius: 8px;
+    float: left;
+}
+
+.contrast .payment-option {
+    width: 25vw;
+    height: 3vw;
+    background: #d7f2a6;   
+    white-space:normal;
+    word-break: break-word;
+    cursor: pointer;
+    border-radius: 8px;
+}
+
+.contrast .back:after {
+    content: '\27A8';
+}
+
+.contrast .back {
+    position: absolute;
+    top: 1vw;
+    left: 1vw;
+    transform: rotate(180deg);
+    font-size: 50px;
+    cursor: pointer;
+}
+
+.contrast .bottom-button {
+    margin: 1vw;
+    color: black;
+    border: none;
+    background-color: #f0d589;
+    height: 2.5vw;
+    width: 13vw;
+    cursor: pointer;
+}
+
+.contrast .bottom-button.grayed-button {
+    background-color: #808080;
+    cursor: none;
+    pointer-events: none;
+}
+
+.contrast a:has(button.bottom-button.bottom-button.grayed-button) {
+    cursor: none;
+    pointer-events: none;
+}
+
+.contrast table {
+    border: 4px solid #f0d589;
+    width: 45vw;
+    border-collapse: collapse;
+    height: 100%;
+    color: #f0d589
+}
+
+.contrast tr {
+    cursor: pointer;
+}
+
+.contrast .selected {
+    background-color: #f0d589;
+    color: black;
+}
+
+.contrast .column {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.contrast .columnWrapper {
+    display: inline-flex;
+    justify-content: center;
+}
+
+.contrast .bodyColumn {
+    width: 50vw;
+}
+
+.contrast .spacedLabel {
+    padding-right: 5px;
+    font-weight: 700;
+    margin-bottom: 3vh;
+}
+
+.contrast .customer-name {
+    border: 0;
+    outline: 0;
+    background: transparent;
+    border-bottom: 2px solid #d7f2a6;
+    margin-bottom: 3vh;
+    color: #d7f2a6
+}
+
+.contrast .table-header {
+    border-bottom: 4px solid #f0d589;
+}
+
+.contrast .order-row {
+    height: 0;
+}
+
+.contrast .filler-rows {
+    height: 100%;
+}
+
+.contrast .vhCenter {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.contrast .new-order-button {
+    height: 3vw;
+    width: 100%;
+    color: #f0d589;
+    border: 3px solid #f0d589;
+    background: transparent;
+    font-weight: 700;
+    font-size: large;
+    white-space: normal;
+    word-break: break-word;
+    cursor: pointer;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.contrast .total-cost {
+    width: 13vw;
+    font-weight: 700;
+    text-align: right;
+    font-size: 1.2em;
+}

@@ -54,9 +54,49 @@ const Menu = () => {
     window.location.href = "/";
   };
 
+  //   const navigateToMenuAddons = () => {
+  //     var currLocation = window.location.href;
+  //     window.location.href = currLocation.replace("Menu", "MenuAddOns");
+  //   };
+  function getImage(name) {
+    name = "/drink_images/" + name;
+    name += ".png";
+    const words = name.split(" ");
+    return words.join("_");
+  }
+
+  //   const returnHome = () => {
+  //     window.location.href = "/";
+  //   };
+
   const navigateToMenuAddons = () => {
     var currLocation = window.location.href;
     window.location.href = currLocation.replace("Menu", "MenuAddOns");
+  };
+
+  const highContrastMode = () => {
+    const body = document.querySelector("body");
+    console.log(body.classList.contains("contrast"));
+    if (body.classList.contains("contrast")) {
+      body.classList.remove("contrast");
+      console.log("in conditional");
+      sessionStorage.setItem("high_contrast_mode", false);
+    } else {
+      body.classList.add("contrast");
+      sessionStorage.setItem("high_contrast_mode", true);
+    }
+  };
+
+  const loadCurrentMode = () => {
+    if (sessionStorage.getItem("high_contrast_mode")) {
+      const body = document.querySelector("body");
+      if (body.classList.contains("contrast") == false) {
+        body.classList.add("contrast");
+      }
+    } else {
+      const body = document.querySelector("body");
+      body.classList.remove("contrast");
+    }
   };
 
   useEffect(() => {
@@ -86,21 +126,20 @@ const Menu = () => {
       <button className="home-button" onClick={returnHome}>
         <img src={HomeButton} alt="home" />
       </button>
-
       <button className="navigationToMenuAddOns" onClick={navigateToMenuAddons}>
         <img src={arrow} alt="arrow" />
       </button>
       <div className="drink-panel">
         {Object.keys(drinks).map((category) => (
-          <div class="category-panel" key={category}>
+          <div
+            class="category-panel"
+            key={category}
+            onMouseOver={(e) => handleHover(e, isHoverEnabled)}
+            onMouseOut={handleMouseOut}
+          >
             <h2 class="category-title"> {capitalizeName(category, "_")} </h2>
             {drinks[category].map((drink) => (
-              <div
-                class="drink-entry"
-                key={drink}
-                onMouseOver={(e) => handleHover(e, isHoverEnabled)}
-                onMouseOut={handleMouseOut}
-              >
+              <div class="drink-entry" key={drink}>
                 <img
                   class="drink-square"
                   src={getImage(category)}
