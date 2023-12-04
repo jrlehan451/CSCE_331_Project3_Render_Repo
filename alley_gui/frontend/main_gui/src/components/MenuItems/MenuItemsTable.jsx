@@ -49,10 +49,24 @@ const MenuItemsTable = ({ reloadTable }) => {
             category: item.category,
           })
         );
+        const menuItemsResponse = await axios.get(
+          "https://thealley.onrender.com/menuItems"
+        );
+        const menuItemsRows = menuItemsResponse.data.data.table.rows.map(
+          (item, id) => ({
+            id,
+            drink_id: item.drink_id,
+            name: item.name,
+            cost: item.cost,
+            category: item.category,
+          })
+        );
         setMenuItemsData(menuItemsRows);
 
         // Fetch data for add-ons
-        const addOnsResponse = await axios.get("http://localhost:4000/addOns");
+        const addOnsResponse = await axios.get(
+          "https://thealley.onrender.com/addOns"
+        );
         const addOnsRows = addOnsResponse.data.data.table.rows.map(
           (item, id) => ({
             id,

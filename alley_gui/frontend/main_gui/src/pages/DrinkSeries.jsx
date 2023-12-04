@@ -64,11 +64,18 @@ const DrinkSeries = () => {
 
     const {category} = useParams();
 
+    function getImage(name){
+        name = "/drink_images/" + name;
+        name += ".png"
+        const words = name.split(" ");
+        return words.join("_");
+    }
+
     useEffect(() => {
         const drinkSeries = async () => {
         try {
             const response = await axios.get(
-            "http://localhost:4000/drink_series_items", {params: {category : category}}
+            "https://thealley.onrender.com/drink_series_items", {params: {category : category}}
             );
             const jsonVals = await response.data;
             console.log(jsonVals.data);
@@ -102,7 +109,8 @@ const DrinkSeries = () => {
                         <h1 id="drinkSeriesName" className="series-name">{capitalizeName(drinkItem.category, "_")}</h1>
                     ))}
                     {drinkSeriesItems.map((drink, index) => (
-                        <button key={index} id={drink.name} onClick={() => buildDrink(drink.name, drink.drink_id, drink.cost)}>
+                        <button key={index} alt={capitalizeName(drink.name, ' ')} id={drink.name} onClick={() => buildDrink(drink.name, drink.drink_id, drink.cost)}>
+                        <img class="drink-square" src={getImage(drink.category)} alt={capitalizeName(drink.name, ' ')} />
                         {capitalizeName(drink.name, " ")}
                         </button>
                     ))}

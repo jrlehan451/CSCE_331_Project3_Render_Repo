@@ -76,7 +76,7 @@ const AddDrink = ({capitalizeName}) => {
       const drinkOptions = async () => {
         try {
           const response = await axios.get(
-            "http://localhost:4000/add_drink_jsx", {params: { category: category}}
+            "https://thealley.onrender.com/add_drink_jsx", {params: { category: category}}
           );
           const jsonVals = await response.data;
           console.log("Working");

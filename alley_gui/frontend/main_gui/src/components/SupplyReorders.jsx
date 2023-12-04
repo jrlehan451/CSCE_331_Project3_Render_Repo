@@ -79,7 +79,7 @@ const SupplyReorders = () => {
 
     try {
       const response = await axios.post(
-        "http://localhost:4000/addSupplyReorder",
+        "https://thealley.onrender.com/addSupplyReorder",
         {
           selectedItems: selectedItems,
           amounts: amounts,
@@ -114,7 +114,7 @@ const SupplyReorders = () => {
     const supplyReorders = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:4000/supply_reorders"
+          "https://thealley.onrender.com/supply_reorders"
         );
         const jsonVals = await response.data;
         console.log("Working");
@@ -145,7 +145,7 @@ const SupplyReorders = () => {
 
     try {
       const response = await axios.post(
-        "http://localhost:4000/viewSupplyReorder",
+        "https://thealley.onrender.com/viewSupplyReorder",
         {
           reorder_id: values.reorderId,
           date: values.date,
@@ -156,7 +156,7 @@ const SupplyReorders = () => {
       //setViewPopupData(viewData);
 
       const responseReorderItem = await axios.get(
-        "http://localhost:4000/reorder_items"
+        "https://thealley.onrender.com/reorder_items"
       );
       const reorderItemsData = responseReorderItem.data;
 
@@ -194,7 +194,7 @@ const SupplyReorders = () => {
     console.log("Sending date: ", values.date);
 
     const responseReorderItem = await axios.get(
-      "http://localhost:4000/supply_reorders"
+      "https://thealley.onrender.com/supply_reorders"
     );
     const reorderItemsData = responseReorderItem.data;
 
@@ -231,7 +231,7 @@ const SupplyReorders = () => {
       } else {
         try {
           const response = await axios.post(
-            "http://localhost:4000/deleteSupplyReorder",
+            "https://thealley.onrender.com/deleteSupplyReorder",
             {
               reorder_id: values.reorderId,
               date: values.date,
@@ -258,7 +258,7 @@ const SupplyReorders = () => {
       try {
         // Check if itemId already exists in the inventory
         const response = await axios.get(
-          "http://localhost:4000/ingredient_items"
+          "https://thealley.onrender.com/ingredient_items"
         );
         const jsonVals = response.data;
 

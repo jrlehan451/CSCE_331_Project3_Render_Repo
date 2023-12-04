@@ -1,0 +1,114 @@
+.trendsTitle{
+  color: #d7f2a6; 
+  font-size: 4vw; 
+  text-align: center;
+  padding: 1vh; 
+}
+
+.GoButton {
+    color: black;
+    background-color: #f0d589;
+    border: none;
+    padding: 1vh 1.5vh;
+    cursor: pointer;
+    margin-bottom: 1vh;
+    margin-left: 1vh;
+    height:5vh;
+    width:4vw;
+    font-size: 1.25vw;
+  }
+
+.backButton {
+  position: absolute;
+  top: 1vh;
+  left: 1vh;
+  border: 0;
+  background-color: #fdffdb;
+  color: #d7fa26;
+  padding: 1vh;
+  cursor: pointer;
+  border-color: #ffefe2;
+}
+
+.backButton img{
+    height: 5vh;
+    width: 5vw;
+}
+
+#label{
+  color:#f0d589;
+}
+
+#trend-choice {
+  color: #f0d589;
+  background-color: black;
+  font-size: 1.25vw;
+  border: 2vh #f0d589;
+  height: 3vh;
+  width: 20vw;
+}
+
+#trend-choice:focus{
+  outline: .1vh;
+}
+
+.selection {
+    color: #f0d589;
+    height: 5vh;
+    width: 70vw;
+    font-size: 1.25vw;
+    align-items: center;
+}
+
+.selection input {
+  width: 5vw;
+  height: 2vh;
+  font-size: .8vw;
+  border: .1vw;
+  padding: .1vh;
+}
+
+.selection input:focus{
+  outline: .1vh;
+}
+
+.timestamp-section{
+    color: #f0d589;
+    display: flex;
+    justify-content: space-between;
+    font-size: 1vw;
+    height: 5vh;
+}
+
+.timestamp-section input{
+  width: 20vw;
+  margin: 1vh;
+  height: 2vh;
+  font-size: 1vw;
+  border: .1vw;
+  padding: .1vh;
+}
+
+.timestamp-section input:focus{
+  outline: .1vh;
+}
+
+.start-timestamp-section {
+    margin-right: 5vw; 
+}
+  
+.end-timestamp-section {
+    margin-left: 5vw;
+}
+
+.trend-panel{
+  display: flex; 
+  width: 100%; 
+  height: 60vh;
+  border: .5vh solid #f0d589;
+  padding: 0;
+}
+
+.trend-panel > div {
+  flex: 1; 
+}

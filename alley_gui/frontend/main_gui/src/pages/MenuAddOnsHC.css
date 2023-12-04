@@ -1,0 +1,44 @@
+.navigationToMenu {
+    position: fixed; 
+    bottom: 40vh;
+    left: 2vh; 
+    background-color: #fdffdb;
+    border: 0;
+    padding: 1vh;
+    cursor:pointer;
+}
+
+.navigationToMenu img {
+    height: 5vh;
+    width: 5vw;
+}
+
+.addon-container{
+    color: #f0d589;
+    display: inline-block;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin: 0 10vw;
+    margin-bottom: 5vh;
+    font-size: 1.1vw;
+}
+
+.addon-entry{
+    width: 13vw;
+    height: 16vh;
+    padding: 1vh;
+    margin: .5vh;
+    display: inline-block; 
+    vertical-align: top; 
+    text-align: center;
+    align-items: center;
+}
+
+.addon-square {
+    width: 80%;
+    border: .1vh solid #fdffdb; 
+    background-color: #ececec;
+    height: 80%;
+    object-fit: cover;
+}

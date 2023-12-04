@@ -38,7 +38,7 @@ const Menu = () => {
         const drinksByCategory = async () => {
         try {
             const response = await axios.get(
-                "http://localhost:4000/menu_jsx"
+                "https://thealley.onrender.com/menu_jsx"
             );
             console.log(response.data);
             console.log(response.drinksByCategory);

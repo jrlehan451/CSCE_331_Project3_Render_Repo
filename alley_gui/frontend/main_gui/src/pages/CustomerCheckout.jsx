@@ -11,7 +11,7 @@ const Checkout = () => {
   return (
     <div className="checkout-background">
         <div className="container">
-            <h1 className="confirmation">Order Confirmation #1</h1>
+            <h1 className="confirmation">Order Confirmation #{Math.floor((Math.random() * Date.now())/100000)}</h1>
         </div>
 
         <div className="new-order">

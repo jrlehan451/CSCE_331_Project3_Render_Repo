@@ -1,0 +1,86 @@
+.menu-title {
+    color: #d7f2a6; 
+    font-size: 4vw; 
+    text-align: center;
+    padding: 1vh; 
+}
+
+.home-button {
+    position: absolute;
+    top: 1vh;
+    right: 1vh;
+    border : 0;
+    background-color: #fdffdb;
+    color: #d7f2a6;
+    padding: 1vh;
+}
+
+.home-button img {
+    width: 8vh;
+    height: 7vh;
+    cursor: pointer; 
+}
+
+.navigationToMenuAddOns {
+    position: fixed; 
+    bottom: 40vh;
+    right: 2vh; 
+    background-color: #fdffdb;
+    border: 0;
+    padding: 1vh;
+    cursor:pointer;
+}
+
+.navigationToMenuAddOns img {
+    transform: scaleX(-1);
+    height: 5vh;
+    width: 5vw;
+}
+
+.drink-panel {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin: 0 10vw;
+}
+
+.category-panel {
+    width: 35vw; 
+    font-size: 1.2vw;
+    padding: 1vh;
+    margin: 1vh;
+    text-align: center;
+    color: #f0d589;
+    display: inline-block;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items:start;
+
+}
+
+.category-title {
+    width: 100%; 
+    font-size: 3.5vw; 
+    margin-bottom: 1vh; 
+    margin-top: 3vh
+}
+
+.drink-entry{
+    width: 7vw;
+    padding: .5vw;
+    margin: .5vw;
+    display: inline-block; 
+    vertical-align: top; 
+    text-align: center;
+    min-height: 5vh;
+    overflow: hidden;
+}
+
+.drink-square {
+    width: 100%;
+    border: .1vh solid black; 
+    background-color: #ececec;
+    height: 80%;
+    object-fit: cover;
+}
