@@ -1,0 +1,36 @@
+.checkout-background {
+    background-color: black;
+    height: 100%;
+    width: 100%;
+}
+
+.container {
+    display: flex;
+    min-height: 55vh;
+}
+
+.new-order {
+    display: flex;
+    padding-bottom: 13.5vw;
+}
+
+.confirmation {
+    color: #d7f2a6;
+    font-family: 'Perpetua', serif;
+    font-size: 5vw;
+    margin: auto;
+}
+
+.new-order > button {
+    width: 50vw;
+    height: 7vw;
+    border-radius: 12vw;
+    border: 2px solid #f0d589;
+    background: black;
+    white-space: normal;
+    word-break: break-word;
+    cursor: pointer;
+    color: #f0d589;
+    font-family: 'Perpetua', serif;
+    font-weight: bold;
+}
