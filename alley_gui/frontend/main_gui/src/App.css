@@ -2,6 +2,8 @@
   text-align: center;
 }
 
+
+
 .App-logo {
   height: 40vmin;
   pointer-events: none;
@@ -46,7 +48,7 @@
 .nav {
   list-style-type: none;
   width: 500px;
-  diplay: flex;
+  display: flex;
   justify-content: space-evenly;
 }
 

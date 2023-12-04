@@ -131,7 +131,17 @@ const MenuItemsTable = ({ reloadTable }) => {
   };
 
   return (
-    <div class="tablesInfo">
+    <div
+      class="tablesInfo"
+      style={{
+        height: 425,
+        width: "45vw",
+        marginBottom: "20px",
+        float: "left",
+      }}
+      onLoad={() => loadCurrentMode()}
+    >
+      <button onClick={highContrastMode}>test</button>
       <div
         style={{
           height: 425,
@@ -140,61 +150,46 @@ const MenuItemsTable = ({ reloadTable }) => {
           float: "left",
         }}
       >
-        <div class="tablesInfo" onLoad={() => loadCurrentMode()}>
-          <button onClick={highContrastMode}>test</button>
-          <div
-            style={{
-              height: 425,
-              width: "45vw",
-              marginBottom: "20px",
-              float: "left",
-            }}
-          >
-            <h2>Drinks Table</h2>
-            <DataGrid
-              rows={menuItemsData}
-              columns={menuItemsColumns.map((column) => ({
-                ...column,
-                renderCell: (params) => (
-                  <div
-                    onMouseOver={() => handleGridCellHover(params)}
-                    onMouseOut={handleMouseOut}
-                  >
-                    {params.value}
-                  </div>
-                ),
-              }))}
-            />
-            {/* DataGrid rows={menuItemsData} columns={menuItemsColumns} columnBuffer={2} /> */}
-          </div>
-
-          <div
-            style={{
-              height: 425,
-              width: "45vw",
-              marginBottom: "20px",
-              float: "right",
-            }}
-          >
-            <h2>Add-Ons Table</h2>
-            <DataGrid
-              rows={addOnsData}
-              columns={addOnsColumns.map((column) => ({
-                ...column,
-                renderCell: (params) => (
-                  <div
-                    onMouseOver={() => handleGridCellHover(params)}
-                    onMouseOut={handleMouseOut}
-                  >
-                    {params.value}
-                  </div>
-                ),
-              }))}
-            />
-
-            {/* <DataGrid rows={addOnsData} columns={addOnsColumns} columnBuffer={2}/> */}
-          </div>
-        </div>
+        <h2>Drinks Table</h2>
+        <DataGrid
+          rows={menuItemsData}
+          columns={menuItemsColumns.map((column) => ({
+            ...column,
+            renderCell: (params) => (
+              <div
+                onMouseOver={() => handleGridCellHover(params)}
+                onMouseOut={handleMouseOut}
+              >
+                {params.value}
+              </div>
+            ),
+          }))}
+        />
+        {/* DataGrid rows={menuItemsData} columns={menuItemsColumns} columnBuffer={2} /> */}
+      </div>
+      <div
+        style={{
+          height: 425,
+          width: "45vw",
+          marginBottom: "20px",
+          float: "right",
+        }}
+      >
+        <h2>Add-Ons Table</h2>
+        <DataGrid
+          rows={addOnsData}
+          columns={addOnsColumns.map((column) => ({
+            ...column,
+            renderCell: (params) => (
+              <div
+                onMouseOver={() => handleGridCellHover(params)}
+                onMouseOut={handleMouseOut}
+              >
+                {params.value}
+              </div>
+            ),
+          }))}
+        />
       </div>
     </div>
   );

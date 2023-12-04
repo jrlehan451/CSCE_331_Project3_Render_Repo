@@ -170,6 +170,23 @@ const AnalyzeTrends = () => {
     return formattedDate;
   }
 
+  function isValidDateTimeFormat(inputString) {
+    const dateTimePattern = /^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}$/;
+    return dateTimePattern.test(inputString);
+  }
+
+  function removeSpaces(trendName) {
+    const words = trendName.split(" ");
+    return words.join("");
+  }
+
+  function getCurrentDate() {
+    const currentDate = new Date();
+    const utcFormat = currentDate.toISOString();
+    const formattedDate = utcFormat.slice(0, 19).replace("T", " ");
+    return formattedDate;
+  }
+
   const highContrastMode = () => {
     const body = document.querySelector("body");
     if (body.classList.contains("contrast")) {

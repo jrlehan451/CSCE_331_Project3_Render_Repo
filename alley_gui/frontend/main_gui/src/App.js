@@ -1,5 +1,6 @@
 import "./App.css";
 import Header from "./components/Header";
+import LanguageSelect from "./components/LanguageSelect";
 import { Route, Routes, useNavigate, useLocation } from "react-router-dom";
 import Login from "./pages/Login";
 import Menu from "./pages/Menu";
@@ -12,7 +13,7 @@ import Inventory from "./components/Inventory";
 import Ingredients from "./components/Ingredients";
 import MenuItems from "./components/MenuItems/MenuItems";
 import SupplyReorder from "./components/SupplyReorders";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useLayoutEffect, useState } from "react";
 import axios from "axios";
 import DrinkSeries from "./pages/DrinkSeries";
 import BuildDrink from "./pages/BuildDrink";
@@ -24,13 +25,43 @@ import AddDrink from "./components/AddDrink";
 import AddOn from "./components/AddOn";
 import OrderSummary from "./components/OrderSummary";
 import MakeNewOrder from "./components/MakeNewOrder";
+import backIcon from './pages/images/magnifyingGlass.png'; 
 import TextToSpeech from "./components/TextToSpeech";
 
 //BrowserRouter basename="/tutorial"> for
 function App() {
   const [name, setName] = useState("");
   const [home, setHome] = useState("");
+  const [mousePosition, setMousePosition] = useState({
+    x:0,
+    y:0
+  });
+  const [magnify, setMagnify] = useState(false);
 
+  useEffect(() => {
+    const mouseMove = (e) => {
+      setMousePosition({
+        x: e.clientX,
+        y: e.clientY
+      });
+
+      // Update magnification based on some condition
+      //const shouldMagnify = true/* your condition here */;
+      //setMagnify(shouldMagnify);
+    };
+
+    window.addEventListener("mousemove", mouseMove);
+
+    return () => {
+      window.removeEventListener("mousemove", mouseMove);
+    };
+  }, []);
+
+  const toggleMagnify = () => {
+    setMagnify(!magnify);
+  };
+
+ 
   useEffect(() => {
     axios.get("https://thealley.onrender.com/home").then(function (response) {
       setHome(response.data);
@@ -63,6 +94,12 @@ function App() {
   const isHomePage = location.pathname === "/";
   return (
     <div className="App">
+      <div
+        className={`cursor ${magnify ? 'magnify' : ''}`}
+        style={{left: `${mousePosition.x - 80}px`,top: `${mousePosition.y - 80}px`}}
+      />
+      
+      <LanguageSelect></LanguageSelect>
       {isHomePage && <Login />}
       {/* This is used for making connection between backend and frontend commented
       out for github release
@@ -111,6 +148,10 @@ function App() {
 
         <Route path="/customer" element={<CustomerView />} /> */}
       </Routes>
+      <button className="toggle" onClick={toggleMagnify}>
+        <img src = {backIcon} className="image" />
+        {magnify}
+      </button>
     </div>
   );
 }

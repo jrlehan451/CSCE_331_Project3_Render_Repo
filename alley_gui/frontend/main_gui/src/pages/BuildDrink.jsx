@@ -97,6 +97,14 @@ const BuildDrink = () => {
     const drinkSize = document.getElementById("drinkSelectedSize");
     drinkSize.textContent = "Size: " + size;
   };
+  const getSize = (size) => {
+    sessionStorage.setItem("customer_drink_size", size);
+    const drinkSize = document.getElementById("drinkSelectedSize");
+    drinkSize.outerHTML =
+      '<p id="drinkSelectedSize" class="build-drink-text">Size: ' +
+      size +
+      "</p>";
+  };
 
   const getAddOn1 = (addOn1Name, addOn1IngredientId, addOn1Cost) => {
     sessionStorage.setItem("customer_addOn1_name", addOn1Name);
