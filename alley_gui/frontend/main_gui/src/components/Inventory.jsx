@@ -170,6 +170,123 @@ const Inventory = () => {
     }
   };
 
+
+  const updateHandleSubmit = async (e) => {
+    e.preventDefault();
+    if(values.itemId == ""){
+      alert("Error: Enter valid Inventory ID")
+    }
+    if(values.name == "" && values.amount == "" && values.quantityPerUnit == ""){
+      alert("Error: Enter at least 1 value to update (name, cost, category)");
+    }
+    // Check if all required values are provided
+
+    try {
+      const inventoryResponse = await axios.get(
+        "http://localhost:4000/inventory_items"
+      );
+      const inventoryData = inventoryResponse.data.data.table.rows;
+  
+      const itemToUpdate = inventoryData.find(
+        (item) => item.item_id == values.itemId
+      );
+
+      if (itemToUpdate) {
+        if (values.name != "" && values.itemId != "") {
+          await axios.post("http://localhost:4000/updateInventoryName", values);
+          console.log("Item in inventory name updated succesfully");
+        }
+        if (values.amount != "" && values.itemId != "") {
+          await axios.post("http://localhost:4000/updateInventoryCount", values);
+          console.log("Item in inventory count updated succesfully");
+        }
+        if (values.quantityPerUnit != "" && values.itemId != "") {
+          await axios.post("http://localhost:4000/updateInventoryQuantityUnit", values);
+          console.log("Item in inventory quantity per unit updated succesfully");
+        }
+      } else {
+        alert("Item with the specified itemId and name not found  .");
+      }
+    } catch (error) {
+      // Handle errors in a more descriptive way
+      console.error("Error during item ID check:", error);
+    }
+
+
+    
+    
+    // if(values.itemId == ""){
+    //   alert("Error: Enter valid Inventory ID")
+    // }
+    // if(values.name == "" && values.amount == "" && values.quantityPerUnit == ""){
+    //   alert("Error: Enter at least 1 value to update (name, cost, category)");
+    // }
+
+    // // Backend call
+    // // Update inventory item name
+    // if (values.name != "" && values.itemId != "") {
+    //   e.preventDefault();
+    //   axios
+    //     .post("http://localhost:4000/updateInventoryName", values)
+    //     .then((res) => {
+    //       const rowCountTwo = res.data.rowCount;
+    //       if (res.data.status === "success") {
+    //         console.log(res.data.message);
+    //       } else {
+    //         console.error(res.data.message);
+    //       }
+    //       if(rowCountTwo == 0){
+    //         alert("Error: inventory ID not found");
+    //       }
+    //     })
+    //     .catch((err) => {
+    //       console.error("Error:", err);
+    //     });
+    // }
+    // // Update inventory item count
+    // if (values.amount != "" && values.itemId != "") {
+    //   e.preventDefault();
+    //   axios
+    //     .post("http://localhost:4000/updateInventoryCount", values)
+    //     .then((res) => {
+    //       const rowCountTwo = res.data.rowCount;
+    //       if (res.data.status === "success") {
+    //         console.log(res.data.message);
+    //       } else {
+    //         console.error(res.data.message);
+    //       }
+    //       if(rowCountTwo == 0){
+    //         alert("Error: Inventory ID not found");
+    //       }
+    //     })
+    //     .catch((err) => {
+    //       console.error("Error:", err);
+    //     });
+    // }
+    // // Update inventory item quantity per unit
+    // if (values.quantityPerUnit != "" && values.itemId != "") {
+    //   e.preventDefault();
+    //   axios
+    //     .post("http://localhost:4000/updateInventoryQuantityUnit", values)
+    //     .then((res) => {
+    //       const rowCountTwo = res.data.rowCount;
+    //       if (res.data.status === "success") {
+    //         console.log(res.data.message);
+    //       } else {
+    //         console.error(res.data.message);
+    //       }
+    //       if(rowCountTwo == 0){
+    //         alert("Error: Inventory ID not found");
+    //       }
+    //     })
+    //     .catch((err) => {
+    //       console.error("Error:", err);
+    //     });
+    // }
+    //onReload();
+    //console.log("Update Drink clicked", values);
+  };
+
   useEffect(() => {
     const fetchData = async () => {
       if (!openPopup) {
@@ -226,13 +343,6 @@ const Inventory = () => {
     }
   };
 
-  const updateHandleSubmit = (e) => {
-    e.preventDefault();
-    axios
-      .post("http://localhost:4000/updateItemInventory", values)
-      .then((res) => console.log(res))
-      .catch((err) => console.log(err));
-  };
 
   return (
     <ThemeProvider theme={theme}>
@@ -399,7 +509,8 @@ const Inventory = () => {
               <CustomButton onClick={deleteHandleSubmit}>
                 Delete Item
               </CustomButton>
-              <CustomButton>Update Item</CustomButton>
+              <CustomButton onClick={updateHandleSubmit}>Update Item </CustomButton>
+
             </div>
 
             <CustomButton style={{ width: "90%" }}>

@@ -610,7 +610,7 @@ app.get("/analyze_trends", (req, res) => {
 // Getting inventory database and sending it to /inventory
 app.get("/inventory_items", async (req, res) => {
   try {
-    console.log("Hello");
+    //console.log("Hello");
 
     const results = await pool.query("SELECT * FROM inventory_items;");
     res.status(200).json({
@@ -852,7 +852,7 @@ app.post("/addItemIngredient", (req, res) => {
     );
   }
 
-  console.log("Updaing inventory_items and ingredeints");
+  console.log("Updaing inventory_items and ingredeints1");
 });
 
 app.get("/inventory_items/:itemId", (req, res) => {
@@ -1018,7 +1018,7 @@ app.post("/addItemInventory", (req, res) => {
       }
     );
   } else {
-    console.log("Updaing inventory_items and ingredeints");
+    console.log("Updaing inventory_items and ingredeints2");
     // Updating Inventory Page with assciated ingredient ID
     pool.query(
       "INSERT INTO inventory_items (item_id, name, ingredient_id, quantity_per_unit) VALUES($1, $2, $3, $4)",
@@ -1037,7 +1037,7 @@ app.post("/addItemInventory", (req, res) => {
       }
     );
 
-    console.log("Updaing inventory_items and ingredeints and amount");
+    console.log("Updaing inventory_items and ingredeints and amount3");
 
     // Updating ingredient database with resp. assocated inventory ID
     pool.query(
@@ -1053,7 +1053,7 @@ app.post("/addItemInventory", (req, res) => {
     );
   }
 
-  console.log("Updaing inventory_items and ingredeints");
+  console.log("Updaing inventory_items and ingredeints4");
 });
 
 app.post("/deleteItemInventory", (req, res) => {
@@ -1668,6 +1668,144 @@ app.post("/updateAddOnCost", (req, res) => {
     }
   );
 });
+
+//update inventory call
+// app.post("/updateInventoryName", (req, res) => {
+//   pool.query(
+//     "UPDATE inventory_items SET name = $1 WHERE item_id = $2;",
+//     //"UPDATE drinks SET name = $1 WHERE drink_id = $2;",
+//     [req.body.name, req.body.itemId],
+//     (err, response) => {
+//       if (err) {
+//         console.log(err);
+//         res.status(500).json({
+//           status: "error",
+//           rowCount: response.rowCount,
+//           message: "An error occurred while adding the add-on.",
+//         });
+//       } else {
+//         res.status(200).json({
+//           rowCount: response.rowCount,
+//         });
+//         console.log(response);
+//       }
+//     }
+//   );
+//   console.log("Item deleted");
+// });
+
+app.post("/updateInventoryName", (req, res) => {
+  console.log("Server delete item");
+  console.log(req.body.itemId);
+  console.log(req.body.name);
+  console.log(req.body.amount);
+  console.log(req.body.quantityPerUnit);
+
+  pool.query(
+    "UPDATE inventory_items SET name = $1 WHERE item_id = $2;",
+    //"UPDATE drinks SET name = $1 WHERE drink_id = $2;",
+    [req.body.name, req.body.itemId],
+    (err, response) => {
+      if (err) {
+        console.log(err);
+      } else {
+        console.log(response);
+      }
+    }
+  );
+});
+
+app.post("/updateInventoryCount", (req, res) => {
+  console.log("Server delete item mip");
+  // console.log(req.body.itemId);
+  // console.log(req.body.name);
+  // console.log(req.body.amount);
+  // console.log(req.body.quantityPerUnit);
+
+  pool.query(
+    "UPDATE inventory_items SET count = $1 WHERE item_id = $2;",
+    //"UPDATE drinks SET cost = $1 WHERE drink_id = $2;",
+    [req.body.amount, req.body.itemId],
+    (err, response) => {
+      if (err) {
+        console.log(err);
+      } else {
+        console.log(response);
+      }
+    }
+  );
+});
+
+app.post("/updateInventoryQuantityUnit", (req, res) => {
+  console.log("Server delete item");
+  // console.log(req.body.itemId);
+  // console.log(req.body.name);
+  // console.log(req.body.amount);
+  // console.log(req.body.quantityPerUnit);
+
+  pool.query(
+    "UPDATE inventory_items SET quantity_per_unit = $1 WHERE item_id = $2;",
+    //"UPDATE drinks SET category = $1 WHERE drink_id = $2;",
+    [req.body.quantityPerUnit, req.body.itemId],
+    (err, response) => {
+      if (err) {
+        console.log(err);
+      } else {
+        console.log(response);
+      }
+    }
+  );
+});
+
+// //update inventory call
+// app.post("/updateInventoryCount", (req, res) => {
+//   pool.query(
+//     "UPDATE inventory_items SET count = $1 WHERE item_id = $2;"
+//     //"UPDATE drinks SET cost = $1 WHERE drink_id = $2;",
+//     [req.body.amount, req.body.itemId],
+//     (err, response) => {
+//       if (err) {
+//         console.log(err);
+//         res.status(500).json({
+//           status: "error",
+//           rowCount: response.rowCount,
+//           message: "An error occurred while adding the add-on.",
+//         });
+//       } else {
+//         res.status(200).json({
+//           rowCount: response.rowCount,
+//         });
+//         console.log(response);
+//       }
+//     }
+//   );
+//   console.log("Item deleted");
+// });
+
+//update inventory call
+// app.post("/updateInventoryQuantityUnit", (req, res) => {
+//   pool.query(
+//     "UPDATE inventory_items SET quantity_per_unit = $1 WHERE item_id = $2;"
+//     //"UPDATE drinks SET category = $1 WHERE drink_id = $2;",
+//     [req.body.quantityPerUnit, req.body.itemId],
+//     (err, response) => {
+//       if (err) {
+//         console.log(err);
+//         res.status(500).json({
+//           status: "error",
+//           rowCount: response.rowCount,
+//           message: "An error occurred while adding the add-on.",
+//         });
+//       } else {
+//         res.status(200).json({
+//           rowCount: response.rowCount,
+//         });
+//         console.log(response);
+//       }
+//     }
+//   );
+//   console.log("Item deleted");
+// });
 
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`);
