@@ -40,7 +40,7 @@ const ViewCart = () => {
     }
 
     try {     
-      await axios.post("http://localhost:4000/post_customer_order", {
+      await axios.post("https://thealley.onrender.com/post_customer_order", {
           currDrinksInOrder: sessionStorage.getItem('currentOrderDrinks'),
           customer: "customer",
           totalCost: totalCost.toFixed(2),
@@ -76,8 +76,32 @@ const ViewCart = () => {
     return "Total: " + totalCost.toFixed(2);
   }
 
+  const highContrastMode = () => {
+    const body = document.querySelector('body');
+    if (body.classList.contains("contrast")) {
+      body.classList.remove("contrast");
+      sessionStorage.setItem("high_contrast_mode", false);
+    } else {
+      body.classList.add("contrast");
+      sessionStorage.setItem("high_contrast_mode", true);
+    }
+  }
+
+  const loadCurrentMode = () => {
+    if (sessionStorage.getItem("high_contrast_mode")) {
+      const body = document.querySelector('body');
+      if (body.classList.contains("contrast") == false) {
+        body.classList.add("contrast");
+      }
+    } else {
+      const body = document.querySelector('body');
+      body.classList.remove("contrast");
+    }
+  }
+
   return (
-    <div className="view-cart-background">
+    <div className="view-cart-background" onLoad={() => loadCurrentMode()}>
+    <button onClick={highContrastMode}>test</button>
       <button onClick={navCustomerHome} className="back-build">
         <img src={backArrowImage} alt="Back Arrow" width="60%" height="10%" />
       </button>

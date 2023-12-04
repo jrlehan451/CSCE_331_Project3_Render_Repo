@@ -17,6 +17,13 @@ import DialogTitle from "@mui/material/DialogTitle";
 import DialogContent from "@mui/material/DialogContent";
 import NavBar from "./MenuItems/NavBar";
 import "./MenuItems/MenuItems.css";
+import {
+  handleHover,
+  handleMouseOut,
+  handleTextFieldSpeech,
+  handleTableFieldSpeech,
+} from "./SpeechUtils";
+import TextToSpeech from "./TextToSpeech";
 
 const Ingredients = () => {
   // Creating custom buttons
@@ -63,6 +70,25 @@ const Ingredients = () => {
   const [popupData, setPopupData] = useState([]);
   const [checkedItems, setCheckedItems] = useState({});
 
+  const [isHoverEnabled, setIsHoverEnabled] = useState(false);
+  const toggleHover = () => {
+    setIsHoverEnabled((prevIsHoverEnabled) => !prevIsHoverEnabled);
+  };
+  const handleGridCellHover = (params) => {
+    console.log("handleGridCellHover is called!");
+
+    if (isHoverEnabled) {
+      console.log("isHoverEnabled is false");
+
+      const cellContent = params.value.toString();
+      console.log("Cell Content:", cellContent);
+
+      // Call the handleHover function to initiate text-to-speech
+      handleTableFieldSpeech(cellContent);
+      //handleTableFieldSpeech("This is a test");
+    }
+  };
+
   const handleNumberInputChange = (e, key) => {
     // Allow only valid integers in the input
     const newValue = parseInt(e.target.value, 10);
@@ -92,7 +118,7 @@ const Ingredients = () => {
   const ingredientItems = async () => {
     try {
       const response = await axios.get(
-        "http://localhost:4000/ingredient_items"
+        "https://thealley.onrender.com/ingredient_items"
       );
       const jsonVals = await response.data;
       console.log("Working");
@@ -126,7 +152,7 @@ const Ingredients = () => {
     const fetchData = async () => {
       if (!openPopup) {
         // Popup is closed, perform the axios POST request
-        await axios.post("http://localhost:4000/addItemIngredient", values);
+        await axios.post("https://thealley.onrender.com/addItemIngredient", values);
 
         setValues({ ...values, ingredientId: "" });
       }
@@ -140,7 +166,7 @@ const Ingredients = () => {
 
     try {
       const ingredientResponse = await axios.get(
-        "http://localhost:4000/ingredient_items"
+        "https://thealley.onrender.com/ingredient_items"
       );
       const ingredientData = ingredientResponse.data.data.table.rows;
 
@@ -152,7 +178,7 @@ const Ingredients = () => {
       if (itemToDelete) {
         // // Fetch the corresponding inventory_id
 
-        await axios.post("http://localhost:4000/deleteItemIngredient", values);
+        await axios.post("https://thealley.onrender.com/deleteItemIngredient", values);
         console.log("Item deleted succesfully");
       } else {
         alert("Item with the specified ingredientId and name not found.");
@@ -167,7 +193,7 @@ const Ingredients = () => {
 
     try {
       const ingredientResponse = await axios.get(
-        "http://localhost:4000/ingredient_items"
+        "https://thealley.onrender.com/ingredient_items"
       );
       const ingredientData = ingredientResponse.data.data.table.rows;
 
@@ -178,7 +204,7 @@ const Ingredients = () => {
       if (itemToDelete) {
         // // Fetch the corresponding inventory_id
 
-        await axios.post("http://localhost:4000/updateItemIngredient", values);
+        await axios.post("https://thealley.onrender.com/updateItemIngredient", values);
         console.log("Item updated succesfully");
       } else {
         alert("Item with the specified ingredientId not found.");
@@ -201,7 +227,7 @@ const Ingredients = () => {
       try {
         // Check if itemId already exists in the inventory
         const inventoryResponse = await axios.get(
-          "http://localhost:4000/ingredient_items"
+          "https://thealley.onrender.com/ingredient_items"
         );
         const inventoryData = inventoryResponse.data.data.table.rows;
 
@@ -218,7 +244,7 @@ const Ingredients = () => {
         } else {
           // Continue fetching data and displaying the popup
           const response = await axios.get(
-            "http://localhost:4000/inventory_items"
+            "https://thealley.onrender.com/inventory_items"
           );
           const jsonVals = response.data;
 
@@ -234,6 +260,33 @@ const Ingredients = () => {
       alert("Please fill in all required fields.");
     }
   };
+
+  const highContrastMode = () => {
+    const body = document.querySelector('body');
+    if (body.classList.contains("contrast")) {
+      body.classList.remove("contrast");
+      document.body.style.backgroundColor = '#ffefe2';
+      sessionStorage.setItem("high_contrast_mode", false);
+    } else {
+      body.classList.add("contrast");
+      document.body.style.backgroundColor = 'black';
+      sessionStorage.setItem("high_contrast_mode", true);
+    }
+  }
+
+  const loadCurrentMode = () => {
+    if (sessionStorage.getItem("high_contrast_mode")) {
+      const body = document.querySelector('body');
+      if (body.classList.contains("contrast") == false) {
+        body.classList.add("contrast");
+        document.body.style.backgroundColor = 'black';
+      }
+    } else {
+      const body = document.querySelector('body');
+      body.classList.remove("contrast");
+      document.body.style.backgroundColor = '#ffefe2';
+    }
+  }
 
   return (
     <ThemeProvider theme={theme}>
@@ -300,12 +353,25 @@ const Ingredients = () => {
           backgroundColor: theme.palette.primary.main,
           display: "flex",
           flexDirection: "column",
-        }}
-      >
+        }}>
         <h1>Ingredient Page</h1>
-        <div class="tablesInfo">
+        <div class="tablesInfo" onLoad={() => loadCurrentMode()}>
+        <button onClick={highContrastMode}>test</button>
           <div style={{ height: 400, width: "80vw", marginBottom: "20px" }}>
-            <DataGrid rows={data} columns={columns} columnBuffer={2} />
+            <DataGrid
+              rows={data}
+              columns={columns.map((column) => ({
+                ...column,
+                renderCell: (params) => (
+                  <div
+                    onMouseOver={() => handleGridCellHover(params)}
+                    onMouseOut={handleMouseOut}
+                  >
+                    {params.value}
+                  </div>
+                ),
+              }))}
+            />{" "}
           </div>
         </div>
 
@@ -325,6 +391,9 @@ const Ingredients = () => {
                 variant="filled"
                 onChange={(e) => handleNumberInputChange(e, "ingredientId")}
                 value={values.ingredientId}
+                onMouseOver={() =>
+                  handleTextFieldSpeech("ingredientId", values.ingredientId)
+                }
                 type="number"
                 error={inputErrors.ingredientId}
                 helperText={
@@ -340,6 +409,7 @@ const Ingredients = () => {
                 id="filled-basic"
                 variant="filled"
                 onChange={(e) => setValues({ ...values, name: e.target.value })}
+                onMouseOver={() => handleTextFieldSpeech("Name", values.name)}
               />
             </FormControl>
           </div>
@@ -351,6 +421,7 @@ const Ingredients = () => {
                 variant="filled"
                 onChange={(e) => handleNumberInputChange(e, "cost")}
                 value={values.cost}
+                onMouseOver={() => handleTextFieldSpeech("Cost", values.cost)}
                 type="number"
                 error={inputErrors.cost}
                 helperText={
@@ -362,13 +433,31 @@ const Ingredients = () => {
         </div>
 
         <div style={{ display: "flex", gap: "10px", marginTop: "10px" }}>
-          <CustomButton onClick={addHandleSubmit}>Add ingredient</CustomButton>
-          <CustomButton onClick={deleteHandleSubmit}>
+          <CustomButton
+            onClick={addHandleSubmit}
+            onMouseOver={(e) => handleHover(e, isHoverEnabled)}
+            onMouseOut={handleMouseOut}
+          >
+            Add ingredient
+          </CustomButton>
+          <CustomButton
+            onClick={deleteHandleSubmit}
+            onMouseOver={(e) => handleHover(e, isHoverEnabled)}
+            onMouseOut={handleMouseOut}
+          >
             Delete ingredient
           </CustomButton>
-          <CustomButton onClick={updateHandleSubmit}>
+          <CustomButton
+            onClick={updateHandleSubmit}
+            onMouseOver={(e) => handleHover(e, isHoverEnabled)}
+            onMouseOut={handleMouseOut}
+          >
             Update ingredient
           </CustomButton>
+          <TextToSpeech
+            isHoverEnabled={isHoverEnabled}
+            toggleHover={toggleHover}
+          />
         </div>
       </div>
     </ThemeProvider>

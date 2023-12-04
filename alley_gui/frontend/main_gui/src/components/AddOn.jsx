@@ -14,6 +14,33 @@ const AddOn = ({capitalizeName}) => {
 
     let navigate = useNavigate();
 
+    const highContrastMode = () => {
+        const body = document.querySelector('body');
+        if (body.classList.contains("contrast")) {
+          body.classList.remove("contrast");
+          document.body.style.backgroundColor = '#ffefe2';
+          sessionStorage.setItem("high_contrast_mode", false);
+        } else {
+          body.classList.add("contrast");
+          document.body.style.backgroundColor = 'black';
+          sessionStorage.setItem("high_contrast_mode", true);
+        }
+      }
+    
+      const loadCurrentMode = () => {
+        if (sessionStorage.getItem("high_contrast_mode")) {
+          const body = document.querySelector('body');
+          if (body.classList.contains("contrast") == false) {
+            body.classList.add("contrast");
+            document.body.style.backgroundColor = 'black';
+          }
+        } else {
+          const body = document.querySelector('body');
+          body.classList.remove("contrast");
+          document.body.style.backgroundColor = '#ffefe2';
+        }
+      }
+
     useEffect(() => {
         const storedDrinks = JSON.parse(sessionStorage.getItem('drinks'));
         if (storedDrinks) {
@@ -73,7 +100,7 @@ const AddOn = ({capitalizeName}) => {
       const addOnOptions = async () => {
         try {
           const response = await axios.get(
-            "http://localhost:4000/add_on_jsx"
+            "https://thealley.onrender.com/add_on_jsx"
           );
           const jsonVals = await response.data;
           console.log("Working");
@@ -89,7 +116,8 @@ const AddOn = ({capitalizeName}) => {
     }, []);
 
     return (
-        <div>
+        <div onLoad={() => loadCurrentMode()}>
+        <button onClick={highContrastMode}>test</button>
             <span class= "back" onClick={() => navigate(-1)}></span>
             <div class="columnWrapper">
                 <h1 class="green">Add-Ons</h1>

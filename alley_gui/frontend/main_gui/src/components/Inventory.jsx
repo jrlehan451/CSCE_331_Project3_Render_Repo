@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import TextToSpeech from "./TextToSpeech";
 import axios from "axios";
 import { DataGrid, GridColDef, GridValueGetterParams } from "@mui/x-data-grid";
 import { ThemeProvider } from "@mui/material/styles";
@@ -17,14 +18,21 @@ import NavBar from "./MenuItems/NavBar";
 import Dialog from "@mui/material/Dialog";
 import DialogTitle from "@mui/material/DialogTitle";
 import DialogContent from "@mui/material/DialogContent";
-import "./MenuItems/MenuItems.css";
+import {
+  handleHover,
+  handleMouseOut,
+  handleTextFieldSpeech,
+  handleTableFieldSpeech,
+} from "./SpeechUtils";
 
-import Alert from "@mui/material/Alert";
-import DialogActions from "@mui/material/DialogActions";
-import Button from "@mui/material/Button";
+import "./MenuItems/MenuItems.css";
 
 //import axios from "axios"; // Make sure to import axios for HTTP requests
 const Inventory = () => {
+  const toggleHover = () => {
+    setIsHoverEnabled((prevIsHoverEnabled) => !prevIsHoverEnabled);
+  };
+
   // Creating custom buttons
   const CustomButton = styled(ListItemButton)(({ theme }) => ({
     backgroundColor: "#ffefe2",
@@ -66,6 +74,8 @@ const Inventory = () => {
   const [checkedItems, setCheckedItems] = useState({});
   const [data, setData] = useState([]);
   const [openPopup, setOpenPopup] = useState(false);
+  const [isHoverEnabled, setIsHoverEnabled] = useState(false);
+
   const [popupData, setPopupData] = useState([]);
   const [values, setValues] = useState({
     itemId: "",
@@ -89,12 +99,27 @@ const Inventory = () => {
     }
   };
 
+  const handleGridCellHover = (params) => {
+    console.log("handleGridCellHover is called!");
+
+    if (isHoverEnabled) {
+      console.log("isHoverEnabled is false");
+
+      const cellContent = params.value.toString();
+      console.log("Cell Content:", cellContent);
+
+      // Call the handleHover function to initiate text-to-speech
+      handleTableFieldSpeech(cellContent);
+      //handleTableFieldSpeech("This is a test");
+    }
+  };
+
   // Getting inventory from the backend
   useEffect(() => {
     const inventoryItems = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:4000/inventory_items"
+          "https://thealley.onrender.com/inventory_items"
         );
         const jsonVals = await response.data;
         console.log("Working");
@@ -137,7 +162,7 @@ const Inventory = () => {
       try {
         // Check if itemId already exists in the inventory
         const inventoryResponse = await axios.get(
-          "http://localhost:4000/inventory_items"
+          "https://thealley.onrender.com/inventory_items"
         );
         const inventoryData = inventoryResponse.data.data.table.rows;
 
@@ -154,7 +179,7 @@ const Inventory = () => {
         } else {
           // Continue fetching data and displaying the popup
           const response = await axios.get(
-            "http://localhost:4000/ingredient_items"
+            "https://thealley.onrender.com/ingredient_items"
           );
           const jsonVals = response.data;
 
@@ -222,7 +247,7 @@ const Inventory = () => {
     const fetchData = async () => {
       if (!openPopup) {
         // Popup is closed, perform the axios POST request
-        await axios.post("http://localhost:4000/addItemInventory", values);
+        await axios.post("https://thealley.onrender.com/addItemInventory", values);
 
         setValues({ ...values, ingredientId: "" });
       }
@@ -236,7 +261,7 @@ const Inventory = () => {
 
     try {
       const inventoryResponse = await axios.get(
-        "http://localhost:4000/inventory_items"
+        "https://thealley.onrender.com/inventory_items"
       );
       const inventoryData = inventoryResponse.data.data.table.rows;
 
@@ -245,7 +270,7 @@ const Inventory = () => {
       );
 
       if (itemToDelete) {
-        await axios.post("http://localhost:4000/deleteItemInventory", values);
+        await axios.post("https://thealley.onrender.com/deleteItemInventory", values);
         console.log("Item deleted succesfully");
       } else {
         alert("Item with the specified itemId and name not found.");
@@ -290,6 +315,40 @@ const Inventory = () => {
     }
    };
 
+  const updateHandleSubmit = (e) => {
+    e.preventDefault();
+    axios
+      .post("https://thealley.onrender.com/updateItemInventory", values)
+      .then((res) => console.log(res))
+      .catch((err) => console.log(err));
+  };
+
+  const highContrastMode = () => {
+    const body = document.querySelector('body');
+    if (body.classList.contains("contrast")) {
+      body.classList.remove("contrast");
+      document.body.style.backgroundColor = '#ffefe2';
+      sessionStorage.setItem("high_contrast_mode", false);
+    } else {
+      body.classList.add("contrast");
+      document.body.style.backgroundColor = 'black';
+      sessionStorage.setItem("high_contrast_mode", true);
+    }
+  }
+
+  const loadCurrentMode = () => {
+    if (sessionStorage.getItem("high_contrast_mode")) {
+      const body = document.querySelector('body');
+      if (body.classList.contains("contrast") == false) {
+        body.classList.add("contrast");
+        document.body.style.backgroundColor = 'black';
+      }
+    } else {
+      const body = document.querySelector('body');
+      body.classList.remove("contrast");
+      document.body.style.backgroundColor = '#ffefe2';
+    }
+  }
 
   return (
     <ThemeProvider theme={theme}>
@@ -357,9 +416,23 @@ const Inventory = () => {
         }}
       >
         <h1>Inventory Page</h1>
-        <div class="tablesInfo">
+        <div class="tablesInfo" onLoad={() => loadCurrentMode()}>
+        <button onClick={highContrastMode}>test</button>
           <div style={{ height: 400, width: "80vw", marginBottom: "20px" }}>
-            <DataGrid rows={data} columns={columns} columnBuffer={2} />
+            <DataGrid
+              rows={data}
+              columns={columns.map((column) => ({
+                ...column,
+                renderCell: (params) => (
+                  <div
+                    onMouseOver={() => handleGridCellHover(params)}
+                    onMouseOut={handleMouseOut}
+                  >
+                    {params.value}
+                  </div>
+                ),
+              }))}
+            />
           </div>
         </div>
 
@@ -391,6 +464,10 @@ const Inventory = () => {
                   helperText={
                     inputErrors.itemId ? "Please enter a valid integer" : ""
                   }
+                  onMouseOver={() =>
+                    handleTextFieldSpeech("Item ID", values.itemId.toString())
+                  }
+                  onMouseOut={handleMouseOut}
                 />
               </FormControl>
             </div>
@@ -403,6 +480,8 @@ const Inventory = () => {
                   onChange={(e) =>
                     setValues({ ...values, name: e.target.value })
                   }
+                  onMouseOver={() => handleTextFieldSpeech("Name", values.name)}
+                  onMouseOut={handleMouseOut}
                 />
               </FormControl>
             </div>
@@ -419,6 +498,10 @@ const Inventory = () => {
                   helperText={
                     inputErrors.amount ? "Please enter a valid integer" : ""
                   }
+                  onMouseOver={() =>
+                    handleTextFieldSpeech("Amount", values.amount.toString())
+                  }
+                  onMouseOut={handleMouseOut}
                 />
               </FormControl>
             </div>
@@ -430,6 +513,12 @@ const Inventory = () => {
                   variant="filled"
                   onChange={(e) =>
                     handleNumberInputChange(e, "quantityPerUnit")
+                  }
+                  onMouseOver={() =>
+                    handleTextFieldSpeech(
+                      "Quantity Per Unit",
+                      values.quantityPerUnit
+                    )
                   }
                   value={values.quantityPerUnit}
                   type="number"
@@ -474,17 +563,40 @@ const Inventory = () => {
             }}
           >
             <div style={{ display: "flex", gap: "5px" }}>
-              <CustomButton onClick={addHandleSubmit}>Add Item </CustomButton>
-              <CustomButton onClick={deleteHandleSubmit}>
+              <CustomButton
+                onClick={addHandleSubmit}
+                onMouseOver={(e) => handleHover(e, isHoverEnabled)}
+                onMouseOut={handleMouseOut}
+              >
+                Add Item{" "}
+              </CustomButton>
+              <CustomButton
+                onClick={deleteHandleSubmit}
+                onMouseOver={(e) => handleHover(e, isHoverEnabled)}
+                onMouseOut={handleMouseOut}
+              >
                 Delete Item
               </CustomButton>
-              <CustomButton onClick={updateHandleSubmit}>Update Item </CustomButton>
 
+              <CustomButton
+                onMouseOver={(e) => handleHover(e, isHoverEnabled)}
+                onMouseOut={handleMouseOut}
+              >
+                Update Item
+              </CustomButton>
             </div>
 
-            <CustomButton style={{ width: "90%" }} onClick={recommendedAdjHandle}>
+            <CustomButton
+              onMouseOver={(e) => handleHover(e, isHoverEnabled)}
+              onMouseOut={handleMouseOut}
+              style={{ width: "90%" }}
+            >
               Apply Recommended Adjustments
             </CustomButton>
+            <TextToSpeech
+              isHoverEnabled={isHoverEnabled}
+              toggleHover={toggleHover}
+            />
           </div>
         </div>
       </div>

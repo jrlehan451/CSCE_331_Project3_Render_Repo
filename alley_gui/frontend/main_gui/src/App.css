@@ -51,3 +51,34 @@
   display: flex;
   justify-content: space-evenly;
 }
+
+.highlight-area {
+  display: inline-block;
+  padding: 10px;
+  background-color: #27ae60;
+  color: #fff;
+  cursor: pointer;
+}
+
+.App {
+  text-align: center;
+  margin-top: 50px;
+}
+
+.hover-element {
+  display: inline-block;
+  padding: 10px;
+  background-color: #3498db;
+  color: #fff;
+  cursor: pointer;
+}
+
+.hover-area {
+  position: absolute;
+  display: none;
+  background-color: #f1f1f1;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  max-width: 200px;
+}

@@ -15,7 +15,7 @@ const MenuItemPopup = ({ open, onClose, onSelectIngredients, values }) => {
   useEffect(() => {
     const fetchIngredients = async () => {
       try {
-        const response = await axios.get("http://localhost:4000/addBaseIngredients");
+        const response = await axios.get("https://thealley.onrender.com/addBaseIngredients");
         setIngredients(response.data.data.table.rows.map((ingredient) => ({
           ...ingredient,
           selected: false, 
@@ -37,7 +37,7 @@ const MenuItemPopup = ({ open, onClose, onSelectIngredients, values }) => {
       .map((ingredient) => ({ ingredient_id: ingredient.ingredient_id }));
   
     axios
-      .post("http://localhost:4000/updateBaseIngredients", {
+      .post("https://thealley.onrender.com/updateBaseIngredients", {
         selectedIngredients,
         drinkID: values.drinkID,
       })

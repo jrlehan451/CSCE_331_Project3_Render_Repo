@@ -34,11 +34,36 @@ const Menu = () => {
         window.location.href = currLocation.replace("Menu", "MenuAddOns");
     };
 
+    const highContrastMode = () => {
+        const body = document.querySelector('body');
+        console.log(body.classList.contains("contrast"));
+        if (body.classList.contains("contrast")) {
+          body.classList.remove("contrast");
+          console.log("in conditional");
+          sessionStorage.setItem("high_contrast_mode", false);
+        } else {
+          body.classList.add("contrast");
+          sessionStorage.setItem("high_contrast_mode", true);
+        }
+    }
+    
+    const loadCurrentMode = () => {
+        if (sessionStorage.getItem("high_contrast_mode")) {
+          const body = document.querySelector('body');
+          if (body.classList.contains("contrast") == false) {
+            body.classList.add("contrast");
+          }
+        } else {
+          const body = document.querySelector('body');
+          body.classList.remove("contrast");
+        }
+    }
+
     useEffect(() => {
         const drinksByCategory = async () => {
         try {
             const response = await axios.get(
-                "http://localhost:4000/menu_jsx"
+                "https://thealley.onrender.com/menu_jsx"
             );
             console.log(response.data);
             console.log(response.drinksByCategory);
@@ -57,8 +82,8 @@ const Menu = () => {
     }, []);
 
     return (
-      <div>
-        <h1 className="menu-title">Step 1: Choose Your Drink</h1>
+    <div onLoad={() => loadCurrentMode()}>
+        <button onClick={highContrastMode}>test</button>
         <button className="home-button" onClick={returnHome}>
             <img src={HomeButton} alt="home" />
         </button>
@@ -71,7 +96,7 @@ const Menu = () => {
                     <h2 class="category-title"> {capitalizeName(category, '_')} </h2>
                         {drinks[category].map(drink => (
                             <div class="drink-entry" key={drink}> 
-                                <img class ="drink-square" src={getImage(category)} alt={capitalizeName(drink.name, ' ')} />
+                                <img class ="drink-square" src={getImage(category)} alt={capitalizeName(drink.name, ' ')} onError={(e) => {e.target.src = "/drink_images/placeholder.png"}} />
                                 <p class="drink-name">{capitalizeName(drink.name, ' ')}</p> 
                             </div>                    
                         ))}

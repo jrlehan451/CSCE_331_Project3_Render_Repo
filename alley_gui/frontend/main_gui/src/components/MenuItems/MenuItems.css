@@ -127,3 +127,97 @@ body {
   box-shadow: 0 0 0 9999px rgba(255, 255, 255, 0.5),
               0 0 30px 15px rgba(0, 0, 0, 0.5);
 } */
+
+/* navigation bar styles */
+.contrast .navbar {
+padding: 20px;
+display: flex;
+align-items: center; 
+position: fixed; 
+top: 0; 
+left: 0; 
+width: 10%; 
+z-index: 1000; 
+}
+
+.contrast .navbar h1 {
+color: #f1356d;
+}
+
+.contrast .navbar .links {
+margin-left: auto;
+}
+
+.contrast .navbar a {
+margin-left: 16px;
+text-decoration: none;
+padding: 6px;
+}
+
+.contrast .navbar a:hover {
+color: #f1356d;
+}
+
+/* title style*/
+.contrast .title {
+max-width: 300;
+margin: 0px auto 40px; 
+padding: 10px;
+font-size: 25px;
+padding-bottom: 0px;
+margin-bottom: -40px;
+margin-top: -20px;
+color: #d7f2a6
+}
+
+/* arrow image styling*/
+.contrast .image-small {
+  width: 70px;
+  height: 50px;
+  /* Adjust the size as needed */
+}
+
+/* data tables styles */
+.contrast .tablesInfo {
+  border:  #d7f2a6; 
+  padding-top: 0px;
+  padding-bottom: 70px;
+  color: #d7f2a6; 
+  margin-top: 0px; 
+}
+
+/* column in tables style */
+.contrast .tablesInfo .MuiDataGrid-root {
+  color: #d7f2a6;
+  border: 2px solid #d7f2a6;
+  font-size: 15px;
+  font-style: bold;
+}
+
+
+.contrast .tablesContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center; 
+}
+
+
+.contrast .menuItemsButtonsContainer {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  margin-left: 10px;
+  margin-right: 10px;
+  margin-bottom: 10px;
+}
+
+.contrast .textboxContainer {
+  display: flex;
+  gap: 5px;
+}
+
+/* button styles */
+.contrast .buttonItem{
+  border: 2px solid red;
+}
+

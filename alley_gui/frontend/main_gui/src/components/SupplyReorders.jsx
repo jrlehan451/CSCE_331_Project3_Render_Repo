@@ -17,6 +17,14 @@ import FormControlLabel from "@mui/material/FormControlLabel";
 import DialogContent from "@mui/material/DialogContent";
 import NavBar from "./MenuItems/NavBar";
 import "./MenuItems/MenuItems.css";
+import {
+  handleHover,
+  handleMouseOut,
+  handleTextFieldSpeech,
+  handleTableFieldSpeech,
+} from "./SpeechUtils";
+import TextToSpeech from "./TextToSpeech";
+import "./MenuItems/MenuItems.css";
 
 const SupplyReorders = () => {
   const [data, setData] = useState([]);
@@ -47,13 +55,32 @@ const SupplyReorders = () => {
     amounts: {},
   });
 
+  const [isHoverEnabled, setIsHoverEnabled] = useState(false);
+  const toggleHover = () => {
+    setIsHoverEnabled((prevIsHoverEnabled) => !prevIsHoverEnabled);
+  };
+  const handleGridCellHover = (params) => {
+    console.log("handleGridCellHover is called!");
+
+    if (isHoverEnabled) {
+      console.log("isHoverEnabled is false");
+
+      const cellContent = params.value.toString();
+      console.log("Cell Content:", cellContent);
+
+      // Call the handleHover function to initiate text-to-speech
+      handleTableFieldSpeech(cellContent);
+      //handleTableFieldSpeech("This is a test");
+    }
+  };
+
   const addSupplyReorder = async (selectedItems, amounts) => {
     console.log("Selected Items to be sent:", selectedItems);
     console.log("Amounts to be sent:", amounts);
 
     try {
       const response = await axios.post(
-        "http://localhost:4000/addSupplyReorder",
+        "https://thealley.onrender.com/addSupplyReorder",
         {
           selectedItems: selectedItems,
           amounts: amounts,
@@ -88,7 +115,7 @@ const SupplyReorders = () => {
     const supplyReorders = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:4000/supply_reorders"
+          "https://thealley.onrender.com/supply_reorders"
         );
         const jsonVals = await response.data;
         console.log("Working");
@@ -119,7 +146,7 @@ const SupplyReorders = () => {
 
     try {
       const response = await axios.post(
-        "http://localhost:4000/viewSupplyReorder",
+        "https://thealley.onrender.com/viewSupplyReorder",
         {
           reorder_id: values.reorderId,
           date: values.date,
@@ -130,7 +157,7 @@ const SupplyReorders = () => {
       //setViewPopupData(viewData);
 
       const responseReorderItem = await axios.get(
-        "http://localhost:4000/reorder_items"
+        "https://thealley.onrender.com/reorder_items"
       );
       const reorderItemsData = responseReorderItem.data;
 
@@ -168,7 +195,7 @@ const SupplyReorders = () => {
     console.log("Sending date: ", values.date);
 
     const responseReorderItem = await axios.get(
-      "http://localhost:4000/supply_reorders"
+      "https://thealley.onrender.com/supply_reorders"
     );
     const reorderItemsData = responseReorderItem.data;
 
@@ -205,7 +232,7 @@ const SupplyReorders = () => {
       } else {
         try {
           const response = await axios.post(
-            "http://localhost:4000/deleteSupplyReorder",
+            "https://thealley.onrender.com/deleteSupplyReorder",
             {
               reorder_id: values.reorderId,
               date: values.date,
@@ -232,7 +259,7 @@ const SupplyReorders = () => {
       try {
         // Check if itemId already exists in the inventory
         const response = await axios.get(
-          "http://localhost:4000/ingredient_items"
+          "https://thealley.onrender.com/ingredient_items"
         );
         const jsonVals = response.data;
 
@@ -333,6 +360,33 @@ const SupplyReorders = () => {
     }));
   };
 
+  const highContrastMode = () => {
+    const body = document.querySelector('body');
+    if (body.classList.contains("contrast")) {
+      body.classList.remove("contrast");
+      document.body.style.backgroundColor = '#ffefe2';
+      sessionStorage.setItem("high_contrast_mode", false);
+    } else {
+      body.classList.add("contrast");
+      document.body.style.backgroundColor = 'black';
+      sessionStorage.setItem("high_contrast_mode", true);
+    }
+  }
+
+  const loadCurrentMode = () => {
+    if (sessionStorage.getItem("high_contrast_mode")) {
+      const body = document.querySelector('body');
+      if (body.classList.contains("contrast") == false) {
+        body.classList.add("contrast");
+        document.body.style.backgroundColor = 'black';
+      }
+    } else {
+      const body = document.querySelector('body');
+      body.classList.remove("contrast");
+      document.body.style.backgroundColor = '#ffefe2';
+    }
+  }
+
   return (
     <ThemeProvider theme={theme}>
       <NavBar />
@@ -345,9 +399,23 @@ const SupplyReorders = () => {
           height: "100vh",
         }}
       >
-        <div class="tablesInfo">
+        <div class="tablesInfo" onLoad={() => loadCurrentMode()}>
+      <button onClick={highContrastMode}>test</button>
           <div style={{ flex: 1, overflow: "auto", height: "65vh" }}>
-            <DataGrid rows={data} columns={columns} columnBuffer={2} />
+            <DataGrid
+              rows={data}
+              columns={columns.map((column) => ({
+                ...column,
+                renderCell: (params) => (
+                  <div
+                    onMouseOver={() => handleGridCellHover(params)}
+                    onMouseOut={handleMouseOut}
+                  >
+                    {params.value}
+                  </div>
+                ),
+              }))}
+            />
           </div>
         </div>
         <div
@@ -370,6 +438,9 @@ const SupplyReorders = () => {
                   type="number"
                   name="reorderId"
                   value={values.reorderId}
+                  onMouseOver={() =>
+                    handleTextFieldSpeech("Supply Reorder ID", values.reorderId)
+                  }
                   onChange={handleInputChange}
                 />
               </FormControl>
@@ -383,6 +454,7 @@ const SupplyReorders = () => {
                   type="date"
                   name="date"
                   values={values.date}
+                  onMouseOver={() => handleTextFieldSpeech("Date", values.date)}
                   onChange={handleInputChange}
                 />
               </FormControl>
@@ -392,37 +464,28 @@ const SupplyReorders = () => {
           <div
             style={{ display: "flex", flexDirection: "column", gap: "10px" }}
           >
-            <CustomButton onClick={addHandleSubmit}>
+            <CustomButton
+              onClick={addHandleSubmit}
+              onMouseOver={(e) => handleHover(e, isHoverEnabled)}
+              onMouseOut={handleMouseOut}
+            >
               Add Supply Reorder
             </CustomButton>
-            <CustomButton onClick={deleteHandleSubmit}>
+            <CustomButton
+              onClick={deleteHandleSubmit}
+              onMouseOver={(e) => handleHover(e, isHoverEnabled)}
+              onMouseOut={handleMouseOut}
+            >
               Delete Supply Reorder
             </CustomButton>
-            <CustomButton onClick={viewHandleSubmit}>
+            <CustomButton
+              onClick={viewHandleSubmit}
+              onMouseOver={(e) => handleHover(e, isHoverEnabled)}
+              onMouseOut={handleMouseOut}
+            >
               View Supply Reorder
             </CustomButton>
           </div>
-
-          {/* View Supply Reorder Modal 
-          <Dialog open={openViewPopup} onClose={() => setOpenViewPopup(false)}>
-            <DialogContent>
-             
-              {viewPopupData.data &&
-              viewPopupData.data.table &&
-              viewPopupData.data.table.rows ? (
-                <div style={{ overflowX: "auto" }}>
-                  <table style={{ width: "100%" }}>
-                    {/* ... (similar table structure as in the Add Supply Reorder Modal) 
-                  </table>
-                </div>
-              ) : (
-                <p>NO data available for view</p>
-              )}
-              <CustomButton onClick={() => setOpenViewPopup(false)}>
-                Close
-              </CustomButton>
-            </DialogContent>
-          </Dialog>*/}
 
           {/*Add Supply Reorder Modal */}
           <Dialog open={openModal} onClose={handleCloseModal}>
@@ -529,6 +592,10 @@ const SupplyReorders = () => {
               </CustomButton>
             </DialogContent>
           </Dialog>
+          <TextToSpeech
+            isHoverEnabled={isHoverEnabled}
+            toggleHover={toggleHover}
+          />
         </div>
       </div>
     </ThemeProvider>

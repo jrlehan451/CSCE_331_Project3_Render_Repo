@@ -47,6 +47,16 @@ const BuildDrink = () => {
       }
 
     const getSelectedDrink = () => {
+        if (sessionStorage.getItem("high_contrast_mode")) {
+            const body = document.querySelector('body');
+            if (body.classList.contains("contrast") == false) {
+              body.classList.add("contrast");
+            }
+        } else {
+            const body = document.querySelector('body');
+            body.classList.remove("contrast");
+        }
+
         const selectedDrink = sessionStorage.getItem("customer_drink_name");
         const drinkName = document.getElementById("drinkSelected");
         drinkName.textContent = "Selected Drink: " + selectedDrink;
@@ -84,42 +94,27 @@ const BuildDrink = () => {
 
     const getDrinkSize = () => {
         const start = document.getElementById("start");
-        if (start.style.display === "block") {
-            start.style.display = "none";
-        }
+        start.style.display = "none";
         const addOns1 = document.getElementById("addOns1");
-        if (addOns1.style.display === "block") {
-            addOns1.style.display = "none";
-        }
+        addOns1.style.display = "none";
         const addOns2 = document.getElementById("addOns2");
-        if (addOns2.style.display === "block") {
-            addOns2.style.display = "none";
-        }
+        addOns2.style.display = "none";
         const quantity = document.getElementById("quantity");
-        if (quantity.style.display === "block") {
-            quantity.style.display = "none";
-        }
+        quantity.style.display = "none";
+ 
         const size = document.getElementById("size");
         size.style.display = "block";
     };
 
     const getDrinkAddOn1 = () => {
         const start = document.getElementById("start");
-        if (start.style.display === "block") {
-            start.style.display = "none";
-        }
+        start.style.display = "none";
         const size = document.getElementById("size");
-        if (size.style.display === "block") {
-            size.style.display = "none";
-        }
+        size.style.display = "none";
         const addOns2 = document.getElementById("addOns2");
-        if (addOns2.style.display === "block") {
-            addOns2.style.display = "none";
-        }
+        addOns2.style.display = "none";
         const quantity = document.getElementById("quantity");
-        if (quantity.style.display === "block") {
-            quantity.style.display = "none";
-        }
+        quantity.style.display = "none";
 
         const addOns1 = document.getElementById("addOns1");
         addOns1.style.display = "block";
@@ -127,21 +122,13 @@ const BuildDrink = () => {
 
     const getDrinkAddOn2 = () => {
         const start = document.getElementById("start");
-        if (start.style.display === "block") {
-            start.style.display = "none";
-        }
+        start.style.display = "none";
         const size = document.getElementById("size");
-        if (size.style.display === "block") {
-            size.style.display = "none";
-        }
+        size.style.display = "none";
         const addOns1 = document.getElementById("addOns1");
-        if (addOns1.style.display === "block") {
-            addOns1.style.display = "none";
-        }
+        addOns1.style.display = "none";
         const quantity = document.getElementById("quantity");
-        if (quantity.style.display === "block") {
-            quantity.style.display = "none";
-        }
+        quantity.style.display = "none";
 
         const addOns2 = document.getElementById("addOns2");
         addOns2.style.display = "block";
@@ -149,21 +136,13 @@ const BuildDrink = () => {
 
     const getDrinkQuantity = () => {
         const start = document.getElementById("start");
-        if (start.style.display === "block") {
-            start.style.display = "none";
-        }
+        start.style.display = "none";
         const size = document.getElementById("size");
-        if (size.style.display === "block") {
-            size.style.display = "none";
-        }
+        size.style.display = "none";
         const addOns1 = document.getElementById("addOns1");
-        if (addOns1.style.display === "block") {
-            addOns1.style.display = "none";
-        }
+        addOns1.style.display = "none";
         const addOns2 = document.getElementById("addOns2");
-        if (addOns2.style.display === "block") {
-            addOns2.style.display = "none";
-        }
+        addOns2.style.display = "none";
     
         let quantity = document.getElementById("quantity");
         quantity.style.display = "block";
@@ -246,11 +225,29 @@ const BuildDrink = () => {
         window.location.href = currLocation.replace("build_drink", "view_cart");
     };
 
+    function getImage(name){
+        name = "/addOn_images/" + name;
+        name += ".png"
+        const words = name.split(" ");
+        return words.join("_");
+    }
+
+    const highContrastMode = () => {
+        const body = document.querySelector('body');
+        if (body.classList.contains("contrast")) {
+          body.classList.remove("contrast");
+          sessionStorage.setItem("high_contrast_mode", false);
+        } else {
+          body.classList.add("contrast");
+          sessionStorage.setItem("high_contrast_mode", true);
+        }
+    }
+
     useEffect(() => {
         const drinkCategories = async () => {
         try {
             const response = await axios.get(
-            "http://localhost:4000/add_ons"
+            "https://thealley.onrender.com/add_ons"
             );
             const jsonVals = await response.data;
             console.log("Working");
@@ -268,6 +265,7 @@ const BuildDrink = () => {
 
   return (
     <div className="build-drink-background" onLoad={() => getSelectedDrink()}>
+        <button onClick={highContrastMode}>test</button>
         <button className="back-button" onClick={backCustomerHome}>
             <img src={backArrowImage} alt="Back Arrow" width="60%" height="10%" />
         </button>
@@ -290,6 +288,7 @@ const BuildDrink = () => {
                 id={addon.name}
                 onClick={() => getAddOn1(addon.name, addon.ingredient_id, addon.cost)}
                 >
+                <img class ="addon-square" src={getImage(addon.name)} alt={capitalizeName(addon.name, ' ')} onError={(e) => {e.target.src = "/addOn_images/placeholder.png"}}/>
                 {capitalizeName(addon.name, ' ')}
                 </button>
             ))}
@@ -304,6 +303,7 @@ const BuildDrink = () => {
                 id={addon.name}
                 onClick={() => getAddOn2(addon.name, addon.ingredient_id, addon.cost)}
                 >
+                <img class ="addon-square" src={getImage(addon.name)} alt={capitalizeName(addon.name, ' ')} onError={(e) => {e.target.src = "/addOn_images/placeholder.png"}}/>
                 {capitalizeName(addon.name, ' ')}
                 </button>
             ))}
@@ -312,9 +312,9 @@ const BuildDrink = () => {
             
         <div id="quantity" className="build-option-container">
             <h1 className="option-name">Choose Your Quantity</h1>
-            <button id="decrement">-</button>
-            <button id="increment">+</button>
-            <button onClick={getQuantity}>Submit</button>
+            <button id="decrement" style={{fontSize: 70}}>-</button>
+            <button id="increment" style={{fontSize: 70}}>+</button>
+            <button onClick={getQuantity} style={{fontSize: 20}}>Submit</button>
             <h3 className="quantity"><span id="display">0</span></h3>
         </div>
 

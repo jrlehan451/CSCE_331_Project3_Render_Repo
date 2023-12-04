@@ -1670,7 +1670,6 @@ app.post("/updateAddOnCost", (req, res) => {
 });
 
 
-
 app.post("/updateInventoryName", (req, res) => {
   console.log("Server delete item");
   console.log(req.body.itemId);
@@ -1741,7 +1740,59 @@ app.post("/updateInventoryFillLevel", (req, res) => {
 });
 
 
+app.get("/CustomerPopularityAnalysis", async (req, res) => {
+  try {
+    console.log("Getting Customer Item Popularity Analysis");
 
+    const query = {
+      text: `
+        SELECT
+          ROW_NUMBER() OVER (ORDER BY quantity DESC) AS rank,
+          name,
+          id,
+          cost,
+          category,
+          quantity
+        FROM (
+          SELECT
+            d.name AS name,
+            d.drink_id AS id,
+            d.cost AS cost,
+            d.category AS category,
+            SUM(1) AS quantity
+          FROM
+            drink_orders AS d_o
+            JOIN drinks AS d ON d_o.drink_id = d.drink_id
+            JOIN orders AS o ON d_o.order_id = o.order_id
+          WHERE
+            o.timestamp >= $1 AND o.timestamp <= $2
+          GROUP BY
+            d.name,
+            d.drink_id,
+            d.cost,
+            d.category
+        ) drinkSums
+        ORDER BY
+          rank
+        LIMIT $3;
+      `,
+      values: ["2022-01-01 00:00:00", "2022-12-31 00:00:00", 18],
+    };
+
+    const results = await pool.query(query);
+    res.status(200).json({
+      status: "success",
+      results: results.rows,
+      data: { results },
+    });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({
+      status: "error",
+      message: "An error occurred while fetching data.",
+    });
+  }
+});
 
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`);
