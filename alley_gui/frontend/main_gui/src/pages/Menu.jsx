@@ -34,6 +34,31 @@ const Menu = () => {
         window.location.href = currLocation.replace("Menu", "MenuAddOns");
     };
 
+    const highContrastMode = () => {
+        const body = document.querySelector('body');
+        console.log(body.classList.contains("contrast"));
+        if (body.classList.contains("contrast")) {
+          body.classList.remove("contrast");
+          console.log("in conditional");
+          sessionStorage.setItem("high_contrast_mode", false);
+        } else {
+          body.classList.add("contrast");
+          sessionStorage.setItem("high_contrast_mode", true);
+        }
+    }
+    
+    const loadCurrentMode = () => {
+        if (sessionStorage.getItem("high_contrast_mode")) {
+          const body = document.querySelector('body');
+          if (body.classList.contains("contrast") == false) {
+            body.classList.add("contrast");
+          }
+        } else {
+          const body = document.querySelector('body');
+          body.classList.remove("contrast");
+        }
+    }
+
     useEffect(() => {
         const drinksByCategory = async () => {
         try {
@@ -57,8 +82,8 @@ const Menu = () => {
     }, []);
 
     return (
-      <div>
-        <h1 className="menu-title">Step 1: Choose Your Drink</h1>
+    <div onLoad={() => loadCurrentMode()}>
+        <button onClick={highContrastMode}>test</button>
         <button className="home-button" onClick={returnHome}>
             <img src={HomeButton} alt="home" />
         </button>

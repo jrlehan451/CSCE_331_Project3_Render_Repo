@@ -1,7 +1,7 @@
 import React, { useState, useEffect} from "react";
 import {useParams} from 'react-router-dom'
 import axios from "axios";
-import './customer_home.css'; // Import your CSS file
+import './customer_home.css';
 //import peachOolongTeaImage from './peach_oolong_tea.png'; // Import your image
 
 const DrinkSeries = () => {
@@ -71,6 +71,29 @@ const DrinkSeries = () => {
         return words.join("_");
     }
 
+    const highContrastMode = () => {
+        const body = document.querySelector('body');
+        if (body.classList.contains("contrast")) {
+          body.classList.remove("contrast");
+          sessionStorage.setItem("high_contrast_mode", false);
+        } else {
+          body.classList.add("contrast");
+          sessionStorage.setItem("high_contrast_mode", true);
+        }
+    }
+    
+    const loadCurrentMode = () => {
+        if (sessionStorage.getItem("high_contrast_mode")) {
+          const body = document.querySelector('body');
+          if (body.classList.contains("contrast") == false) {
+            body.classList.add("contrast");
+          }
+        } else {
+          const body = document.querySelector('body');
+          body.classList.remove("contrast");
+        }
+    }
+
     useEffect(() => {
         const drinkSeries = async () => {
         try {
@@ -94,7 +117,8 @@ const DrinkSeries = () => {
 
 
     return (
-        <div className="customer-home-background">
+        <div className="customer-home-background" onLoad={() => loadCurrentMode()}>
+      <button onClick={highContrastMode}>test</button>
             <div className="customer-page">
                 <div className="drink-categories-container">
                     <h3 className="categories-title">DRINK SERIES</h3>

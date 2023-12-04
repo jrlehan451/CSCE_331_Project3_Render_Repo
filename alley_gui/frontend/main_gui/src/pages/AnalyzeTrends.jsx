@@ -191,6 +191,70 @@ const AnalyzeTrends = () => {
           onMouseOut={handleMouseOut}
         >
           Go
+    };
+
+    function isValidDateTimeFormat(inputString) {
+      const dateTimePattern = /^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}$/;
+      return dateTimePattern.test(inputString);
+    };
+
+    function removeSpaces(trendName){
+      const words = trendName.split(' ');
+      return words.join('');
+    };
+
+    const returnHome = () => {
+      window.location.href = "/";
+    };
+
+    const returnToManager = () =>{
+      var currLocation = window.location.href;
+      window.location.href = currLocation.replace("AnalyzeTrends", "Manager");
+    };
+
+    function getCurrentDate() {
+      const currentDate = new Date();
+      const utcFormat = currentDate.toISOString();
+      const formattedDate = utcFormat.slice(0, 19).replace('T', ' ');
+      return formattedDate;
+    };
+
+    const highContrastMode = () => {
+      const body = document.querySelector('body');
+      if (body.classList.contains("contrast")) {
+        body.classList.remove("contrast");
+        document.body.style.backgroundColor = '#ffefe2';
+        sessionStorage.setItem("high_contrast_mode", false);
+      } else {
+        body.classList.add("contrast");
+        document.body.style.backgroundColor = 'black';
+        sessionStorage.setItem("high_contrast_mode", true);
+      }
+    }
+
+    const loadCurrentMode = () => {
+      if (sessionStorage.getItem("high_contrast_mode")) {
+        const body = document.querySelector('body');
+        if (body.classList.contains("contrast") == false) {
+          body.classList.add("contrast");
+          document.body.style.backgroundColor = 'black';
+        }
+      } else {
+        const body = document.querySelector('body');
+        body.classList.remove("contrast");
+        document.body.style.backgroundColor = '#ffefe2';
+      }
+    }
+
+    return (
+      <div onLoad={() => loadCurrentMode()}>
+        <button onClick={highContrastMode}>test</button>
+        <h1 className="trendsTitle">Analyze Trends</h1>
+        <button className="home-button" onClick={returnHome}> 
+            <img src={HomeButton} alt="home" />
+        </button>
+        <button className="backButton" onClick={returnToManager}>
+            <img src={arrow} alt="arrow" />
         </button>
 
         {selectedTrend === "Menu Item Popularity Analysis" && (

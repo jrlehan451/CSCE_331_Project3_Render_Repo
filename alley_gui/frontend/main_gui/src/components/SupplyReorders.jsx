@@ -24,6 +24,7 @@ import {
   handleTableFieldSpeech,
 } from "./SpeechUtils";
 import TextToSpeech from "./TextToSpeech";
+import "./MenuItems/MenuItems.css";
 
 const SupplyReorders = () => {
   const [data, setData] = useState([]);
@@ -359,6 +360,33 @@ const SupplyReorders = () => {
     }));
   };
 
+  const highContrastMode = () => {
+    const body = document.querySelector('body');
+    if (body.classList.contains("contrast")) {
+      body.classList.remove("contrast");
+      document.body.style.backgroundColor = '#ffefe2';
+      sessionStorage.setItem("high_contrast_mode", false);
+    } else {
+      body.classList.add("contrast");
+      document.body.style.backgroundColor = 'black';
+      sessionStorage.setItem("high_contrast_mode", true);
+    }
+  }
+
+  const loadCurrentMode = () => {
+    if (sessionStorage.getItem("high_contrast_mode")) {
+      const body = document.querySelector('body');
+      if (body.classList.contains("contrast") == false) {
+        body.classList.add("contrast");
+        document.body.style.backgroundColor = 'black';
+      }
+    } else {
+      const body = document.querySelector('body');
+      body.classList.remove("contrast");
+      document.body.style.backgroundColor = '#ffefe2';
+    }
+  }
+
   return (
     <ThemeProvider theme={theme}>
       <NavBar />
@@ -371,7 +399,8 @@ const SupplyReorders = () => {
           height: "100vh",
         }}
       >
-        <div class="tablesInfo">
+        <div class="tablesInfo" onLoad={() => loadCurrentMode()}>
+      <button onClick={highContrastMode}>test</button>
           <div style={{ flex: 1, overflow: "auto", height: "65vh" }}>
             <DataGrid
               rows={data}
