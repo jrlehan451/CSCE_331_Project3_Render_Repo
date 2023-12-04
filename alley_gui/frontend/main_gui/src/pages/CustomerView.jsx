@@ -7,15 +7,6 @@ const CustomerHome = () => {
     const [popularDrinks, setDrinks] = useState([]);
 
     const getCurrentTotal = () => {
-        if (sessionStorage.getItem("high_contrast_mode")) {
-            const body = document.querySelector('body');
-            if (body.classList.contains("contrast") == false) {
-              body.classList.add("contrast");
-            }
-        } else {
-            const body = document.querySelector('body');
-            body.classList.remove("contrast");
-        }
 
         let currDrinksInOrder = []
         if (sessionStorage.getItem("currentOrderDrinks")) {
@@ -79,17 +70,6 @@ const CustomerHome = () => {
         return words.join("_");
     }
 
-    const highContrastMode = () => {
-        const body = document.querySelector('body');
-        if (body.classList.contains("contrast")) {
-          body.classList.remove("contrast");
-          sessionStorage.setItem("high_contrast_mode", false);
-        } else {
-          body.classList.add("contrast");
-          sessionStorage.setItem("high_contrast_mode", true);
-        }
-      }
-
     useEffect(() => {
         const drinkCategories = async () => {
         try {
@@ -131,7 +111,6 @@ const CustomerHome = () => {
     return (
         <div className="customer-home-background" onLoad={() => getCurrentTotal()}>
         <div className="customer-page">
-            <button onClick={highContrastMode}>test</button>
             <div className="drink-categories-container">
             <h3 className="categories-title">DRINK SERIES</h3>
             {drinkCategories.map((category, index) => (
