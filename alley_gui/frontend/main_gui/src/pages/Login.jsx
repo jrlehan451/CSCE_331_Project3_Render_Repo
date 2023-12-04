@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import {useAuth0} from '@auth0/auth0-react';
 import axios from "axios";
 import './Login.css'
-// import './LoginHC.css'
 
 const Login = () => {
   const [username, setUsername] = useState('');
@@ -101,32 +100,8 @@ const Login = () => {
     setShowLoginForm(!showForm);
   };
 
-  const highContrastMode = () => {
-    const body = document.querySelector('body');
-    if (body.classList.contains("contrast")) {
-      body.classList.remove("contrast");
-      sessionStorage.setItem("high_contrast_mode", false);
-    } else {
-      body.classList.add("contrast");
-      sessionStorage.setItem("high_contrast_mode", true);
-    }
-  }
-
-  const loadCurrentMode = () => {
-    if (sessionStorage.getItem("high_contrast_mode") == true) {
-      const body = document.querySelector('body');
-      if (body.classList.contains("contrast") == false) {
-        body.classList.add("contrast");
-      }
-    } else {
-      const body = document.querySelector('body');
-      body.classList.remove("contrast");
-    }
-  }
-
   return (
-    <div onLoad={() => loadCurrentMode()}>
-      <button onClick={highContrastMode}>test</button>
+    <div>
       <h1 className="loginTitle">The Alley</h1>
       <div className="weather-panel">
         <img src= "/weather/sunny" alt=""></img>

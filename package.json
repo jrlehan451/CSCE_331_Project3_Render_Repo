@@ -1,6 +1,7 @@
 {
   "dependencies": {
     "@material-ui/core": "^4.12.4",
+    "framer-motion": "^10.16.12",
     "react-router-dom": "^6.18.0"
   }
 }

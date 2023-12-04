@@ -7,6 +7,7 @@ const CustomerHome = () => {
     const [popularDrinks, setDrinks] = useState([]);
 
     const getCurrentTotal = () => {
+
         let currDrinksInOrder = []
         if (sessionStorage.getItem("currentOrderDrinks")) {
             currDrinksInOrder = JSON.parse(sessionStorage.getItem("currentOrderDrinks"));
