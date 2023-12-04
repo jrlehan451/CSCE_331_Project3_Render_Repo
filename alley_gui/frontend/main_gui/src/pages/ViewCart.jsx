@@ -187,6 +187,6 @@ const ViewCart = () => {
       <TextToSpeech isHoverEnabled={isHoverEnabled} toggleHover={toggleHover} />
     </div>
   );
-};
+
 
 export default ViewCart;
