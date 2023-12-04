@@ -17,6 +17,13 @@ import DialogTitle from "@mui/material/DialogTitle";
 import DialogContent from "@mui/material/DialogContent";
 import NavBar from "./MenuItems/NavBar";
 import "./MenuItems/MenuItems.css";
+import {
+  handleHover,
+  handleMouseOut,
+  handleTextFieldSpeech,
+  handleTableFieldSpeech,
+} from "./SpeechUtils";
+import TextToSpeech from "./TextToSpeech";
 
 const Ingredients = () => {
   // Creating custom buttons
@@ -62,6 +69,25 @@ const Ingredients = () => {
   const [openPopup, setOpenPopup] = useState(false);
   const [popupData, setPopupData] = useState([]);
   const [checkedItems, setCheckedItems] = useState({});
+
+  const [isHoverEnabled, setIsHoverEnabled] = useState(false);
+  const toggleHover = () => {
+    setIsHoverEnabled((prevIsHoverEnabled) => !prevIsHoverEnabled);
+  };
+  const handleGridCellHover = (params) => {
+    console.log("handleGridCellHover is called!");
+
+    if (isHoverEnabled) {
+      console.log("isHoverEnabled is false");
+
+      const cellContent = params.value.toString();
+      console.log("Cell Content:", cellContent);
+
+      // Call the handleHover function to initiate text-to-speech
+      handleTableFieldSpeech(cellContent);
+      //handleTableFieldSpeech("This is a test");
+    }
+  };
 
   const handleNumberInputChange = (e, key) => {
     // Allow only valid integers in the input
@@ -300,12 +326,24 @@ const Ingredients = () => {
           backgroundColor: theme.palette.primary.main,
           display: "flex",
           flexDirection: "column",
-        }}
-      >
+        }}>
         <h1>Ingredient Page</h1>
         <div class="tablesInfo">
           <div style={{ height: 400, width: "80vw", marginBottom: "20px" }}>
-            <DataGrid rows={data} columns={columns} columnBuffer={2} />
+            <DataGrid
+              rows={data}
+              columns={columns.map((column) => ({
+                ...column,
+                renderCell: (params) => (
+                  <div
+                    onMouseOver={() => handleGridCellHover(params)}
+                    onMouseOut={handleMouseOut}
+                  >
+                    {params.value}
+                  </div>
+                ),
+              }))}
+            />{" "}
           </div>
         </div>
 
@@ -325,6 +363,9 @@ const Ingredients = () => {
                 variant="filled"
                 onChange={(e) => handleNumberInputChange(e, "ingredientId")}
                 value={values.ingredientId}
+                onMouseOver={() =>
+                  handleTextFieldSpeech("ingredientId", values.ingredientId)
+                }
                 type="number"
                 error={inputErrors.ingredientId}
                 helperText={
@@ -340,6 +381,7 @@ const Ingredients = () => {
                 id="filled-basic"
                 variant="filled"
                 onChange={(e) => setValues({ ...values, name: e.target.value })}
+                onMouseOver={() => handleTextFieldSpeech("Name", values.name)}
               />
             </FormControl>
           </div>
@@ -351,6 +393,7 @@ const Ingredients = () => {
                 variant="filled"
                 onChange={(e) => handleNumberInputChange(e, "cost")}
                 value={values.cost}
+                onMouseOver={() => handleTextFieldSpeech("Cost", values.cost)}
                 type="number"
                 error={inputErrors.cost}
                 helperText={
@@ -362,13 +405,31 @@ const Ingredients = () => {
         </div>
 
         <div style={{ display: "flex", gap: "10px", marginTop: "10px" }}>
-          <CustomButton onClick={addHandleSubmit}>Add ingredient</CustomButton>
-          <CustomButton onClick={deleteHandleSubmit}>
+          <CustomButton
+            onClick={addHandleSubmit}
+            onMouseOver={(e) => handleHover(e, isHoverEnabled)}
+            onMouseOut={handleMouseOut}
+          >
+            Add ingredient
+          </CustomButton>
+          <CustomButton
+            onClick={deleteHandleSubmit}
+            onMouseOver={(e) => handleHover(e, isHoverEnabled)}
+            onMouseOut={handleMouseOut}
+          >
             Delete ingredient
           </CustomButton>
-          <CustomButton onClick={updateHandleSubmit}>
+          <CustomButton
+            onClick={updateHandleSubmit}
+            onMouseOver={(e) => handleHover(e, isHoverEnabled)}
+            onMouseOut={handleMouseOut}
+          >
             Update ingredient
           </CustomButton>
+          <TextToSpeech
+            isHoverEnabled={isHoverEnabled}
+            toggleHover={toggleHover}
+          />
         </div>
       </div>
     </ThemeProvider>

@@ -1,7 +1,7 @@
 import React, { useState, useEffect} from "react";
 import {useParams} from 'react-router-dom'
 import axios from "axios";
-import './customer_home.css'; // Import your CSS file
+import './customer_home.css';
 //import peachOolongTeaImage from './peach_oolong_tea.png'; // Import your image
 
 const DrinkSeries = () => {
