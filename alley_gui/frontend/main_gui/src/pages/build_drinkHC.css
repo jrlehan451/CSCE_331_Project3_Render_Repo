@@ -146,3 +146,11 @@
     display: inline-flex;
     width: 100vw;
 }
+
+.addon-square {
+    width: 80%;
+    border: .1vh solid #d7f2a6; 
+    background-color: #ececec;
+    height: 80%;
+    object-fit: cover;
+}
