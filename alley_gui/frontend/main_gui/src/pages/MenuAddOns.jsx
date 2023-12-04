@@ -34,29 +34,6 @@ const MenuAddons = () => {
       return words.join("_");
     }
 
-    const highContrastMode = () => {
-      const body = document.querySelector('body');
-      if (body.classList.contains("contrast")) {
-        body.classList.remove("contrast");
-        sessionStorage.setItem("high_contrast_mode", false);
-      } else {
-        body.classList.add("contrast");
-        sessionStorage.setItem("high_contrast_mode", true);
-      }
-    }
-  
-    const loadCurrentMode = () => {
-      if (sessionStorage.getItem("high_contrast_mode")) {
-        const body = document.querySelector('body');
-        if (body.classList.contains("contrast") == false) {
-          body.classList.add("contrast");
-        }
-      } else {
-        const body = document.querySelector('body');
-        body.classList.remove("contrast");
-      }
-  }
-
     useEffect(() => {
         const getAddOns = async () => {
           try {
@@ -74,8 +51,7 @@ const MenuAddons = () => {
         getAddOns();
       }, []);
     return (
-      <div onLoad={() => loadCurrentMode()}>
-        <button onClick={highContrastMode}>test</button>
+      <div>
         <h1 className="menu-title">Step 2: Choose Your Add-Ons (Max 2)</h1>
         <button className="home-button" onClick={returnHome}>
             <img src={HomeButton} alt="home" />
