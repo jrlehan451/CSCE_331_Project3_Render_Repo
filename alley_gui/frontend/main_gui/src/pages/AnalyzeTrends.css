@@ -1,40 +1,229 @@
+.trendsTitle{
+  color: #8b9477; 
+  font-size: 4vw; 
+  text-align: center;
+  padding: 1vh; 
+}
+
 .GoButton {
     color: #fff;
     background-color: #9e693f;
     border: none;
-    padding: 8px 12px;
+    padding: 1vh 1.5vh;
     cursor: pointer;
-    margin-bottom: 10px;
-    margin-left: 5px;
+    margin-bottom: 1vh;
+    margin-left: 1vh;
+    height:5vh;
+    width:4vw;
+    font-size: 1.25vw;
   }
 
-  /* Style for the labels and input placeholders */
-.label,
-#start-timestamp,
-#end-timestamp {
-  color: #9e693f;
+.backButton {
+  position: absolute;
+  top: 1vh;
+  left: 1vh;
+  border: 0;
+  background-color: #ffefe2;
+  color: #8b9477;
+  padding: 1vh;
+  cursor: pointer;
+  border-color: #ffefe2;
 }
 
-/* Style for the selection field */
+.backButton img{
+    height: 5vh;
+    width: 5vw;
+}
+
+#label{
+  color:#9e693f;
+}
+
 #trend-choice {
   color: #9e693f;
-  background-color: #fff; /* Optional: Set a background color for better visibility */
+  background-color: #fff;
+  font-size: 1.25vw;
+  border: 2vh;
+  height: 3vh;
+  width: 20vw;
+}
+
+#trend-choice:focus{
+  outline: .1vh;
 }
 
 .selection {
     color: #9e693f;
+    height: 5vh;
+    width: 70vw;
+    font-size: 1.25vw;
+    align-items: center;
+}
+
+.selection input {
+  width: 5vw;
+  height: 2vh;
+  font-size: .8vw;
+  border: .1vw;
+  padding: .1vh;
+}
+
+.selection input:focus{
+  outline: .1vh;
 }
 
 .timestamp-section{
     color: #9e693f;
     display: flex;
     justify-content: space-between;
+    font-size: 1vw;
+    height: 5vh;
+}
+
+.timestamp-section input{
+  width: 20vw;
+  margin: 1vh;
+  height: 2vh;
+  font-size: 1vw;
+  border: .1vw;
+  padding: .1vh;
+}
+
+.timestamp-section input:focus{
+  outline: .1vh;
 }
 
 .start-timestamp-section {
-    margin-right: 20px; /* Adjust the gap between the sections as needed */
-  }
+    margin-right: 5vw; 
+}
   
-  .end-timestamp-section {
-    margin-left: 20px;
+.end-timestamp-section {
+    margin-left: 5vw;
+}
+
+.trend-panel{
+  display: flex; 
+  width: 100%; 
+  height: 60vh;
+  border: .5vh solid #9e693f;
+  padding: 0;
+}
+
+.trend-panel > div {
+  flex: 1; 
+}
+
+.contrast .trendsTitle{
+  color: #d7f2a6; 
+  font-size: 4vw; 
+  text-align: center;
+  padding: 1vh; 
+}
+
+.contrast .GoButton {
+    color: black;
+    background-color: #f0d589;
+    border: none;
+    padding: 1vh 1.5vh;
+    cursor: pointer;
+    margin-bottom: 1vh;
+    margin-left: 1vh;
+    height:5vh;
+    width:4vw;
+    font-size: 1.25vw;
   }
+
+.contrast .backButton {
+  position: absolute;
+  top: 1vh;
+  left: 1vh;
+  border: 0;
+  background-color: #fdffdb;
+  color: #d7fa26;
+  padding: 1vh;
+  cursor: pointer;
+  border-color: #ffefe2;
+}
+
+.contrast .backButton img{
+    height: 5vh;
+    width: 5vw;
+}
+
+.contrast #label{
+  color:#f0d589;
+}
+
+.contrast #trend-choice {
+  color: #f0d589;
+  background-color: black;
+  font-size: 1.25vw;
+  border: 2vh #f0d589;
+  height: 3vh;
+  width: 20vw;
+}
+
+.contrast #trend-choice:focus{
+  outline: .1vh;
+}
+
+.contrast .selection {
+    color: #f0d589;
+    height: 5vh;
+    width: 70vw;
+    font-size: 1.25vw;
+    align-items: center;
+}
+
+.contrast .selection input {
+  width: 5vw;
+  height: 2vh;
+  font-size: .8vw;
+  border: .1vw;
+  padding: .1vh;
+}
+
+.contrast .selection input:focus{
+  outline: .1vh;
+}
+
+.contrast .timestamp-section{
+    color: #f0d589;
+    display: flex;
+    justify-content: space-between;
+    font-size: 1vw;
+    height: 5vh;
+}
+
+.contrast .timestamp-section input{
+  width: 20vw;
+  margin: 1vh;
+  height: 2vh;
+  font-size: 1vw;
+  border: .1vw;
+  padding: .1vh;
+}
+
+.contrast .timestamp-section input:focus{
+  outline: .1vh;
+}
+
+.contrast .start-timestamp-section {
+    margin-right: 5vw; 
+}
+  
+.contrast .end-timestamp-section {
+    margin-left: 5vw;
+}
+
+.contrast .trend-panel{
+  display: flex; 
+  width: 100%; 
+  height: 60vh;
+  border: .5vh solid #f0d589;
+  padding: 0;
+}
+
+.trend-panel > div {
+  flex: 1; 
+}

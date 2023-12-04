@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import './Login.css'
+// import './LoginHC.css'
 
 const Login = () => {
   const [username, setUsername] = useState('');
@@ -12,7 +13,7 @@ const Login = () => {
     const getEmployees = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:4000/login_jsx"
+          "https://thealley.onrender.com/login_jsx"
         );
         const jsonVals = await response.data;
         console.log("Working");
@@ -53,8 +54,32 @@ const Login = () => {
     setShowLoginForm(!showForm);
   };
 
+  const highContrastMode = () => {
+    const body = document.querySelector('body');
+    if (body.classList.contains("contrast")) {
+      body.classList.remove("contrast");
+      sessionStorage.setItem("high_contrast_mode", false);
+    } else {
+      body.classList.add("contrast");
+      sessionStorage.setItem("high_contrast_mode", true);
+    }
+  }
+
+  const loadCurrentMode = () => {
+    if (sessionStorage.getItem("high_contrast_mode")) {
+      const body = document.querySelector('body');
+      if (body.classList.contains("contrast") == false) {
+        body.classList.add("contrast");
+      }
+    } else {
+      const body = document.querySelector('body');
+      body.classList.remove("contrast");
+    }
+  }
+
   return (
-    <div>
+    <div onLoad={() => loadCurrentMode()}>
+      <button onClick={highContrastMode}>test</button>
       <h1 className="loginTitle">The Alley</h1>
       <div className="button-panel">
         <div className="top-button">

@@ -34,3 +34,40 @@
     font-family: 'Perpetua', serif;
     font-weight: bold;
 }
+
+.contrast .checkout-background {
+    background-color: black;
+    height: 100%;
+    width: 100%;
+}
+
+.contrast .container {
+    display: flex;
+    min-height: 55vh;
+}
+
+.contrast .new-order {
+    display: flex;
+    padding-bottom: 13.5vw;
+}
+
+.contrast .confirmation {
+    color: #d7f2a6;
+    font-family: 'Perpetua', serif;
+    font-size: 5vw;
+    margin: auto;
+}
+
+.contrast .new-order > button {
+    width: 50vw;
+    height: 7vw;
+    border-radius: 12vw;
+    border: 2px solid #f0d589;
+    background: black;
+    white-space: normal;
+    word-break: break-word;
+    cursor: pointer;
+    color: #f0d589;
+    font-family: 'Perpetua', serif;
+    font-weight: bold;
+}

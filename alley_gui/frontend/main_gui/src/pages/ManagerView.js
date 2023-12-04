@@ -5,6 +5,8 @@ import { ThemeProvider } from "@mui/material/styles";
 
 import Stack from "@mui/material/Stack";
 import { theme } from "../theme";
+import HomeButton from './images/HomeButton.png';
+
 
 const ManagerView = () => {
   const CustomButton = styled(ListItemButton)(({ theme }) => ({
@@ -18,6 +20,11 @@ const ManagerView = () => {
     "&:hover": { backgroundColor: "lightblue" },
     "&:disabled": { backgroundColor: "gray", color: "white" },
   }));
+
+  const returnHome = () => {
+    window.location.href = "/";
+  };
+  
   return (
     <ThemeProvider theme={theme}>
       <Box
@@ -34,6 +41,9 @@ const ManagerView = () => {
           height: "100vh",
         }}
       >
+        <button className="home-button" onClick={returnHome}> 
+            <img src={HomeButton} alt="home" />
+        </button>
         <Stack
           style={{
             flex: 1,

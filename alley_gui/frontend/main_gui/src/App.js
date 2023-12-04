@@ -2,7 +2,7 @@ import "./App.css";
 import Header from "./components/Header";
 import LanguageSelect from "./components/LanguageSelect";
 import { Route, Routes, useNavigate, useLocation } from "react-router-dom";
-import Login from "./pages/Login"
+import Login from "./pages/Login";
 import Menu from "./pages/Menu";
 import CashierView from "./pages/CashierView";
 import ManagerView from "./pages/ManagerView";
@@ -25,14 +25,45 @@ import AddDrink from "./components/AddDrink";
 import AddOn from "./components/AddOn";
 import OrderSummary from "./components/OrderSummary";
 import MakeNewOrder from "./components/MakeNewOrder";
+import backIcon from './pages/images/magnifyingGlass.png'; 
+import TextToSpeech from "./components/TextToSpeech";
 
 //BrowserRouter basename="/tutorial"> for
 function App() {
   const [name, setName] = useState("");
   const [home, setHome] = useState("");
+  const [mousePosition, setMousePosition] = useState({
+    x:0,
+    y:0
+  });
+  const [magnify, setMagnify] = useState(false);
 
   useEffect(() => {
-    axios.get("http://localhost:4000/home").then(function (response) {
+    const mouseMove = (e) => {
+      setMousePosition({
+        x: e.clientX,
+        y: e.clientY
+      });
+
+      // Update magnification based on some condition
+      //const shouldMagnify = true/* your condition here */;
+      //setMagnify(shouldMagnify);
+    };
+
+    window.addEventListener("mousemove", mouseMove);
+
+    return () => {
+      window.removeEventListener("mousemove", mouseMove);
+    };
+  }, []);
+
+  const toggleMagnify = () => {
+    setMagnify(!magnify);
+  };
+
+ 
+  useEffect(() => {
+    axios.get("https://thealley.onrender.com/home").then(function (response) {
       setHome(response.data);
     });
   }, []);
@@ -41,7 +72,7 @@ function App() {
     e.preventDefault();
 
     try {
-      await axios.post("http://localhost:4000/post_name", {
+      await axios.post("https://thealley.onrender.com/post_name", {
         name,
       });
     } catch (error) {
@@ -52,17 +83,22 @@ function App() {
 
   function capitalizeName(name, delimiter) {
     const words = name.split(delimiter);
-  
+
     for (let i = 0; i < words.length; i++) {
       words[i] = words[i][0].toUpperCase() + words[i].substr(1);
     }
-  
+
     return words.join(" ");
-  };
+  }
 
   const isHomePage = location.pathname === "/";
   return (
     <div className="App">
+      <div
+        className={`cursor ${magnify ? 'magnify' : ''}`}
+        style={{left: `${mousePosition.x - 80}px`,top: `${mousePosition.y - 80}px`}}
+      />
+      
       <LanguageSelect></LanguageSelect>
       {isHomePage && <Login />}
       {/* This is used for making connection between backend and frontend commented
@@ -91,17 +127,31 @@ function App() {
         <Route path="/Menu" element={<Menu />} />
         <Route path="/MenuAddOns" element={<MenuAddOns />} />
 
-        <Route path="/DrinkOptions" element={<DrinkOptions capitalizeName={capitalizeName} />} />
-        <Route path="/AddDrink/:category" element={<AddDrink capitalizeName={capitalizeName} />} />
-        <Route path="/AddOn" element={<AddOn capitalizeName={capitalizeName} />} />
-        <Route path="/OrderSummary" element={<OrderSummary/>} />
-        <Route path="/MakeNewOrder" element={<MakeNewOrder/>} />
+        <Route
+          path="/DrinkOptions"
+          element={<DrinkOptions capitalizeName={capitalizeName} />}
+        />
+        <Route
+          path="/AddDrink/:category"
+          element={<AddDrink capitalizeName={capitalizeName} />}
+        />
+        <Route
+          path="/AddOn"
+          element={<AddOn capitalizeName={capitalizeName} />}
+        />
+        <Route path="/OrderSummary" element={<OrderSummary />} />
+        <Route path="/MakeNewOrder" element={<MakeNewOrder />} />
+        <Route path="/TextToSpeech" element={<TextToSpeech />} />
 
         {/*<Route path="/menu" element={<MenuView />} />
         <Route path="/cashier" element={<CashierView />} />
 
         <Route path="/customer" element={<CustomerView />} /> */}
       </Routes>
+      <button className="toggle" onClick={toggleMagnify}>
+        <img src = {backIcon} className="image" />
+        {magnify}
+      </button>
     </div>
   );
 }

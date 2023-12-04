@@ -1,7 +1,7 @@
 import React, { useState, useEffect} from "react";
 import {useParams} from 'react-router-dom'
 import axios from "axios";
-import './customer_home.css'; // Import your CSS file
+import './customer_home.css';
 //import peachOolongTeaImage from './peach_oolong_tea.png'; // Import your image
 
 const DrinkSeries = () => {
@@ -64,11 +64,41 @@ const DrinkSeries = () => {
 
     const {category} = useParams();
 
+    function getImage(name){
+        name = "/drink_images/" + name;
+        name += ".png"
+        const words = name.split(" ");
+        return words.join("_");
+    }
+
+    const highContrastMode = () => {
+        const body = document.querySelector('body');
+        if (body.classList.contains("contrast")) {
+          body.classList.remove("contrast");
+          sessionStorage.setItem("high_contrast_mode", false);
+        } else {
+          body.classList.add("contrast");
+          sessionStorage.setItem("high_contrast_mode", true);
+        }
+    }
+    
+    const loadCurrentMode = () => {
+        if (sessionStorage.getItem("high_contrast_mode")) {
+          const body = document.querySelector('body');
+          if (body.classList.contains("contrast") == false) {
+            body.classList.add("contrast");
+          }
+        } else {
+          const body = document.querySelector('body');
+          body.classList.remove("contrast");
+        }
+    }
+
     useEffect(() => {
         const drinkSeries = async () => {
         try {
             const response = await axios.get(
-            "http://localhost:4000/drink_series_items", {params: {category : category}}
+            "https://thealley.onrender.com/drink_series_items", {params: {category : category}}
             );
             const jsonVals = await response.data;
             console.log(jsonVals.data);
@@ -87,7 +117,8 @@ const DrinkSeries = () => {
 
 
     return (
-        <div className="customer-home-background">
+        <div className="customer-home-background" onLoad={() => loadCurrentMode()}>
+      <button onClick={highContrastMode}>test</button>
             <div className="customer-page">
                 <div className="drink-categories-container">
                     <h3 className="categories-title">DRINK SERIES</h3>
@@ -102,7 +133,8 @@ const DrinkSeries = () => {
                         <h1 id="drinkSeriesName" className="series-name">{capitalizeName(drinkItem.category, "_")}</h1>
                     ))}
                     {drinkSeriesItems.map((drink, index) => (
-                        <button key={index} id={drink.name} onClick={() => buildDrink(drink.name, drink.drink_id, drink.cost)}>
+                        <button key={index} alt={capitalizeName(drink.name, ' ')} id={drink.name} onClick={() => buildDrink(drink.name, drink.drink_id, drink.cost)}>
+                        <img class="drink-square" src={getImage(drink.category)} alt={capitalizeName(drink.name, ' ')} />
                         {capitalizeName(drink.name, " ")}
                         </button>
                     ))}

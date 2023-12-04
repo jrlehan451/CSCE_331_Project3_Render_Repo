@@ -1,36 +1,40 @@
-body {
-    background-color: #ffefe2; 
-}
-
 .menu-title {
     color: #8b9477; 
-    font-size: 24px; 
+    font-size: 4vw; 
     text-align: center;
-    padding: 10px; 
+    padding: 1vh; 
 }
 
 .home-button {
     position: absolute;
-    top: 10px;
-    right: 10px;
-    border : 0px;
+    top: 1vh;
+    right: 1vh;
+    border : 0;
     background-color: #ffefe2;
-    color: #8b9477; 
+    color: #8b9477;
+    padding: 1vh;
 }
 
 .home-button img {
-    width: 50px;
-    height: 20%;
-    right: 10px; 
+    width: 8vh;
+    height: 7vh;
+    cursor: pointer; 
 }
 
-.navigation {
+.navigationToMenuAddOns {
     position: fixed; 
-    bottom: 40%;
-    right: 20px; 
+    bottom: 40vh;
+    right: 2vh; 
     background-color: #ffefe2;
-    font-size: 100px;
-    border: 0px;
+    border: 0;
+    padding: 1vh;
+    cursor:pointer;
+}
+
+.navigationToMenuAddOns img {
+    transform: scaleX(-1);
+    height: 5vh;
+    width: 5vw;
 }
 
 .drink-panel {
@@ -38,14 +42,14 @@ body {
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: space-between;
-    margin: 0 1in;
+    margin: 0 10vw;
 }
 
 .category-panel {
-    width: 45%; 
-    font-size: 16px;
-    padding: 10px;
-    margin: 10px;
+    width: 35vw; 
+    font-size: 1.2vw;
+    padding: 1vh;
+    margin: 1vh;
     text-align: center;
     color: #9e693f;
     display: inline-block;
@@ -57,21 +61,113 @@ body {
 
 .category-title {
     width: 100%; 
-    font-size: 48px; 
-    margin-bottom: 10px; 
+    font-size: 3.5vw; 
+    margin-bottom: 1vh; 
+    margin-top: 3vh
 }
 
 .drink-entry{
-    width: 25%;
-    padding: 10px;
-    margin: 5px;
+    width: 7vw;
+    padding: .5vw;
+    margin: .5vw;
     display: inline-block; 
     vertical-align: top; 
     text-align: center;
-    min-height: 50%;
+    min-height: 5vh;
+    overflow: hidden;
 }
 
 .drink-square {
     width: 100%;
-    border: 1px solid #25371d; 
+    border: .1vh solid #25371d; 
+    background-color: #ececec;
+    height: 80%;
+    object-fit: cover;
+}
+
+.contrast .menu-title {
+    color: #d7f2a6; 
+    font-size: 4vw; 
+    text-align: center;
+    padding: 1vh; 
+}
+
+.contrast .home-button {
+    position: absolute;
+    top: 1vh;
+    right: 1vh;
+    border : 0;
+    background-color: #fdffdb;
+    color: #d7f2a6;
+    padding: 1vh;
+}
+
+.contrast .home-button img {
+    width: 8vh;
+    height: 7vh;
+    cursor: pointer; 
+}
+
+.contrast .navigationToMenuAddOns {
+    position: fixed; 
+    bottom: 40vh;
+    right: 2vh; 
+    background-color: #fdffdb;
+    border: 0;
+    padding: 1vh;
+    cursor:pointer;
+}
+
+.contrast .navigationToMenuAddOns img {
+    transform: scaleX(-1);
+    height: 5vh;
+    width: 5vw;
+}
+
+.contrast .drink-panel {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin: 0 10vw;
+}
+
+.contrast .category-panel {
+    width: 35vw; 
+    font-size: 1.2vw;
+    padding: 1vh;
+    margin: 1vh;
+    text-align: center;
+    color: #f0d589;
+    display: inline-block;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items:start;
+
+}
+
+.contrast .category-title {
+    width: 100%; 
+    font-size: 3.5vw; 
+    margin-bottom: 1vh; 
+    margin-top: 3vh
+}
+
+.contrast .drink-entry{
+    width: 7vw;
+    padding: .5vw;
+    margin: .5vw;
+    display: inline-block; 
+    vertical-align: top; 
+    text-align: center;
+    min-height: 5vh;
+    overflow: hidden;
+}
+
+.contrast .drink-square {
+    width: 100%;
+    border: .1vh solid black; 
+    background-color: #ececec;
+    height: 80%;
+    object-fit: cover;
 }

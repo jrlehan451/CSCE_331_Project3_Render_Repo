@@ -80,11 +80,34 @@ const OrderSummary = () => {
         setTotalCost(calcTotalCost);
     }, [calcTotalCost])
 
+    const highContrastMode = () => {
+        const body = document.querySelector('body');
+        if (body.classList.contains("contrast")) {
+          body.classList.remove("contrast");
+          sessionStorage.setItem("high_contrast_mode", false);
+        } else {
+          body.classList.add("contrast");
+          sessionStorage.setItem("high_contrast_mode", true);
+        }
+      }
+    
+      const loadCurrentMode = () => {
+        if (sessionStorage.getItem("high_contrast_mode")) {
+          const body = document.querySelector('body');
+          if (body.classList.contains("contrast") == false) {
+            body.classList.add("contrast");
+          }
+        } else {
+          const body = document.querySelector('body');
+          body.classList.remove("contrast");
+        }
+      }
+
     const postOrderToDB = async(e) => {
         e.preventDefault();
 
         try {     
-            await axios.post("http://localhost:4000/post_order", {
+            await axios.post("https://thealley.onrender.com/post_order", {
                 drinks: sessionStorage.getItem('drinks'),
                 add_ons: sessionStorage.getItem('add_ons'),
                 customer: document.getElementById("cname").value,
@@ -100,7 +123,8 @@ const OrderSummary = () => {
     }
 
     return (
-        <div>
+        <div onLoad={() => loadCurrentMode()}>
+            <button onClick={highContrastMode}>test</button>
             <span class= "back" onClick={() => navigate(-1)}></span>
             <div class="columnWrapper">
                 <h1 class="green">Order Summary</h1>
