@@ -131,17 +131,15 @@ const MenuItemsTable = ({ reloadTable }) => {
   }
 
   return (
-    <div class="tablesInfo">
-      <div
+    <div class="tablesInfo"
         style={{
           height: 425,
           width: "45vw",
           marginBottom: "20px",
           float: "left",
         }}
-      >
-    <div class = "tablesInfo" onLoad={() => loadCurrentMode()}>
-    <button onClick={highContrastMode}>test</button> 
+      onLoad={() => loadCurrentMode()}>
+      <button onClick={highContrastMode}>test</button> 
       <div style={{ height: 425, width: "45vw", marginBottom: "20px", float: "left" }}>
         <h2>Drinks Table</h2>
         <DataGrid
@@ -160,7 +158,6 @@ const MenuItemsTable = ({ reloadTable }) => {
         />
         {/* DataGrid rows={menuItemsData} columns={menuItemsColumns} columnBuffer={2} /> */}
       </div>
-
       <div
         style={{
           height: 425,
@@ -184,8 +181,6 @@ const MenuItemsTable = ({ reloadTable }) => {
             ),
           }))}
         />
-
-        {/* <DataGrid rows={addOnsData} columns={addOnsColumns} columnBuffer={2}/> */}
       </div>
     </div>
   );

@@ -144,55 +144,6 @@ const AnalyzeTrends = () => {
     return formattedDate;
   }
 
-  return (
-    <div>
-      <h1
-        className="trendsTitle"
-        onMouseOver={(e) => handleHover(e, isHoverEnabled)}
-        onMouseOut={handleMouseOut}
-      >
-        Analyze Trends
-      </h1>
-      <button className="home-button" onClick={returnHome}>
-        <img src={HomeButton} alt="home" />
-      </button>
-      <button className="backButton" onClick={returnToManager}>
-        <img src={arrow} alt="arrow" />
-      </button>
-
-      <div class="selection">
-        <label
-          onMouseOver={(e) => handleHover(e, isHoverEnabled)}
-          onMouseOut={handleMouseOut}
-          htmlFor="trend-choice"
-        >
-          Select a Trend:
-        </label>
-        <select
-          id="trend-choice"
-          value={selectedTrend}
-          onChange={(e) => setSelectedTrend(e.target.value)}
-          onMouseOver={(e) => handleHover(e, isHoverEnabled)}
-          onMouseOut={handleMouseOut}
-        >
-          <option value="Excess Report">Excess Report</option>
-          <option value="Menu Item Popularity Analysis">
-            Menu Item Popularity Analysis
-          </option>
-          <option value="Restock Report">Restock Report</option>
-          <option value="Sales Report">Sales Report</option>
-          <option value="What Sales Together">What Sales Together</option>
-        </select>
-
-        <button
-          class="GoButton"
-          onClick={generateTrend}
-          onMouseOver={(e) => handleHover(e, isHoverEnabled)}
-          onMouseOut={handleMouseOut}
-        >
-          Go
-    };
-
     function isValidDateTimeFormat(inputString) {
       const dateTimePattern = /^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}$/;
       return dateTimePattern.test(inputString);
@@ -201,15 +152,6 @@ const AnalyzeTrends = () => {
     function removeSpaces(trendName){
       const words = trendName.split(' ');
       return words.join('');
-    };
-
-    const returnHome = () => {
-      window.location.href = "/";
-    };
-
-    const returnToManager = () =>{
-      var currLocation = window.location.href;
-      window.location.href = currLocation.replace("AnalyzeTrends", "Manager");
     };
 
     function getCurrentDate() {
@@ -247,6 +189,7 @@ const AnalyzeTrends = () => {
     }
 
     return (
+      <div>
       <div onLoad={() => loadCurrentMode()}>
         <button onClick={highContrastMode}>test</button>
         <h1 className="trendsTitle">Analyze Trends</h1>
