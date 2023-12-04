@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from "axios";
-import './build_drink.css';
+// import './build_drink.css';
+import './build_drinkHC.css';
 import backArrowImage from './images/back_arrow.png';
 
 const BuildDrink = () => {
@@ -57,7 +58,7 @@ const BuildDrink = () => {
     const getSize = (size) => {
         sessionStorage.setItem("customer_drink_size", size);
         const drinkSize = document.getElementById("drinkSelectedSize");
-        drinkSize.outerHTML = '<p id="drinkSelectedSize" class="build-drink-text">Size: ' + size + '</p>';
+        drinkSize.textContent = "Size: " + size;
     };
 
     const getAddOn1 = (addOn1Name, addOn1IngredientId, addOn1Cost) => {
@@ -65,7 +66,7 @@ const BuildDrink = () => {
         sessionStorage.setItem("customer_addOn1_id", addOn1IngredientId);
         sessionStorage.setItem("customer_addOn1_cost", addOn1Cost)
         const addOn1 = document.getElementById("drinkSelectedAddOn1");
-        addOn1.outerHTML = '<p id="drinkSelectedAddOn1" class="build-drink-text">Add-On #1: ' + addOn1Name + '</p>';
+        addOn1.textContent = "Add-On #1: " + addOn1Name;
     };
 
     const getAddOn2 = (addOn2Name, addOn2IngredientId, addOn2Cost) => {
@@ -73,13 +74,13 @@ const BuildDrink = () => {
         sessionStorage.setItem("customer_addOn2_id", addOn2IngredientId);
         sessionStorage.setItem("customer_addOn2_cost", addOn2Cost)
         const addOn2 = document.getElementById("drinkSelectedAddOn2");
-        addOn2.outerHTML = '<p id="drinkSelectedAddOn2" class="build-drink-text">Add-On #2: ' + addOn2Name + '</p>';
+        addOn2.textContent = "Add-On #2: " + addOn2Name;
     };
 
     const getQuantity = () => {
         let amount = sessionStorage.getItem("customer_drink_quantity");
         const drinkQuantity = document.getElementById("drinkSelectedQuantity");
-        drinkQuantity.outerHTML = '<p id="drinkSelectedQuantity" class="build-drink-text">Quantity: ' + amount + '</p>';
+        drinkQuantity.textContent = "Quantity: " + amount;
     };
 
     const getDrinkSize = () => {

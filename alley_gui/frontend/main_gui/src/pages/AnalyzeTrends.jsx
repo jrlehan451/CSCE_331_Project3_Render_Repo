@@ -4,6 +4,7 @@ import TrendTable from "../components/TrendTable";
 import HomeButton from './images/HomeButton.png';
 import arrow from './images/back_arrow.png';
 import './AnalyzeTrends.css'
+
 const AnalyzeTrends = () => {
     const [selectedTrend, setSelectedTrend] = useState('Excess Report');
     const [startTimestamp, setStartTimestamp] = useState('');
@@ -12,6 +13,7 @@ const AnalyzeTrends = () => {
     const [tableData, setTableData] = useState([]);
     const [table2Data, setTable2Data] = useState([]);
     const [isExcessReport, setIsExcessReport] = useState(true);
+
     useEffect(() => {
       if(selectedTrend === 'Excess Report'){
         setIsExcessReport(true);
@@ -26,20 +28,24 @@ const AnalyzeTrends = () => {
       setTableData([]);
       setTable2Data([]);
     }, [selectedTrend]);
+
     const generateTrend = async () => {
       let valid = true;
+
       if(selectedTrend !== 'Restock Report'){
         if(!isValidDateTimeFormat(startTimestamp)){
           alert("Starting timestamp is not valid. Please enter in the format \n(YYYY-MM-DD HH:MM:SS)");
           valid = false;
         }
       }
+
       if(selectedTrend !== 'Restock Report' && selectedTrend !== 'Excess Report'){
         if(!isValidDateTimeFormat(endTimestamp)){
           alert("End timestamp is not valid. Please enter in the format \n(YYYY-MM-DD HH:MM:SS)");
           valid = false;
         }
       }
+
       if(valid){
         try {
           let response;
@@ -64,21 +70,26 @@ const AnalyzeTrends = () => {
         }
       }
     };
+
     function isValidDateTimeFormat(inputString) {
       const dateTimePattern = /^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}$/;
       return dateTimePattern.test(inputString);
     };
+
     function removeSpaces(trendName){
       const words = trendName.split(' ');
       return words.join('');
     };
+
     const returnHome = () => {
       window.location.href = "/";
     };
+
     const returnToManager = () =>{
       var currLocation = window.location.href;
       window.location.href = currLocation.replace("AnalyzeTrends", "Manager");
     };
+
     function getCurrentDate() {
       const currentDate = new Date();
       const utcFormat = currentDate.toISOString();
@@ -87,7 +98,6 @@ const AnalyzeTrends = () => {
     };
 
     return (
-      <div>
       <div>
         <h1 className="trendsTitle">Analyze Trends</h1>
         <button className="home-button" onClick={returnHome}> 
@@ -106,7 +116,9 @@ const AnalyzeTrends = () => {
             <option value="Sales Report">Sales Report</option>
             <option value="What Sales Together">What Sales Together</option>
           </select>
+
           <button class="GoButton" onClick={generateTrend}>Go</button>
+
           {selectedTrend === 'Menu Item Popularity Analysis' && (
             <div className="number-input-section">
               <label htmlFor="number">Number:</label>
@@ -114,6 +126,7 @@ const AnalyzeTrends = () => {
             </div>
           )}
         </div>
+
         <div className="timestamp-section">
           {selectedTrend !== 'Restock Report' && (
             <div className="start-timestamp-section">
@@ -129,12 +142,13 @@ const AnalyzeTrends = () => {
             </div>
           )}
         </div>
+
         <div className="trend-panel">
             {tableData.length > 0 && <TrendTable jsonData={tableData} />}
             {table2Data.length > 0 && <TrendTable jsonData={table2Data} />}
         </div>
       </div>
-      </div>
     );
 };
+
 export default AnalyzeTrends;

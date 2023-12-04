@@ -17,14 +17,6 @@ import FormControlLabel from "@mui/material/FormControlLabel";
 import DialogContent from "@mui/material/DialogContent";
 import NavBar from "./MenuItems/NavBar";
 import "./MenuItems/MenuItems.css";
-import {
-  handleHover,
-  handleMouseOut,
-  handleTextFieldSpeech,
-  handleTableFieldSpeech,
-} from "./SpeechUtils";
-import TextToSpeech from "./TextToSpeech";
-import "./MenuItems/MenuItems.css";
 
 const SupplyReorders = () => {
   const [data, setData] = useState([]);
@@ -54,25 +46,6 @@ const SupplyReorders = () => {
     date: "",
     amounts: {},
   });
-
-  const [isHoverEnabled, setIsHoverEnabled] = useState(false);
-  const toggleHover = () => {
-    setIsHoverEnabled((prevIsHoverEnabled) => !prevIsHoverEnabled);
-  };
-  const handleGridCellHover = (params) => {
-    console.log("handleGridCellHover is called!");
-
-    if (isHoverEnabled) {
-      console.log("isHoverEnabled is false");
-
-      const cellContent = params.value.toString();
-      console.log("Cell Content:", cellContent);
-
-      // Call the handleHover function to initiate text-to-speech
-      handleTableFieldSpeech(cellContent);
-      //handleTableFieldSpeech("This is a test");
-    }
-  };
 
   const addSupplyReorder = async (selectedItems, amounts) => {
     console.log("Selected Items to be sent:", selectedItems);
@@ -374,20 +347,7 @@ const SupplyReorders = () => {
       >
         <div class="tablesInfo">
           <div style={{ flex: 1, overflow: "auto", height: "65vh" }}>
-            <DataGrid
-              rows={data}
-              columns={columns.map((column) => ({
-                ...column,
-                renderCell: (params) => (
-                  <div
-                    onMouseOver={() => handleGridCellHover(params)}
-                    onMouseOut={handleMouseOut}
-                  >
-                    {params.value}
-                  </div>
-                ),
-              }))}
-            />
+            <DataGrid rows={data} columns={columns} columnBuffer={2} />
           </div>
         </div>
         <div
@@ -410,9 +370,6 @@ const SupplyReorders = () => {
                   type="number"
                   name="reorderId"
                   value={values.reorderId}
-                  onMouseOver={() =>
-                    handleTextFieldSpeech("Supply Reorder ID", values.reorderId)
-                  }
                   onChange={handleInputChange}
                 />
               </FormControl>
@@ -426,7 +383,6 @@ const SupplyReorders = () => {
                   type="date"
                   name="date"
                   values={values.date}
-                  onMouseOver={() => handleTextFieldSpeech("Date", values.date)}
                   onChange={handleInputChange}
                 />
               </FormControl>
@@ -436,28 +392,37 @@ const SupplyReorders = () => {
           <div
             style={{ display: "flex", flexDirection: "column", gap: "10px" }}
           >
-            <CustomButton
-              onClick={addHandleSubmit}
-              onMouseOver={(e) => handleHover(e, isHoverEnabled)}
-              onMouseOut={handleMouseOut}
-            >
+            <CustomButton onClick={addHandleSubmit}>
               Add Supply Reorder
             </CustomButton>
-            <CustomButton
-              onClick={deleteHandleSubmit}
-              onMouseOver={(e) => handleHover(e, isHoverEnabled)}
-              onMouseOut={handleMouseOut}
-            >
+            <CustomButton onClick={deleteHandleSubmit}>
               Delete Supply Reorder
             </CustomButton>
-            <CustomButton
-              onClick={viewHandleSubmit}
-              onMouseOver={(e) => handleHover(e, isHoverEnabled)}
-              onMouseOut={handleMouseOut}
-            >
+            <CustomButton onClick={viewHandleSubmit}>
               View Supply Reorder
             </CustomButton>
           </div>
+
+          {/* View Supply Reorder Modal 
+          <Dialog open={openViewPopup} onClose={() => setOpenViewPopup(false)}>
+            <DialogContent>
+             
+              {viewPopupData.data &&
+              viewPopupData.data.table &&
+              viewPopupData.data.table.rows ? (
+                <div style={{ overflowX: "auto" }}>
+                  <table style={{ width: "100%" }}>
+                    {/* ... (similar table structure as in the Add Supply Reorder Modal) 
+                  </table>
+                </div>
+              ) : (
+                <p>NO data available for view</p>
+              )}
+              <CustomButton onClick={() => setOpenViewPopup(false)}>
+                Close
+              </CustomButton>
+            </DialogContent>
+          </Dialog>*/}
 
           {/*Add Supply Reorder Modal */}
           <Dialog open={openModal} onClose={handleCloseModal}>
@@ -564,10 +529,6 @@ const SupplyReorders = () => {
               </CustomButton>
             </DialogContent>
           </Dialog>
-          <TextToSpeech
-            isHoverEnabled={isHoverEnabled}
-            toggleHover={toggleHover}
-          />
         </div>
       </div>
     </ThemeProvider>

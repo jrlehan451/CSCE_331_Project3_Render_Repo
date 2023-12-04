@@ -32,7 +32,7 @@ const MenuAddons = () => {
       name += ".png"
       const words = name.split(" ");
       return words.join("_");
-    }
+  }
 
     useEffect(() => {
         const getAddOns = async () => {

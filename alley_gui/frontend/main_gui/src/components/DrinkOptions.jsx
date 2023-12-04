@@ -1,9 +1,7 @@
-import LanguageSelect from "./LanguageSelect";
-import React, { useState, useEffect, Suspense, useLayoutEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from 'react-router-dom';
 import axios from "axios";
-import '../drink_options.css';
-
+import '../drink_options.css'
 
 function ButtonLink({ to, children }) {
   return <Link to={to}><button>{children}</button></Link>;

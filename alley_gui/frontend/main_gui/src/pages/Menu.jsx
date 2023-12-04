@@ -57,7 +57,8 @@ const Menu = () => {
     }, []);
 
     return (
-    <div>
+      <div>
+        <h1 className="menu-title">Step 1: Choose Your Drink</h1>
         <button className="home-button" onClick={returnHome}>
             <img src={HomeButton} alt="home" />
         </button>

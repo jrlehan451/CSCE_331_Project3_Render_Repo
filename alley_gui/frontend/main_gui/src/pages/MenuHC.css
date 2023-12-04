@@ -1,5 +1,5 @@
 .menu-title {
-    color: #8b9477; 
+    color: #d7f2a6; 
     font-size: 4vw; 
     text-align: center;
     padding: 1vh; 
@@ -10,8 +10,8 @@
     top: 1vh;
     right: 1vh;
     border : 0;
-    background-color: #ffefe2;
-    color: #8b9477;
+    background-color: #fdffdb;
+    color: #d7f2a6;
     padding: 1vh;
 }
 
@@ -25,7 +25,7 @@
     position: fixed; 
     bottom: 40vh;
     right: 2vh; 
-    background-color: #ffefe2;
+    background-color: #fdffdb;
     border: 0;
     padding: 1vh;
     cursor:pointer;
@@ -51,7 +51,7 @@
     padding: 1vh;
     margin: 1vh;
     text-align: center;
-    color: #9e693f;
+    color: #f0d589;
     display: inline-block;
     flex-direction: row;
     justify-content: flex-start;
@@ -79,7 +79,7 @@
 
 .drink-square {
     width: 100%;
-    border: .1vh solid #25371d; 
+    border: .1vh solid black; 
     background-color: #ececec;
     height: 80%;
     object-fit: cover;

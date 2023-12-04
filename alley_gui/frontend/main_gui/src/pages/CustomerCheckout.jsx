@@ -1,5 +1,5 @@
 import React from 'react';
-import './customer_checkout.css';
+import './customer_checkout.css'; // Import your CSS file
 
 const Checkout = () => {
   const makeNewOrder = () => {
@@ -13,6 +13,7 @@ const Checkout = () => {
         <div className="container">
             <h1 className="confirmation">Order Confirmation #{Math.floor((Math.random() * Date.now())/100000)}</h1>
         </div>
+
         <div className="new-order">
             <button onClick={makeNewOrder} className="confirmation">New Order</button>
         </div>

@@ -1,5 +1,5 @@
 .build-drink-background {
-    background-color: #ffefe2;
+    background-color: black;
     height: 100%;
     width: 100%;
 }
@@ -7,9 +7,9 @@
 .build-drink-container {
     margin-left: 0.5vw;
     width: 17vw;
-    border: 2px solid #25371d;
+    border: 2px solid #d7f2a6;
     float: left;
-    background: #ffefe2;
+    background: black;
     overflow-y: auto;
 }
 
@@ -18,8 +18,8 @@
     height: 3vw;
     border-radius: 12vw;
     float: left;
-    border: 2px solid #25371d;
-    background: #8b9477;
+    border: 2px solid black;
+    background: #d7f2a6;
     margin-left: 1vw;
     margin-right: 1vw;
     margin-top: 0.5vw;
@@ -27,7 +27,7 @@
     white-space: normal;
     word-break: break-word;
     cursor: pointer;
-    color: #25371d;
+    color: black;
     font-family: 'Perpetua', serif;
     font-weight: bold;
 }
@@ -35,7 +35,7 @@
 .build-drink-title {
     text-align: center;
     margin-bottom: 0.75vw;
-    color: #25371d;
+    color: #d7f2a6;
     font-family: 'Perpetua', serif;
 }
 
@@ -43,8 +43,8 @@
     width: 7vw;
     margin-top: 0.5vw;
     margin-left: 0.5vw;
-    background: #ffefe2;
-    border: 2px solid #25371d;
+    background: #fdffdb;
+    border: 2px solid black;
     cursor: pointer;
     display: flex;
     margin-bottom: 2vw;
@@ -64,13 +64,13 @@
     width: 9vw;
     height: 9vw;
     float: left;
-    background: #9e693f;   
-    border: 2px solid #9e693f;
+    background: #f0d589;   
+    border: 2px solid #f0d589;
     margin: 1vw;
     white-space:normal;
     word-break: break-word;
     cursor: pointer;
-    color: #ffefe2;
+    color: black;
     font-family: 'Perpetua', serif;
     font-weight: bold;
 }
@@ -78,7 +78,7 @@
 .option-name {
     text-align: center;
     margin-bottom: 0.75vw;
-    color: #9e693f;
+    color: #f0d589;
     font-family: 'Perpetua', serif;
 }
 
@@ -86,7 +86,7 @@
     margin-top: 0vw;
     margin-right: 10vw;
     margin-left: 50vw;
-    color: #9e693f;
+    color: #f0d589;
     font-family: 'Perpetua', serif;
     font-size: 10vw;
 }
@@ -95,8 +95,8 @@
     margin-left: 0.5vw;
     width: 70vw;
     display: flex;
-    border: 2px solid #8b9477;
-    background: #8b9477;
+    border: 2px solid #d7f2a6;
+    background: #d7f2a6;
 }
 
 .build-drink-text {
@@ -104,7 +104,7 @@
     margin-right: 1vw;
     font-family: 'Perpetua', serif;
     font-weight: bold;
-    color: #25371d
+    color: black
 }
 
 .build-drink-next {
@@ -112,7 +112,7 @@
     margin-right: 1.5vw;
     float: right;
     width: 25vw;
-    background: #ffefe2;
+    background: black;
 }
 
 .build-drink-next > button {
@@ -120,8 +120,8 @@
     height: 3vw;
     border-radius: 12vw;
     float: left;
-    border: 2px solid #25371d;
-    background: #8b9477;
+    border: 2px solid black;
+    background: #d7f2a6;
     margin-left: 1vw;
     margin-right: 1vw;
     margin-top: 0.5vw;
@@ -129,7 +129,7 @@
     white-space: normal;
     word-break: break-word;
     cursor: pointer;
-    color: #25371d;
+    color: black;
     font-family: 'Perpetua', serif;
     font-weight: bold;
 }
@@ -137,7 +137,7 @@
 .total {
     margin-right: 1vw;
     margin-left: 1vw;
-    color: #25371d;
+    color: #d7f2a6;
     font-family: 'Perpetua', serif;
     font-size: 3vw;
 }
@@ -149,7 +149,7 @@
 
 .addon-square {
     width: 80%;
-    border: .1vh solid #25371d; 
+    border: .1vh solid #d7f2a6; 
     background-color: #ececec;
     height: 80%;
     object-fit: cover;

@@ -2,7 +2,7 @@
     position: fixed; 
     bottom: 40vh;
     left: 2vh; 
-    background-color: #ffefe2;
+    background-color: #fdffdb;
     border: 0;
     padding: 1vh;
     cursor:pointer;
@@ -14,7 +14,7 @@
 }
 
 .addon-container{
-    color: #9e693f;
+    color: #f0d589;
     display: inline-block;
     flex-direction: row;
     flex-wrap: wrap;
@@ -37,7 +37,7 @@
 
 .addon-square {
     width: 80%;
-    border: .1vh solid #25371d; 
+    border: .1vh solid #fdffdb; 
     background-color: #ececec;
     height: 80%;
     object-fit: cover;

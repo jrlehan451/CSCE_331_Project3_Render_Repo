@@ -12,18 +12,19 @@
 
 .trend-table th,
 .trend-table td {
-  border: .1vh solid #9e693f; 
+  border: .1vh solid #f0d589; 
   padding: 1vh;
   text-align: left;
 }
 
 .trend-table th {
-  background-color: #8b9477; 
+  background-color: #d7f2a6; 
+  color: black
 }
 
 
 .trend-table tr {
-  border-bottom: .1vh solid #9e693f;
+  border-bottom: .1vh solid #f0d589;
   cursor:default;
 }
 
@@ -32,7 +33,7 @@
 }
 
 .trend-table td {
-  border-right: .1vh solid #9e693f; 
+  border-right: .1vh solid #f0d589; 
 }
 
 .trend-table td:last-child {

@@ -36,11 +36,7 @@ const AddOn = ({capitalizeName}) => {
         sessionStorage.setItem("add_ons", JSON.stringify(orderAdd_ons))
     }, [orderAdd_ons])
 
-    function add_onToLocal(_id, _name, _cost) {  
-        if (document.getElementsByClassName("selected").length == 0) {
-            return;
-        }
-        
+    function add_onToLocal(_id, _name, _cost) {    
         let number = document.getElementsByClassName("selected")[0].children[0].innerHTML;
     
         let newAddOn = {
