@@ -103,33 +103,6 @@ const MenuItemsTable = ({ reloadTable }) => {
     { field: "cost", headerName: "Cost", type: "number", width: 90, flex: 1 },
   ];
 
-  const highContrastMode = () => {
-    const body = document.querySelector('body');
-    if (body.classList.contains("contrast")) {
-      body.classList.remove("contrast");
-      document.body.style.backgroundColor = '#ffefe2';
-      sessionStorage.setItem("high_contrast_mode", false);
-    } else {
-      body.classList.add("contrast");
-      document.body.style.backgroundColor = 'black';
-      sessionStorage.setItem("high_contrast_mode", true);
-    }
-  }
-
-  const loadCurrentMode = () => {
-    if (sessionStorage.getItem("high_contrast_mode")) {
-      const body = document.querySelector('body');
-      if (body.classList.contains("contrast") == false) {
-        body.classList.add("contrast");
-        document.body.style.backgroundColor = 'black';
-      }
-    } else {
-      const body = document.querySelector('body');
-      body.classList.remove("contrast");
-      document.body.style.backgroundColor = '#ffefe2';
-    }
-  }
-
   return (
     <div class="tablesInfo"
         style={{
@@ -137,9 +110,7 @@ const MenuItemsTable = ({ reloadTable }) => {
           width: "45vw",
           marginBottom: "20px",
           float: "left",
-        }}
-      onLoad={() => loadCurrentMode()}>
-      <button onClick={highContrastMode}>test</button> 
+        }}> 
       <div style={{ height: 425, width: "45vw", marginBottom: "20px", float: "left" }}>
         <h2>Drinks Table</h2>
         <DataGrid
