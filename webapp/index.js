@@ -4,6 +4,13 @@ var jsonParser = bodyParser.json();
 const { Pool } = require("pg");
 const dotenv = require("dotenv").config();
 const cors = require("cors");
+const { Translate } = require('@google-cloud/translate').v2;
+
+const CREDS = JSON.parse(process.env.GOOGLE_APPLICATION_CRED);
+const translate = new Translate({
+  credentials: CREDS,
+  projectId: CREDS.projectId,
+})
 
 // Create express app
 const app = express();
@@ -41,6 +48,30 @@ process.on("SIGINT", function () {
   pool.end();
   console.log("Application successfully shutdown");
   process.exit(0);
+});
+
+app.get('/languages', async (req, res) => {
+  let [languages] = await translate.getLanguages();
+  res.status(200).json({
+    status: "success",
+    data: languages,
+  });
+});
+
+app.get('/translate', jsonParser, async (req, res) => {
+  try {
+    let [translations] = await translate.translate(req.query.text, req.query.target);
+    res.status(200).json({
+      status: "success",
+      data: translations,
+    })
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({
+      status: "error",
+      message: "An error occurred while fetching data.",
+    });
+  } 
 });
 
 app.set("view engine", "ejs");
