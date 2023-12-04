@@ -99,17 +99,31 @@ function App() {
     if (body.classList.contains("contrast")) {
       body.classList.remove("contrast");
       document.body.style.backgroundColor = '#ffefe2';
-      sessionStorage.setItem("high_contrast_mode", false);
+      localStorage.setItem("high_contrast_mode", false);
     } else {
       body.classList.add("contrast");
       document.body.style.backgroundColor = 'black';
-      sessionStorage.setItem("high_contrast_mode", true);
+      localStorage.setItem("high_contrast_mode", true);
+    }
+  }
+
+  const loadCurrentMode = () => {
+    if (localStorage.getItem("high_contrast_mode") === true) {
+      const body = document.querySelector('body');
+      if (body.classList.contains("contrast") === false) {
+        body.classList.add("contrast");
+        document.body.style.backgroundColor = 'black';
+      }
+    } else {
+      const body = document.querySelector('body');
+      body.classList.remove("contrast");
+      document.body.style.backgroundColor = '#ffefe2';
     }
   }
 
   const isHomePage = location.pathname === "/";
   return (
-    <div className="App">
+    <div className="App" onLoad={loadCurrentMode}>
       <div
         className={`cursor ${magnify ? 'magnify' : ''}`}
         style={{left: `${mousePosition.x - 80}px`,top: `${mousePosition.y - 80}px`}}
