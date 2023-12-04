@@ -1,5 +1,6 @@
 import "./App.css";
 import Header from "./components/Header";
+import LanguageSelect from "./components/LanguageSelect";
 import { Route, Routes, useNavigate, useLocation } from "react-router-dom";
 import Login from "./pages/Login"
 import Menu from "./pages/Menu";
@@ -12,7 +13,7 @@ import Inventory from "./components/Inventory";
 import Ingredients from "./components/Ingredients";
 import MenuItems from "./components/MenuItems/MenuItems";
 import SupplyReorder from "./components/SupplyReorders";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useLayoutEffect, useState } from "react";
 import axios from "axios";
 import DrinkSeries from "./pages/DrinkSeries";
 import BuildDrink from "./pages/BuildDrink";
@@ -62,6 +63,7 @@ function App() {
   const isHomePage = location.pathname === "/";
   return (
     <div className="App">
+      <LanguageSelect></LanguageSelect>
       {isHomePage && <Login />}
       {/* This is used for making connection between backend and frontend commented
       out for github release

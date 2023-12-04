@@ -6,8 +6,16 @@ body {
     color: #8b9477;
 }
 
+.test .green {
+    color: red;
+}
+
 .brown {
     color: #9e693f;
+}
+
+.test .brown {
+    color: white;
 }
 
 .button-container {

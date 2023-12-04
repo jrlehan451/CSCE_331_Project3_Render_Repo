@@ -57,7 +57,7 @@ const BuildDrink = () => {
     const getSize = (size) => {
         sessionStorage.setItem("customer_drink_size", size);
         const drinkSize = document.getElementById("drinkSelectedSize");
-        drinkSize.textContent = "Size: " + size;
+        drinkSize.outerHTML = '<p id="drinkSelectedSize" class="build-drink-text">Size: ' + size + '</p>';
     };
 
     const getAddOn1 = (addOn1Name, addOn1IngredientId, addOn1Cost) => {
@@ -65,7 +65,7 @@ const BuildDrink = () => {
         sessionStorage.setItem("customer_addOn1_id", addOn1IngredientId);
         sessionStorage.setItem("customer_addOn1_cost", addOn1Cost)
         const addOn1 = document.getElementById("drinkSelectedAddOn1");
-        addOn1.textContent = "Add-On #1: " + addOn1Name;
+        addOn1.outerHTML = '<p id="drinkSelectedAddOn1" class="build-drink-text">Add-On #1: ' + addOn1Name + '</p>';
     };
 
     const getAddOn2 = (addOn2Name, addOn2IngredientId, addOn2Cost) => {
@@ -73,13 +73,13 @@ const BuildDrink = () => {
         sessionStorage.setItem("customer_addOn2_id", addOn2IngredientId);
         sessionStorage.setItem("customer_addOn2_cost", addOn2Cost)
         const addOn2 = document.getElementById("drinkSelectedAddOn2");
-        addOn2.textContent = "Add-On #2: " + addOn2Name;
+        addOn2.outerHTML = '<p id="drinkSelectedAddOn2" class="build-drink-text">Add-On #2: ' + addOn2Name + '</p>';
     };
 
     const getQuantity = () => {
         let amount = sessionStorage.getItem("customer_drink_quantity");
         const drinkQuantity = document.getElementById("drinkSelectedQuantity");
-        drinkQuantity.textContent = "Quantity: " + amount;
+        drinkQuantity.outerHTML = '<p id="drinkSelectedQuantity" class="build-drink-text">Quantity: ' + amount + '</p>';
     };
 
     const getDrinkSize = () => {
