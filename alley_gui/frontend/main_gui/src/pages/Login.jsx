@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import {useAuth0} from '@auth0/auth0-react';
 import axios from "axios";
 import './Login.css'
 // import './LoginHC.css'
@@ -8,30 +9,76 @@ const Login = () => {
   const [password, setPassword] = useState('');
   const [showForm, setShowLoginForm] = useState(false);
   const [employees, setEmployees] = useState([]);
+  const [weather, setWeather] = useState([]);
+  const [city, setCity] = useState('');
+  const [temp, setTemp] = useState(0);
+
+  const {loginWithRedirect, isAuthenticated, user, logout} = useAuth0();
+
+
 
   useEffect(() => {
     const getEmployees = async () => {
       try {
-        const response = await axios.get(
-          "https://thealley.onrender.com/login_jsx"
-        );
+        const response = await axios.get("https://thealley.onrender.com/login_jsx");
         const jsonVals = await response.data;
-        console.log("Working");
+        console.log("[Success] Received Employees");
         console.log(jsonVals.data.employees);
         setEmployees(jsonVals.data.employees.rows);
       } catch (err) {
-        console.log("ERROR");
+        console.log("[ERROR] Retrieving Employees");
         console.error(err.message);
       }
     };
 
+    const getWeather = async () => {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+          function(position) {
+            const latitude = position.coords.latitude;
+            const longitude = position.coords.longitude;
+            
+            console.log("Latitude: " + latitude);
+            console.log("Longitude: " + longitude);
+
+            fetchWeatherData(latitude, longitude);
+          },
+          function(error) {
+            console.error("Error getting location: " + error.message);
+          }
+        );
+      } else {
+        console.error("Geolocation is not supported by this browser.");
+      }
+    };
+
+    const fetchWeatherData = async (latitude, longitude) =>{
+      try {
+        const response = await axios.get("http://localhost:4000/weather", {
+          params: {
+            latitude,
+            longitude
+          },
+        });
+        const jsonVals = await response.data;
+        console.log("[Success] Received Weather Data");
+        console.log(jsonVals.data.data);
+        setWeather(jsonVals.data.data);
+        setCity(jsonVals.data.data.name);
+        setTemp(jsonVals.data.data.main.temp);
+      } catch (err) {
+        console.log("[ERROR] Retrieving Weather Data");
+        console.error(err.message);
+      }
+    }
+
     getEmployees();
+    getWeather();
   }, []);
 
   const authenticateUser = () => {
     for (const employee of employees) {
       if (employee.first_name === username && employee.password === password) {
-        // Navigate to another page or perform an action upon successful authentication
         console.log('Authentication successful!');
         var currLocation = window.location.href;
         if(employee.first_name === "customer" && employee.last_name === "profile"){
@@ -81,6 +128,10 @@ const Login = () => {
     <div onLoad={() => loadCurrentMode()}>
       <button onClick={highContrastMode}>test</button>
       <h1 className="loginTitle">The Alley</h1>
+      <div className="weather-panel">
+        <img src= "/weather/sunny" alt=""></img>
+        <h1 className="weatherText"> {city} {temp}F</h1>
+      </div>
       <div className="button-panel">
         <div className="top-button">
           <button className="large-button" onClick={showLoginForm} style={{ display: showForm ? 'none' : 'block' }}>Login</button>
