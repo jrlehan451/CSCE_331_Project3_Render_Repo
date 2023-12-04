@@ -1669,30 +1669,7 @@ app.post("/updateAddOnCost", (req, res) => {
   );
 });
 
-//update inventory call
-// app.post("/updateInventoryName", (req, res) => {
-//   pool.query(
-//     "UPDATE inventory_items SET name = $1 WHERE item_id = $2;",
-//     //"UPDATE drinks SET name = $1 WHERE drink_id = $2;",
-//     [req.body.name, req.body.itemId],
-//     (err, response) => {
-//       if (err) {
-//         console.log(err);
-//         res.status(500).json({
-//           status: "error",
-//           rowCount: response.rowCount,
-//           message: "An error occurred while adding the add-on.",
-//         });
-//       } else {
-//         res.status(200).json({
-//           rowCount: response.rowCount,
-//         });
-//         console.log(response);
-//       }
-//     }
-//   );
-//   console.log("Item deleted");
-// });
+
 
 app.post("/updateInventoryName", (req, res) => {
   console.log("Server delete item");
@@ -1700,6 +1677,7 @@ app.post("/updateInventoryName", (req, res) => {
   console.log(req.body.name);
   console.log(req.body.amount);
   console.log(req.body.quantityPerUnit);
+  console.log(req.body.fillLevel);
 
   pool.query(
     "UPDATE inventory_items SET name = $1 WHERE item_id = $2;",
@@ -1716,12 +1694,7 @@ app.post("/updateInventoryName", (req, res) => {
 });
 
 app.post("/updateInventoryCount", (req, res) => {
-  console.log("Server delete item mip");
-  // console.log(req.body.itemId);
-  // console.log(req.body.name);
-  // console.log(req.body.amount);
-  // console.log(req.body.quantityPerUnit);
-
+  //console.log("Server delete item mip");
   pool.query(
     "UPDATE inventory_items SET count = $1 WHERE item_id = $2;",
     //"UPDATE drinks SET cost = $1 WHERE drink_id = $2;",
@@ -1738,11 +1711,6 @@ app.post("/updateInventoryCount", (req, res) => {
 
 app.post("/updateInventoryQuantityUnit", (req, res) => {
   console.log("Server delete item");
-  // console.log(req.body.itemId);
-  // console.log(req.body.name);
-  // console.log(req.body.amount);
-  // console.log(req.body.quantityPerUnit);
-
   pool.query(
     "UPDATE inventory_items SET quantity_per_unit = $1 WHERE item_id = $2;",
     //"UPDATE drinks SET category = $1 WHERE drink_id = $2;",
@@ -1757,55 +1725,23 @@ app.post("/updateInventoryQuantityUnit", (req, res) => {
   );
 });
 
-// //update inventory call
-// app.post("/updateInventoryCount", (req, res) => {
-//   pool.query(
-//     "UPDATE inventory_items SET count = $1 WHERE item_id = $2;"
-//     //"UPDATE drinks SET cost = $1 WHERE drink_id = $2;",
-//     [req.body.amount, req.body.itemId],
-//     (err, response) => {
-//       if (err) {
-//         console.log(err);
-//         res.status(500).json({
-//           status: "error",
-//           rowCount: response.rowCount,
-//           message: "An error occurred while adding the add-on.",
-//         });
-//       } else {
-//         res.status(200).json({
-//           rowCount: response.rowCount,
-//         });
-//         console.log(response);
-//       }
-//     }
-//   );
-//   console.log("Item deleted");
-// });
+app.post("/updateInventoryFillLevel", (req, res) => {
+  console.log("Server delete item");
+  pool.query(
+    "UPDATE inventory_items SET fill_level = $1 WHERE item_id = $2;",
+    [req.body.fillLevel, req.body.itemId],
+    (err, response) => {
+      if (err) {
+        console.log(err);
+      } else {
+        console.log(response);
+      }
+    }
+  );
+});
 
-//update inventory call
-// app.post("/updateInventoryQuantityUnit", (req, res) => {
-//   pool.query(
-//     "UPDATE inventory_items SET quantity_per_unit = $1 WHERE item_id = $2;"
-//     //"UPDATE drinks SET category = $1 WHERE drink_id = $2;",
-//     [req.body.quantityPerUnit, req.body.itemId],
-//     (err, response) => {
-//       if (err) {
-//         console.log(err);
-//         res.status(500).json({
-//           status: "error",
-//           rowCount: response.rowCount,
-//           message: "An error occurred while adding the add-on.",
-//         });
-//       } else {
-//         res.status(200).json({
-//           rowCount: response.rowCount,
-//         });
-//         console.log(response);
-//       }
-//     }
-//   );
-//   console.log("Item deleted");
-// });
+
+
 
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`);

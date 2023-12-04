@@ -6,12 +6,16 @@ import reportWebVitals from "./reportWebVitals";
 import { BrowserRouter } from "react-router-dom";
 import { theme } from "./theme";
 import { ThemeProvider } from "@mui/material";
+import {MagnifierProvider} from './components/MagnifyingScreen/MagnifierComponent';
+import "./components/MagnifyingScreen/MagnifierComponent.css"
 
 ReactDOM.render(
   <React.StrictMode>
     <BrowserRouter>
       <ThemeProvider theme={theme}>
-        <App />
+        <MagnifierProvider>
+          <App />
+        </MagnifierProvider>
       </ThemeProvider>
     </BrowserRouter>
   </React.StrictMode>,

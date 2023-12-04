@@ -1,0 +1,70 @@
+/* MagnifierComponent.css */
+/* .cursor {
+    width: 160px;
+    height: 160px; 
+    background-color: blue;
+    position: fixed;
+    z-index: 9999;
+    pointer-events: none;
+    border-radius: 50%;
+    position: fixed;
+    top: 0;
+    left: 0;
+  } */
+
+  /* MagnifierComponent.css */
+.cursor {
+
+    width: 160px;
+    height: 160px; 
+    position: fixed;
+    z-index: 9999;
+    pointer-events: none;
+    border-radius: 500%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    opacity: 1;
+    border-color: black;
+    background-color: transparent; /* Set background to transparent */
+    transform-origin: center center; /* Set the transformation origin to the center */
+    transform: scale(1); /* Initial scale (no magnification) */
+    transition: transform 0.2s ease-in-out; /* Add a transition for smooth scaling */
+  }
+  
+  .magnify {
+    transform: scale(2.5); 
+    position: absolute;
+    border: 1px solid #000;
+    border-radius: 50%;
+    cursor: none;
+    width: 200px;
+    height: 200px;
+    overflow: hidden; 
+    zoom: 1;
+    box-shadow: 0 0 0 9999px rgba(255, 255, 255, 0.5),
+                0 0 30px 15px rgba(0, 0, 0, 0.5);
+  }
+  
+  
+  
+
+  
+  
+  /* .magnifying {
+    width: 100px; 
+    height: 100px;
+
+  } */
+
+/* .magnify {
+    position: absolute;
+    border: 1px solid #000;
+    border-radius: 50%;
+    cursor: none;
+    width: 200px;
+    height: 200px;
+    zoom: 2;
+    box-shadow: 0 0 0 9999px rgba(255, 255, 255, 0.5),
+                0 0 30px 15px rgba(0, 0, 0, 0.5);
+  } */

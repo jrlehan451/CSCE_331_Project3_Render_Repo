@@ -46,7 +46,7 @@ const Inventory = () => {
     { field: "itemId", headerName: "Item ID", width: 70, flex: 1 },
     { field: "ingredientId", headerName: "Ingredeint ID", width: 130, flex: 1 },
     { field: "name", headerName: "Name", width: 130, flex: 1 },
-    { field: "count", headerName: "Count", type: "number", width: 90, flex: 1 },
+    { field: "count", headerName: "Amount", type: "number", width: 90, flex: 1 },
     {
       field: "fillLevel",
       headerName: "Fill Level",
@@ -73,6 +73,7 @@ const Inventory = () => {
     amount: "",
     quantityPerUnit: "",
     ingredientId: "",
+    fillLevel: "",
   });
 
   const handleCheckboxChange = (ingredientId) => {
@@ -176,7 +177,7 @@ const Inventory = () => {
     if(values.itemId == ""){
       alert("Error: Enter valid Inventory ID")
     }
-    if(values.name == "" && values.amount == "" && values.quantityPerUnit == ""){
+    if(values.name == "" && values.amount == "" && values.quantityPerUnit == "" && values.fillLevel == ""){
       alert("Error: Enter at least 1 value to update (name, cost, category)");
     }
     // Check if all required values are provided
@@ -202,6 +203,10 @@ const Inventory = () => {
         }
         if (values.quantityPerUnit != "" && values.itemId != "") {
           await axios.post("http://localhost:4000/updateInventoryQuantityUnit", values);
+          console.log("Item in inventory quantity per unit updated succesfully");
+        }
+        if (values.fillLevel != "" && values.itemId != "") {
+          await axios.post("http://localhost:4000/updateInventoryFillLevel", values);
           console.log("Item in inventory quantity per unit updated succesfully");
         }
       } else {
@@ -250,6 +255,17 @@ const Inventory = () => {
     }
   };
 
+  
+  const recommendedAdjHandle = async (e) => {
+    //Find recommended reductions
+      // Find all orders in that day (in orders table) and save array of order_id
+      // Find all the drink id and number (in drink_orders table) and save information
+      // Get a list of all the ingredients used in each drink (in base_drink_ingredients table)
+      // Cound how many ingredients where used in total
+    //Apply recommended reductions
+      // Update the inventory page with the ingridients changes
+  }
+
   const [inputErrors, setInputErrors] = useState({
     itemId: false,
     name: false,
@@ -272,16 +288,6 @@ const Inventory = () => {
     else {
       setInputErrors({ ...inputErrors, [key]: true });
     }
-
-  //   // Allow only valid integers in the input
-  //   const newValue = parseInt(e.target.value, 10);
-
-  //   if (!isNaN(newValue)) {
-  //     setValues({ ...values, [key]: newValue });
-  //     setInputErrors({ ...inputErrors, [key]: false });
-  //   } else {
-  //     setInputErrors({ ...inputErrors, [key]: true });
-  //   }
    };
 
 
@@ -446,7 +452,7 @@ const Inventory = () => {
                   onChange={(e) =>
                     handleNumberInputChange(e, "fillLevel")
                   }
-                  
+                  value={values.fillLevel}
                   type="text"
                   error={inputErrors.fillLevel}
                   helperText={
@@ -454,7 +460,7 @@ const Inventory = () => {
                       ? "Please enter a valid integer"
                       : ""
                   }
-                  value={values.fillLevel}
+                  
                 />
               </FormControl>
             </div>
@@ -476,7 +482,7 @@ const Inventory = () => {
 
             </div>
 
-            <CustomButton style={{ width: "90%" }}>
+            <CustomButton style={{ width: "90%" }} onClick={recommendedAdjHandle}>
               Apply Recommended Adjustments
             </CustomButton>
           </div>

@@ -29,7 +29,60 @@ import MakeNewOrder from "./components/MakeNewOrder";
 function App() {
   const [name, setName] = useState("");
   const [home, setHome] = useState("");
+  const [mousePosition, setMousePosition] = useState({
+    x:0,
+    y:0
+  });
+  const [magnify, setMagnify] = useState(false);
 
+
+  // useEffect(() =>{
+  //   const mouseMove = e => {
+  //     setMousePosition({
+  //       x: e.clientX,
+  //       y: e.clientY
+  //     })
+
+
+  //   }
+  //   const shouldMagnify = false/* your condition here */;
+  //   setMagnify(shouldMagnify);
+  //   window.addEventListener("mousemove", mouseMove);
+  //   return () => {
+  //     window.removeEventListener("mousemove", mouseMove);
+  //   }
+  // })
+
+  useEffect(() => {
+    const mouseMove = (e) => {
+      setMousePosition({
+        x: e.clientX,
+        y: e.clientY
+      });
+
+      // Update magnification based on some condition
+      //const shouldMagnify = true/* your condition here */;
+      //setMagnify(shouldMagnify);
+    };
+
+    window.addEventListener("mousemove", mouseMove);
+
+    return () => {
+      window.removeEventListener("mousemove", mouseMove);
+    };
+  }, []);
+
+  const toggleMagnify = () => {
+    // if(setMagnify){
+    //   setMagnify(false);
+    // }
+    // else{
+    //   setMagnify(true);
+    // }
+    setMagnify(!magnify);
+  };
+
+ 
   useEffect(() => {
     axios.get("http://localhost:4000/home").then(function (response) {
       setHome(response.data);
@@ -62,6 +115,11 @@ function App() {
   const isHomePage = location.pathname === "/";
   return (
     <div className="App">
+      <div
+        className={`cursor ${magnify ? 'magnify' : ''}`}
+        style={{left: `${mousePosition.x - 80}px`,top: `${mousePosition.y - 80}px`}}
+      />
+      
       {isHomePage && <Login />}
       {/* This is used for making connection between backend and frontend commented
       out for github release
@@ -100,6 +158,9 @@ function App() {
 
         <Route path="/customer" element={<CustomerView />} /> */}
       </Routes>
+      <button onClick={toggleMagnify}>
+        {magnify ? 'Disable Magnification' : 'Enable Magnification'}
+      </button>
     </div>
   );
 }
