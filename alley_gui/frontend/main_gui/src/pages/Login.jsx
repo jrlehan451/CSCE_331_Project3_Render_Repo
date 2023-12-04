@@ -66,7 +66,7 @@ const Login = () => {
   }
 
   const loadCurrentMode = () => {
-    if (sessionStorage.getItem("high_contrast_mode") == true) {
+    if (sessionStorage.getItem("high_contrast_mode")) {
       const body = document.querySelector('body');
       if (body.classList.contains("contrast") == false) {
         body.classList.add("contrast");
