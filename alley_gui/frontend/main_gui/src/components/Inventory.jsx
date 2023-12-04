@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import TextToSpeech from "./TextToSpeech";
 import axios from "axios";
 import { DataGrid, GridColDef, GridValueGetterParams } from "@mui/x-data-grid";
 import { ThemeProvider } from "@mui/material/styles";
@@ -17,14 +18,21 @@ import NavBar from "./MenuItems/NavBar";
 import Dialog from "@mui/material/Dialog";
 import DialogTitle from "@mui/material/DialogTitle";
 import DialogContent from "@mui/material/DialogContent";
-import "./MenuItems/MenuItems.css";
+import {
+  handleHover,
+  handleMouseOut,
+  handleTextFieldSpeech,
+  handleTableFieldSpeech,
+} from "./SpeechUtils";
 
-import Alert from "@mui/material/Alert";
-import DialogActions from "@mui/material/DialogActions";
-import Button from "@mui/material/Button";
+import "./MenuItems/MenuItems.css";
 
 //import axios from "axios"; // Make sure to import axios for HTTP requests
 const Inventory = () => {
+  const toggleHover = () => {
+    setIsHoverEnabled((prevIsHoverEnabled) => !prevIsHoverEnabled);
+  };
+
   // Creating custom buttons
   const CustomButton = styled(ListItemButton)(({ theme }) => ({
     backgroundColor: "#ffefe2",
@@ -66,6 +74,8 @@ const Inventory = () => {
   const [checkedItems, setCheckedItems] = useState({});
   const [data, setData] = useState([]);
   const [openPopup, setOpenPopup] = useState(false);
+  const [isHoverEnabled, setIsHoverEnabled] = useState(false);
+
   const [popupData, setPopupData] = useState([]);
   const [values, setValues] = useState({
     itemId: "",
@@ -85,6 +95,21 @@ const Inventory = () => {
       setValues({ ...values, ingredientId });
     } else {
       setValues({ ...values, ingredientId: "" });
+    }
+  };
+
+  const handleGridCellHover = (params) => {
+    console.log("handleGridCellHover is called!");
+
+    if (isHoverEnabled) {
+      console.log("isHoverEnabled is false");
+
+      const cellContent = params.value.toString();
+      console.log("Cell Content:", cellContent);
+
+      // Call the handleHover function to initiate text-to-speech
+      handleTableFieldSpeech(cellContent);
+      //handleTableFieldSpeech("This is a test");
     }
   };
 
@@ -330,7 +355,20 @@ const Inventory = () => {
         <div class="tablesInfo" onLoad={() => loadCurrentMode()}>
         <button onClick={highContrastMode}>test</button>
           <div style={{ height: 400, width: "80vw", marginBottom: "20px" }}>
-            <DataGrid rows={data} columns={columns} columnBuffer={2} />
+            <DataGrid
+              rows={data}
+              columns={columns.map((column) => ({
+                ...column,
+                renderCell: (params) => (
+                  <div
+                    onMouseOver={() => handleGridCellHover(params)}
+                    onMouseOut={handleMouseOut}
+                  >
+                    {params.value}
+                  </div>
+                ),
+              }))}
+            />
           </div>
         </div>
 
@@ -362,6 +400,10 @@ const Inventory = () => {
                   helperText={
                     inputErrors.itemId ? "Please enter a valid integer" : ""
                   }
+                  onMouseOver={() =>
+                    handleTextFieldSpeech("Item ID", values.itemId.toString())
+                  }
+                  onMouseOut={handleMouseOut}
                 />
               </FormControl>
             </div>
@@ -374,6 +416,8 @@ const Inventory = () => {
                   onChange={(e) =>
                     setValues({ ...values, name: e.target.value })
                   }
+                  onMouseOver={() => handleTextFieldSpeech("Name", values.name)}
+                  onMouseOut={handleMouseOut}
                 />
               </FormControl>
             </div>
@@ -390,6 +434,10 @@ const Inventory = () => {
                   helperText={
                     inputErrors.amount ? "Please enter a valid integer" : ""
                   }
+                  onMouseOver={() =>
+                    handleTextFieldSpeech("Amount", values.amount.toString())
+                  }
+                  onMouseOut={handleMouseOut}
                 />
               </FormControl>
             </div>
@@ -401,6 +449,12 @@ const Inventory = () => {
                   variant="filled"
                   onChange={(e) =>
                     handleNumberInputChange(e, "quantityPerUnit")
+                  }
+                  onMouseOver={() =>
+                    handleTextFieldSpeech(
+                      "Quantity Per Unit",
+                      values.quantityPerUnit
+                    )
                   }
                   value={values.quantityPerUnit}
                   type="number"
@@ -423,16 +477,39 @@ const Inventory = () => {
             }}
           >
             <div style={{ display: "flex", gap: "5px" }}>
-              <CustomButton onClick={addHandleSubmit}>Add Item </CustomButton>
-              <CustomButton onClick={deleteHandleSubmit}>
+              <CustomButton
+                onClick={addHandleSubmit}
+                onMouseOver={(e) => handleHover(e, isHoverEnabled)}
+                onMouseOut={handleMouseOut}
+              >
+                Add Item{" "}
+              </CustomButton>
+              <CustomButton
+                onClick={deleteHandleSubmit}
+                onMouseOver={(e) => handleHover(e, isHoverEnabled)}
+                onMouseOut={handleMouseOut}
+              >
                 Delete Item
               </CustomButton>
-              <CustomButton>Update Item</CustomButton>
+              <CustomButton
+                onMouseOver={(e) => handleHover(e, isHoverEnabled)}
+                onMouseOut={handleMouseOut}
+              >
+                Update Item
+              </CustomButton>
             </div>
 
-            <CustomButton style={{ width: "90%" }}>
+            <CustomButton
+              onMouseOver={(e) => handleHover(e, isHoverEnabled)}
+              onMouseOut={handleMouseOut}
+              style={{ width: "90%" }}
+            >
               Apply Recommended Adjustments
             </CustomButton>
+            <TextToSpeech
+              isHoverEnabled={isHoverEnabled}
+              toggleHover={toggleHover}
+            />
           </div>
         </div>
       </div>

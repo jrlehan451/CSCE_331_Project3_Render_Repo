@@ -1,7 +1,7 @@
 import "./App.css";
 import Header from "./components/Header";
 import { Route, Routes, useNavigate, useLocation } from "react-router-dom";
-import Login from "./pages/Login"
+import Login from "./pages/Login";
 import Menu from "./pages/Menu";
 import CashierView from "./pages/CashierView";
 import ManagerView from "./pages/ManagerView";
@@ -24,6 +24,7 @@ import AddDrink from "./components/AddDrink";
 import AddOn from "./components/AddOn";
 import OrderSummary from "./components/OrderSummary";
 import MakeNewOrder from "./components/MakeNewOrder";
+import TextToSpeech from "./components/TextToSpeech";
 
 //BrowserRouter basename="/tutorial"> for
 function App() {
@@ -51,13 +52,13 @@ function App() {
 
   function capitalizeName(name, delimiter) {
     const words = name.split(delimiter);
-  
+
     for (let i = 0; i < words.length; i++) {
       words[i] = words[i][0].toUpperCase() + words[i].substr(1);
     }
-  
+
     return words.join(" ");
-  };
+  }
 
   const isHomePage = location.pathname === "/";
   return (
@@ -89,11 +90,21 @@ function App() {
         <Route path="/Menu" element={<Menu />} />
         <Route path="/MenuAddOns" element={<MenuAddOns />} />
 
-        <Route path="/DrinkOptions" element={<DrinkOptions capitalizeName={capitalizeName} />} />
-        <Route path="/AddDrink/:category" element={<AddDrink capitalizeName={capitalizeName} />} />
-        <Route path="/AddOn" element={<AddOn capitalizeName={capitalizeName} />} />
-        <Route path="/OrderSummary" element={<OrderSummary/>} />
-        <Route path="/MakeNewOrder" element={<MakeNewOrder/>} />
+        <Route
+          path="/DrinkOptions"
+          element={<DrinkOptions capitalizeName={capitalizeName} />}
+        />
+        <Route
+          path="/AddDrink/:category"
+          element={<AddDrink capitalizeName={capitalizeName} />}
+        />
+        <Route
+          path="/AddOn"
+          element={<AddOn capitalizeName={capitalizeName} />}
+        />
+        <Route path="/OrderSummary" element={<OrderSummary />} />
+        <Route path="/MakeNewOrder" element={<MakeNewOrder />} />
+        <Route path="/TextToSpeech" element={<TextToSpeech />} />
 
         {/*<Route path="/menu" element={<MenuView />} />
         <Route path="/cashier" element={<CashierView />} />
