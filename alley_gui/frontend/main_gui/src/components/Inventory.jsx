@@ -54,7 +54,7 @@ const Inventory = () => {
     { field: "itemId", headerName: "Item ID", width: 70, flex: 1 },
     { field: "ingredientId", headerName: "Ingredeint ID", width: 130, flex: 1 },
     { field: "name", headerName: "Name", width: 130, flex: 1 },
-    { field: "count", headerName: "Count", type: "number", width: 90, flex: 1 },
+    { field: "count", headerName: "Amount", type: "number", width: 90, flex: 1 },
     {
       field: "fillLevel",
       headerName: "Fill Level",
@@ -83,6 +83,7 @@ const Inventory = () => {
     amount: "",
     quantityPerUnit: "",
     ingredientId: "",
+    fillLevel: "",
   });
 
   const handleCheckboxChange = (ingredientId) => {
@@ -195,6 +196,53 @@ const Inventory = () => {
     }
   };
 
+
+  const updateHandleSubmit = async (e) => {
+    e.preventDefault();
+    if(values.itemId == ""){
+      alert("Error: Enter valid Inventory ID")
+    }
+    if(values.name == "" && values.amount == "" && values.quantityPerUnit == "" && values.fillLevel == ""){
+      alert("Error: Enter at least 1 value to update (name, cost, category)");
+    }
+    // Check if all required values are provided
+
+    try {
+      const inventoryResponse = await axios.get(
+        "http://localhost:4000/inventory_items"
+      );
+      const inventoryData = inventoryResponse.data.data.table.rows;
+  
+      const itemToUpdate = inventoryData.find(
+        (item) => item.item_id == values.itemId
+      );
+
+      if (itemToUpdate) {
+        if (values.name != "" && values.itemId != "") {
+          await axios.post("http://localhost:4000/updateInventoryName", values);
+          console.log("Item in inventory name updated succesfully");
+        }
+        if (values.amount != "" && values.itemId != "") {
+          await axios.post("http://localhost:4000/updateInventoryCount", values);
+          console.log("Item in inventory count updated succesfully");
+        }
+        if (values.quantityPerUnit != "" && values.itemId != "") {
+          await axios.post("http://localhost:4000/updateInventoryQuantityUnit", values);
+          console.log("Item in inventory quantity per unit updated succesfully");
+        }
+        if (values.fillLevel != "" && values.itemId != "") {
+          await axios.post("http://localhost:4000/updateInventoryFillLevel", values);
+          console.log("Item in inventory quantity per unit updated succesfully");
+        }
+      } else {
+        alert("Item with the specified itemId and name not found  .");
+      }
+    } catch (error) {
+      // Handle errors in a more descriptive way
+      console.error("Error during item ID check:", error);
+    }
+  };
+
   useEffect(() => {
     const fetchData = async () => {
       if (!openPopup) {
@@ -232,6 +280,17 @@ const Inventory = () => {
     }
   };
 
+  
+  const recommendedAdjHandle = async (e) => {
+    //Find recommended reductions
+      // Find all orders in that day (in orders table) and save array of order_id
+      // Find all the drink id and number (in drink_orders table) and save information
+      // Get a list of all the ingredients used in each drink (in base_drink_ingredients table)
+      // Cound how many ingredients where used in total
+    //Apply recommended reductions
+      // Update the inventory page with the ingridients changes
+  }
+
   const [inputErrors, setInputErrors] = useState({
     itemId: false,
     name: false,
@@ -240,16 +299,21 @@ const Inventory = () => {
   });
 
   const handleNumberInputChange = (e, key) => {
-    // Allow only valid integers in the input
-    const newValue = parseInt(e.target.value, 10);
-
-    if (!isNaN(newValue)) {
+    const newValue = e.target.value;
+  
+    // Check if the entered value is a valid integer or float
+    const isValidInteger = /^[0-9]*$/.test(newValue);
+    const isValidFloat = /^\d*\.?\d*$/.test(newValue);
+  
+    if (isValidInteger || newValue === "") {
       setValues({ ...values, [key]: newValue });
       setInputErrors({ ...inputErrors, [key]: false });
-    } else {
+    } 
+    
+    else {
       setInputErrors({ ...inputErrors, [key]: true });
     }
-  };
+   };
 
   const updateHandleSubmit = (e) => {
     e.preventDefault();
@@ -467,6 +531,28 @@ const Inventory = () => {
                 />
               </FormControl>
             </div>
+            <div>
+              <InputLabel htmlFor="filled-basic">Fill Level</InputLabel>
+              <FormControl>
+                <TextField
+                  id="filled-basic"
+                  variant="filled"
+                  size = "small"
+                  onChange={(e) =>
+                    handleNumberInputChange(e, "fillLevel")
+                  }
+                  value={values.fillLevel}
+                  type="text"
+                  error={inputErrors.fillLevel}
+                  helperText={
+                    inputErrors.fillLevel
+                      ? "Please enter a valid integer"
+                      : ""
+                  }
+                  
+                />
+              </FormControl>
+            </div>
           </div>
 
           <div
@@ -491,6 +577,7 @@ const Inventory = () => {
               >
                 Delete Item
               </CustomButton>
+
               <CustomButton
                 onMouseOver={(e) => handleHover(e, isHoverEnabled)}
                 onMouseOut={handleMouseOut}

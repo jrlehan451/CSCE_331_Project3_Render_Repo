@@ -101,6 +101,33 @@ body {
     border: 2px solid red;
 }
 
+/* .cursor {
+  width: 20px;
+  height: 20px;
+  background-color: red; 
+  position: fixed;
+  z-index: 9999;
+  pointer-events: none;
+} */
+
+/* .magnifying {
+  width: 100px; 
+  height: 100px;
+  
+} */
+
+/* .magnify {
+  position: absolute;
+  border: 1px solid #000;
+  border-radius: 50%;
+  cursor: none;
+  width: 200px;
+  height: 200px;
+  zoom: 2;
+  box-shadow: 0 0 0 9999px rgba(255, 255, 255, 0.5),
+              0 0 30px 15px rgba(0, 0, 0, 0.5);
+} */
+
 /* navigation bar styles */
 .contrast .navbar {
 padding: 20px;
@@ -193,3 +220,4 @@ color: #d7f2a6
 .contrast .buttonItem{
   border: 2px solid red;
 }
+

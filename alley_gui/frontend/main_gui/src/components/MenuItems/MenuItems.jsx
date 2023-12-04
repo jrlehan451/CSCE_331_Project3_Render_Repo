@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import { DataGrid, GridColDef, GridValueGetterParams } from "@mui/x-data-grid";
+import { MagnifierContext } from '../MagnifyingScreen/MagnifierComponent';
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { Box, FormControl, InputLabel, TextField } from "@mui/material";
 import MenuItemsTable from "./MenuItemsTable";
@@ -19,6 +20,13 @@ import {
 const MenuItems = () => {
   //Constant used to reload tables after function
   const [reloadTable, setReloadTable] = useState(false);
+
+    const { isMagnifierEnabled, toggleMagnifier } = useContext(MagnifierContext);
+
+    // Function to update the state and trigger a re-render of the table
+    const handleTableReload = () => {
+        setReloadTable(!reloadTable);
+    };
 
   // Function to update the state and trigger a re-render of the table
   const handleTableReload = () => {
@@ -86,12 +94,12 @@ const MenuItems = () => {
           <div className="title">
             <h1>Menu Items</h1>
           </div>
+          
           <div className="tablesContainer">
             <MenuItemsTable reloadTable={reloadTable}/>
             <MenuItemsButton onReload={handleTableReload}/>
             
         </div>
-
         </div>
       );
 };
