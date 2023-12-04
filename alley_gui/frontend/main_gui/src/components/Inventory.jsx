@@ -234,6 +234,33 @@ const Inventory = () => {
       .catch((err) => console.log(err));
   };
 
+  const highContrastMode = () => {
+    const body = document.querySelector('body');
+    if (body.classList.contains("contrast")) {
+      body.classList.remove("contrast");
+      document.body.style.backgroundColor = '#ffefe2';
+      sessionStorage.setItem("high_contrast_mode", false);
+    } else {
+      body.classList.add("contrast");
+      document.body.style.backgroundColor = 'black';
+      sessionStorage.setItem("high_contrast_mode", true);
+    }
+  }
+
+  const loadCurrentMode = () => {
+    if (sessionStorage.getItem("high_contrast_mode")) {
+      const body = document.querySelector('body');
+      if (body.classList.contains("contrast") == false) {
+        body.classList.add("contrast");
+        document.body.style.backgroundColor = 'black';
+      }
+    } else {
+      const body = document.querySelector('body');
+      body.classList.remove("contrast");
+      document.body.style.backgroundColor = '#ffefe2';
+    }
+  }
+
   return (
     <ThemeProvider theme={theme}>
       <NavBar />
@@ -300,7 +327,8 @@ const Inventory = () => {
         }}
       >
         <h1>Inventory Page</h1>
-        <div class="tablesInfo">
+        <div class="tablesInfo" onLoad={() => loadCurrentMode()}>
+        <button onClick={highContrastMode}>test</button>
           <div style={{ height: 400, width: "80vw", marginBottom: "20px" }}>
             <DataGrid rows={data} columns={columns} columnBuffer={2} />
           </div>
