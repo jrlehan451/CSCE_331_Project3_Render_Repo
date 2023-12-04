@@ -133,16 +133,12 @@ const ViewCart = () => {
       body.classList.remove("contrast");
     }
   };
+  }
 
   return (
     <div className="view-cart-background" onLoad={() => loadCurrentMode()}>
       <button onClick={highContrastMode}>test</button>
-      <button
-        onClick={navCustomerHome}
-        onMouseOver={(e) => handleHover(e, isHoverEnabled)}
-        onMouseOut={handleMouseOut}
-        className="back-build"
-      >
+      <button onClick={navCustomerHome} className="back-build">
         <img src={backArrowImage} alt="Back Arrow" width="60%" height="10%" />
       </button>
 

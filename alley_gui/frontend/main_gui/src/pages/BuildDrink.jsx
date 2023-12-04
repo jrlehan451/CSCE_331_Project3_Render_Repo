@@ -91,6 +91,13 @@ const BuildDrink = () => {
     let quantity = document.getElementById("start");
     quantity.style.display = "block";
   };
+  const getSelectedDrink = () => {
+    const selectedDrink = sessionStorage.getItem("customer_drink_name");
+    const drinkName = document.getElementById("drinkSelected");
+    drinkName.textContent = "Selected Drink: " + selectedDrink;
+    let quantity = document.getElementById("start");
+    quantity.style.display = "block";
+  };
 
   const getSize = (size) => {
     sessionStorage.setItem("customer_drink_size", size);
@@ -283,6 +290,12 @@ const BuildDrink = () => {
       sessionStorage.setItem("high_contrast_mode", true);
     }
   };
+  function getImage(name) {
+    name = "/addOn_images/" + name;
+    name += ".png";
+    const words = name.split(" ");
+    return words.join("_");
+  }
 
   useEffect(() => {
     const drinkCategories = async () => {

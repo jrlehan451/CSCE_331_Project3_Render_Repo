@@ -38,7 +38,7 @@ const MenuItemsTable = ({ reloadTable }) => {
       try {
         // Fetch data for menu items
         const menuItemsResponse = await axios.get(
-          "http://localhost:4000/menuItems"
+          "https://thealley.onrender.com/menuItems"
         );
         const menuItemsRows = menuItemsResponse.data.data.table.rows.map(
           (item, id) => ({
@@ -148,8 +148,8 @@ const MenuItemsTable = ({ reloadTable }) => {
           width: "45vw",
           marginBottom: "20px",
           float: "left",
-        }}
-      >
+        }}> 
+      <div style={{ height: 425, width: "45vw", marginBottom: "20px", float: "left" }}>
         <h2>Drinks Table</h2>
         <DataGrid
           rows={menuItemsData}

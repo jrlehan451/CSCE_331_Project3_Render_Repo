@@ -209,7 +209,7 @@ const Inventory = () => {
 
     try {
       const inventoryResponse = await axios.get(
-        "http://localhost:4000/inventory_items"
+        "https://thealley.onrender.com/inventory_items"
       );
       const inventoryData = inventoryResponse.data.data.table.rows;
   
@@ -219,19 +219,19 @@ const Inventory = () => {
 
       if (itemToUpdate) {
         if (values.name != "" && values.itemId != "") {
-          await axios.post("http://localhost:4000/updateInventoryName", values);
+          await axios.post("https://thealley.onrender.com/updateInventoryName", values);
           console.log("Item in inventory name updated succesfully");
         }
         if (values.amount != "" && values.itemId != "") {
-          await axios.post("http://localhost:4000/updateInventoryCount", values);
+          await axios.post("https://thealley.onrender.com/updateInventoryCount", values);
           console.log("Item in inventory count updated succesfully");
         }
         if (values.quantityPerUnit != "" && values.itemId != "") {
-          await axios.post("http://localhost:4000/updateInventoryQuantityUnit", values);
+          await axios.post("https://thealley.onrender.com/updateInventoryQuantityUnit", values);
           console.log("Item in inventory quantity per unit updated succesfully");
         }
         if (values.fillLevel != "" && values.itemId != "") {
-          await axios.post("http://localhost:4000/updateInventoryFillLevel", values);
+          await axios.post("https://thealley.onrender.com/updateInventoryFillLevel", values);
           console.log("Item in inventory quantity per unit updated succesfully");
         }
       } else {
@@ -315,33 +315,6 @@ const Inventory = () => {
     }
    };
 
-  const highContrastMode = () => {
-    const body = document.querySelector('body');
-    if (body.classList.contains("contrast")) {
-      body.classList.remove("contrast");
-      document.body.style.backgroundColor = '#ffefe2';
-      sessionStorage.setItem("high_contrast_mode", false);
-    } else {
-      body.classList.add("contrast");
-      document.body.style.backgroundColor = 'black';
-      sessionStorage.setItem("high_contrast_mode", true);
-    }
-  }
-
-  const loadCurrentMode = () => {
-    if (sessionStorage.getItem("high_contrast_mode")) {
-      const body = document.querySelector('body');
-      if (body.classList.contains("contrast") == false) {
-        body.classList.add("contrast");
-        document.body.style.backgroundColor = 'black';
-      }
-    } else {
-      const body = document.querySelector('body');
-      body.classList.remove("contrast");
-      document.body.style.backgroundColor = '#ffefe2';
-    }
-  }
-
   return (
     <ThemeProvider theme={theme}>
       <NavBar />
@@ -408,8 +381,7 @@ const Inventory = () => {
         }}
       >
         <h1>Inventory Page</h1>
-        <div class="tablesInfo" onLoad={() => loadCurrentMode()}>
-        <button onClick={highContrastMode}>test</button>
+        <div class="tablesInfo">
           <div style={{ height: 400, width: "80vw", marginBottom: "20px" }}>
             <DataGrid
               rows={data}

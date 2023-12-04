@@ -58,12 +58,6 @@ const MenuAddons = () => {
     const words = name.split(" ");
     return words.join("_");
   }
-  function getImage(name) {
-    name = "/addOn_images/" + name;
-    name += ".png";
-    const words = name.split(" ");
-    return words.join("_");
-  }
 
   const highContrastMode = () => {
     const body = document.querySelector("body");
@@ -105,7 +99,8 @@ const MenuAddons = () => {
     getAddOns();
   }, []);
   return (
-    <div>
+    <div onLoad={() => loadCurrentMode()}>
+      <button onClick={highContrastMode}>test</button>
       <h1 className="menu-title">Step 2: Choose Your Add-Ons (Max 2)</h1>
       <button className="home-button" onClick={returnHome}>
         <img src={HomeButton} alt="home" />
@@ -115,12 +110,7 @@ const MenuAddons = () => {
       </button>
       <div className="addon-container">
         {addOns.map((addon, index) => (
-          <div
-            className="addon-entry"
-            key={index}
-            onMouseOver={(e) => handleHover(e, isHoverEnabled)}
-            onMouseOut={handleMouseOut}
-          >
+          <div className="addon-entry" key={index}>
             <img
               class="addon-square"
               src={getImage(addon.name)}
@@ -133,7 +123,6 @@ const MenuAddons = () => {
           </div>
         ))}
       </div>
-      <TextToSpeech isHoverEnabled={isHoverEnabled} toggleHover={toggleHover} />
     </div>
   );
 };

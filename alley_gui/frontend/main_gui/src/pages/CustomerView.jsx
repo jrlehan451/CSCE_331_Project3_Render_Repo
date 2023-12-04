@@ -43,6 +43,7 @@ const CustomerHome = () => {
       const body = document.querySelector("body");
       body.classList.remove("contrast");
     }
+    const getCurrentTotal = () => {
 
     let currDrinksInOrder = [];
     if (sessionStorage.getItem("currentOrderDrinks")) {
@@ -168,8 +169,6 @@ const CustomerHome = () => {
             <button
               key={index}
               onClick={() => getDrinkSeries(category.category)}
-              onMouseOver={(e) => handleHover(e, isHoverEnabled)}
-              onMouseOut={handleMouseOut}
             >
               {capitalizeName(category.category, "_")}
             </button>

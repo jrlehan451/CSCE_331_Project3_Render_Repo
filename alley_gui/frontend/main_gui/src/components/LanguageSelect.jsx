@@ -21,26 +21,16 @@ function LanguageSelect() {
             .map(textNode => textNode.textContent) // extract text content
     
             if (textNodes.length != 0) {
-                let result = await translate(textNodes[0].toLowerCase(), prevLang, language);
-                ele.textContent = result.translatedText;
+                let result = await translate(textNodes[0], prevLang, language);
+                ele.textContent = result;
             }
         });
     }
     
     async function translate(query, source, target) {
-        const res = await fetch("http://localhost:5000/translate", {
-        method: "POST",
-        body: JSON.stringify({
-            q: query,
-            source: source,
-            target: target,
-            format: "text",
-            api_key: ""
-        }),
-            headers: { "Content-Type": "application/json" }
-        });
-
-        return await res.json();
+        const res = await axios.get("https://thealley.onrender.com/translate", {params: { text: query, target: target}});
+        const jsonVals = await res.data;
+        return jsonVals.data;
     }
 
     useEffect(() => {
@@ -73,8 +63,8 @@ function LanguageSelect() {
                             .map(textNode => textNode.textContent) // extract text content
                 
                             if (textNodes.length != 0) {
-                                let result = await translate(textNodes[0].toLowerCase(), pLang, currLang);
-                                ele.textContent = result.translatedText;
+                                let result = await translate(textNodes[0], pLang, currLang);
+                                ele.textContent = result;
                             }
                         } else {
                             allChildElements.forEach(async (childele) => {
@@ -85,8 +75,8 @@ function LanguageSelect() {
                                 .map(textNode => textNode.textContent) // extract text content
                         
                                 if (textNodes.length != 0) {
-                                    let result = await translate(textNodes[0].toLowerCase(), pLang, currLang);
-                                    childele.textContent = result.translatedText;
+                                    let result = await translate(textNodes[0], pLang, currLang);
+                                    childele.textContent = result;
                                 }
                             });
                         }
@@ -100,7 +90,7 @@ function LanguageSelect() {
 
     useEffect(() => {
         translate_all();
-    }, [language, translate_all]);
+    }, [language]);
 
     const selectLang = (event) => {
         setPrevLang(language);
@@ -115,18 +105,19 @@ function LanguageSelect() {
     useEffect(() => {
       async function fetchData() {
         // Fetch data
-        const { data } = await axios.get("http://localhost:5000/languages");
+        const { data } = await axios.get("https://thealley.onrender.com/languages");
         const results = []
         // Store results in the results array
-        data.forEach((value) => {
+        data.data.forEach((value) => {
           results.push({
             key: value.name,
             value: value.code,
           });
         });
+        const unique = [...new Map(results.map(item => [item.key, item])).values()];
         // Update the options state
         setOptions([
-          ...results
+          ...unique
         ]);
       }
   
@@ -136,7 +127,7 @@ function LanguageSelect() {
 
     return (
         <div>
-            <select value={language} onChange={selectLang}>
+            <select class="langSelect" value={language} onChange={selectLang}>
                 {options.map((option) => (
                 <option class="languageOption" key={option.key} value={option.value}>{option.key}</option>
                 ))}  

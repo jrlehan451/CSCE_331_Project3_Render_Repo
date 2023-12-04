@@ -62,33 +62,9 @@ const TrendTable = ({ jsonData }) => {
         </tbody>
       );
     };
-
-    const highContrastMode = () => {
-      const body = document.querySelector('body');
-      if (body.classList.contains("contrast")) {
-        body.classList.remove("contrast");
-        sessionStorage.setItem("high_contrast_mode", false);
-      } else {
-        body.classList.add("contrast");
-        sessionStorage.setItem("high_contrast_mode", true);
-      }
-    }
-  
-    const loadCurrentMode = () => {
-      if (sessionStorage.getItem("high_contrast_mode")) {
-        const body = document.querySelector('body');
-        if (body.classList.contains("contrast") == false) {
-          body.classList.add("contrast");
-        }
-      } else {
-        const body = document.querySelector('body');
-        body.classList.remove("contrast");
-      }
-    }
   
     return (
-      <div className="trend-table-container" onLoad={() => loadCurrentMode()}>
-      <button onClick={highContrastMode}>test</button>
+      <div className="trend-table-container">
         <table className="trend-table">
           {renderTableHeader()}
           {renderTableBody()}

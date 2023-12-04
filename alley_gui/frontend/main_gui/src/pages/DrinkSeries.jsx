@@ -130,6 +130,12 @@ const DrinkSeries = () => {
       body.classList.remove("contrast");
     }
   };
+  function getImage(name) {
+    name = "/drink_images/" + name;
+    name += ".png";
+    const words = name.split(" ");
+    return words.join("_");
+  }
 
   useEffect(() => {
     const drinkSeries = async () => {
@@ -163,8 +169,6 @@ const DrinkSeries = () => {
             <button
               key={index}
               onClick={() => getDrinkSeries(category.category)}
-              onMouseOver={(e) => handleHover(e, isHoverEnabled)}
-              onMouseOut={handleMouseOut}
             >
               {capitalizeName(category.category, "_")}
             </button>
@@ -184,8 +188,6 @@ const DrinkSeries = () => {
               alt={capitalizeName(drink.name, " ")}
               id={drink.name}
               onClick={() => buildDrink(drink.name, drink.drink_id, drink.cost)}
-              onMouseOver={(e) => handleHover(e, isHoverEnabled)}
-              onMouseOut={handleMouseOut}
             >
               <img
                 class="drink-square"
@@ -201,15 +203,8 @@ const DrinkSeries = () => {
         <p id="currentTotalCost" className="total">
           {getCurrentTotal()}
         </p>
-        <button
-          onClick={viewCartFromDrinkSeries}
-          onMouseOver={(e) => handleHover(e, isHoverEnabled)}
-          onMouseOut={handleMouseOut}
-        >
-          View Cart
-        </button>
+        <button onClick={viewCartFromDrinkSeries}>View Cart</button>
       </div>
-      <TextToSpeech isHoverEnabled={isHoverEnabled} toggleHover={toggleHover} />
     </div>
   );
 };

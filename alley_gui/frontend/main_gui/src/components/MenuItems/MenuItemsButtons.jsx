@@ -102,7 +102,7 @@ const MenuItemsButtons = ({ onReload }) => {
     ) {
       e.preventDefault();
       axios
-        .post("http://localhost:4000/addDrink", values)
+        .post("https://thealley.onrender.com/addDrink", values)
         .then((res) => {
           if (res.data.status === "success") {
             console.log(res.data.message);
@@ -193,7 +193,7 @@ const MenuItemsButtons = ({ onReload }) => {
     if (values.drinkName != "" && values.drinkID != "") {
       e.preventDefault();
       axios
-        .post("http://localhost:4000/updateMenuItemName", values)
+        .post("https://thealley.onrender.com/updateMenuItemName", values)
         .then((res) => {
           const rowCountTwo = res.data.rowCount;
           if (res.data.status === "success") {
@@ -212,7 +212,7 @@ const MenuItemsButtons = ({ onReload }) => {
     if (values.drinkCost != "" && values.drinkID != "") {
       e.preventDefault();
       axios
-        .post("http://localhost:4000/updateMenuItemCost", values)
+        .post("https://thealley.onrender.com/updateMenuItemCost", values)
         .then((res) => {
           const rowCountTwo = res.data.rowCount;
           if (res.data.status === "success") {
@@ -231,7 +231,7 @@ const MenuItemsButtons = ({ onReload }) => {
     if (values.drinkCategory != "" && values.drinkID != "") {
       e.preventDefault();
       axios
-        .post("http://localhost:4000/updateMenuItemCategory", values)
+        .post("https://thealley.onrender.com/updateMenuItemCategory", values)
         .then((res) => {
           const rowCountTwo = res.data.rowCount;
           if (res.data.status === "success") {
@@ -256,7 +256,7 @@ const MenuItemsButtons = ({ onReload }) => {
     if (values.drinkID != "") {
       e.preventDefault();
       axios
-        .post("http://localhost:4000/deleteDrink", values)
+        .post("https://thealley.onrender.com/deleteDrink", values)
         .then((res) => {
           const rowCountTwo = res.data.rowCount;
           if (res.data.status === "success") {
@@ -287,7 +287,7 @@ const MenuItemsButtons = ({ onReload }) => {
     ) {
       e.preventDefault();
       axios
-        .post("http://localhost:4000/addAddOn", values)
+        .post("https://thealley.onrender.com/addAddOn", values)
         .then((res) => {
           if (res.data.status === "success") {
             console.log(res.data.message);
@@ -318,7 +318,7 @@ const MenuItemsButtons = ({ onReload }) => {
     if (values.addOnID != "" && values.addOnCost != "") {
       e.preventDefault();
       axios
-        .post("http://localhost:4000/updateAddOnCost", values)
+        .post("https://thealley.onrender.com/updateAddOnCost", values)
         .then((res) => {
           const rowCountTwo = res.data.rowCount;
           if (res.data.status === "success") {
@@ -337,7 +337,7 @@ const MenuItemsButtons = ({ onReload }) => {
     if (values.addOnID != "" && values.addOnName != "") {
       e.preventDefault();
       axios
-        .post("http://localhost:4000/updateAddOnName", values)
+        .post("https://thealley.onrender.com/updateAddOnName", values)
         .then((res) => {
           const rowCount = res.data.rowCount;
           if (res.data.status === "success") {
@@ -361,7 +361,7 @@ const MenuItemsButtons = ({ onReload }) => {
     if (values.addOnID != "") {
       e.preventDefault();
       axios
-        .post("http://localhost:4000/deleteAddOn", values)
+        .post("https://thealley.onrender.com/deleteAddOn", values)
         .then((res) => {
           const rowCount = res.data.rowCount;
           if (res.data.status === "success") {

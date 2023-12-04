@@ -54,21 +54,6 @@ const Menu = () => {
     window.location.href = "/";
   };
 
-  //   const navigateToMenuAddons = () => {
-  //     var currLocation = window.location.href;
-  //     window.location.href = currLocation.replace("Menu", "MenuAddOns");
-  //   };
-  function getImage(name) {
-    name = "/drink_images/" + name;
-    name += ".png";
-    const words = name.split(" ");
-    return words.join("_");
-  }
-
-  //   const returnHome = () => {
-  //     window.location.href = "/";
-  //   };
-
   const navigateToMenuAddons = () => {
     var currLocation = window.location.href;
     window.location.href = currLocation.replace("Menu", "MenuAddOns");
@@ -121,8 +106,8 @@ const Menu = () => {
   }, []);
 
   return (
-    <div>
-      <h1 className="menu-title">Step 1: Choose Your Drink</h1>
+    <div onLoad={() => loadCurrentMode()}>
+      <button onClick={highContrastMode}>test</button>
       <button className="home-button" onClick={returnHome}>
         <img src={HomeButton} alt="home" />
       </button>
@@ -131,12 +116,7 @@ const Menu = () => {
       </button>
       <div className="drink-panel">
         {Object.keys(drinks).map((category) => (
-          <div
-            class="category-panel"
-            key={category}
-            onMouseOver={(e) => handleHover(e, isHoverEnabled)}
-            onMouseOut={handleMouseOut}
-          >
+          <div class="category-panel" key={category}>
             <h2 class="category-title"> {capitalizeName(category, "_")} </h2>
             {drinks[category].map((drink) => (
               <div class="drink-entry" key={drink}>
@@ -154,7 +134,6 @@ const Menu = () => {
           </div>
         ))}
       </div>
-      <TextToSpeech isHoverEnabled={isHoverEnabled} toggleHover={toggleHover} />
     </div>
   );
 };

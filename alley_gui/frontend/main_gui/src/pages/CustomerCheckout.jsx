@@ -71,16 +71,10 @@ const Checkout = () => {
         </h1>
       </div>
       <div className="new-order">
-        <button
-          onClick={makeNewOrder}
-          className="confirmation"
-          onMouseOver={(e) => handleHover(e, isHoverEnabled)}
-          onMouseOut={handleMouseOut}
-        >
+        <button onClick={makeNewOrder} className="confirmation">
           New Order
         </button>
       </div>
-      <TextToSpeech isHoverEnabled={isHoverEnabled} toggleHover={toggleHover} />
     </div>
   );
 };

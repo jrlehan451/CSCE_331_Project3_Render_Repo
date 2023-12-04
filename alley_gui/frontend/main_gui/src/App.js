@@ -26,6 +26,9 @@ import AddOn from "./components/AddOn";
 import OrderSummary from "./components/OrderSummary";
 import MakeNewOrder from "./components/MakeNewOrder";
 import backIcon from './pages/images/magnifyingGlass.png'; 
+import contrastIcon from './pages/images/contrast.png';
+import translateIcon from './pages/images/translate.png';
+import speechIcon from './pages/images/speech.jpg';
 import TextToSpeech from "./components/TextToSpeech";
 
 //BrowserRouter basename="/tutorial"> for
@@ -91,15 +94,41 @@ function App() {
     return words.join(" ");
   }
 
+  const highContrastMode = () => {
+    const body = document.querySelector('body');
+    if (body.classList.contains("contrast")) {
+      body.classList.remove("contrast");
+      document.body.style.backgroundColor = '#ffefe2';
+      localStorage.setItem("high_contrast_mode", false);
+    } else {
+      body.classList.add("contrast");
+      document.body.style.backgroundColor = 'black';
+      localStorage.setItem("high_contrast_mode", true);
+    }
+  }
+
+  const loadCurrentMode = () => {
+    if (localStorage.getItem("high_contrast_mode") === true) {
+      const body = document.querySelector('body');
+      if (body.classList.contains("contrast") === false) {
+        body.classList.add("contrast");
+        document.body.style.backgroundColor = 'black';
+      }
+    } else {
+      const body = document.querySelector('body');
+      body.classList.remove("contrast");
+      document.body.style.backgroundColor = '#ffefe2';
+    }
+  }
+
   const isHomePage = location.pathname === "/";
   return (
-    <div className="App">
+    <div className="App" onLoad={loadCurrentMode}>
       <div
         className={`cursor ${magnify ? 'magnify' : ''}`}
         style={{left: `${mousePosition.x - 80}px`,top: `${mousePosition.y - 80}px`}}
       />
       
-      <LanguageSelect></LanguageSelect>
       {isHomePage && <Login />}
       {/* This is used for making connection between backend and frontend commented
       out for github release
@@ -151,6 +180,16 @@ function App() {
       <button className="toggle" onClick={toggleMagnify}>
         <img src = {backIcon} className="image" />
         {magnify}
+      </button>
+      <button className="high-contrast" onClick={highContrastMode}>
+        <img src = {contrastIcon} className="image" />
+      </button>
+      <button className="translate">
+        <img src = {translateIcon} className="image" />
+        <LanguageSelect></LanguageSelect>
+      </button>
+      <button className="speech">
+        <img src = {speechIcon} className="image" />
       </button>
     </div>
   );
