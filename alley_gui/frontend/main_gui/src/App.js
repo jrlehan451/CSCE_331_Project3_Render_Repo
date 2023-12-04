@@ -24,7 +24,7 @@ import AddDrink from "./components/AddDrink";
 import AddOn from "./components/AddOn";
 import OrderSummary from "./components/OrderSummary";
 import MakeNewOrder from "./components/MakeNewOrder";
-
+import backIcon from './pages/images/magnifyingGlass.png'; 
 //BrowserRouter basename="/tutorial"> for
 function App() {
   const [name, setName] = useState("");
@@ -34,24 +34,6 @@ function App() {
     y:0
   });
   const [magnify, setMagnify] = useState(false);
-
-
-  // useEffect(() =>{
-  //   const mouseMove = e => {
-  //     setMousePosition({
-  //       x: e.clientX,
-  //       y: e.clientY
-  //     })
-
-
-  //   }
-  //   const shouldMagnify = false/* your condition here */;
-  //   setMagnify(shouldMagnify);
-  //   window.addEventListener("mousemove", mouseMove);
-  //   return () => {
-  //     window.removeEventListener("mousemove", mouseMove);
-  //   }
-  // })
 
   useEffect(() => {
     const mouseMove = (e) => {
@@ -73,12 +55,6 @@ function App() {
   }, []);
 
   const toggleMagnify = () => {
-    // if(setMagnify){
-    //   setMagnify(false);
-    // }
-    // else{
-    //   setMagnify(true);
-    // }
     setMagnify(!magnify);
   };
 
@@ -152,14 +128,10 @@ function App() {
         <Route path="/AddOn" element={<AddOn capitalizeName={capitalizeName} />} />
         <Route path="/OrderSummary" element={<OrderSummary/>} />
         <Route path="/MakeNewOrder" element={<MakeNewOrder/>} />
-
-        {/*<Route path="/menu" element={<MenuView />} />
-        <Route path="/cashier" element={<CashierView />} />
-
-        <Route path="/customer" element={<CustomerView />} /> */}
       </Routes>
-      <button onClick={toggleMagnify}>
-        {magnify ? 'Disable Magnification' : 'Enable Magnification'}
+      <button className="toggle" onClick={toggleMagnify}>
+        <img src = {backIcon} className="image" />
+        {magnify}
       </button>
     </div>
   );

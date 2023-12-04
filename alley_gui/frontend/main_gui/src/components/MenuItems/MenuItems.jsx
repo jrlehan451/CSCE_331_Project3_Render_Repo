@@ -35,9 +35,7 @@ const MenuItems = () => {
           <div className="title">
             <h1>Menu Items</h1>
           </div>
-          {/* <button onClick={toggleMagnifier}>
-            {isMagnifierEnabled ? "Disable Magnifier" : "Enable Magnifier"}
-          </button> */}
+          
           <div className="tablesContainer">
             <MenuItemsTable reloadTable={reloadTable}/>
             <MenuItemsButton onReload={handleTableReload}/>

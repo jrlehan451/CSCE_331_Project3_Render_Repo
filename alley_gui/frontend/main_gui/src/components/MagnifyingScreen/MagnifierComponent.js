@@ -1,25 +1,3 @@
-// // MagnifierComponent.js
-// import React from 'react';
-// import { useMagnifier } from './MagnifierContext';
-// import './MagnifierComponent.css';
-
-// const MagnifierComponent = () => {
-//   const { isMagnifying, toggleMagnifying } = useMagnifier();
-//   const handleClick = () => {
-//     console.log('Toggle button clicked!');
-//     toggleMagnifying();
-//   };
-//   return (
-//     <>
-//       <button onClick={handleClick}>Toggle Magnifier</button>
-//       <div className={`cursor ${isMagnifying ? 'magnifying' : ''}`} />
-//     </>
-//   );
-// };
-
-// export default MagnifierComponent;
-
-
 import React, { useState, createContext } from "react";
 
 export const MagnifierContext = createContext();
