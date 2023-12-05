@@ -110,7 +110,7 @@ const DrinkSeries = () => {
                     ))}
                     {drinkSeriesItems.map((drink, index) => (
                         <button key={index} alt={capitalizeName(drink.name, ' ')} id={drink.name} onClick={() => buildDrink(drink.name, drink.drink_id, drink.cost)}>
-                        <img class="drink-square" src={getImage(drink.category)} alt={capitalizeName(drink.name, ' ')} />
+                        <img class ="drink-square" src={getImage(drink.category)} alt={capitalizeName(drink.name, ' ')} onError={(e) => {e.target.src = "/drink_images/placeholder.png"}} />                             
                         {capitalizeName(drink.name, " ")}
                         </button>
                     ))}

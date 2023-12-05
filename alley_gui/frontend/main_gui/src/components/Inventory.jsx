@@ -106,7 +106,7 @@ const Inventory = () => {
       console.log("isHoverEnabled is false");
 
       const cellContent = params.value.toString();
-      console.log("Cell Content:", cellContent);
+      //console.log("Cell Content:", cellContent);
 
       // Call the handleHover function to initiate text-to-speech
       handleTableFieldSpeech(cellContent);
@@ -123,7 +123,7 @@ const Inventory = () => {
         );
         const jsonVals = await response.data;
         console.log("Working");
-        console.log(jsonVals.data.table);
+        //console.log(jsonVals.data.table);
         const rowsWithId = jsonVals.data.table.rows.map(
           (item, ingredient_id) => ({
             id: ingredient_id,
@@ -280,16 +280,28 @@ const Inventory = () => {
     }
   };
 
-  
+
   const recommendedAdjHandle = async (e) => {
-    //Find recommended reductions
-      // Find all orders in that day (in orders table) and save array of order_id
-      // Find all the drink id and number (in drink_orders table) and save information
-      // Get a list of all the ingredients used in each drink (in base_drink_ingredients table)
-      // Cound how many ingredients where used in total
-    //Apply recommended reductions
-      // Update the inventory page with the ingridients changes
-  }
+    e.preventDefault();
+    console.log("Entered recommend adj handle");
+  
+    try {
+      const inventoryResponse = await axios.get(
+        "https://thealley.onrender.com/recommendation_adj"
+        //"http://localhost:4000/recommendation_adj"
+      );
+      const inventoryData = inventoryResponse.data;
+  
+      // Do something with inventoryData if needed
+      console.log("Received inventory data:", inventoryData);
+      console.log("Old Counts Map:", inventoryData.oldCountsMap);
+      console.log("The message is:", inventoryData.message);
+      // If there are specific properties in the response data you need, you can access them like:
+    } catch (error) {
+      console.error("Error during item deletion:", error);
+    }
+  };
+
 
   const [inputErrors, setInputErrors] = useState({
     itemId: false,
@@ -543,6 +555,7 @@ const Inventory = () => {
               </CustomButton>
 
               <CustomButton
+                onClick={updateHandleSubmit}
                 onMouseOver={(e) => handleHover(e, isHoverEnabled)}
                 onMouseOut={handleMouseOut}
               >
@@ -551,6 +564,7 @@ const Inventory = () => {
             </div>
 
             <CustomButton
+              onClick={recommendedAdjHandle}
               onMouseOver={(e) => handleHover(e, isHoverEnabled)}
               onMouseOut={handleMouseOut}
               style={{ width: "90%" }}
