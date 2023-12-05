@@ -28,7 +28,10 @@ import {
 import "./MenuItems/MenuItems.css";
 
 //import axios from "axios"; // Make sure to import axios for HTTP requests
-const Inventory = () => {
+const Inventory = (props) => {
+  const { isHoverEnabled, handleToggleHover } = props;
+  const [isHoverEnabledState, setIsHoverEnabled] = useState(false)
+
   const toggleHover = () => {
     setIsHoverEnabled((prevIsHoverEnabled) => !prevIsHoverEnabled);
   };
@@ -74,7 +77,6 @@ const Inventory = () => {
   const [checkedItems, setCheckedItems] = useState({});
   const [data, setData] = useState([]);
   const [openPopup, setOpenPopup] = useState(false);
-  const [isHoverEnabled, setIsHoverEnabled] = useState(false);
 
   const [popupData, setPopupData] = useState([]);
   const [values, setValues] = useState({
@@ -440,7 +442,7 @@ const Inventory = () => {
                   helperText={
                     inputErrors.itemId ? "Please enter a valid integer" : ""
                   }
-                  onMouseOver={() =>
+                  onMouseOver={() => isHoverEnabled &&
                     handleTextFieldSpeech("Item ID", values.itemId.toString())
                   }
                   onMouseOut={handleMouseOut}
@@ -456,7 +458,7 @@ const Inventory = () => {
                   onChange={(e) =>
                     setValues({ ...values, name: e.target.value })
                   }
-                  onMouseOver={() => handleTextFieldSpeech("Name", values.name)}
+                  onMouseOver={() => isHoverEnabled && handleTextFieldSpeech("Name", values.name)}
                   onMouseOut={handleMouseOut}
                 />
               </FormControl>
@@ -474,7 +476,7 @@ const Inventory = () => {
                   helperText={
                     inputErrors.amount ? "Please enter a valid integer" : ""
                   }
-                  onMouseOver={() =>
+                  onMouseOver={() => isHoverEnabled &&
                     handleTextFieldSpeech("Amount", values.amount.toString())
                   }
                   onMouseOut={handleMouseOut}
@@ -490,7 +492,7 @@ const Inventory = () => {
                   onChange={(e) =>
                     handleNumberInputChange(e, "quantityPerUnit")
                   }
-                  onMouseOver={() =>
+                  onMouseOver={() => isHoverEnabled &&
                     handleTextFieldSpeech(
                       "Quantity Per Unit",
                       values.quantityPerUnit
@@ -571,10 +573,6 @@ const Inventory = () => {
             >
               Apply Recommended Adjustments
             </CustomButton>
-            <TextToSpeech
-              isHoverEnabled={isHoverEnabled}
-              toggleHover={toggleHover}
-            />
           </div>
         </div>
       </div>

@@ -4,7 +4,37 @@ import TrendTable from "../components/TrendTable";
 import HomeButton from './images/HomeButton.png';
 import arrow from './images/back_arrow.png';
 import './AnalyzeTrends.css'
-const AnalyzeTrends = () => {
+import {
+  handleHover,
+  handleMouseOut,
+  handleTextFieldSpeech,
+  handleTableFieldSpeech,
+} from "../components/SpeechUtils";
+
+const AnalyzeTrends = (props) => {
+  const { isHoverEnabled, handleToggleHover } = props;
+  const [isHoverEnabledState, setIsHoverEnabled] = useState(false); // Add this line
+
+  const toggleHover = () => {
+    setIsHoverEnabled((prevIsHoverEnabled) => !prevIsHoverEnabled);
+    //handleToggleHover();
+  };
+
+  const handleGridCellHover = (params) => {
+    console.log("igredient handleGridCellHover is called!");
+
+    if (isHoverEnabled) {
+      console.log("isHoverEnabled is false");
+
+      const cellContent = params.value.toString();
+      console.log("Cell Content:", cellContent);
+
+      // Call the handleHover function to initiate text-to-speech
+      handleTableFieldSpeech(cellContent);
+      //handleTableFieldSpeech("This is a test");
+    }
+  };
+
     const [selectedTrend, setSelectedTrend] = useState('Excess Report');
     const [startTimestamp, setStartTimestamp] = useState('');
     const [endTimestamp, setEndTimestamp] = useState(getCurrentDate());
@@ -12,6 +42,7 @@ const AnalyzeTrends = () => {
     const [tableData, setTableData] = useState([]);
     const [table2Data, setTable2Data] = useState([]);
     const [isExcessReport, setIsExcessReport] = useState(true);
+
     useEffect(() => {
       if(selectedTrend === 'Excess Report'){
         setIsExcessReport(true);
@@ -89,27 +120,58 @@ const AnalyzeTrends = () => {
     return (
       <div>
       <div>
-        <h1 className="trendsTitle">Analyze Trends</h1>
-        <button className="home-button" onClick={returnHome}> 
+        <h1
+          className="trendsTitle"
+          onMouseOver={(e) => handleHover(e, isHoverEnabled)}
+          onMouseOut={handleMouseOut}
+        >
+          Analyze Trends
+        </h1>
+        <button
+          className="home-button"
+          onClick={returnHome}
+          onMouseOver={(e) => handleHover(e, isHoverEnabled)}
+          onMouseOut={handleMouseOut}
+        > 
             <img src={HomeButton} alt="home" />
         </button>
-        <button className="backButton" onClick={returnToManager}>
-            <img src={arrow} alt="arrow" />
+        <button
+          className="backButton"
+          onClick={returnToManager}
+          onMouseOver={(e) => handleHover(e, isHoverEnabled)}
+          onMouseOut={handleMouseOut}
+        >
+          <img src={arrow} alt="Back" />
         </button>
         
         <div class = "selection">
-          <label htmlFor="trend-choice">Select a Trend:</label>
-          <select id="trend-choice" value={selectedTrend}onChange={(e) => setSelectedTrend(e.target.value)}>
+          <label
+            htmlFor="trend-choice"
+            onMouseOver={(e) => handleHover(e, isHoverEnabled)}
+            onMouseOut={handleMouseOut}
+          >
+            Select a Trend:
+          </label>
+          <select id="trend-choice" value={selectedTrend}onChange={(e) => setSelectedTrend(e.target.value)} onMouseOver={(e) => handleHover(e, isHoverEnabled)} onMouseOut={handleMouseOut} >
             <option value="Excess Report">Excess Report</option>
             <option value="Menu Item Popularity Analysis">Menu Item Popularity Analysis</option>
             <option value="Restock Report">Restock Report</option>
             <option value="Sales Report">Sales Report</option>
             <option value="What Sales Together">What Sales Together</option>
           </select>
-          <button class="GoButton" onClick={generateTrend}>Go</button>
+          <button
+            class="GoButton"
+            onClick={generateTrend}
+            onMouseOver={(e) => handleHover(e, isHoverEnabled)}
+            onMouseOut={handleMouseOut}
+          >Go</button>
           {selectedTrend === 'Menu Item Popularity Analysis' && (
             <div className="number-input-section">
-              <label htmlFor="number">Number:</label>
+              <label 
+                htmlFor="number" 
+                onMouseOver={(e) => handleHover(e, isHoverEnabled)}
+                onMouseOut={handleMouseOut}
+                >Number:</label>
               <input type="number" id="number" placeholder="Enter a number" value={number} onChange={(e) => setNumber(e.target.value)} min="1"/>
             </div>
           )}
@@ -117,14 +179,26 @@ const AnalyzeTrends = () => {
         <div className="timestamp-section">
           {selectedTrend !== 'Restock Report' && (
             <div className="start-timestamp-section">
-              <label htmlFor="start-timestamp">Start Time:</label>
+              <label
+                htmlFor="start-timestamp"
+                onMouseOver={(e) => handleHover(e, isHoverEnabled)}
+                onMouseOut={handleMouseOut}
+              >
+                Start Time:
+              </label>
               <input type="text" id="start-timestamp" placeholder="YYYY:MM:DD HH:MM:SS" value={startTimestamp} onChange={(e) => setStartTimestamp(e.target.value)} />
             </div>
           )}
           
           {selectedTrend !== 'Restock Report' && (
             <div className="end-timestamp-section">
-              <label htmlFor="end-timestamp">End Time:</label>
+              <label
+                htmlFor="end-timestamp"
+                onMouseOver={(e) => handleHover(e, isHoverEnabled)}
+                onMouseOut={handleMouseOut}
+              >
+                End Time:
+              </label>
               <input type="text" id="end-timestamp" placeholder="YYYY:MM:DD HH:MM:SS" value={endTimestamp} readOnly={isExcessReport} style={{ backgroundColor: isExcessReport ? '#D3D3D3' : '#FFF' }} onChange={(e) => setEndTimestamp(e.target.value)}/>
             </div>
           )}

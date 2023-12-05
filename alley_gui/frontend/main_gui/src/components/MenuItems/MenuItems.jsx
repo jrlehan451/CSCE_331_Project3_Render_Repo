@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import { DataGrid, GridColDef, GridValueGetterParams } from "@mui/x-data-grid";
-//import { MagnifierContext } from '../MagnifyingScreen/MagnifierComponent';
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { Box, FormControl, InputLabel, TextField } from "@mui/material";
 import MenuItemsTable from "./MenuItemsTable";
@@ -20,7 +19,7 @@ import {
   handleTableFieldSpeech,
 } from "../SpeechUtils";
 
-const MenuItems = () => {
+const MenuItems = ({ isHoverEnabled, setIsHoverEnabled }) => {
   //Constant used to reload tables after function
   const [reloadTable, setReloadTable] = useState(false);
 
@@ -50,8 +49,16 @@ const MenuItems = () => {
         
       </div>
       <div className="tablesContainer">
-        <MenuItemsTable reloadTable={reloadTable} />
-        <MenuItemsButton onReload={handleTableReload} />
+      <MenuItemsTable
+          reloadTable={reloadTable}
+          isHoverEnabled={isHoverEnabled}
+          setIsHoverEnabled={setIsHoverEnabled}
+        />
+        <MenuItemsButton
+          onReload={handleTableReload}
+          isHoverEnabled={isHoverEnabled}
+          setIsHoverEnabled={setIsHoverEnabled}
+        />
       </div>
       
     </div>
