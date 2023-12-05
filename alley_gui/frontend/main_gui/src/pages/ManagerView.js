@@ -6,6 +6,8 @@ import { ThemeProvider } from "@mui/material/styles";
 import Stack from "@mui/material/Stack";
 import { theme } from "../theme";
 import HomeButton from './images/HomeButton.png';
+import {useAuth0} from '@auth0/auth0-react';
+
 
 const CustomButton = styled(ListItemButton)(({ theme }) => ({
   backgroundColor: "#8b9477",
@@ -20,9 +22,10 @@ const CustomButton = styled(ListItemButton)(({ theme }) => ({
 }));
 
 const ManagerView = () => {
+  const {logout} = useAuth0();
 
   const returnHome = () => {
-    window.location.href = "/";
+    logout({ logoutParams: { returnTo: window.location.origin } })
   };
   
   return (

@@ -1,10 +1,8 @@
 import React,  { useState, useEffect} from 'react';
 import axios from "axios";
 import TrendTable from "../components/TrendTable";
-import HomeButton from './images/HomeButton.png';
 import arrow from './images/back_arrow.png';
 import './AnalyzeTrends.css'
-import {useAuth0} from '@auth0/auth0-react';
 import {
   handleHover,
   handleMouseOut,
@@ -43,7 +41,6 @@ const AnalyzeTrends = (props) => {
     const [tableData, setTableData] = useState([]);
     const [table2Data, setTable2Data] = useState([]);
     const [isExcessReport, setIsExcessReport] = useState(true);
-    const {logout} = useAuth0();
 
     useEffect(() => {
       if(selectedTrend === 'Excess Report'){
@@ -109,10 +106,6 @@ const AnalyzeTrends = (props) => {
       return words.join('');
     };
 
-    const returnHome = () => {
-      logout({ logoutParams: { returnTo: window.location.origin } })
-    };
-
     const returnToManager = () =>{
       var currLocation = window.location.href;
       window.location.href = currLocation.replace("AnalyzeTrends", "Manager");
@@ -135,14 +128,6 @@ const AnalyzeTrends = (props) => {
         >
           Analyze Trends
         </h1>
-        <button
-          className="home-button"
-          onClick={returnHome}
-          onMouseOver={(e) => handleHover(e, isHoverEnabled)}
-          onMouseOut={handleMouseOut}
-        > 
-            <img src={HomeButton} alt="home" />
-        </button>
         <button
           className="backButton"
           onClick={returnToManager}
