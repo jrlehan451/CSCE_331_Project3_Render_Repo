@@ -10,7 +10,8 @@ const CustomerHome = () => {
     const {logout} = useAuth0();
 
     const returnHome = () => {
-      logout({ logoutParams: { returnTo: window.location.origin } })
+        sessionStorage.setItem("Role", "");
+        logout({ logoutParams: { returnTo: window.location.origin } })
     };
 
     const getCurrentTotal = () => {
