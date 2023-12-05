@@ -390,8 +390,8 @@ const MenuItemsButtons = ({ onReload, isHoverEnabled, handleToggleHover }) => {
         {/* Three text boxes */}
         <div className="textboxContainer">
           <div>
-            <InputLabel htmlFor="drinkIdButton">Drink ID</InputLabel>
-            <FormControl>
+            <InputLabel className="managerLabel" htmlFor="drinkIdButton">Drink ID</InputLabel>
+            <FormControl className="managerForm">
               <TextField
                 id="drinkIDButton"
                 variant="filled"
@@ -410,8 +410,8 @@ const MenuItemsButtons = ({ onReload, isHoverEnabled, handleToggleHover }) => {
             </FormControl>
           </div>
           <div>
-            <InputLabel htmlFor="drinkNameButton">Name</InputLabel>
-            <FormControl>
+            <InputLabel className="managerLabel" htmlFor="drinkNameButton">Name</InputLabel>
+            <FormControl className="managerForm">
               <TextField
                 id="drinkNameButton"
                 variant="filled"
@@ -424,8 +424,8 @@ const MenuItemsButtons = ({ onReload, isHoverEnabled, handleToggleHover }) => {
             </FormControl>
           </div>
           <div>
-            <InputLabel htmlFor="drinkCostButton">Cost</InputLabel>
-            <FormControl>
+            <InputLabel className="managerLabel" htmlFor="drinkCostButton">Cost</InputLabel>
+            <FormControl className="managerForm">
               <TextField
                 id="drinkCostButton"
                 variant="filled"
@@ -444,8 +444,8 @@ const MenuItemsButtons = ({ onReload, isHoverEnabled, handleToggleHover }) => {
             </FormControl>
           </div>
           <div>
-            <InputLabel htmlFor="drinkCategoryButton">Category</InputLabel>
-            <FormControl>
+            <InputLabel className="managerLabel" htmlFor="drinkCategoryButton">Category</InputLabel>
+            <FormControl className="managerForm">
               <TextField
                 id="drinkCategoryButton"
                 variant="filled"
@@ -465,6 +465,7 @@ const MenuItemsButtons = ({ onReload, isHoverEnabled, handleToggleHover }) => {
         {/* Three buttons */}
         <div style={{ display: "flex", gap: "5px" }}>
           <CustomButton
+            className="managerButton"
             onClick={handleAddDrink}
             onMouseOver={(e) => handleHover(e, isHoverEnabled)}
             onMouseOut={handleMouseOut}
@@ -472,6 +473,7 @@ const MenuItemsButtons = ({ onReload, isHoverEnabled, handleToggleHover }) => {
             Add Drink{" "}
           </CustomButton>
           <CustomButton
+            className="managerButton"
             onClick={handleUpdateDrink}
             onMouseOver={(e) => handleHover(e, isHoverEnabled)}
             onMouseOut={handleMouseOut}
@@ -479,6 +481,7 @@ const MenuItemsButtons = ({ onReload, isHoverEnabled, handleToggleHover }) => {
             Update Drink
           </CustomButton>
           <CustomButton
+            className="managerButton"
             onClick={handleDeleteDrink}
             onMouseOver={(e) => handleHover(e, isHoverEnabled)}
             onMouseOut={handleMouseOut}
@@ -493,8 +496,8 @@ const MenuItemsButtons = ({ onReload, isHoverEnabled, handleToggleHover }) => {
         {/* Three text boxes */}
         <div className="textboxContainer">
           <div>
-            <InputLabel htmlFor="addOnIdButton">Add On ID</InputLabel>
-            <FormControl>
+            <InputLabel className="managerLabel" htmlFor="addOnIdButton">Add On ID</InputLabel>
+            <FormControl className="managerForm">
               <TextField
                 id="addOnIdButton"
                 variant="filled"
@@ -513,8 +516,8 @@ const MenuItemsButtons = ({ onReload, isHoverEnabled, handleToggleHover }) => {
             </FormControl>
           </div>
           <div>
-            <InputLabel htmlFor="addOnNameButton">Add On Name</InputLabel>
-            <FormControl>
+            <InputLabel className="managerLabel" htmlFor="addOnNameButton">Add On Name</InputLabel>
+            <FormControl className="managerForm">
               <TextField
                 id="addOnNameButton"
                 variant="filled"
@@ -529,8 +532,8 @@ const MenuItemsButtons = ({ onReload, isHoverEnabled, handleToggleHover }) => {
             </FormControl>
           </div>
           <div>
-            <InputLabel htmlFor="addOnCostButton">Add On Cost</InputLabel>
-            <FormControl>
+            <InputLabel className="managerLabel" htmlFor="addOnCostButton">Add On Cost</InputLabel>
+            <FormControl className="managerForm">
               <TextField
                 id="addOnCostButton"
                 variant="filled"
@@ -561,6 +564,7 @@ const MenuItemsButtons = ({ onReload, isHoverEnabled, handleToggleHover }) => {
         />
         <div style={{ display: "flex", gap: "5px" }}>
           <CustomButton
+            className="managerButton"
             onClick={handleAddAddOn}
             onMouseOver={(e) => handleHover(e, isHoverEnabled)}
             onMouseOut={handleMouseOut}
@@ -568,6 +572,7 @@ const MenuItemsButtons = ({ onReload, isHoverEnabled, handleToggleHover }) => {
             Add Add On{" "}
           </CustomButton>
           <CustomButton
+            className="managerButton"
             onClick={handleUpdateAddOn}
             onMouseOver={(e) => handleHover(e, isHoverEnabled)}
             onMouseOut={handleMouseOut}
@@ -575,6 +580,7 @@ const MenuItemsButtons = ({ onReload, isHoverEnabled, handleToggleHover }) => {
             Update Add On
           </CustomButton>
           <CustomButton
+            className="managerButton"
             onClick={handleDeleteAddOn}
             onMouseOver={(e) => handleHover(e, isHoverEnabled)}
             onMouseOut={handleMouseOut}
