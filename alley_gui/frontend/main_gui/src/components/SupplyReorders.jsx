@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { DataGrid } from "@mui/x-data-grid";
-import { theme } from "../theme";
-import { ThemeProvider } from "@mui/material/styles";
 import {
   ListItemButton,
   styled,
@@ -365,17 +363,10 @@ const SupplyReorders = (props) => {
   };
 
   return (
-    <ThemeProvider theme={theme}>
+    <div>
       <NavBar />
 
-      <div
-        style={{
-          backgroundColor: theme.palette.primary.main,
-          display: "flex",
-          flexDirection: "column",
-          height: "100vh",
-        }}
-      >
+      <div class="managerWrapper supplyReorder">
         <div class="tablesInfo">
           <div style={{ flex: 1, overflow: "auto", height: "65vh" }}>
             <DataGrid
@@ -570,7 +561,7 @@ const SupplyReorders = (props) => {
           </Dialog>
         </div>
       </div>
-    </ThemeProvider>
+    </div>
   );
 };
 
