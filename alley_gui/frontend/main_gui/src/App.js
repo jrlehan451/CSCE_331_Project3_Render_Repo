@@ -138,10 +138,10 @@ function App() {
       />
 
       {isHomePage && <Login />}
-      <Inventory
+      {/* <Inventory
         isHoverEnabled={isHoverEnabled}
         handleToggleHover={handleToggleHover}
-      />
+      /> */}
 
       {/* This is used for making connection between backend and frontend commented
       out for github release
@@ -156,7 +156,15 @@ function App() {
       {home} */}
       <Routes>
         <Route path="/AnalyzeTrends" element={<AnalyzeTrends />} />
-        <Route path="/Inventory" element={<Inventory />} />
+        <Route
+          path="/Inventory"
+          element={
+            <Inventory
+              isHoverEnabled={isHoverEnabled}
+              handleToggleHover={handleToggleHover}
+            />
+          }
+        />
         <Route path="/Ingredients" element={<Ingredients />} />
         <Route path="/MenuItems" element={<MenuItems />} />
         <Route path="/SupplyReorder" element={<SupplyReorder />} />
