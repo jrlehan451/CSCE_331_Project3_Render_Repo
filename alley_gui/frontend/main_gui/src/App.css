@@ -207,6 +207,10 @@
   flex-direction: column;
 }
 
+.supplyReorder {
+  height: 100vh;
+}
+
 .contrast .managerBox {
   background-color: black;
 }
@@ -215,6 +219,32 @@
   background-color: black;
 }
 
-.supplyReorder {
-  height: 100vh;
+.contrast .managerLink {
+  background-color: #d7f2a6;
+}
+
+.contrast .managerButton {
+  background-color: black;
+  border: 2px solid #f0d589;
+  color: #f0d589;
+}
+
+.contrast .managerLabel {
+  color: #d7f2a6;
+}
+
+.contrast .tablesInfo p, .contrast .tablesInfo div, .contrast .tablesInfo svg {
+  color: #d7f2a6;
+}
+
+.contrast .managerForm input {
+  color: white;
+}
+
+.contrast .managerForm div {
+  background-color: #f0d589;
+}
+
+.contrast .managerHeader {
+  color: white;
 }

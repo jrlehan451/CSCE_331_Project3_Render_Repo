@@ -41,19 +41,19 @@ const ManagerView = () => {
             height: "100%",
           }}
         >
-          <CustomButton Link to="/AnalyzeTrends">
+          <CustomButton className="managerLink" Link to="/AnalyzeTrends">
             Analyze Trends
           </CustomButton>
-          <CustomButton Link to="/Inventory">
+          <CustomButton className="managerLink" Link to="/Inventory">
             Inventory
           </CustomButton>
-          <CustomButton Link to="/Ingredients">
+          <CustomButton className="managerLink" Link to="/Ingredients">
             Ingredients
           </CustomButton>
-          <CustomButton Link to="/MenuItems">
+          <CustomButton className="managerLink" Link to="/MenuItems">
             Menu Items
           </CustomButton>
-          <CustomButton Link to="/SupplyReorder">
+          <CustomButton className="managerLink" Link to="/SupplyReorder">
             Supply Reorders
           </CustomButton>
 

@@ -397,8 +397,8 @@ const SupplyReorders = (props) => {
             style={{ display: "flex", flexDirection: "column", gap: "10px" }}
           >
             <div>
-              <InputLabel htmlFor="filled-basic">Supply Reorder ID:</InputLabel>
-              <FormControl>
+              <InputLabel className="managerLabel" htmlFor="filled-basic">Supply Reorder ID:</InputLabel>
+              <FormControl className="managerForm">
                 <TextField
                   id="filled-basic"
                   variant="filled"
@@ -413,8 +413,8 @@ const SupplyReorders = (props) => {
               </FormControl>
             </div>
             <div>
-              <InputLabel htmlFor="filled-basic">Date:</InputLabel>
-              <FormControl>
+              <InputLabel className="managerLabel" htmlFor="filled-basic">Date:</InputLabel>
+              <FormControl className="managerForm">
                 <TextField
                   id="filled-basic"
                   variant="filled"
@@ -432,6 +432,7 @@ const SupplyReorders = (props) => {
             style={{ display: "flex", flexDirection: "column", gap: "10px" }}
           >
             <CustomButton
+              className="managerButton"
               onClick={addHandleSubmit}
               onMouseOver={(e) => isHoverEnabled && handleHover(e, isHoverEnabled)}
               onMouseOut={handleMouseOut}
@@ -439,6 +440,7 @@ const SupplyReorders = (props) => {
               Add Supply Reorder
             </CustomButton>
             <CustomButton
+              className="managerButton"
               onClick={deleteHandleSubmit}
               onMouseOver={(e) => isHoverEnabled && handleHover(e, isHoverEnabled)}
               onMouseOut={handleMouseOut}
@@ -446,6 +448,7 @@ const SupplyReorders = (props) => {
               Delete Supply Reorder
             </CustomButton>
             <CustomButton
+              className="managerButton"
               onClick={viewHandleSubmit}
               onMouseOver={(e) => isHoverEnabled && handleHover(e, isHoverEnabled)}
               onMouseOut={handleMouseOut}
@@ -510,6 +513,7 @@ const SupplyReorders = (props) => {
                 <p>NO data available</p>
               )}
               <CustomButton
+                className="managerButton"
                 onClick={() => {
                   console.log(
                     "Selected Inventory Items:",
@@ -554,7 +558,7 @@ const SupplyReorders = (props) => {
               ) : (
                 <p>No data available</p>
               )}
-              <CustomButton onClick={() => setOpenViewPopup(false)}>
+              <CustomButton className="managerButton" onClick={() => setOpenViewPopup(false)}>
                 Close
               </CustomButton>
             </DialogContent>
