@@ -4,6 +4,8 @@ import TrendTable from "../components/TrendTable";
 import HomeButton from './images/HomeButton.png';
 import arrow from './images/back_arrow.png';
 import './AnalyzeTrends.css'
+import {useAuth0} from '@auth0/auth0-react';
+
 const AnalyzeTrends = () => {
     const [selectedTrend, setSelectedTrend] = useState('Excess Report');
     const [startTimestamp, setStartTimestamp] = useState('');
@@ -12,6 +14,9 @@ const AnalyzeTrends = () => {
     const [tableData, setTableData] = useState([]);
     const [table2Data, setTable2Data] = useState([]);
     const [isExcessReport, setIsExcessReport] = useState(true);
+    const {logout} = useAuth0();
+
+    
     useEffect(() => {
       if(selectedTrend === 'Excess Report'){
         setIsExcessReport(true);
@@ -26,6 +31,7 @@ const AnalyzeTrends = () => {
       setTableData([]);
       setTable2Data([]);
     }, [selectedTrend]);
+
     const generateTrend = async () => {
       let valid = true;
       if(selectedTrend !== 'Restock Report'){
@@ -64,21 +70,26 @@ const AnalyzeTrends = () => {
         }
       }
     };
+
     function isValidDateTimeFormat(inputString) {
       const dateTimePattern = /^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}$/;
       return dateTimePattern.test(inputString);
     };
+
     function removeSpaces(trendName){
       const words = trendName.split(' ');
       return words.join('');
     };
+
     const returnHome = () => {
-      window.location.href = "/";
+      logout({ logoutParams: { returnTo: window.location.origin } })
     };
+
     const returnToManager = () =>{
       var currLocation = window.location.href;
       window.location.href = currLocation.replace("AnalyzeTrends", "Manager");
     };
+
     function getCurrentDate() {
       const currentDate = new Date();
       const utcFormat = currentDate.toISOString();
