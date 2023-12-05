@@ -31,10 +31,14 @@ import contrastIcon from './pages/images/contrast.png';
 import translateIcon from './pages/images/translate.png';
 import speechIcon from './pages/images/speech.jpg';
 import TextToSpeech from "./components/TextToSpeech";
-
-
 import HoverableElement from './components/MagnifyingScreen/MagnifierComponent';
-//BrowserRouter basename="/tutorial"> for
+
+/**
+ * @description this is the main interface of the web application. It contains the accessibility menu and features, 
+ * as well as the navigation to each of the different pages of the POS System.
+ * @component App
+ * @returns The Alley Application
+ */
 function App() {
   const [name, setName] = useState("");
   const [home, setHome] = useState("");
@@ -44,9 +48,12 @@ function App() {
     y:0
   });
   const [magnify, setMagnify] = useState(false);
-
   const [isHoverEnabled, setIsHoverEnabled] = useState(false);
 
+  /**
+   * @function handleToggleHover
+   * @description toggles the text-to-speech accessibility feature on and off
+   */
   const handleToggleHover = () => {
     console.log("Toggling hover state...");
     setIsHoverEnabled((prevIsHoverEnabled) => !prevIsHoverEnabled);
@@ -70,13 +77,10 @@ function App() {
     }
   });
 
-  // const toggleMagnify = () => {
-  //   setMagnify(!magnify);
-  //   if(setMagnify == true){
-  //     //document.body.style.backgroundColor = black;
-  //   }
-  // };
-
+  /**
+   * @function toggleMagnifier
+   * @description toggles the magnification accessibility feature on and off 
+   */
   const toggleMagnifier = () => {
     setMagnifierActive(!magnifierActive);
   };
@@ -101,6 +105,13 @@ function App() {
   }
   const location = useLocation();
 
+  /**
+   * @description function which capitalizes the input text based on delimeter separating words
+   * @function capitalizeName
+   * @param {string} name 
+   * @param {string} delimiter 
+   * @returns input text in capitalized format
+   */
   function capitalizeName(name, delimiter) {
     const words = name.split(delimiter);
 
@@ -111,6 +122,10 @@ function App() {
     return words.join(" ");
   }
 
+  /**
+   * @function highContrastMode
+   * @description toggles the high contrast accessibility feature of the website on and off
+   */
   const highContrastMode = () => {
     const body = document.querySelector('body');
     if (body.classList.contains("contrast")) {
@@ -138,11 +153,19 @@ function App() {
     }
   }
 
+  /**
+   * @function openAccessibility
+   * @description opens the accessibility menu pop-up for features to be accessible to the user
+   */
   const openAccessibility = () => {
     document.getElementById("accessibilityMenu").style.display = "block";
     document.getElementById("closedAccessibilityMenu").style.display = "none";
   }
 
+  /**
+   * @function closeAccessibility
+   * @description closes the accessibility menu pop-up for features to be hidden from the user
+   */
   const closeAccessibility = () => {
     document.getElementById("accessibilityMenu").style.display = "none";
     document.getElementById("closedAccessibilityMenu").style.display = "block";
@@ -151,25 +174,9 @@ function App() {
   const isHomePage = location.pathname === "/";
   return (
     <div className="App" onLoad={loadCurrentMode}>
-    <div
-      // className={`cursor ${magnify ? 'magnify' : ''}`}
-      // style={{ left: `${mousePosition.x-100}px`, top: `${mousePosition.y-60}px` }}
-    > 
+    <div> 
     </div>
-
-      {/* <LanguageSelect></LanguageSelect> */}
       {isHomePage && <Login />}
-      {/* This is used for making connection between backend and frontend commented
-      out for github release
-      <form onSubmit={postName}>
-        <input
-          type="text"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-        />
-        <button type="submit">Send Name</button>
-      </form>
-      {home} */}
       <Routes>
       <Route
           path="/AnalyzeTrends"
@@ -266,11 +273,6 @@ function App() {
             />
           }
         />
-
-        {/*<Route path="/menu" element={<MenuView />} />
-        <Route path="/cashier" element={<CashierView />} />
-
-        <Route path="/customer" element={<CustomerView />} /> */}
       </Routes>
 
       <button id="closedAccessibilityMenu" onClick={openAccessibility}>&lt;</button>

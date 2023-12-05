@@ -55,6 +55,7 @@ function CashierOrder({drinks, add_ons}) {
             var addOnString = "";
             if (add_ons[i].length > 0) {
                 addOnString += add_ons[i][0].name;
+                totalCost += parseFloat(add_ons[i][0].cost);
             }
             for (var j = 1; j < add_ons[i].length; ++j) {
                 addOnString += ", " + add_ons[i][j].name;
