@@ -122,12 +122,9 @@ const CustomerHome = () => {
         </div>
         <div className="category-items-container">
             <h1 id="drinkSeriesName" className="series-name">Customer Favorites</h1>
-            {/* {[...Array(18)].map((_, index) => (
-            <button key={index}>Popular Drink</button>
-            ))} */}
             {popularDrinks.map((drink, index) => (
                 <button key={index} alt={capitalizeName(drink.name, ' ')} id={drink.name} onClick={() => buildDrink(drink.name, drink.id, drink.cost)}>
-                    <img class="drink-square" src={getImage(drink.category)} alt={capitalizeName(drink.name, ' ')} />
+                    <img class ="drink-square" src={getImage(drink.category)} alt={capitalizeName(drink.name, ' ')} onError={(e) => {e.target.src = "/drink_images/placeholder.png"}} />
                     {capitalizeName(drink.name, " ")}
                 </button>
             ))}
