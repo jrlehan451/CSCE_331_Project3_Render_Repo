@@ -44,7 +44,15 @@ function App() {
   const handleToggleHover = () => {
     console.log("Toggling hover state...");
     setIsHoverEnabled((prevIsHoverEnabled) => !prevIsHoverEnabled);
+    const speechState = !isHoverEnabled ? "enabled" : "disabled";
+    console.log(`Text to Speech ${speechState}`);
     console.log("Hover state toggled. Current value:", isHoverEnabled);
+    // Speak the message
+    const synth = window.speechSynthesis;
+    const utterance = new SpeechSynthesisUtterance(
+      `Text to Speech ${speechState}`
+    );
+    synth.speak(utterance);
   };
 
   useEffect(() => {
