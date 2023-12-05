@@ -3,6 +3,8 @@ import React, { useState, useEffect, Suspense, useLayoutEffect } from "react";
 import { Link } from 'react-router-dom';
 import axios from "axios";
 import '../drink_options.css';
+import {useAuth0} from '@auth0/auth0-react';
+import HomeButton from '../pages/images/HomeButton.png';
 
 
 function ButtonLink({ to, children }) {
@@ -11,6 +13,11 @@ function ButtonLink({ to, children }) {
 
 const DrinkOptions = ({capitalizeName}) => {
     const [categories, setCategories] = useState([]);
+    const {logout} = useAuth0();
+
+    const returnHome = () => {
+      logout({ logoutParams: { returnTo: window.location.origin } })
+    };
 
     useEffect(() => {
       const drinkOptions = async () => {
@@ -33,6 +40,9 @@ const DrinkOptions = ({capitalizeName}) => {
 
     return (
       <div>
+        <button className="home-button" onClick={returnHome}>
+            <img src={HomeButton} alt="home" />
+        </button>
         <h1 class="green">Drink Options</h1>
         <div class="menu-container">
             <div class="button-container double">
