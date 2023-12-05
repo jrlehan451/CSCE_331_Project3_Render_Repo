@@ -106,16 +106,9 @@ const MenuItemsTable = ({ reloadTable, isHoverEnabled, handleToggleHover }) => {
     { field: "cost", headerName: "Cost", type: "number", width: 90, flex: 1 },
   ];
 
-  // This structure is causing the page to look disorganized
-
+  // This structure is causing the page to look disorganized  
   return (
-    <div class="tablesInfo"
-        style={{
-          height: 425,
-          width: "45vw",
-          marginBottom: "20px",
-          float: "left",
-        }}> 
+    <div class="tablesInfo"> 
       <div style={{ height: 425, width: "45vw", marginBottom: "20px", float: "left" }}>
         <h2>Drinks Table</h2>
         <DataGrid
@@ -160,6 +153,8 @@ const MenuItemsTable = ({ reloadTable, isHoverEnabled, handleToggleHover }) => {
       </div>
     </div>
   );
+
+
 };
 
 export default MenuItemsTable;

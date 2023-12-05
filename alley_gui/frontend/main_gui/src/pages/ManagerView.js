@@ -6,6 +6,7 @@ import { ThemeProvider } from "@mui/material/styles";
 import Stack from "@mui/material/Stack";
 import { theme } from "../theme";
 import HomeButton from './images/HomeButton.png';
+import '../components/MenuItems/MenuItems.css'
 
 const CustomButton = styled(ListItemButton)(({ theme }) => ({
   backgroundColor: "#8b9477",
@@ -27,6 +28,7 @@ const ManagerView = () => {
   
   return (
     <ThemeProvider theme={theme}>
+      {/* <h1 className = "title2"> Manager Page</h1> */}
       <Box
         style={{
           backgroundColor: theme.palette.primary.main,
@@ -41,6 +43,7 @@ const ManagerView = () => {
           height: "100vh",
         }}
       >
+        <h1 className = "title2"> Manager Page</h1>
         <button className="home-button" onClick={returnHome}> 
             <img src={HomeButton} alt="home" />
         </button>

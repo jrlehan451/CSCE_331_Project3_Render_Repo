@@ -105,6 +105,7 @@ const MenuItemsButtons = ({ onReload, isHoverEnabled, handleToggleHover }) => {
       axios
         .post("https://thealley.onrender.com/addDrink", values)
         .then((res) => {
+          onReload();
           if (res.data.status === "success") {
             console.log(res.data.message);
           } else {
@@ -129,6 +130,7 @@ const MenuItemsButtons = ({ onReload, isHoverEnabled, handleToggleHover }) => {
       setOpenPopup(true);
     }
     console.log("Add Drink clicked", values);
+    onReload();
   };
 
   // Function to handle button clicks for adding drinks
@@ -196,6 +198,7 @@ const MenuItemsButtons = ({ onReload, isHoverEnabled, handleToggleHover }) => {
       axios
         .post("https://thealley.onrender.com/updateMenuItemName", values)
         .then((res) => {
+          onReload();
           const rowCountTwo = res.data.rowCount;
           if (res.data.status === "success") {
             console.log(res.data.message);
@@ -215,6 +218,7 @@ const MenuItemsButtons = ({ onReload, isHoverEnabled, handleToggleHover }) => {
       axios
         .post("https://thealley.onrender.com/updateMenuItemCost", values)
         .then((res) => {
+          onReload();
           const rowCountTwo = res.data.rowCount;
           if (res.data.status === "success") {
             console.log(res.data.message);
@@ -234,6 +238,7 @@ const MenuItemsButtons = ({ onReload, isHoverEnabled, handleToggleHover }) => {
       axios
         .post("https://thealley.onrender.com/updateMenuItemCategory", values)
         .then((res) => {
+          onReload();
           const rowCountTwo = res.data.rowCount;
           if (res.data.status === "success") {
             console.log(res.data.message);
@@ -248,8 +253,8 @@ const MenuItemsButtons = ({ onReload, isHoverEnabled, handleToggleHover }) => {
           console.error("Error:", err);
         });
     }
-    onReload();
     console.log("Update Drink clicked", values);
+    onReload();
   };
 
   // Function to handle button clicks for deleting drinks
@@ -259,6 +264,7 @@ const MenuItemsButtons = ({ onReload, isHoverEnabled, handleToggleHover }) => {
       axios
         .post("https://thealley.onrender.com/deleteDrink", values)
         .then((res) => {
+          onReload();
           const rowCountTwo = res.data.rowCount;
           if (res.data.status === "success") {
             console.log(res.data.message);
@@ -290,6 +296,7 @@ const MenuItemsButtons = ({ onReload, isHoverEnabled, handleToggleHover }) => {
       axios
         .post("https://thealley.onrender.com/addAddOn", values)
         .then((res) => {
+          onReload();
           if (res.data.status === "success") {
             console.log(res.data.message);
           } else {
@@ -300,6 +307,7 @@ const MenuItemsButtons = ({ onReload, isHoverEnabled, handleToggleHover }) => {
           console.error("Error:", err);
           alert("Error: Entered existing Add On ID");
         });
+        
     } else {
       alert(
         "Please fill in all required fields: Add On ID, Add On Name, and Add On Cost"
@@ -321,6 +329,7 @@ const MenuItemsButtons = ({ onReload, isHoverEnabled, handleToggleHover }) => {
       axios
         .post("https://thealley.onrender.com/updateAddOnCost", values)
         .then((res) => {
+          onReload();
           const rowCountTwo = res.data.rowCount;
           if (res.data.status === "success") {
             console.log(res.data.message);
@@ -340,6 +349,7 @@ const MenuItemsButtons = ({ onReload, isHoverEnabled, handleToggleHover }) => {
       axios
         .post("https://thealley.onrender.com/updateAddOnName", values)
         .then((res) => {
+          onReload();
           const rowCount = res.data.rowCount;
           if (res.data.status === "success") {
             console.log(res.data.message);
@@ -364,6 +374,7 @@ const MenuItemsButtons = ({ onReload, isHoverEnabled, handleToggleHover }) => {
       axios
         .post("https://thealley.onrender.com/deleteAddOn", values)
         .then((res) => {
+          onReload();
           const rowCount = res.data.rowCount;
           if (res.data.status === "success") {
             console.log(res.data.message);
