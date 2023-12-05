@@ -192,43 +192,44 @@ body {
 }
 
 .left-panel {
-width: 40%;
-height: 100%;
+    width: 40%;
+    height: 100%;
 }
 
 .left-panel img {
-width: 70%;
-height: 100%;
+    width: 100%; 
+    height: 100%; 
+    object-fit: contain;
 }
 
 .right-panel {
-width: 60%;
-display: flex;
-flex-direction: column;
-justify-content: space-around;
-align-items: center;
+    width: 60%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
 }
 
 .top-right-panel {
-text-align: center;
-margin-top: 1vh;
-height: 50%
+    text-align: center;
+    margin-top: 1vh;
+    height: 50%
 }
 
 .city-weather-text {
-font-size: 1.2vw;
+    font-size: 1.2vw;
 }
 
 .bottom-right-panel {
-text-align: center;
-margin: 0;
-padding: 0;
-height: 50%;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+    height: 50%;
 }
 
 .weather-description-text {
-font-size: 0.9vw;
-}
+    font-size: 0.9vw;
+    }
 
 .loading-screen{
     font-size: 5vw;
