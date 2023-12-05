@@ -42,7 +42,7 @@ const ViewCart = () => {
     try {     
       await axios.post("https://thealley.onrender.com/post_customer_order", {
           currDrinksInOrder: sessionStorage.getItem('currentOrderDrinks'),
-          customer: "customer",
+          customer: document.getElementById("cname").value,
           totalCost: totalCost.toFixed(2),
       });
     } catch(err) {
@@ -85,7 +85,7 @@ const ViewCart = () => {
       <h1 className="your-cart">Your Cart</h1>
 
       <div className="cart-container">
-          {currDrinksInOrder.map((drink) => (
+          { currDrinksInOrder.map((drink) => (
             <div className="cart-drink">
               <h3 className="cart-drink-name"> Drink: {capitalizeName(drink.drinkName, " ")} </h3>
               <h4 className="cart-drink-info"> Add-On #1: {capitalizeName(drink.addOn1Name, " ")} </h4>
@@ -99,6 +99,8 @@ const ViewCart = () => {
 
       <div className="checkout-container">
         <p id="currentTotalCost" className="total">{getCurrentTotal()}</p>
+        <p className="name">Enter Name: </p>
+        <input className="customer-name" type="text" id="cname" name="cname"/><br/>
         <button onClick={goToCheckout}>Checkout</button>
       </div>
     </div>

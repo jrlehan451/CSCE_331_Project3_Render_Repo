@@ -126,7 +126,7 @@ const CustomerHome = () => {
             <button key={index}>Popular Drink</button>
             ))} */}
             {popularDrinks.map((drink, index) => (
-                <button key={index} alt={capitalizeName(drink.name, ' ')} id={drink.name} onClick={() => buildDrink(drink.name, drink.drink_id, drink.cost)}>
+                <button key={index} alt={capitalizeName(drink.name, ' ')} id={drink.name} onClick={() => buildDrink(drink.name, drink.id, drink.cost)}>
                     <img class="drink-square" src={getImage(drink.category)} alt={capitalizeName(drink.name, ' ')} />
                     {capitalizeName(drink.name, " ")}
                 </button>

@@ -66,7 +66,6 @@
     background: #8b9477;
     margin-left: 1vw;
     margin-right: 1vw;
-    margin-top: 0.5vw;
     margin-bottom: 0.5vw;
     white-space: normal;
     word-break: break-word;
@@ -86,6 +85,28 @@
     color: #25371d;
     font-family: 'Perpetua', serif;
     font-size: 3vw;
+}
+
+.name {
+    margin-left: 5vw;
+    margin-right: 1vw;
+    margin-top: 0.5vw;
+    margin-bottom: 0.5vw;
+    display: inline;
+    float: left;
+    color: #25371d;
+    font-family: 'Perpetua', serif;
+    font-size: 3vw;
+}
+
+.customer-name {
+    margin-right: 1vw;
+    display: inline;
+    float: left;
+    color: #25371d;
+    font-family: 'Perpetua', serif;
+    font-size: 3vw;
+    border-bottom: 2px solid #25371d;
 }
 
 .contrast .view-cart-background {
@@ -176,4 +197,26 @@
     color: #d7f2a6;
     font-family: 'Perpetua', serif;
     font-size: 3vw;
+}
+
+.contrast .name {
+    margin-left: 5vw;
+    margin-right: 1vw;
+    margin-top: 0.5vw;
+    margin-bottom: 0.5vw;
+    display: inline;
+    float: left;
+    color: #d7f2a6;
+    font-family: 'Perpetua', serif;
+    font-size: 3vw;
+}
+
+.contrast .customer-name {
+    margin-right: 1vw;
+    display: inline;
+    float: left;
+    color: #d7f2a6;
+    font-family: 'Perpetua', serif;
+    font-size: 3vw;
+    border-bottom: 2px solid #d7f2a6;
 }
