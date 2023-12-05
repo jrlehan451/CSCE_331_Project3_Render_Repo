@@ -125,7 +125,7 @@
 
 .speech {
   position: fixed;
-  top: 400px;
+  top: 420px;
   right: 15px;
   padding: 10px;
   background-color: #3498db;
@@ -144,4 +144,9 @@
 .image {
   width: 60px;
   height: 60px;
+}
+
+.langSelect {
+  font-size: 10px;
+  width: 60px;
 }

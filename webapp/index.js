@@ -4,6 +4,7 @@ var jsonParser = bodyParser.json();
 const { Pool } = require("pg");
 const dotenv = require("dotenv").config();
 const cors = require("cors");
+const axios = require("axios");
 const { Translate } = require('@google-cloud/translate').v2;
 
 const CREDS = JSON.parse(process.env.GOOGLE_APPLICATION_CRED);
@@ -1912,6 +1913,36 @@ app.get("/CustomerPopularityAnalysis", async (req, res) => {
       status: "error",
       message: "An error occurred while fetching data.",
     });
+  }
+});
+
+app.get('/weather', async (req, res) => {
+  try {
+    const lat = req.query.latitude; 
+    const lon = req.query.longitude;
+    console.log(lat);
+    console.log(lon);
+
+    if (!lat || !lon) {
+      console.log(lat);
+      console.log(lon);
+      return res.status(400).json({ error: 'Latitude and longitude are required.' });
+    }
+
+    const apiKey = 'dede69fd21eb974bc8b0d5ca22dc8e82';
+    const apiUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${apiKey}&units=imperial`;
+
+    const response = await axios.get(apiUrl);
+    console.log(response.data);
+    res.status(200).json({
+      status: "success",
+      data: {
+        data: response.data
+      },
+    });
+  } catch (error) {
+    console.error('Error fetching weather data:', error.message);
+    res.status(500).json({ error: 'Internal server error.' });
   }
 });
 

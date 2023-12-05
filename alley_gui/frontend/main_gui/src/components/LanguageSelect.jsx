@@ -28,7 +28,7 @@ function LanguageSelect() {
     }
     
     async function translate(query, source, target) {
-        const res = await axios.get("http://localhost:4000/translate", {params: { text: query, target: target}});
+        const res = await axios.get("https://thealley.onrender.com/translate", {params: { text: query, target: target}});
         const jsonVals = await res.data;
         return jsonVals.data;
     }
@@ -105,7 +105,7 @@ function LanguageSelect() {
     useEffect(() => {
       async function fetchData() {
         // Fetch data
-        const { data } = await axios.get("http://localhost:4000/languages");
+        const { data } = await axios.get("https://thealley.onrender.com/languages");
         const results = []
         // Store results in the results array
         data.data.forEach((value) => {
@@ -127,7 +127,7 @@ function LanguageSelect() {
 
     return (
         <div>
-            <select value={language} onChange={selectLang}>
+            <select class="langSelect" value={language} onChange={selectLang}>
                 {options.map((option) => (
                 <option class="languageOption" key={option.key} value={option.value}>{option.key}</option>
                 ))}  

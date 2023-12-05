@@ -183,6 +183,7 @@ function App() {
       </button>
       <button className="translate">
         <img src = {translateIcon} className="image" />
+        <LanguageSelect></LanguageSelect>
       </button>
       <button className="speech">
         <img src = {speechIcon} className="image" />
