@@ -5,6 +5,11 @@ import arrow from './images/back_arrow.png';
 
 import './Menu.css'
 
+/**
+ * @description This component displays all the drinks offered on the menu. It separates them into different drink series and has a picture of the drink alongisde the name.
+ * @component Menu Drinks
+ * @returns menu page which displays the drinks
+ */
 const Menu = () => {
     const [drinks, setDrinks] = useState([]);
 
@@ -18,6 +23,12 @@ const Menu = () => {
         return words.join(" ");
     };
 
+    /**
+     * @description takes the category of the drink from the query providing the information and searches for the associated drink category image
+     * @function getImage(name)
+     * @param {string} name 
+     * @returns path to image src file
+     */
     function getImage(name){
         name = "/drink_images/" + name;
         name += ".png"
@@ -25,15 +36,27 @@ const Menu = () => {
         return words.join("_");
     }
   
+    /**
+     * @description navigates back to the home page of the web application
+     * @function returnHome
+     */
     const returnHome = () => {
         window.location.href = "/";
     };
   
+    /**
+     * @description navigates to the menu add ons page
+     * @function navigateToMenuAddons
+     */
     const navigateToMenuAddons = () => {
         var currLocation = window.location.href;
         window.location.href = currLocation.replace("Menu", "MenuAddOns");
     };
 
+    /**
+     * @description uses an API call to back-end server to query all the different drinks in the menu by category
+     * @function drinksByCategory
+     */
     useEffect(() => {
         const drinksByCategory = async () => {
         try {
