@@ -96,15 +96,15 @@ const Login = () => {
         console.log('Authentication successful!');
         var currLocation = window.location.href;
         if(employee.first_name === "customer" && employee.last_name === "profile"){
-            sessionStorage.setItem("Role", "Customer");
+            localStorage.setItem("Role", "Customer");
             window.location.href = currLocation + "customer";
         }
         else if(employee.is_manager){
-            sessionStorage.setItem("Role", "Manager");
+            localStorage.setItem("Role", "Manager");
             window.location.href = currLocation + "manager";
         }
         else{
-            sessionStorage.setItem("Role", "Cashier");
+            localStorage.setItem("Role", "Cashier");
             window.location.href = currLocation + "DrinkOptions";
         }
         return;

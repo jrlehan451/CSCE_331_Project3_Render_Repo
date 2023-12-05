@@ -10,7 +10,7 @@ const CustomerHome = () => {
     const {logout} = useAuth0();
 
     const returnHome = () => {
-        sessionStorage.setItem("Role", "");
+        localStorage.setItem("Role", "");
         logout({ logoutParams: { returnTo: window.location.origin } })
     };
 
