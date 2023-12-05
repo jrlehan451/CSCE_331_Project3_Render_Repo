@@ -9,13 +9,15 @@ import {
   handleTableFieldSpeech,
 } from "../SpeechUtils";
 
-const MenuItemsTable = ({ reloadTable }) => {
+const MenuItemsTable = ({ reloadTable, isHoverEnabled, handleToggleHover }) => {
   //Store data
   const [menuItemsData, setMenuItemsData] = useState([]);
   const [addOnsData, setAddOnsData] = useState([]);
-  const [isHoverEnabled, setIsHoverEnabled] = useState(false);
+  const [isHoverEnabledState, setIsHoverEnabled] = useState(false); // Add this line
+
   const toggleHover = () => {
     setIsHoverEnabled((prevIsHoverEnabled) => !prevIsHoverEnabled);
+    handleToggleHover();
   };
   const handleGridCellHover = (params) => {
     console.log("handleGridCellHover is called!");
@@ -165,7 +167,9 @@ const MenuItemsTable = ({ reloadTable }) => {
               ...column,
               renderCell: (params) => (
                 <div
-                  onMouseOver={() => handleGridCellHover(params)}
+                  onMouseOver={() =>
+                    isHoverEnabled && handleGridCellHover(params)
+                  }
                   onMouseOut={handleMouseOut}
                 >
                   {params.value}
@@ -190,7 +194,9 @@ const MenuItemsTable = ({ reloadTable }) => {
               ...column,
               renderCell: (params) => (
                 <div
-                  onMouseOver={() => handleGridCellHover(params)}
+                  onMouseOver={() =>
+                    isHoverEnabled && handleGridCellHover(params)
+                  }
                   onMouseOut={handleMouseOut}
                 >
                   {params.value}

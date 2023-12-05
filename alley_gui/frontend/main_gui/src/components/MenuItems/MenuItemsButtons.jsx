@@ -10,7 +10,6 @@ import {
   handleTextFieldSpeech,
   handleTableFieldSpeech,
 } from "../SpeechUtils";
-import TextToSpeech from "../TextToSpeech";
 
 // Button style
 const CustomButton = styled(Button)(({ theme }) => ({
@@ -28,17 +27,17 @@ const CustomButton = styled(Button)(({ theme }) => ({
   "&:disabled": { backgroundColor: "gray", color: "white" },
 }));
 
-const MenuItemsButtons = ({ onReload }) => {
-  const [reloadTable, setReloadTable] = useState(false);
-  const [openPopup, setOpenPopup] = useState(false);
-  const [selectedIngredients, setSelectedIngredients] = useState([]);
+// const MenuItemsButtons = ({ onReload }) => {
+const MenuItemsButtons = ({ onReload, isHoverEnabled, handleToggleHover }) => {
+  const [isHoverEnabledState, setIsHoverEnabled] = useState(false); // Add this line
 
-  const [isHoverEnabled, setIsHoverEnabled] = useState(false);
   const toggleHover = () => {
     setIsHoverEnabled((prevIsHoverEnabled) => !prevIsHoverEnabled);
+    handleToggleHover();
   };
+
   const handleGridCellHover = (params) => {
-    console.log("handleGridCellHover is called!");
+    console.log("igredient handleGridCellHover is called!");
 
     if (isHoverEnabled) {
       console.log("isHoverEnabled is false");
@@ -51,6 +50,10 @@ const MenuItemsButtons = ({ onReload }) => {
       //handleTableFieldSpeech("This is a test");
     }
   };
+
+  const [reloadTable, setReloadTable] = useState(false);
+  const [openPopup, setOpenPopup] = useState(false);
+  const [selectedIngredients, setSelectedIngredients] = useState([]);
 
   // Used to store input values
   const [values, setValues] = useState({
@@ -403,6 +406,7 @@ const MenuItemsButtons = ({ onReload }) => {
                 }
                 value={values.drinkID}
                 onMouseOver={() =>
+                  isHoverEnabled &&
                   handleTextFieldSpeech("Drink ID", values.drinkID)
                 }
               />
@@ -418,7 +422,9 @@ const MenuItemsButtons = ({ onReload }) => {
                 onChange={(e) =>
                   setValues({ ...values, drinkName: e.target.value })
                 }
-                onMouseOver={() => handleTextFieldSpeech("Name", values.name)}
+                onMouseOver={() =>
+                  isHoverEnabled && handleTextFieldSpeech("Name", values.name)
+                }
               />
             </FormControl>
           </div>
@@ -437,6 +443,7 @@ const MenuItemsButtons = ({ onReload }) => {
                 }
                 value={values.drinkCost}
                 onMouseOver={() =>
+                  isHoverEnabled &&
                   handleTextFieldSpeech("Drink Cost", values.drinkCost)
                 }
               />
@@ -453,6 +460,7 @@ const MenuItemsButtons = ({ onReload }) => {
                   setValues({ ...values, drinkCategory: e.target.value })
                 }
                 onMouseOver={() =>
+                  isHoverEnabled &&
                   handleTextFieldSpeech("Drink Category", values.drinkCategory)
                 }
               />
@@ -506,6 +514,7 @@ const MenuItemsButtons = ({ onReload }) => {
                 }
                 value={values.addOnID}
                 onMouseOver={() =>
+                  isHoverEnabled &&
                   handleTextFieldSpeech("Add On ID", values.addOnID)
                 }
               />
@@ -522,6 +531,7 @@ const MenuItemsButtons = ({ onReload }) => {
                   setValues({ ...values, addOnName: e.target.value })
                 }
                 onMouseOver={() =>
+                  isHoverEnabled &&
                   handleTextFieldSpeech("Add On Name", values.addOnName)
                 }
               />
@@ -543,6 +553,7 @@ const MenuItemsButtons = ({ onReload }) => {
                 //  }
                 value={values.addOnCost}
                 onMouseOver={() =>
+                  isHoverEnabled &&
                   handleTextFieldSpeech("Add On Cost", values.addOnCost)
                 }
               />
@@ -580,10 +591,6 @@ const MenuItemsButtons = ({ onReload }) => {
           >
             Delete Add On
           </CustomButton>
-          <TextToSpeech
-            isHoverEnabled={isHoverEnabled}
-            toggleHover={toggleHover}
-          />
         </div>
         {/* Add any additional elements/buttons as needed */}
       </div>

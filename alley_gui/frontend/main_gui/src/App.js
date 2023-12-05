@@ -12,6 +12,10 @@ import AnalyzeTrends from "./pages/AnalyzeTrends";
 import Inventory from "./components/Inventory";
 import Ingredients from "./components/Ingredients";
 import MenuItems from "./components/MenuItems/MenuItems";
+
+import MenuItemsButtons from "./components/MenuItems/MenuItemsButtons";
+import MenuItemsTable from "./components/MenuItems/MenuItemsTable";
+
 import SupplyReorder from "./components/SupplyReorders";
 import React, { useEffect, useLayoutEffect, useState } from "react";
 import axios from "axios";
@@ -182,8 +186,42 @@ function App() {
             />
           }
         />
-        <Route path="/MenuItems" element={<MenuItems />} />
-        <Route path="/SupplyReorder" element={<SupplyReorder />} />
+        <Route
+          path="/MenuItems"
+          element={
+            <MenuItems
+              isHoverEnabled={isHoverEnabled}
+              handleToggleHover={handleToggleHover}
+            />
+          }
+        />
+        <Route
+          path="/MenuItemsButtons"
+          element={
+            <MenuItemsButtons
+              isHoverEnabled={isHoverEnabled}
+              handleToggleHover={handleToggleHover}
+            />
+          }
+        />
+        <Route
+          path="/MenuItemsTable"
+          element={
+            <MenuItemsTable
+              isHoverEnabled={isHoverEnabled}
+              handleToggleHover={handleToggleHover}
+            />
+          }
+        />
+        <Route
+          path="/SupplyReorder"
+          element={
+            <SupplyReorder
+              isHoverEnabled={isHoverEnabled}
+              handleToggleHover={handleToggleHover}
+            />
+          }
+        />
         <Route path="/manager" element={<ManagerView />} />
         <Route path="/customer" element={<CustomerView />} />
         <Route path="/drink_series/:category" element={<DrinkSeries />} />
