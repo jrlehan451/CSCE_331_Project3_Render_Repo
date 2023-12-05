@@ -7,19 +7,19 @@ import Stack from "@mui/material/Stack";
 import { theme } from "../theme";
 import HomeButton from './images/HomeButton.png';
 
+const CustomButton = styled(ListItemButton)(({ theme }) => ({
+  backgroundColor: "#8b9477",
+  color: "black",
+  margin: 10,
+  borderRadius: "8px",
+  width: "350px",
+  minHeight: "40px",
+  maxHeight: "60px",
+  "&:hover": { backgroundColor: "lightblue" },
+  "&:disabled": { backgroundColor: "gray", color: "white" },
+}));
 
 const ManagerView = () => {
-  const CustomButton = styled(ListItemButton)(({ theme }) => ({
-    backgroundColor: "#8b9477",
-    color: "black",
-    margin: 10,
-    borderRadius: "8px",
-    width: "350px",
-    minHeight: "40px",
-    maxHeight: "60px",
-    "&:hover": { backgroundColor: "lightblue" },
-    "&:disabled": { backgroundColor: "gray", color: "white" },
-  }));
 
   const returnHome = () => {
     window.location.href = "/";

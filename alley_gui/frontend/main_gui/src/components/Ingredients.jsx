@@ -25,6 +25,22 @@ import {
 } from "./SpeechUtils";
 import TextToSpeech from "./TextToSpeech";
 
+// Creating custom buttons
+const CustomButton = styled(ListItemButton)(({ theme }) => ({
+  backgroundColor: "#ffefe2",
+  border: "2px solid #9e693f",
+  color: "#9e693f",
+  fontWeight: "bold",
+  margin: 10,
+  marginTop: 25,
+  borderRadius: "80px",
+  width: "150px",
+  minHeight: "40px",
+  maxHeight: "60px",
+  "&:hover": { backgroundColor: "lightblue" },
+  "&:disabled": { backgroundColor: "gray", color: "white" },
+}));
+
 const Ingredients = (props) => {
   const { isHoverEnabled, handleToggleHover } = props;
   const [isHoverEnabledState, setIsHoverEnabled] = useState(false); // Add this line
@@ -48,22 +64,6 @@ const Ingredients = (props) => {
       //handleTableFieldSpeech("This is a test");
     }
   };
-
-  // Creating custom buttons
-  const CustomButton = styled(ListItemButton)(({ theme }) => ({
-    backgroundColor: "#ffefe2",
-    border: "2px solid #9e693f",
-    color: "#9e693f",
-    fontWeight: "bold",
-    margin: 10,
-    marginTop: 25,
-    borderRadius: "80px",
-    width: "150px",
-    minHeight: "40px",
-    maxHeight: "60px",
-    "&:hover": { backgroundColor: "lightblue" },
-    "&:disabled": { backgroundColor: "gray", color: "white" },
-  }));
 
   // Creating columns for displaying sql queries
   const columns = [
