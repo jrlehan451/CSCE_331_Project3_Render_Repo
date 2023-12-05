@@ -41,9 +41,7 @@ function App() {
     x:0,
     y:0
   });
-  const [magnify, setMagnify] = useState(false);
-
-  
+  const [magnify, setMagnify] = useState(false); 
 
   // const toggleMagnify = () => {
   //   setMagnify(!magnify);

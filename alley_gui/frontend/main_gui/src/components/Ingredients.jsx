@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { DataGrid, GridColDef, GridValueGetterParams } from "@mui/x-data-grid";
-import { ThemeProvider } from "@mui/material/styles";
-import { theme } from "../theme";
 import {
   TextField,
   InputLabel,
@@ -262,7 +260,7 @@ const Ingredients = () => {
   };
 
   return (
-    <ThemeProvider theme={theme}>
+    <div>
       <NavBar />
 
       <Dialog
@@ -321,12 +319,7 @@ const Ingredients = () => {
           <CustomButton onClick={() => setOpenPopup(false)}>Done</CustomButton>
         </DialogContent>
       </Dialog>
-      <div
-        style={{
-          backgroundColor: theme.palette.primary.main,
-          display: "flex",
-          flexDirection: "column",
-        }}>
+      <div class="managerWrapper">
         <h1>Ingredient Page</h1>
         <div class="tablesInfo">
           <div style={{ height: 400, width: "80vw", marginBottom: "20px" }}>
@@ -432,7 +425,7 @@ const Ingredients = () => {
           />
         </div>
       </div>
-    </ThemeProvider>
+    </div>
   );
 };
 
