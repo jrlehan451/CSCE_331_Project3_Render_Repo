@@ -167,7 +167,15 @@ function App() {
       </form>
       {home} */}
       <Routes>
-        <Route path="/AnalyzeTrends" element={<AnalyzeTrends />} />
+        <Route
+          path="/AnalyzeTrends"
+          element={
+            <AnalyzeTrends
+              isHoverEnabled={isHoverEnabled}
+              handleToggleHover={handleToggleHover}
+            />
+          }
+        />
         <Route
           path="/Inventory"
           element={
