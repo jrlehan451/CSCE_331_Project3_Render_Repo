@@ -1,48 +1,37 @@
-import React, { useEffect } from "react";
-import {
-  handleHover,
-  handleMouseOut,
-  handleTextFieldSpeech,
-} from "./SpeechUtils";
+import React, { useEffect, useState } from "react";
+import { handleHover, handleTextFieldSpeech } from "./SpeechUtils";
 
-const TextToSpeech = ({
-  isHoverEnabled,
-  toggleHover,
-  selectedRow,
-  rowData,
-  label,
-  value,
-  buttonText,
-}) => {
+const TextToSpeech = ({ isHoverEnabled, toggleHover, imageSrc }) => {
+  const [internalIsHoverEnabled, setInternalIsHoverEnabled] =
+    useState(isHoverEnabled);
+
+  useEffect(() => {
+    setInternalIsHoverEnabled(isHoverEnabled);
+  }, [isHoverEnabled]);
+
   const handleToggleHover = () => {
     toggleHover();
 
-    // Speak the status explicitly
-    const statusText = isHoverEnabled
+    const statusText = internalIsHoverEnabled
       ? "Text To Speech Disabled"
       : "Text To Speech Enabled";
+
     handleTextFieldSpeech(statusText);
 
-    if (buttonText) {
-      // Handle button text
-      handleHover(buttonText, isHoverEnabled);
-    } else {
-      // Handle text field labels and values
-      handleTextFieldSpeech(label, value);
-    }
+    setInternalIsHoverEnabled(!internalIsHoverEnabled);
   };
 
   useEffect(() => {
-    if (isHoverEnabled && selectedRow && rowData) {
-      const textToSpeak = `Item ID ${rowData.itemId}, Name ${rowData.name}, Amount ${rowData.amount}, Quantity Per Unit ${rowData.quantityPerUnit}`;
-      handleHover(textToSpeak, isHoverEnabled);
+    if (internalIsHoverEnabled) {
+      // Add your logic here for handling hover
+      console.log("Handling hover...");
     }
-  }, [isHoverEnabled, selectedRow, rowData]);
+  }, [internalIsHoverEnabled]);
 
   return (
-    <div className="App">
+    <div className="TextToSpeech">
       <button onClick={handleToggleHover}>
-        {isHoverEnabled ? "Disable Text To Speech" : "Enable Text To Speech"}
+        <img src={imageSrc} className="image" />
       </button>
     </div>
   );

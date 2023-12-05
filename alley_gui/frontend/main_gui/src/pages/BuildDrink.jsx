@@ -91,19 +91,19 @@ const BuildDrink = () => {
     let quantity = document.getElementById("start");
     quantity.style.display = "block";
   };
-  const getSelectedDrink = () => {
-    const selectedDrink = sessionStorage.getItem("customer_drink_name");
-    const drinkName = document.getElementById("drinkSelected");
-    drinkName.textContent = "Selected Drink: " + selectedDrink;
-    let quantity = document.getElementById("start");
-    quantity.style.display = "block";
-  };
+  // const getSelectedDrink = () => {
+  //   const selectedDrink = sessionStorage.getItem("customer_drink_name");
+  //   const drinkName = document.getElementById("drinkSelected");
+  //   drinkName.textContent = "Selected Drink: " + selectedDrink;
+  //   let quantity = document.getElementById("start");
+  //   quantity.style.display = "block";
+  // };
 
-  const getSize = (size) => {
-    sessionStorage.setItem("customer_drink_size", size);
-    const drinkSize = document.getElementById("drinkSelectedSize");
-    drinkSize.textContent = "Size: " + size;
-  };
+  // const getSize = (size) => {
+  //   sessionStorage.setItem("customer_drink_size", size);
+  //   const drinkSize = document.getElementById("drinkSelectedSize");
+  //   drinkSize.textContent = "Size: " + size;
+  // };
   const getSize = (size) => {
     sessionStorage.setItem("customer_drink_size", size);
     const drinkSize = document.getElementById("drinkSelectedSize");

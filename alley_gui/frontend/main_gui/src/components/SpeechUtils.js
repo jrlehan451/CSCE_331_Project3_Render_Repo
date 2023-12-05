@@ -1,6 +1,6 @@
 const handleHover = (event, isHoverEnabled) => {
   console.log("handleHover - isHoverEnabled:", isHoverEnabled);
-  if (isHoverEnabled) {
+  if (isHoverEnabled && !speechSynthesis.speaking) {
     const textContent = event.target.textContent;
     if (textContent !== undefined && textContent !== null) {
       console.log("Text to be spoken:", textContent);

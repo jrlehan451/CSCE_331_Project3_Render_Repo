@@ -133,7 +133,6 @@ const ViewCart = () => {
       body.classList.remove("contrast");
     }
   };
-  }
 
   return (
     <div className="view-cart-background" onLoad={() => loadCurrentMode()}>
@@ -187,6 +186,6 @@ const ViewCart = () => {
       <TextToSpeech isHoverEnabled={isHoverEnabled} toggleHover={toggleHover} />
     </div>
   );
-
+};
 
 export default ViewCart;
