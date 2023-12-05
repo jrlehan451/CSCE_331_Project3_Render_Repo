@@ -150,3 +150,40 @@
   font-size: 10px;
   width: 60px;
 }
+
+.closeAccessibility {
+  position: fixed;
+  top: 520px;
+  right: 15px;
+  padding: 10px;
+  background-color: #3498db;
+  color: #ffffff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease-in-out;
+  width: 80px;
+  font-size: 12px;
+}
+
+.closeAccessibility:hover {
+  background-color: #2980b9; 
+}
+
+#accessibilityMenu {
+  display: none;
+}
+
+#closedAccessibilityMenu {
+  position: fixed;
+  top: 50%;
+  right: 0px;
+  padding: 10px;
+  background-color: #3498db;
+  color: #ffffff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease-in-out;
+  font-size: 10px;
+}

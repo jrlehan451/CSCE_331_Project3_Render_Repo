@@ -27,27 +27,30 @@ import {
 
 import "./MenuItems/MenuItems.css";
 
+// Creating custom buttons
+const CustomButton = styled(ListItemButton)(({ theme }) => ({
+  backgroundColor: "#ffefe2",
+  border: "2px solid #9e693f",
+  color: "#9e693f",
+  fontWeight: "bold",
+  margin: 10,
+  marginTop: 25,
+  borderRadius: "80px",
+  width: "150px",
+  minHeight: "40px",
+  maxHeight: "60px",
+  "&:hover": { backgroundColor: "lightblue" },
+  "&:disabled": { backgroundColor: "gray", color: "white" },
+}));
+
 //import axios from "axios"; // Make sure to import axios for HTTP requests
-const Inventory = () => {
+const Inventory = (props) => {
+  const { isHoverEnabled, handleToggleHover } = props;
+  const [isHoverEnabledState, setIsHoverEnabled] = useState(false)
+
   const toggleHover = () => {
     setIsHoverEnabled((prevIsHoverEnabled) => !prevIsHoverEnabled);
   };
-
-  // Creating custom buttons
-  const CustomButton = styled(ListItemButton)(({ theme }) => ({
-    backgroundColor: "#ffefe2",
-    border: "2px solid #9e693f",
-    color: "#9e693f",
-    fontWeight: "bold",
-    margin: 10,
-    marginTop: 25,
-    borderRadius: "80px",
-    width: "150px",
-    minHeight: "40px",
-    maxHeight: "60px",
-    "&:hover": { backgroundColor: "lightblue" },
-    "&:disabled": { backgroundColor: "gray", color: "white" },
-  }));
 
   // Creating columns for displaying sql queries
   const columns = [
@@ -74,7 +77,6 @@ const Inventory = () => {
   const [checkedItems, setCheckedItems] = useState({});
   const [data, setData] = useState([]);
   const [openPopup, setOpenPopup] = useState(false);
-  const [isHoverEnabled, setIsHoverEnabled] = useState(false);
 
   const [popupData, setPopupData] = useState([]);
   const [values, setValues] = useState({
@@ -106,7 +108,7 @@ const Inventory = () => {
       console.log("isHoverEnabled is false");
 
       const cellContent = params.value.toString();
-      console.log("Cell Content:", cellContent);
+      //console.log("Cell Content:", cellContent);
 
       // Call the handleHover function to initiate text-to-speech
       handleTableFieldSpeech(cellContent);
@@ -123,7 +125,7 @@ const Inventory = () => {
         );
         const jsonVals = await response.data;
         console.log("Working");
-        console.log(jsonVals.data.table);
+        //console.log(jsonVals.data.table);
         const rowsWithId = jsonVals.data.table.rows.map(
           (item, ingredient_id) => ({
             id: ingredient_id,
@@ -280,16 +282,28 @@ const Inventory = () => {
     }
   };
 
-  
+
   const recommendedAdjHandle = async (e) => {
-    //Find recommended reductions
-      // Find all orders in that day (in orders table) and save array of order_id
-      // Find all the drink id and number (in drink_orders table) and save information
-      // Get a list of all the ingredients used in each drink (in base_drink_ingredients table)
-      // Cound how many ingredients where used in total
-    //Apply recommended reductions
-      // Update the inventory page with the ingridients changes
-  }
+    e.preventDefault();
+    console.log("Entered recommend adj handle");
+  
+    try {
+      const inventoryResponse = await axios.get(
+        "https://thealley.onrender.com/recommendation_adj"
+        //"http://localhost:4000/recommendation_adj"
+      );
+      const inventoryData = inventoryResponse.data;
+  
+      // Do something with inventoryData if needed
+      console.log("Received inventory data:", inventoryData);
+      console.log("Old Counts Map:", inventoryData.oldCountsMap);
+      console.log("The message is:", inventoryData.message);
+      // If there are specific properties in the response data you need, you can access them like:
+    } catch (error) {
+      console.error("Error during item deletion:", error);
+    }
+  };
+
 
   const [inputErrors, setInputErrors] = useState({
     itemId: false,
@@ -428,7 +442,7 @@ const Inventory = () => {
                   helperText={
                     inputErrors.itemId ? "Please enter a valid integer" : ""
                   }
-                  onMouseOver={() =>
+                  onMouseOver={() => isHoverEnabled &&
                     handleTextFieldSpeech("Item ID", values.itemId.toString())
                   }
                   onMouseOut={handleMouseOut}
@@ -444,7 +458,7 @@ const Inventory = () => {
                   onChange={(e) =>
                     setValues({ ...values, name: e.target.value })
                   }
-                  onMouseOver={() => handleTextFieldSpeech("Name", values.name)}
+                  onMouseOver={() => isHoverEnabled && handleTextFieldSpeech("Name", values.name)}
                   onMouseOut={handleMouseOut}
                 />
               </FormControl>
@@ -462,7 +476,7 @@ const Inventory = () => {
                   helperText={
                     inputErrors.amount ? "Please enter a valid integer" : ""
                   }
-                  onMouseOver={() =>
+                  onMouseOver={() => isHoverEnabled &&
                     handleTextFieldSpeech("Amount", values.amount.toString())
                   }
                   onMouseOut={handleMouseOut}
@@ -478,7 +492,7 @@ const Inventory = () => {
                   onChange={(e) =>
                     handleNumberInputChange(e, "quantityPerUnit")
                   }
-                  onMouseOver={() =>
+                  onMouseOver={() => isHoverEnabled &&
                     handleTextFieldSpeech(
                       "Quantity Per Unit",
                       values.quantityPerUnit
@@ -543,6 +557,7 @@ const Inventory = () => {
               </CustomButton>
 
               <CustomButton
+                onClick={updateHandleSubmit}
                 onMouseOver={(e) => handleHover(e, isHoverEnabled)}
                 onMouseOut={handleMouseOut}
               >
@@ -551,16 +566,13 @@ const Inventory = () => {
             </div>
 
             <CustomButton
+              onClick={recommendedAdjHandle}
               onMouseOver={(e) => handleHover(e, isHoverEnabled)}
               onMouseOut={handleMouseOut}
               style={{ width: "90%" }}
             >
               Apply Recommended Adjustments
             </CustomButton>
-            <TextToSpeech
-              isHoverEnabled={isHoverEnabled}
-              toggleHover={toggleHover}
-            />
           </div>
         </div>
       </div>

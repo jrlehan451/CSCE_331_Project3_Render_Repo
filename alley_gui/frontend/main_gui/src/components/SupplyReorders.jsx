@@ -26,7 +26,45 @@ import {
 import TextToSpeech from "./TextToSpeech";
 import "./MenuItems/MenuItems.css";
 
-const SupplyReorders = () => {
+const CustomButton = styled(ListItemButton)(({ theme }) => ({
+  backgroundColor: "#ffefe2",
+  border: "2px solid #9e693f",
+  color: "#9e693f",
+  fontWeight: "bold",
+  margin: 5,
+  marginTop: 10,
+  borderRadius: "80px",
+  width: "190px",
+  minHeight: "40px",
+  maxHeight: "60px",
+  "&:hover": { backgroundColor: "lightblue" },
+  "&:disabled": { backgroundColor: "gray", color: "white" },
+}));
+
+const SupplyReorders = (props) => {
+  const { isHoverEnabled, handleToggleHover } = props;
+  const [isHoverEnabledState, setIsHoverEnabled] = useState(false); // Add this line
+
+  const toggleHover = () => {
+    setIsHoverEnabled((prevIsHoverEnabled) => !prevIsHoverEnabled);
+    //handleToggleHover();
+  };
+
+  const handleGridCellHover = (params) => {
+    console.log("igredient handleGridCellHover is called!");
+
+    if (isHoverEnabled) {
+      console.log("isHoverEnabled is false");
+
+      const cellContent = params.value.toString();
+      console.log("Cell Content:", cellContent);
+
+      // Call the handleHover function to initiate text-to-speech
+      handleTableFieldSpeech(cellContent);
+      //handleTableFieldSpeech("This is a test");
+    }
+  };
+
   const [data, setData] = useState([]);
   const [openModal, setOpenModal] = useState(false);
   const [selectedItems, setSelectedItems] = useState([]);
@@ -55,25 +93,6 @@ const SupplyReorders = () => {
     amounts: {},
   });
 
-  const [isHoverEnabled, setIsHoverEnabled] = useState(false);
-  const toggleHover = () => {
-    setIsHoverEnabled((prevIsHoverEnabled) => !prevIsHoverEnabled);
-  };
-  const handleGridCellHover = (params) => {
-    console.log("handleGridCellHover is called!");
-
-    if (isHoverEnabled) {
-      console.log("isHoverEnabled is false");
-
-      const cellContent = params.value.toString();
-      console.log("Cell Content:", cellContent);
-
-      // Call the handleHover function to initiate text-to-speech
-      handleTableFieldSpeech(cellContent);
-      //handleTableFieldSpeech("This is a test");
-    }
-  };
-
   const addSupplyReorder = async (selectedItems, amounts) => {
     console.log("Selected Items to be sent:", selectedItems);
     console.log("Amounts to be sent:", amounts);
@@ -94,21 +113,6 @@ const SupplyReorders = () => {
       console.error("Error sending selected items to backend:", error);
     }
   };
-
-  const CustomButton = styled(ListItemButton)(({ theme }) => ({
-    backgroundColor: "#ffefe2",
-    border: "2px solid #9e693f",
-    color: "#9e693f",
-    fontWeight: "bold",
-    margin: 5,
-    marginTop: 10,
-    borderRadius: "80px",
-    width: "190px",
-    minHeight: "40px",
-    maxHeight: "60px",
-    "&:hover": { backgroundColor: "lightblue" },
-    "&:disabled": { backgroundColor: "gray", color: "white" },
-  }));
 
   // Getting inventory from the backend
   useEffect(() => {
@@ -410,7 +414,7 @@ const SupplyReorders = () => {
                   type="number"
                   name="reorderId"
                   value={values.reorderId}
-                  onMouseOver={() =>
+                  onMouseOver={() => isHoverEnabled &&
                     handleTextFieldSpeech("Supply Reorder ID", values.reorderId)
                   }
                   onChange={handleInputChange}
@@ -426,7 +430,7 @@ const SupplyReorders = () => {
                   type="date"
                   name="date"
                   values={values.date}
-                  onMouseOver={() => handleTextFieldSpeech("Date", values.date)}
+                  onMouseOver={() => isHoverEnabled && handleTextFieldSpeech("Date", values.date)}
                   onChange={handleInputChange}
                 />
               </FormControl>
@@ -438,21 +442,21 @@ const SupplyReorders = () => {
           >
             <CustomButton
               onClick={addHandleSubmit}
-              onMouseOver={(e) => handleHover(e, isHoverEnabled)}
+              onMouseOver={(e) => isHoverEnabled && handleHover(e, isHoverEnabled)}
               onMouseOut={handleMouseOut}
             >
               Add Supply Reorder
             </CustomButton>
             <CustomButton
               onClick={deleteHandleSubmit}
-              onMouseOver={(e) => handleHover(e, isHoverEnabled)}
+              onMouseOver={(e) => isHoverEnabled && handleHover(e, isHoverEnabled)}
               onMouseOut={handleMouseOut}
             >
               Delete Supply Reorder
             </CustomButton>
             <CustomButton
               onClick={viewHandleSubmit}
-              onMouseOver={(e) => handleHover(e, isHoverEnabled)}
+              onMouseOver={(e) => isHoverEnabled && handleHover(e, isHoverEnabled)}
               onMouseOut={handleMouseOut}
             >
               View Supply Reorder
@@ -564,10 +568,6 @@ const SupplyReorders = () => {
               </CustomButton>
             </DialogContent>
           </Dialog>
-          <TextToSpeech
-            isHoverEnabled={isHoverEnabled}
-            toggleHover={toggleHover}
-          />
         </div>
       </div>
     </ThemeProvider>
