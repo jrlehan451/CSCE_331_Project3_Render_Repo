@@ -1783,26 +1783,44 @@ app.get("/recommendation_adj", async (req, res) => {
     console.log("Orders:", orders);
     const itemOccurrenceMap = new Map();
     const oldCountsMap = new Map();
+
+    for(const order of orders){
+      const addOnOrderResult = await pool.query(`SELECT * FROM add_ons WHERE order_id = ${order.order_id};`);
+      const addOnRows = addOnOrderResult.rows;
+      //console.log("Add on information", order.order_id, ":", addOnRows);
+      for(const ingredient of addOnRows){
+        const inventoryItemsResults = await pool.query(`SELECT * FROM inventory_items WHERE ingredient_id = ${ingredient.ingredient_id};`);
+        const inventoryItems = inventoryItemsResults.rows;
+        //console.log("Add on final stuff Ingredient ID", ingredient.ingredient_id, ":", inventoryItems);
+          inventoryItems.forEach((inventoryItem) => {
+            const { item_id } = inventoryItem;
+            const { count } = inventoryItem;
+            itemOccurrenceMap.set(item_id, (itemOccurrenceMap.get(item_id) || 0) + 1);
+            // Store the initial count in the oldCountsMap
+            oldCountsMap.set(item_id, count);
+          });
+      }
+    }
     // Step 2: Loop through orders and get drink orders for each order
     for (const order of orders) {
       const drinkOrdersResults = await pool.query(`SELECT * FROM drink_orders WHERE order_id = ${order.order_id};`);
       const drinkOrders = drinkOrdersResults.rows;
 
-      console.log("Drink Orders for Order ID", order.order_id, ":", drinkOrders);
+      //console.log("Drink Orders for Order ID", order.order_id, ":", drinkOrders);
 
       // Step 3: Loop through drink orders and get base drink ingredients for each drink
       for (const drinkOrder of drinkOrders) {
         const baseDrinkIngredientsResults = await pool.query(`SELECT * FROM base_drink_ingredients WHERE drink_id = ${drinkOrder.drink_id};`);
         const baseDrinkIngredients = baseDrinkIngredientsResults.rows;
 
-        console.log("Base Drink Ingredients for Drink ID", drinkOrder.drink_id, ":", baseDrinkIngredients);
+        //console.log("Base Drink Ingredients for Drink ID", drinkOrder.drink_id, ":", baseDrinkIngredients);
 
         // Step 4: Loop through base drink ingredients and get inventory items for each ingredient
         for (const ingredient of baseDrinkIngredients) {
           const inventoryItemsResults = await pool.query(`SELECT * FROM inventory_items WHERE ingredient_id = ${ingredient.ingredient_id};`);
           const inventoryItems = inventoryItemsResults.rows;
 
-          console.log("Inventory Items for Ingredient ID", ingredient.ingredient_id, ":", inventoryItems);
+          //console.log("Inventory Items for Ingredient ID", ingredient.ingredient_id, ":", inventoryItems);
           inventoryItems.forEach((inventoryItem) => {
             const { item_id } = inventoryItem;
             const { count } = inventoryItem;
