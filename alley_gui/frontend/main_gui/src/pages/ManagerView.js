@@ -1,10 +1,7 @@
 import React from "react";
 import { Box, ListItemButton, styled } from "@mui/material";
 
-import { ThemeProvider } from "@mui/material/styles";
-
 import Stack from "@mui/material/Stack";
-import { theme } from "../theme";
 import HomeButton from './images/HomeButton.png';
 import {useAuth0} from '@auth0/auth0-react';
 
@@ -29,21 +26,7 @@ const ManagerView = () => {
   };
   
   return (
-    <ThemeProvider theme={theme}>
-      <Box
-        style={{
-          backgroundColor: theme.palette.primary.main,
-          display: "flex",
-          flexDirection: "column",
-
-          justifyContent: "center",
-          alignItems: "center",
-
-          padding: 0,
-          width: "100vw",
-          height: "100vh",
-        }}
-      >
+      <Box className="managerBox">
         <button className="home-button" onClick={returnHome}> 
             <img src={HomeButton} alt="home" />
         </button>
@@ -107,7 +90,6 @@ const ManagerView = () => {
       </Button> */}
         </Stack>
       </Box>
-    </ThemeProvider>
   );
 };
 
