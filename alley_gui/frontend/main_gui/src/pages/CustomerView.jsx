@@ -1,10 +1,17 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import './customer_home.css';
+import {useAuth0} from '@auth0/auth0-react';
+import HomeButton from '../pages/images/HomeButton.png';
 
 const CustomerHome = () => {
     const [drinkCategories, setData] = useState([]);
     const [popularDrinks, setDrinks] = useState([]);
+    const {logout} = useAuth0();
+
+    const returnHome = () => {
+      logout({ logoutParams: { returnTo: window.location.origin } })
+    };
 
     const getCurrentTotal = () => {
 
@@ -110,6 +117,9 @@ const CustomerHome = () => {
 
     return (
         <div className="customer-home-background" onLoad={() => getCurrentTotal()}>
+        <button className="home-button" onClick={returnHome}>
+            <img src={HomeButton} alt="home" />
+        </button>
         <div className="customer-page">
             <div className="drink-categories-container">
             <h3 className="categories-title">DRINK SERIES</h3>

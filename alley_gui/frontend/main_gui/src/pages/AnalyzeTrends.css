@@ -33,6 +33,7 @@
 .backButton img{
     height: 5vh;
     width: 5vw;
+    object-fit: contain;
 }
 
 #label{
@@ -148,6 +149,7 @@
 .contrast .backButton img{
     height: 5vh;
     width: 5vw;
+    object-fit: contain;
 }
 
 .contrast #label{
