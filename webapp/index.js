@@ -108,7 +108,7 @@ app.get("/login_jsx", async (req, res) => {
   }
 });
 
-app.get("/manager_main", (req, res) => {
+app.get("/manager_mains", (req, res) => {
   const data = { name: "Mario" };
   res.render("manager_main", data);
 });
@@ -720,7 +720,7 @@ app.post("/viewSupplyReorder", (req, res) => {
   res.json({ success: true, message: "Date received successfully." });
 });
 
-// Getting all necessary data for delete supply reorder
+// Getting all necessary data for supply reorder
 app.post("/deleteSupplyReorder", (req, res) => {
   const { reorder_id, date } = req.body;
 
@@ -801,26 +801,26 @@ app.get("/ingredient_items", async (req, res) => {
 });
 
 // Getting ingredient database and sending it to /inventory
-app.get("/supply_reorders", async (req, res) => {
-  try {
-    console.log("Getting all the supply reorder");
+// app.get("/supply_reorders", async (req, res) => {
+//   try {
+//     console.log("Getting all the supply reorder");
 
-    const results = await pool.query("SELECT * FROM supply_reorders;");
-    res.status(200).json({
-      status: "success",
-      results: results.rows.length,
-      data: {
-        table: results,
-      },
-    });
-  } catch (err) {
-    console.log(err);
-    res.status(500).json({
-      status: "error",
-      message: "An error occurred while fetching data.",
-    });
-  }
-});
+//     const results = await pool.query("SELECT * FROM supply_reorders;");
+//     res.status(200).json({
+//       status: "success",
+//       results: results.rows.length,
+//       data: {
+//         table: results,
+//       },
+//     });
+//   } catch (err) {
+//     console.log(err);
+//     res.status(500).json({
+//       status: "error",
+//       message: "An error occurred while fetching data.",
+//     });
+//   }
+// });
 
 app.post("/addItemIngredient", (req, res) => {
   console.log("app.addItemIngredient");
@@ -1771,6 +1771,96 @@ app.post("/updateInventoryFillLevel", (req, res) => {
   );
 });
 
+app.get("/recommendation_adj", async (req, res) => {
+  try {
+    console.log("ordersTodayQuery");
+    const todaysOrders = [];
+    
+    // Step 1: Get orders for the current date
+    const ordersResults = await pool.query("SELECT * FROM orders WHERE DATE(timestamp) = CURRENT_DATE;");
+    const orders = ordersResults.rows;
+
+    console.log("Orders:", orders);
+    const itemOccurrenceMap = new Map();
+    const oldCountsMap = new Map();
+    // Step 2: Loop through orders and get drink orders for each order
+    for (const order of orders) {
+      const drinkOrdersResults = await pool.query(`SELECT * FROM drink_orders WHERE order_id = ${order.order_id};`);
+      const drinkOrders = drinkOrdersResults.rows;
+
+      console.log("Drink Orders for Order ID", order.order_id, ":", drinkOrders);
+
+      // Step 3: Loop through drink orders and get base drink ingredients for each drink
+      for (const drinkOrder of drinkOrders) {
+        const baseDrinkIngredientsResults = await pool.query(`SELECT * FROM base_drink_ingredients WHERE drink_id = ${drinkOrder.drink_id};`);
+        const baseDrinkIngredients = baseDrinkIngredientsResults.rows;
+
+        console.log("Base Drink Ingredients for Drink ID", drinkOrder.drink_id, ":", baseDrinkIngredients);
+
+        // Step 4: Loop through base drink ingredients and get inventory items for each ingredient
+        for (const ingredient of baseDrinkIngredients) {
+          const inventoryItemsResults = await pool.query(`SELECT * FROM inventory_items WHERE ingredient_id = ${ingredient.ingredient_id};`);
+          const inventoryItems = inventoryItemsResults.rows;
+
+          console.log("Inventory Items for Ingredient ID", ingredient.ingredient_id, ":", inventoryItems);
+          inventoryItems.forEach((inventoryItem) => {
+            const { item_id } = inventoryItem;
+            const { count } = inventoryItem;
+            itemOccurrenceMap.set(item_id, (itemOccurrenceMap.get(item_id) || 0) + 1);
+            // Store the initial count in the oldCountsMap
+            oldCountsMap.set(item_id, count);
+          });
+          // Now you can process the data as needed and store the relevant information
+        }
+      }
+    }
+    console.log("Item Counts Map:", itemOccurrenceMap);
+    console.log("Old Counts Map:", oldCountsMap);
+    //console.log("Inventory Items for Ingredient ID", ingredient.ingredient_id, ":", inventoryItems);
+    //Update counts in the inventory_items table
+    for (const [itemId, occurrenceCount] of itemOccurrenceMap) {
+      const oldCount = oldCountsMap.get(itemId) || 0;
+      const updatedCount = Math.max(0, oldCount - occurrenceCount);
+      // Update the inventory_items table using your query
+      await pool.query("UPDATE inventory_items SET count = $1 WHERE item_id = $2;", [updatedCount, itemId]);
+    }
+    //res.render(oldCountsMap);
+    res.status(200).json({
+      status: "success",
+      oldCountsMap,
+      message: "Data retrieved successfully yaaaaaaamip.",
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({
+      status: "error",
+      message: "An error occurred while fetching data.",
+    });
+  }
+});
+
+
+// Getting ingredient database and sending it to /inventory
+app.get("/supply_reorders", async (req, res) => {
+  try {
+    console.log("Getting all the supply reorder");
+
+    const results = await pool.query("SELECT * FROM supply_reorders;");
+    res.status(200).json({
+      status: "success",
+      results: results.rows.length,
+      data: {
+        table: results,
+      },
+    });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({
+      status: "error",
+      message: "An error occurred while fetching data.",
+    });
+  }
+});
 
 app.get("/CustomerPopularityAnalysis", async (req, res) => {
   try {

@@ -8,6 +8,7 @@ import {
   handleTextFieldSpeech,
   handleTableFieldSpeech,
 } from "../SpeechUtils";
+import HoverableElement from '../MagnifyingScreen/MagnifierComponent';
 
 const MenuItemsTable = ({ reloadTable }) => {
   //Store data
@@ -102,6 +103,30 @@ const MenuItemsTable = ({ reloadTable }) => {
     { field: "name", headerName: "Name", width: 200, flex: 1 },
     { field: "cost", headerName: "Cost", type: "number", width: 90, flex: 1 },
   ];
+
+  return (
+    <div class = "tablesInfo"> 
+      <div style={{ height: 425, width: "45vw", marginBottom: "20px", float: "left" }}>
+
+        <h2>Drinks Table</h2>
+
+        <DataGrid rows={menuItemsData} columns={menuItemsColumns} columnBuffer={2} />
+
+
+        
+
+
+        
+      </div>
+
+      <div style={{ height: 425, width: "45vw", marginBottom: "20px", float: "right" }}>
+        <h2>Add-Ons Table</h2>
+        <DataGrid rows={addOnsData} columns={addOnsColumns} columnBuffer={2}/>
+      </div>
+    </div>
+  );
+  
+  // This structure is causing the page to look disorganized
 
   return (
     <div class="tablesInfo"

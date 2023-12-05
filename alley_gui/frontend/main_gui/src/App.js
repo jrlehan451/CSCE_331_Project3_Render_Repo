@@ -7,7 +7,6 @@ import Menu from "./pages/Menu";
 import CashierView from "./pages/CashierView";
 import ManagerView from "./pages/ManagerView";
 import CustomerView from "./pages/CustomerView";
-
 import AnalyzeTrends from "./pages/AnalyzeTrends";
 import Inventory from "./components/Inventory";
 import Ingredients from "./components/Ingredients";
@@ -31,39 +30,32 @@ import translateIcon from './pages/images/translate.png';
 import speechIcon from './pages/images/speech.jpg';
 import TextToSpeech from "./components/TextToSpeech";
 
+
+import HoverableElement from './components/MagnifyingScreen/MagnifierComponent';
 //BrowserRouter basename="/tutorial"> for
 function App() {
   const [name, setName] = useState("");
   const [home, setHome] = useState("");
+  const [magnifierActive, setMagnifierActive] = useState(false);
   const [mousePosition, setMousePosition] = useState({
     x:0,
     y:0
   });
   const [magnify, setMagnify] = useState(false);
 
-  useEffect(() => {
-    const mouseMove = (e) => {
-      setMousePosition({
-        x: e.clientX,
-        y: e.clientY
-      });
+  
 
-      // Update magnification based on some condition
-      //const shouldMagnify = true/* your condition here */;
-      //setMagnify(shouldMagnify);
-    };
+  // const toggleMagnify = () => {
+  //   setMagnify(!magnify);
+  //   if(setMagnify == true){
+  //     //document.body.style.backgroundColor = black;
+  //   }
+  // };
 
-    window.addEventListener("mousemove", mouseMove);
-
-    return () => {
-      window.removeEventListener("mousemove", mouseMove);
-    };
-  }, []);
-
-  const toggleMagnify = () => {
-    setMagnify(!magnify);
+  const toggleMagnifier = () => {
+    setMagnifierActive(!magnifierActive);
   };
-
+ 
  
   useEffect(() => {
     axios.get("https://thealley.onrender.com/home").then(function (response) {
@@ -124,11 +116,13 @@ function App() {
   const isHomePage = location.pathname === "/";
   return (
     <div className="App" onLoad={loadCurrentMode}>
-      <div
-        className={`cursor ${magnify ? 'magnify' : ''}`}
-        style={{left: `${mousePosition.x - 80}px`,top: `${mousePosition.y - 80}px`}}
-      />
-      
+    <div
+      // className={`cursor ${magnify ? 'magnify' : ''}`}
+      // style={{ left: `${mousePosition.x-100}px`, top: `${mousePosition.y-60}px` }}
+    > 
+    </div>
+
+      {/* <LanguageSelect></LanguageSelect> */}
       {isHomePage && <Login />}
       {/* This is used for making connection between backend and frontend commented
       out for github release
@@ -177,10 +171,13 @@ function App() {
 
         <Route path="/customer" element={<CustomerView />} /> */}
       </Routes>
-      <button className="toggle" onClick={toggleMagnify}>
+      <button className="toggle" onClick={toggleMagnifier}>
         <img src = {backIcon} className="image" />
         {magnify}
       </button>
+
+
+      <HoverableElement magnifierActive={magnifierActive} />
       <button className="high-contrast" onClick={highContrastMode}>
         <img src = {contrastIcon} className="image" />
       </button>
@@ -191,6 +188,7 @@ function App() {
       <button className="speech">
         <img src = {speechIcon} className="image" />
       </button>
+      <HoverableElement />
     </div>
   );
 }

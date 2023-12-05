@@ -19,6 +19,13 @@ const auth0Config = {
 
 ReactDOM.render(
   <React.StrictMode>
+    <BrowserRouter>
+      <ThemeProvider theme={theme}>
+        {/* <MagnifierProvider> */}
+          <App />
+        {/* </MagnifierProvider> */}
+      </ThemeProvider>
+    </BrowserRouter>
     <Auth0Provider config={auth0Config}>
       <BrowserRouter>
           <ThemeProvider theme={theme}>
