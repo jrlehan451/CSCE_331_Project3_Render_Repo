@@ -10,13 +10,15 @@ import {
 } from "../SpeechUtils";
 import HoverableElement from '../MagnifyingScreen/MagnifierComponent';
 
-const MenuItemsTable = ({ reloadTable }) => {
+const MenuItemsTable = ({ reloadTable, isHoverEnabled, handleToggleHover }) => {
   //Store data
   const [menuItemsData, setMenuItemsData] = useState([]);
   const [addOnsData, setAddOnsData] = useState([]);
-  const [isHoverEnabled, setIsHoverEnabled] = useState(false);
+  const [isHoverEnabledState, setIsHoverEnabled] = useState(false);
+
   const toggleHover = () => {
     setIsHoverEnabled((prevIsHoverEnabled) => !prevIsHoverEnabled);
+    handleToggleHover();
   };
   const handleGridCellHover = (params) => {
     console.log("handleGridCellHover is called!");
@@ -104,28 +106,6 @@ const MenuItemsTable = ({ reloadTable }) => {
     { field: "cost", headerName: "Cost", type: "number", width: 90, flex: 1 },
   ];
 
-  return (
-    <div class = "tablesInfo"> 
-      <div style={{ height: 425, width: "45vw", marginBottom: "20px", float: "left" }}>
-
-        <h2>Drinks Table</h2>
-
-        <DataGrid rows={menuItemsData} columns={menuItemsColumns} columnBuffer={2} />
-
-
-        
-
-
-        
-      </div>
-
-      <div style={{ height: 425, width: "45vw", marginBottom: "20px", float: "right" }}>
-        <h2>Add-Ons Table</h2>
-        <DataGrid rows={addOnsData} columns={addOnsColumns} columnBuffer={2}/>
-      </div>
-    </div>
-  );
-  
   // This structure is causing the page to look disorganized
 
   return (
@@ -144,7 +124,7 @@ const MenuItemsTable = ({ reloadTable }) => {
             ...column,
             renderCell: (params) => (
               <div
-                onMouseOver={() => handleGridCellHover(params)}
+                onMouseOver={() => isHoverEnabled && handleGridCellHover(params)}
                 onMouseOut={handleMouseOut}
               >
                 {params.value}
@@ -169,7 +149,7 @@ const MenuItemsTable = ({ reloadTable }) => {
             ...column,
             renderCell: (params) => (
               <div
-                onMouseOver={() => handleGridCellHover(params)}
+                onMouseOver={() => isHoverEnabled && handleGridCellHover(params)}
                 onMouseOut={handleMouseOut}
               >
                 {params.value}

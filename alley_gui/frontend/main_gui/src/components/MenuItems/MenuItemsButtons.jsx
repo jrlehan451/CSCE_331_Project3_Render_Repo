@@ -28,14 +28,15 @@ const CustomButton = styled(Button)(({ theme }) => ({
   "&:disabled": { backgroundColor: "gray", color: "white" },
 }));
 
-const MenuItemsButtons = ({ onReload }) => {
+const MenuItemsButtons = ({ onReload, isHoverEnabled, handleToggleHover }) => {
+  const [isHoverEnabledState, setIsHoverEnabled] = useState(false);
   const [reloadTable, setReloadTable] = useState(false);
   const [openPopup, setOpenPopup] = useState(false);
   const [selectedIngredients, setSelectedIngredients] = useState([]);
 
-  const [isHoverEnabled, setIsHoverEnabled] = useState(false);
   const toggleHover = () => {
     setIsHoverEnabled((prevIsHoverEnabled) => !prevIsHoverEnabled);
+    handleToggleHover();
   };
   const handleGridCellHover = (params) => {
     console.log("handleGridCellHover is called!");
@@ -402,7 +403,7 @@ const MenuItemsButtons = ({ onReload }) => {
                   inputErrors.itemId ? "Please enter a valid integer" : ""
                 }
                 value={values.drinkID}
-                onMouseOver={() =>
+                onMouseOver={() => isHoverEnabled &&
                   handleTextFieldSpeech("Drink ID", values.drinkID)
                 }
               />
@@ -415,10 +416,10 @@ const MenuItemsButtons = ({ onReload }) => {
                 id="drinkNameButton"
                 variant="filled"
                 size="small"
-                onChange={(e) =>
+                onChange={(e) => 
                   setValues({ ...values, drinkName: e.target.value })
                 }
-                onMouseOver={() => handleTextFieldSpeech("Name", values.name)}
+                onMouseOver={() => isHoverEnabled && handleTextFieldSpeech("Name", values.name)}
               />
             </FormControl>
           </div>
@@ -436,7 +437,7 @@ const MenuItemsButtons = ({ onReload }) => {
                   inputErrors.itemId ? "Please enter a valid integer" : ""
                 }
                 value={values.drinkCost}
-                onMouseOver={() =>
+                onMouseOver={() => isHoverEnabled &&
                   handleTextFieldSpeech("Drink Cost", values.drinkCost)
                 }
               />
@@ -452,7 +453,7 @@ const MenuItemsButtons = ({ onReload }) => {
                 onChange={(e) =>
                   setValues({ ...values, drinkCategory: e.target.value })
                 }
-                onMouseOver={() =>
+                onMouseOver={() => isHoverEnabled &&
                   handleTextFieldSpeech("Drink Category", values.drinkCategory)
                 }
               />
@@ -505,7 +506,7 @@ const MenuItemsButtons = ({ onReload }) => {
                   inputErrors.itemId ? "Please enter a valid integer" : ""
                 }
                 value={values.addOnID}
-                onMouseOver={() =>
+                onMouseOver={() => isHoverEnabled &&
                   handleTextFieldSpeech("Add On ID", values.addOnID)
                 }
               />
@@ -521,7 +522,7 @@ const MenuItemsButtons = ({ onReload }) => {
                 onChange={(e) =>
                   setValues({ ...values, addOnName: e.target.value })
                 }
-                onMouseOver={() =>
+                onMouseOver={() => isHoverEnabled &&
                   handleTextFieldSpeech("Add On Name", values.addOnName)
                 }
               />
@@ -542,7 +543,7 @@ const MenuItemsButtons = ({ onReload }) => {
                 //  inputErrors.itemId ? "Please enter a valid float value" : ""
                 //  }
                 value={values.addOnCost}
-                onMouseOver={() =>
+                onMouseOver={() =>  isHoverEnabled &&
                   handleTextFieldSpeech("Add On Cost", values.addOnCost)
                 }
               />
@@ -580,10 +581,6 @@ const MenuItemsButtons = ({ onReload }) => {
           >
             Delete Add On
           </CustomButton>
-          <TextToSpeech
-            isHoverEnabled={isHoverEnabled}
-            toggleHover={toggleHover}
-          />
         </div>
         {/* Add any additional elements/buttons as needed */}
       </div>

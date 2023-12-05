@@ -39,7 +39,30 @@ const CustomButton = styled(ListItemButton)(({ theme }) => ({
   "&:disabled": { backgroundColor: "gray", color: "white" },
 }));
 
-const Ingredients = () => {
+const Ingredients = (props) => {
+  const { isHoverEnabled, handleToggleHover } = props;
+  const [isHoverEnabledState, setIsHoverEnabled] = useState(false); // Add this line
+
+  const toggleHover = () => {
+    setIsHoverEnabled((prevIsHoverEnabled) => !prevIsHoverEnabled);
+    //handleToggleHover();
+  };
+
+  const handleGridCellHover = (params) => {
+    console.log("igredient handleGridCellHover is called!");
+
+    if (isHoverEnabled) {
+      console.log("isHoverEnabled is false");
+
+      const cellContent = params.value.toString();
+      console.log("Cell Content:", cellContent);
+
+      // Call the handleHover function to initiate text-to-speech
+      handleTableFieldSpeech(cellContent);
+      //handleTableFieldSpeech("This is a test");
+    }
+  };
+
   // Creating columns for displaying sql queries
   const columns = [
     { field: "ingredientId", headerName: "Ingredeint ID", width: 130, flex: 1 },
@@ -67,25 +90,6 @@ const Ingredients = () => {
   const [openPopup, setOpenPopup] = useState(false);
   const [popupData, setPopupData] = useState([]);
   const [checkedItems, setCheckedItems] = useState({});
-
-  const [isHoverEnabled, setIsHoverEnabled] = useState(false);
-  const toggleHover = () => {
-    setIsHoverEnabled((prevIsHoverEnabled) => !prevIsHoverEnabled);
-  };
-  const handleGridCellHover = (params) => {
-    console.log("handleGridCellHover is called!");
-
-    if (isHoverEnabled) {
-      console.log("isHoverEnabled is false");
-
-      const cellContent = params.value.toString();
-      console.log("Cell Content:", cellContent);
-
-      // Call the handleHover function to initiate text-to-speech
-      handleTableFieldSpeech(cellContent);
-      //handleTableFieldSpeech("This is a test");
-    }
-  };
 
   const handleNumberInputChange = (e, key) => {
     // Allow only valid integers in the input
@@ -356,7 +360,7 @@ const Ingredients = () => {
                 variant="filled"
                 onChange={(e) => handleNumberInputChange(e, "ingredientId")}
                 value={values.ingredientId}
-                onMouseOver={() =>
+                onMouseOver={() => isHoverEnabled &&
                   handleTextFieldSpeech("ingredientId", values.ingredientId)
                 }
                 type="number"
@@ -374,7 +378,7 @@ const Ingredients = () => {
                 id="filled-basic"
                 variant="filled"
                 onChange={(e) => setValues({ ...values, name: e.target.value })}
-                onMouseOver={() => handleTextFieldSpeech("Name", values.name)}
+                onMouseOver={() => isHoverEnabled && handleTextFieldSpeech("Name", values.name)}
               />
             </FormControl>
           </div>
@@ -386,7 +390,7 @@ const Ingredients = () => {
                 variant="filled"
                 onChange={(e) => handleNumberInputChange(e, "cost")}
                 value={values.cost}
-                onMouseOver={() => handleTextFieldSpeech("Cost", values.cost)}
+                onMouseOver={() => isHoverEnabled && handleTextFieldSpeech("Cost", values.cost)}
                 type="number"
                 error={inputErrors.cost}
                 helperText={
@@ -419,10 +423,6 @@ const Ingredients = () => {
           >
             Update ingredient
           </CustomButton>
-          <TextToSpeech
-            isHoverEnabled={isHoverEnabled}
-            toggleHover={toggleHover}
-          />
         </div>
       </div>
     </div>
