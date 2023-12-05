@@ -113,6 +113,16 @@ function App() {
     }
   }
 
+  const openAccessibility = () => {
+    document.getElementById("accessibilityMenu").style.display = "block";
+    document.getElementById("closedAccessibilityMenu").style.display = "none";
+  }
+
+  const closeAccessibility = () => {
+    document.getElementById("accessibilityMenu").style.display = "none";
+    document.getElementById("closedAccessibilityMenu").style.display = "block";
+  }
+
   const isHomePage = location.pathname === "/";
   return (
     <div className="App" onLoad={loadCurrentMode}>
@@ -171,24 +181,27 @@ function App() {
 
         <Route path="/customer" element={<CustomerView />} /> */}
       </Routes>
-      <button className="toggle" onClick={toggleMagnifier}>
-        <img src = {backIcon} className="image" />
-        {magnify}
-      </button>
 
-
-      <HoverableElement magnifierActive={magnifierActive} />
-      <button className="high-contrast" onClick={highContrastMode}>
-        <img src = {contrastIcon} className="image" />
-      </button>
-      <button className="translate">
-        <img src = {translateIcon} className="image" />
-        <LanguageSelect></LanguageSelect>
-      </button>
-      <button className="speech">
-        <img src = {speechIcon} className="image" />
-      </button>
-      <HoverableElement />
+      <button id="closedAccessibilityMenu" onClick={openAccessibility}>&lt;</button>
+      <div id="accessibilityMenu">
+        <HoverableElement magnifierActive={magnifierActive} />
+        <button className="toggle" onClick={toggleMagnifier}>
+          <img src = {backIcon} className="image" />
+          {magnify}
+        </button>
+        <button className="high-contrast" onClick={highContrastMode}>
+          <img src = {contrastIcon} className="image" />
+        </button>
+        <button className="translate">
+          <img src = {translateIcon} className="image" />
+          <LanguageSelect></LanguageSelect>
+        </button>
+        <button className="speech">
+          <img src = {speechIcon} className="image" />
+        </button>
+        <button className="closeAccessibility" onClick={closeAccessibility}>Close Accessibility</button>
+        <HoverableElement />
+      </div>
     </div>
   );
 }
