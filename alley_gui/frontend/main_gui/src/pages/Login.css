@@ -177,3 +177,16 @@ body {
     border-width: .2vh;
     padding:0;
 }
+
+.weather-panel{
+    background-color: navy;
+    border-radius: 2.3vh;
+    width: 15vw;
+    height: 10vh;
+    position: absolute;
+    top: 1vh;
+    left: 2vw;
+    color: white;
+    display: flex;
+    font-size: .8vw;
+}

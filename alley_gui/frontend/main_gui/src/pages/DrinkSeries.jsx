@@ -96,8 +96,6 @@ const DrinkSeries = () => {
     window.location.href = currLocation.replace(
       "drink_series/" + array[4],
       "view_cart"
-    );
-  };
 
   const { category } = useParams();
 
