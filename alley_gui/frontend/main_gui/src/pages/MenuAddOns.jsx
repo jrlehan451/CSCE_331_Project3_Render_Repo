@@ -5,6 +5,11 @@ import arrow from './images/back_arrow.png';
 
 import './MenuAddOns.css';
 
+/**
+ * @description This component displays all the add ons offered on the Menu. It displays a picture of the add ons alongside the name.
+ * @component Menu AddOns
+ * @returns menu add on page which displays all the add-ons
+ */
 const MenuAddons = () => {
     const [addOns, setAddOns] = useState([]);
 
@@ -22,6 +27,10 @@ const MenuAddons = () => {
         window.location.href = "/";
     };
   
+    /**
+     * @description navigates to the menu drinks page from the menu add ons page
+     * @function navigateToMenu
+     */
     const navigateToMenu = () => {
         var currLocation = window.location.href;
         window.location.href = currLocation.replace("MenuAddOns", "Menu");
@@ -34,6 +43,10 @@ const MenuAddons = () => {
       return words.join("_");
     }
 
+    /**
+     * @descriptio uses API query to back-end server to get all the add ons offered by the store
+     * @function getAddOns
+     */
     useEffect(() => {
         const getAddOns = async () => {
           try {
