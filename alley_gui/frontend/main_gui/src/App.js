@@ -165,7 +165,15 @@ function App() {
             />
           }
         />
-        <Route path="/Ingredients" element={<Ingredients />} />
+        <Route
+          path="/Ingredients"
+          element={
+            <Ingredients
+              isHoverEnabled={isHoverEnabled}
+              handleToggleHover={handleToggleHover}
+            />
+          }
+        />
         <Route path="/MenuItems" element={<MenuItems />} />
         <Route path="/SupplyReorder" element={<SupplyReorder />} />
         <Route path="/manager" element={<ManagerView />} />
