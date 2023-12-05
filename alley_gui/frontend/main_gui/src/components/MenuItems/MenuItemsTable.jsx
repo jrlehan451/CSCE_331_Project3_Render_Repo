@@ -9,13 +9,15 @@ import {
   handleTableFieldSpeech,
 } from "../SpeechUtils";
 
-const MenuItemsTable = ({ reloadTable }) => {
+const MenuItemsTable = ({ reloadTable, isHoverEnabled, handleToggleHover }) => {
   //Store data
   const [menuItemsData, setMenuItemsData] = useState([]);
   const [addOnsData, setAddOnsData] = useState([]);
-  const [isHoverEnabled, setIsHoverEnabled] = useState(false);
+  const [isHoverEnabledState, setIsHoverEnabled] = useState(false); // Add this line
+
   const toggleHover = () => {
     setIsHoverEnabled((prevIsHoverEnabled) => !prevIsHoverEnabled);
+    handleToggleHover();
   };
   const handleGridCellHover = (params) => {
     console.log("handleGridCellHover is called!");
@@ -103,55 +105,106 @@ const MenuItemsTable = ({ reloadTable }) => {
     { field: "cost", headerName: "Cost", type: "number", width: 90, flex: 1 },
   ];
 
+  const highContrastMode = () => {
+    const body = document.querySelector("body");
+    if (body.classList.contains("contrast")) {
+      body.classList.remove("contrast");
+      document.body.style.backgroundColor = "#ffefe2";
+      sessionStorage.setItem("high_contrast_mode", false);
+    } else {
+      body.classList.add("contrast");
+      document.body.style.backgroundColor = "black";
+      sessionStorage.setItem("high_contrast_mode", true);
+    }
+  };
+
+  const loadCurrentMode = () => {
+    if (sessionStorage.getItem("high_contrast_mode")) {
+      const body = document.querySelector("body");
+      if (body.classList.contains("contrast") == false) {
+        body.classList.add("contrast");
+        document.body.style.backgroundColor = "black";
+      }
+    } else {
+      const body = document.querySelector("body");
+      body.classList.remove("contrast");
+      document.body.style.backgroundColor = "#ffefe2";
+    }
+  };
+
   return (
-    <div class="tablesInfo"
-        style={{
-          height: 425,
-          width: "45vw",
-          marginBottom: "20px",
-          float: "left",
-        }}> 
-      <div style={{ height: 425, width: "45vw", marginBottom: "20px", float: "left" }}>
-        <h2>Drinks Table</h2>
-        <DataGrid
-          rows={menuItemsData}
-          columns={menuItemsColumns.map((column) => ({
-            ...column,
-            renderCell: (params) => (
-              <div
-                onMouseOver={() => handleGridCellHover(params)}
-                onMouseOut={handleMouseOut}
-              >
-                {params.value}
-              </div>
-            ),
-          }))}
-        />
-        {/* DataGrid rows={menuItemsData} columns={menuItemsColumns} columnBuffer={2} /> */}
-      </div>
+    <div
+      class="tablesInfo"
+      style={{
+        height: 425,
+        width: "45vw",
+        marginBottom: "20px",
+        float: "left",
+      }}
+      onLoad={() => loadCurrentMode()}
+    >
+      <button onClick={highContrastMode}>test</button>
       <div
         style={{
           height: 425,
           width: "45vw",
           marginBottom: "20px",
-          float: "right",
+          float: "left",
         }}
       >
-        <h2>Add-Ons Table</h2>
-        <DataGrid
-          rows={addOnsData}
-          columns={addOnsColumns.map((column) => ({
-            ...column,
-            renderCell: (params) => (
-              <div
-                onMouseOver={() => handleGridCellHover(params)}
-                onMouseOut={handleMouseOut}
-              >
-                {params.value}
-              </div>
-            ),
-          }))}
-        />
+        <div
+          style={{
+            height: 425,
+            width: "45vw",
+            marginBottom: "20px",
+            float: "left",
+          }}
+        >
+          <h2>Drinks Table</h2>
+          <DataGrid
+            rows={menuItemsData}
+            columns={menuItemsColumns.map((column) => ({
+              ...column,
+              renderCell: (params) => (
+                <div
+                  onMouseOver={() =>
+                    isHoverEnabled && handleGridCellHover(params)
+                  }
+                  onMouseOut={handleMouseOut}
+                >
+                  {params.value}
+                </div>
+              ),
+            }))}
+          />
+          {/* DataGrid rows={menuItemsData} columns={menuItemsColumns} columnBuffer={2} /> */}
+        </div>
+        <div
+          style={{
+            height: 425,
+            width: "45vw",
+            marginBottom: "20px",
+            float: "right",
+          }}
+        >
+          <h2>Add-Ons Table</h2>
+          <DataGrid
+            rows={addOnsData}
+            columns={addOnsColumns.map((column) => ({
+              ...column,
+              renderCell: (params) => (
+                <div
+                  onMouseOver={() =>
+                    isHoverEnabled && handleGridCellHover(params)
+                  }
+                  onMouseOut={handleMouseOut}
+                >
+                  {params.value}
+                </div>
+              ),
+            }))}
+          />
+        </div>
       </div>
     </div>
   );
