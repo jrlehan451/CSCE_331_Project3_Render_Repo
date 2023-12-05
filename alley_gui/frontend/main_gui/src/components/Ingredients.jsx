@@ -23,31 +23,9 @@ import {
   handleTextFieldSpeech,
   handleTableFieldSpeech,
 } from "./SpeechUtils";
+import TextToSpeech from "./TextToSpeech";
 
-const Ingredients = (props) => {
-  const { isHoverEnabled, handleToggleHover } = props;
-  const [isHoverEnabledState, setIsHoverEnabled] = useState(false); // Add this line
-
-  const toggleHover = () => {
-    setIsHoverEnabled((prevIsHoverEnabled) => !prevIsHoverEnabled);
-    //handleToggleHover();
-  };
-
-  const handleGridCellHover = (params) => {
-    console.log("igredient handleGridCellHover is called!");
-
-    if (isHoverEnabled) {
-      console.log("isHoverEnabled is false");
-
-      const cellContent = params.value.toString();
-      console.log("Cell Content:", cellContent);
-
-      // Call the handleHover function to initiate text-to-speech
-      handleTableFieldSpeech(cellContent);
-      //handleTableFieldSpeech("This is a test");
-    }
-  };
-
+const Ingredients = () => {
   // Creating custom buttons
   const CustomButton = styled(ListItemButton)(({ theme }) => ({
     backgroundColor: "#ffefe2",
@@ -91,6 +69,25 @@ const Ingredients = (props) => {
   const [openPopup, setOpenPopup] = useState(false);
   const [popupData, setPopupData] = useState([]);
   const [checkedItems, setCheckedItems] = useState({});
+
+  const [isHoverEnabled, setIsHoverEnabled] = useState(false);
+  const toggleHover = () => {
+    setIsHoverEnabled((prevIsHoverEnabled) => !prevIsHoverEnabled);
+  };
+  const handleGridCellHover = (params) => {
+    console.log("handleGridCellHover is called!");
+
+    if (isHoverEnabled) {
+      console.log("isHoverEnabled is false");
+
+      const cellContent = params.value.toString();
+      console.log("Cell Content:", cellContent);
+
+      // Call the handleHover function to initiate text-to-speech
+      handleTableFieldSpeech(cellContent);
+      //handleTableFieldSpeech("This is a test");
+    }
+  };
 
   const handleNumberInputChange = (e, key) => {
     // Allow only valid integers in the input
@@ -155,10 +152,7 @@ const Ingredients = (props) => {
     const fetchData = async () => {
       if (!openPopup) {
         // Popup is closed, perform the axios POST request
-        await axios.post(
-          "https://thealley.onrender.com/addItemIngredient",
-          values
-        );
+        await axios.post("https://thealley.onrender.com/addItemIngredient", values);
 
         setValues({ ...values, ingredientId: "" });
       }
@@ -184,10 +178,7 @@ const Ingredients = (props) => {
       if (itemToDelete) {
         // // Fetch the corresponding inventory_id
 
-        await axios.post(
-          "https://thealley.onrender.com/deleteItemIngredient",
-          values
-        );
+        await axios.post("https://thealley.onrender.com/deleteItemIngredient", values);
         console.log("Item deleted succesfully");
       } else {
         alert("Item with the specified ingredientId and name not found.");
@@ -213,10 +204,7 @@ const Ingredients = (props) => {
       if (itemToDelete) {
         // // Fetch the corresponding inventory_id
 
-        await axios.post(
-          "https://thealley.onrender.com/updateItemIngredient",
-          values
-        );
+        await axios.post("https://thealley.onrender.com/updateItemIngredient", values);
         console.log("Item updated succesfully");
       } else {
         alert("Item with the specified ingredientId not found.");
@@ -338,8 +326,7 @@ const Ingredients = (props) => {
           backgroundColor: theme.palette.primary.main,
           display: "flex",
           flexDirection: "column",
-        }}
-      >
+        }}>
         <h1>Ingredient Page</h1>
         <div class="tablesInfo">
           <div style={{ height: 400, width: "80vw", marginBottom: "20px" }}>
@@ -377,7 +364,6 @@ const Ingredients = (props) => {
                 onChange={(e) => handleNumberInputChange(e, "ingredientId")}
                 value={values.ingredientId}
                 onMouseOver={() =>
-                  isHoverEnabled &&
                   handleTextFieldSpeech("ingredientId", values.ingredientId)
                 }
                 type="number"
@@ -395,9 +381,7 @@ const Ingredients = (props) => {
                 id="filled-basic"
                 variant="filled"
                 onChange={(e) => setValues({ ...values, name: e.target.value })}
-                onMouseOver={() =>
-                  isHoverEnabled && handleTextFieldSpeech("Name", values.name)
-                }
+                onMouseOver={() => handleTextFieldSpeech("Name", values.name)}
               />
             </FormControl>
           </div>
@@ -409,9 +393,7 @@ const Ingredients = (props) => {
                 variant="filled"
                 onChange={(e) => handleNumberInputChange(e, "cost")}
                 value={values.cost}
-                onMouseOver={() =>
-                  isHoverEnabled && handleTextFieldSpeech("Cost", values.cost)
-                }
+                onMouseOver={() => handleTextFieldSpeech("Cost", values.cost)}
                 type="number"
                 error={inputErrors.cost}
                 helperText={
@@ -444,6 +426,10 @@ const Ingredients = (props) => {
           >
             Update ingredient
           </CustomButton>
+          <TextToSpeech
+            isHoverEnabled={isHoverEnabled}
+            toggleHover={toggleHover}
+          />
         </div>
       </div>
     </ThemeProvider>

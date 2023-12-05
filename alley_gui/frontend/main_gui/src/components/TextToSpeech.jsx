@@ -1,42 +1,48 @@
-import React, { useEffect, useState } from "react";
-import { handleHover, handleTextFieldSpeech } from "./SpeechUtils";
+import React, { useEffect } from "react";
+import {
+  handleHover,
+  handleMouseOut,
+  handleTextFieldSpeech,
+} from "./SpeechUtils";
 
-const TextToSpeech = ({ isHoverEnabled, toggleHover, imageSrc }) => {
-  console.log(
-    "TextToSpeech component rendered. isHoverEnabled:",
-    isHoverEnabled
-  );
-
-  const [internalIsHoverEnabled, setInternalIsHoverEnabled] =
-    useState(isHoverEnabled);
-
-  useEffect(() => {
-    setInternalIsHoverEnabled(isHoverEnabled);
-  }, [isHoverEnabled]);
-
+const TextToSpeech = ({
+  isHoverEnabled,
+  toggleHover,
+  selectedRow,
+  rowData,
+  label,
+  value,
+  buttonText,
+}) => {
   const handleToggleHover = () => {
     toggleHover();
 
-    const statusText = internalIsHoverEnabled
+    // Speak the status explicitly
+    const statusText = isHoverEnabled
       ? "Text To Speech Disabled"
       : "Text To Speech Enabled";
-
     handleTextFieldSpeech(statusText);
 
-    setInternalIsHoverEnabled(!internalIsHoverEnabled);
+    if (buttonText) {
+      // Handle button text
+      handleHover(buttonText, isHoverEnabled);
+    } else {
+      // Handle text field labels and values
+      handleTextFieldSpeech(label, value);
+    }
   };
 
   useEffect(() => {
-    if (internalIsHoverEnabled) {
-      // Add your logic here for handling hover
-      console.log("Handling hover...");
+    if (isHoverEnabled && selectedRow && rowData) {
+      const textToSpeak = `Item ID ${rowData.itemId}, Name ${rowData.name}, Amount ${rowData.amount}, Quantity Per Unit ${rowData.quantityPerUnit}`;
+      handleHover(textToSpeak, isHoverEnabled);
     }
-  }, [internalIsHoverEnabled]);
+  }, [isHoverEnabled, selectedRow, rowData]);
 
   return (
-    <div className="TextToSpeech">
+    <div className="App">
       <button onClick={handleToggleHover}>
-        <img src={imageSrc} className="image" />
+        {isHoverEnabled ? "Disable Text To Speech" : "Enable Text To Speech"}
       </button>
     </div>
   );

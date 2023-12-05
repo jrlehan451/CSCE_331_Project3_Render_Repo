@@ -26,30 +26,7 @@ import {
 import TextToSpeech from "./TextToSpeech";
 import "./MenuItems/MenuItems.css";
 
-const SupplyReorders = (props) => {
-  const { isHoverEnabled, handleToggleHover } = props;
-  const [isHoverEnabledState, setIsHoverEnabled] = useState(false); // Add this line
-
-  const toggleHover = () => {
-    setIsHoverEnabled((prevIsHoverEnabled) => !prevIsHoverEnabled);
-    //handleToggleHover();
-  };
-
-  const handleGridCellHover = (params) => {
-    console.log("igredient handleGridCellHover is called!");
-
-    if (isHoverEnabled) {
-      console.log("isHoverEnabled is false");
-
-      const cellContent = params.value.toString();
-      console.log("Cell Content:", cellContent);
-
-      // Call the handleHover function to initiate text-to-speech
-      handleTableFieldSpeech(cellContent);
-      //handleTableFieldSpeech("This is a test");
-    }
-  };
-
+const SupplyReorders = () => {
   const [data, setData] = useState([]);
   const [openModal, setOpenModal] = useState(false);
   const [selectedItems, setSelectedItems] = useState([]);
@@ -77,6 +54,25 @@ const SupplyReorders = (props) => {
     date: "",
     amounts: {},
   });
+
+  const [isHoverEnabled, setIsHoverEnabled] = useState(false);
+  const toggleHover = () => {
+    setIsHoverEnabled((prevIsHoverEnabled) => !prevIsHoverEnabled);
+  };
+  const handleGridCellHover = (params) => {
+    console.log("handleGridCellHover is called!");
+
+    if (isHoverEnabled) {
+      console.log("isHoverEnabled is false");
+
+      const cellContent = params.value.toString();
+      console.log("Cell Content:", cellContent);
+
+      // Call the handleHover function to initiate text-to-speech
+      handleTableFieldSpeech(cellContent);
+      //handleTableFieldSpeech("This is a test");
+    }
+  };
 
   const addSupplyReorder = async (selectedItems, amounts) => {
     console.log("Selected Items to be sent:", selectedItems);
@@ -415,7 +411,6 @@ const SupplyReorders = (props) => {
                   name="reorderId"
                   value={values.reorderId}
                   onMouseOver={() =>
-                    isHoverEnabled &&
                     handleTextFieldSpeech("Supply Reorder ID", values.reorderId)
                   }
                   onChange={handleInputChange}
@@ -431,9 +426,7 @@ const SupplyReorders = (props) => {
                   type="date"
                   name="date"
                   values={values.date}
-                  onMouseOver={() =>
-                    isHoverEnabled && handleTextFieldSpeech("Date", values.date)
-                  }
+                  onMouseOver={() => handleTextFieldSpeech("Date", values.date)}
                   onChange={handleInputChange}
                 />
               </FormControl>
@@ -445,9 +438,7 @@ const SupplyReorders = (props) => {
           >
             <CustomButton
               onClick={addHandleSubmit}
-              onMouseOver={(e) =>
-                isHoverEnabled && handleHover(e, isHoverEnabled)
-              }
+              onMouseOver={(e) => handleHover(e, isHoverEnabled)}
               onMouseOut={handleMouseOut}
             >
               Add Supply Reorder
@@ -573,6 +564,10 @@ const SupplyReorders = (props) => {
               </CustomButton>
             </DialogContent>
           </Dialog>
+          <TextToSpeech
+            isHoverEnabled={isHoverEnabled}
+            toggleHover={toggleHover}
+          />
         </div>
       </div>
     </ThemeProvider>

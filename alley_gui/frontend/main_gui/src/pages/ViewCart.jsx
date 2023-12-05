@@ -1,39 +1,11 @@
-import React, { useState } from "react";
+import React from 'react';
 import axios from "axios";
-import "./view_cart.css";
-import backArrowImage from "./images/back_arrow.png";
-
-import {
-  handleHover,
-  handleMouseOut,
-  handleTextFieldSpeech,
-  handleTableFieldSpeech,
-} from "../components/SpeechUtils";
-import TextToSpeech from "../components/TextToSpeech";
+import './view_cart.css';
+import backArrowImage from './images/back_arrow.png';
 
 const ViewCart = () => {
-  const [isHoverEnabled, setIsHoverEnabled] = useState(false);
-  const toggleHover = () => {
-    setIsHoverEnabled((prevIsHoverEnabled) => !prevIsHoverEnabled);
-  };
-  const handleGridCellHover = (params) => {
-    console.log("handleGridCellHover is called!");
 
-    if (isHoverEnabled) {
-      console.log("isHoverEnabled is false");
-
-      const cellContent = params.value.toString();
-      console.log("Cell Content:", cellContent);
-
-      // Call the handleHover function to initiate text-to-speech
-      handleTableFieldSpeech(cellContent);
-      //handleTableFieldSpeech("This is a test");
-    }
-  };
-
-  let currDrinksInOrder = JSON.parse(
-    sessionStorage.getItem("currentOrderDrinks")
-  );
+  let currDrinksInOrder = JSON.parse(sessionStorage.getItem("currentOrderDrinks"));
 
   const capitalizeName = (name, delimiter) => {
     const words = name.split(delimiter);
@@ -42,7 +14,7 @@ const ViewCart = () => {
     }
     return words.join(" ");
   };
-
+    
   const navCustomerHome = () => {
     var currLocation = window.location.href;
     window.location.href = currLocation.replace("view_cart", "customer");
@@ -65,9 +37,7 @@ const ViewCart = () => {
   const goToCheckout = async(e) => {
     e.preventDefault();
 
-    var currDrinksInOrder = JSON.parse(
-      sessionStorage.getItem("currentOrderDrinks")
-    );
+    var currDrinksInOrder = JSON.parse(sessionStorage.getItem("currentOrderDrinks"));
 
     var totalCost = 0;
     for (var i = 0; i < currDrinksInOrder.length; i++) {
@@ -83,29 +53,24 @@ const ViewCart = () => {
       totalCost += currentDrink;
     }
 
-    try {
+    try {     
       await axios.post("https://thealley.onrender.com/post_customer_order", {
           currDrinksInOrder: sessionStorage.getItem('currentOrderDrinks'),
           customer: document.getElementById("cname").value,
           totalCost: totalCost.toFixed(2),
       });
-    } catch (err) {
-      console.error(`Error: ${err}`);
+    } catch(err) {
+        console.error(`Error: ${err}`);
     }
 
     var currLocation = window.location.href;
-    window.location.href = currLocation.replace(
-      "view_cart",
-      "customer_checkout"
-    );
-  };
+    window.location.href = currLocation.replace("view_cart", "customer_checkout");
+  }
 
   const getCurrentTotal = () => {
-    let currDrinksInOrder = [];
+    let currDrinksInOrder = []
     if (sessionStorage.getItem("currentOrderDrinks")) {
-      currDrinksInOrder = JSON.parse(
-        sessionStorage.getItem("currentOrderDrinks")
-      );
+      currDrinksInOrder = JSON.parse(sessionStorage.getItem("currentOrderDrinks"));
     }
 
     var totalCost = 0;
@@ -123,34 +88,10 @@ const ViewCart = () => {
     }
 
     return "Total: " + totalCost.toFixed(2);
-  };
-
-  const highContrastMode = () => {
-    const body = document.querySelector("body");
-    if (body.classList.contains("contrast")) {
-      body.classList.remove("contrast");
-      sessionStorage.setItem("high_contrast_mode", false);
-    } else {
-      body.classList.add("contrast");
-      sessionStorage.setItem("high_contrast_mode", true);
-    }
-  };
-
-  const loadCurrentMode = () => {
-    if (sessionStorage.getItem("high_contrast_mode")) {
-      const body = document.querySelector("body");
-      if (body.classList.contains("contrast") == false) {
-        body.classList.add("contrast");
-      }
-    } else {
-      const body = document.querySelector("body");
-      body.classList.remove("contrast");
-    }
-  };
+  }
 
   return (
-    <div className="view-cart-background" onLoad={() => loadCurrentMode()}>
-      <button onClick={highContrastMode}>test</button>
+    <div className="view-cart-background">
       <button onClick={navCustomerHome} className="back-build">
         <img src={backArrowImage} alt="Back Arrow" width="60%" height="10%" />
       </button>
@@ -172,18 +113,11 @@ const ViewCart = () => {
       </div>
 
       <div className="checkout-container">
-        <p id="currentTotalCost" className="total">
-          {getCurrentTotal()}
-        </p>
-        <button
-          onClick={goToCheckout}
-          onMouseOver={(e) => handleHover(e, isHoverEnabled)}
-          onMouseOut={handleMouseOut}
-        >
-          Checkout
-        </button>
+        <p id="currentTotalCost" className="total">{getCurrentTotal()}</p>
+        <p className="name">Enter Name: </p>
+        <input className="customer-name" type="text" id="cname" name="cname"/><br/>
+        <button onClick={goToCheckout}>Checkout</button>
       </div>
-      <TextToSpeech isHoverEnabled={isHoverEnabled} toggleHover={toggleHover} />
     </div>
   );
 };

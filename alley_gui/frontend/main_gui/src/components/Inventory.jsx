@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import TextToSpeech from "./TextToSpeech";
 import axios from "axios";
 import { DataGrid, GridColDef, GridValueGetterParams } from "@mui/x-data-grid";
 import { ThemeProvider } from "@mui/material/styles";
@@ -27,10 +28,7 @@ import {
 import "./MenuItems/MenuItems.css";
 
 //import axios from "axios"; // Make sure to import axios for HTTP requests
-const Inventory = (props) => {
-  const { isHoverEnabled, handleToggleHover } = props;
-  const [isHoverEnabledState, setIsHoverEnabled] = useState(false); // Add this line
-
+const Inventory = () => {
   const toggleHover = () => {
     setIsHoverEnabled((prevIsHoverEnabled) => !prevIsHoverEnabled);
   };
@@ -56,13 +54,7 @@ const Inventory = (props) => {
     { field: "itemId", headerName: "Item ID", width: 70, flex: 1 },
     { field: "ingredientId", headerName: "Ingredeint ID", width: 130, flex: 1 },
     { field: "name", headerName: "Name", width: 130, flex: 1 },
-    {
-      field: "count",
-      headerName: "Amount",
-      type: "number",
-      width: 90,
-      flex: 1,
-    },
+    { field: "count", headerName: "Amount", type: "number", width: 90, flex: 1 },
     {
       field: "fillLevel",
       headerName: "Fill Level",
@@ -82,7 +74,7 @@ const Inventory = (props) => {
   const [checkedItems, setCheckedItems] = useState({});
   const [data, setData] = useState([]);
   const [openPopup, setOpenPopup] = useState(false);
-  // const [isHoverEnabled, setIsHoverEnabled] = useState(false);
+  const [isHoverEnabled, setIsHoverEnabled] = useState(false);
 
   const [popupData, setPopupData] = useState([]);
   const [values, setValues] = useState({
@@ -204,17 +196,13 @@ const Inventory = (props) => {
     }
   };
 
+
   const updateHandleSubmit = async (e) => {
     e.preventDefault();
-    if (values.itemId == "") {
-      alert("Error: Enter valid Inventory ID");
+    if(values.itemId == ""){
+      alert("Error: Enter valid Inventory ID")
     }
-    if (
-      values.name == "" &&
-      values.amount == "" &&
-      values.quantityPerUnit == "" &&
-      values.fillLevel == ""
-    ) {
+    if(values.name == "" && values.amount == "" && values.quantityPerUnit == "" && values.fillLevel == ""){
       alert("Error: Enter at least 1 value to update (name, cost, category)");
     }
     // Check if all required values are provided
@@ -224,43 +212,27 @@ const Inventory = (props) => {
         "https://thealley.onrender.com/inventory_items"
       );
       const inventoryData = inventoryResponse.data.data.table.rows;
-
+  
       const itemToUpdate = inventoryData.find(
         (item) => item.item_id == values.itemId
       );
 
       if (itemToUpdate) {
         if (values.name != "" && values.itemId != "") {
-          await axios.post(
-            "https://thealley.onrender.com/updateInventoryName",
-            values
-          );
+          await axios.post("https://thealley.onrender.com/updateInventoryName", values);
           console.log("Item in inventory name updated succesfully");
         }
         if (values.amount != "" && values.itemId != "") {
-          await axios.post(
-            "https://thealley.onrender.com/updateInventoryCount",
-            values
-          );
+          await axios.post("https://thealley.onrender.com/updateInventoryCount", values);
           console.log("Item in inventory count updated succesfully");
         }
         if (values.quantityPerUnit != "" && values.itemId != "") {
-          await axios.post(
-            "https://thealley.onrender.com/updateInventoryQuantityUnit",
-            values
-          );
-          console.log(
-            "Item in inventory quantity per unit updated succesfully"
-          );
+          await axios.post("https://thealley.onrender.com/updateInventoryQuantityUnit", values);
+          console.log("Item in inventory quantity per unit updated succesfully");
         }
         if (values.fillLevel != "" && values.itemId != "") {
-          await axios.post(
-            "https://thealley.onrender.com/updateInventoryFillLevel",
-            values
-          );
-          console.log(
-            "Item in inventory quantity per unit updated succesfully"
-          );
+          await axios.post("https://thealley.onrender.com/updateInventoryFillLevel", values);
+          console.log("Item in inventory quantity per unit updated succesfully");
         }
       } else {
         alert("Item with the specified itemId and name not found  .");
@@ -275,10 +247,7 @@ const Inventory = (props) => {
     const fetchData = async () => {
       if (!openPopup) {
         // Popup is closed, perform the axios POST request
-        await axios.post(
-          "https://thealley.onrender.com/addItemInventory",
-          values
-        );
+        await axios.post("https://thealley.onrender.com/addItemInventory", values);
 
         setValues({ ...values, ingredientId: "" });
       }
@@ -301,10 +270,7 @@ const Inventory = (props) => {
       );
 
       if (itemToDelete) {
-        await axios.post(
-          "https://thealley.onrender.com/deleteItemInventory",
-          values
-        );
+        await axios.post("https://thealley.onrender.com/deleteItemInventory", values);
         console.log("Item deleted succesfully");
       } else {
         alert("Item with the specified itemId and name not found.");
@@ -314,15 +280,16 @@ const Inventory = (props) => {
     }
   };
 
+  
   const recommendedAdjHandle = async (e) => {
     //Find recommended reductions
-    // Find all orders in that day (in orders table) and save array of order_id
-    // Find all the drink id and number (in drink_orders table) and save information
-    // Get a list of all the ingredients used in each drink (in base_drink_ingredients table)
-    // Cound how many ingredients where used in total
+      // Find all orders in that day (in orders table) and save array of order_id
+      // Find all the drink id and number (in drink_orders table) and save information
+      // Get a list of all the ingredients used in each drink (in base_drink_ingredients table)
+      // Cound how many ingredients where used in total
     //Apply recommended reductions
-    // Update the inventory page with the ingridients changes
-  };
+      // Update the inventory page with the ingridients changes
+  }
 
   const [inputErrors, setInputErrors] = useState({
     itemId: false,
@@ -333,18 +300,20 @@ const Inventory = (props) => {
 
   const handleNumberInputChange = (e, key) => {
     const newValue = e.target.value;
-
+  
     // Check if the entered value is a valid integer or float
     const isValidInteger = /^[0-9]*$/.test(newValue);
     const isValidFloat = /^\d*\.?\d*$/.test(newValue);
-
+  
     if (isValidInteger || newValue === "") {
       setValues({ ...values, [key]: newValue });
       setInputErrors({ ...inputErrors, [key]: false });
-    } else {
+    } 
+    
+    else {
       setInputErrors({ ...inputErrors, [key]: true });
     }
-  };
+   };
 
   return (
     <ThemeProvider theme={theme}>
@@ -460,7 +429,6 @@ const Inventory = (props) => {
                     inputErrors.itemId ? "Please enter a valid integer" : ""
                   }
                   onMouseOver={() =>
-                    isHoverEnabled &&
                     handleTextFieldSpeech("Item ID", values.itemId.toString())
                   }
                   onMouseOut={handleMouseOut}
@@ -476,9 +444,7 @@ const Inventory = (props) => {
                   onChange={(e) =>
                     setValues({ ...values, name: e.target.value })
                   }
-                  onMouseOver={() =>
-                    isHoverEnabled && handleTextFieldSpeech("Name", values.name)
-                  }
+                  onMouseOver={() => handleTextFieldSpeech("Name", values.name)}
                   onMouseOut={handleMouseOut}
                 />
               </FormControl>
@@ -497,7 +463,6 @@ const Inventory = (props) => {
                     inputErrors.amount ? "Please enter a valid integer" : ""
                   }
                   onMouseOver={() =>
-                    isHoverEnabled &&
                     handleTextFieldSpeech("Amount", values.amount.toString())
                   }
                   onMouseOut={handleMouseOut}
@@ -514,7 +479,6 @@ const Inventory = (props) => {
                     handleNumberInputChange(e, "quantityPerUnit")
                   }
                   onMouseOver={() =>
-                    isHoverEnabled &&
                     handleTextFieldSpeech(
                       "Quantity Per Unit",
                       values.quantityPerUnit
@@ -537,14 +501,19 @@ const Inventory = (props) => {
                 <TextField
                   id="filled-basic"
                   variant="filled"
-                  size="small"
-                  onChange={(e) => handleNumberInputChange(e, "fillLevel")}
+                  size = "small"
+                  onChange={(e) =>
+                    handleNumberInputChange(e, "fillLevel")
+                  }
                   value={values.fillLevel}
                   type="text"
                   error={inputErrors.fillLevel}
                   helperText={
-                    inputErrors.fillLevel ? "Please enter a valid integer" : ""
+                    inputErrors.fillLevel
+                      ? "Please enter a valid integer"
+                      : ""
                   }
+                  
                 />
               </FormControl>
             </div>
@@ -588,6 +557,10 @@ const Inventory = (props) => {
             >
               Apply Recommended Adjustments
             </CustomButton>
+            <TextToSpeech
+              isHoverEnabled={isHoverEnabled}
+              toggleHover={toggleHover}
+            />
           </div>
         </div>
       </div>

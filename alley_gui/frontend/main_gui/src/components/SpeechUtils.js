@@ -1,32 +1,15 @@
 const handleHover = (event, isHoverEnabled) => {
   console.log("handleHover - isHoverEnabled:", isHoverEnabled);
-  if (isHoverEnabled && !speechSynthesis.speaking) {
+  if (isHoverEnabled) {
     const textContent = event.target.textContent;
-    const altText = event.target.alt;
-
-    // Check if there is text content or alt text
-    if (
-      textContent !== undefined &&
-      textContent !== null &&
-      textContent.trim() !== ""
-    ) {
+    if (textContent !== undefined && textContent !== null) {
       console.log("Text to be spoken:", textContent);
 
       // Speak the text using the SpeechSynthesis API
       const speech = new SpeechSynthesisUtterance(textContent);
       speechSynthesis.speak(speech);
-    } else if (
-      altText !== undefined &&
-      altText !== null &&
-      altText.trim() !== ""
-    ) {
-      console.log("Alt text to be spoken:", altText);
-
-      // Speak the alt text using the SpeechSynthesis API
-      const speech = new SpeechSynthesisUtterance(altText);
-      speechSynthesis.speak(speech);
     } else {
-      console.log("Text content and alt text are both undefined or empty.");
+      console.log("Text content is undefined or empty.");
     }
   }
 };
