@@ -2,8 +2,6 @@ import React, { useState, useEffect } from "react";
 import TextToSpeech from "./TextToSpeech";
 import axios from "axios";
 import { DataGrid, GridColDef, GridValueGetterParams } from "@mui/x-data-grid";
-import { ThemeProvider } from "@mui/material/styles";
-import { theme } from "../theme";
 import {
   Box,
   ListItemButton,
@@ -330,7 +328,7 @@ const Inventory = (props) => {
    };
 
   return (
-    <ThemeProvider theme={theme}>
+    <div>
       <NavBar />
 
       <Dialog
@@ -384,17 +382,11 @@ const Inventory = (props) => {
           ) : (
             <p>NO data available</p>
           )}
-          <CustomButton onClick={() => setOpenPopup(false)}>Done</CustomButton>
+          <CustomButton className="managerButton" onClick={() => setOpenPopup(false)}>Done</CustomButton>
         </DialogContent>
       </Dialog>
-      <div
-        style={{
-          backgroundColor: theme.palette.primary.main,
-          display: "flex",
-          flexDirection: "column",
-        }}
-      >
-        <h1>Inventory Page</h1>
+      <div class="managerWrapper">
+        <h1 class="managerHeader">Inventory Page</h1>
         <div class="tablesInfo">
           <div style={{ height: 400, width: "80vw", marginBottom: "20px" }}>
             <DataGrid
@@ -430,8 +422,8 @@ const Inventory = (props) => {
             }}
           >
             <div>
-              <InputLabel htmlFor="filled-basic">Item ID</InputLabel>
-              <FormControl>
+              <InputLabel className="managerLabel" htmlFor="filled-basic">Item ID</InputLabel>
+              <FormControl className="managerForm">
                 <TextField
                   id="filled-basic"
                   variant="filled"
@@ -450,8 +442,8 @@ const Inventory = (props) => {
               </FormControl>
             </div>
             <div>
-              <InputLabel htmlFor="filled-basic">Name</InputLabel>
-              <FormControl>
+              <InputLabel className="managerLabel" htmlFor="filled-basic">Name</InputLabel>
+              <FormControl className="managerForm">
                 <TextField
                   id="filled-basic"
                   variant="filled"
@@ -464,8 +456,8 @@ const Inventory = (props) => {
               </FormControl>
             </div>
             <div>
-              <InputLabel htmlFor="filled-basic">Amount</InputLabel>
-              <FormControl>
+              <InputLabel className="managerLabel" htmlFor="filled-basic">Amount</InputLabel>
+              <FormControl className="managerForm">
                 <TextField
                   id="filled-basic"
                   variant="filled"
@@ -484,8 +476,8 @@ const Inventory = (props) => {
               </FormControl>
             </div>
             <div>
-              <InputLabel htmlFor="filled-basic">Quantity Per Unit</InputLabel>
-              <FormControl>
+              <InputLabel className="managerLabel" htmlFor="filled-basic">Quantity Per Unit</InputLabel>
+              <FormControl className="managerForm">
                 <TextField
                   id="filled-basic"
                   variant="filled"
@@ -510,8 +502,8 @@ const Inventory = (props) => {
               </FormControl>
             </div>
             <div>
-              <InputLabel htmlFor="filled-basic">Fill Level</InputLabel>
-              <FormControl>
+              <InputLabel className="managerLabel" htmlFor="filled-basic">Fill Level</InputLabel>
+              <FormControl className="managerForm">
                 <TextField
                   id="filled-basic"
                   variant="filled"
@@ -542,6 +534,7 @@ const Inventory = (props) => {
           >
             <div style={{ display: "flex", gap: "5px" }}>
               <CustomButton
+                className="managerButton"
                 onClick={addHandleSubmit}
                 onMouseOver={(e) => handleHover(e, isHoverEnabled)}
                 onMouseOut={handleMouseOut}
@@ -549,6 +542,7 @@ const Inventory = (props) => {
                 Add Item{" "}
               </CustomButton>
               <CustomButton
+                className="managerButton"
                 onClick={deleteHandleSubmit}
                 onMouseOver={(e) => handleHover(e, isHoverEnabled)}
                 onMouseOut={handleMouseOut}
@@ -557,6 +551,7 @@ const Inventory = (props) => {
               </CustomButton>
 
               <CustomButton
+                className="managerButton"
                 onClick={updateHandleSubmit}
                 onMouseOver={(e) => handleHover(e, isHoverEnabled)}
                 onMouseOut={handleMouseOut}
@@ -566,6 +561,7 @@ const Inventory = (props) => {
             </div>
 
             <CustomButton
+              className="managerButton"
               onClick={recommendedAdjHandle}
               onMouseOver={(e) => handleHover(e, isHoverEnabled)}
               onMouseOut={handleMouseOut}
@@ -576,7 +572,7 @@ const Inventory = (props) => {
           </div>
         </div>
       </div>
-    </ThemeProvider>
+    </div>
   );
 };
 

@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { DataGrid } from "@mui/x-data-grid";
-import { theme } from "../theme";
-import { ThemeProvider } from "@mui/material/styles";
 import {
   ListItemButton,
   styled,
@@ -365,17 +363,10 @@ const SupplyReorders = (props) => {
   };
 
   return (
-    <ThemeProvider theme={theme}>
+    <div>
       <NavBar />
 
-      <div
-        style={{
-          backgroundColor: theme.palette.primary.main,
-          display: "flex",
-          flexDirection: "column",
-          height: "100vh",
-        }}
-      >
+      <div class="managerWrapper supplyReorder">
         <div class="tablesInfo">
           <div style={{ flex: 1, overflow: "auto", height: "65vh" }}>
             <DataGrid
@@ -406,8 +397,8 @@ const SupplyReorders = (props) => {
             style={{ display: "flex", flexDirection: "column", gap: "10px" }}
           >
             <div>
-              <InputLabel htmlFor="filled-basic">Supply Reorder ID:</InputLabel>
-              <FormControl>
+              <InputLabel className="managerLabel" htmlFor="filled-basic">Supply Reorder ID:</InputLabel>
+              <FormControl className="managerForm">
                 <TextField
                   id="filled-basic"
                   variant="filled"
@@ -422,8 +413,8 @@ const SupplyReorders = (props) => {
               </FormControl>
             </div>
             <div>
-              <InputLabel htmlFor="filled-basic">Date:</InputLabel>
-              <FormControl>
+              <InputLabel className="managerLabel" htmlFor="filled-basic">Date:</InputLabel>
+              <FormControl className="managerForm">
                 <TextField
                   id="filled-basic"
                   variant="filled"
@@ -441,6 +432,7 @@ const SupplyReorders = (props) => {
             style={{ display: "flex", flexDirection: "column", gap: "10px" }}
           >
             <CustomButton
+              className="managerButton"
               onClick={addHandleSubmit}
               onMouseOver={(e) => isHoverEnabled && handleHover(e, isHoverEnabled)}
               onMouseOut={handleMouseOut}
@@ -448,6 +440,7 @@ const SupplyReorders = (props) => {
               Add Supply Reorder
             </CustomButton>
             <CustomButton
+              className="managerButton"
               onClick={deleteHandleSubmit}
               onMouseOver={(e) => isHoverEnabled && handleHover(e, isHoverEnabled)}
               onMouseOut={handleMouseOut}
@@ -455,6 +448,7 @@ const SupplyReorders = (props) => {
               Delete Supply Reorder
             </CustomButton>
             <CustomButton
+              className="managerButton"
               onClick={viewHandleSubmit}
               onMouseOver={(e) => isHoverEnabled && handleHover(e, isHoverEnabled)}
               onMouseOut={handleMouseOut}
@@ -519,6 +513,7 @@ const SupplyReorders = (props) => {
                 <p>NO data available</p>
               )}
               <CustomButton
+                className="managerButton"
                 onClick={() => {
                   console.log(
                     "Selected Inventory Items:",
@@ -563,14 +558,14 @@ const SupplyReorders = (props) => {
               ) : (
                 <p>No data available</p>
               )}
-              <CustomButton onClick={() => setOpenViewPopup(false)}>
+              <CustomButton className="managerButton" onClick={() => setOpenViewPopup(false)}>
                 Close
               </CustomButton>
             </DialogContent>
           </Dialog>
         </div>
       </div>
-    </ThemeProvider>
+    </div>
   );
 };
 

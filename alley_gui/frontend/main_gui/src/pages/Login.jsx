@@ -8,28 +8,11 @@ const Login = () => {
   const [password, setPassword] = useState('');
   const [showForm, setShowLoginForm] = useState(false);
   const [employees, setEmployees] = useState([]);
-  const [weather, setWeather] = useState([]);
-  const [city, setCity] = useState('');
-  const [temp, setTemp] = useState(0);
-
+  const [weather, setWeather] = useState(null)
   const {loginWithRedirect, isAuthenticated, user, logout} = useAuth0();
-
-
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    const getEmployees = async () => {
-      try {
-        const response = await axios.get("https://thealley.onrender.com/login_jsx");
-        const jsonVals = await response.data;
-        console.log("[Success] Received Employees");
-        console.log(jsonVals.data.employees);
-        setEmployees(jsonVals.data.employees.rows);
-      } catch (err) {
-        console.log("[ERROR] Retrieving Employees");
-        console.error(err.message);
-      }
-    };
-
     const getWeather = async () => {
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(
@@ -63,21 +46,53 @@ const Login = () => {
         console.log("[Success] Received Weather Data");
         console.log(jsonVals.data.data);
         setWeather(jsonVals.data.data);
-        setCity(jsonVals.data.data.name);
-        setTemp(jsonVals.data.data.main.temp);
       } catch (err) {
         console.log("[ERROR] Retrieving Weather Data");
         console.error(err.message);
       }
     }
 
-    getEmployees();
     getWeather();
   }, []);
 
+  useEffect(() => {
+    const getEmployees = async () => {
+      try {
+        const response = await axios.get("https://thealley.onrender.com/login_jsx");
+        const jsonVals = await response.data;
+        console.log("[Success] Received Employees");
+        console.log(jsonVals.data.employees);
+        setEmployees(jsonVals.data.employees.rows);
+      } catch (err) {
+        console.log("[ERROR] Retrieving Employees");
+        console.error(err.message);
+      }
+    };
+
+    if(user){
+      console.log("authenticated");
+      console.log(user.name);
+      setIsLoading(true);
+      getEmployees();
+    }
+  }, [isAuthenticated])
+
+  useEffect(() => {
+    if(isAuthenticated){
+      authenticateUser();
+    }
+  }, [employees])
+
+  function login(){
+    if(isAuthenticated){
+      logout();
+    }
+    loginWithRedirect();
+  }
+
   const authenticateUser = () => {
     for (const employee of employees) {
-      if (employee.first_name === username && employee.password === password) {
+      if (employee.first_name === user.name) {
         console.log('Authentication successful!');
         var currLocation = window.location.href;
         if(employee.first_name === "customer" && employee.last_name === "profile"){
@@ -100,29 +115,99 @@ const Login = () => {
     setShowLoginForm(!showForm);
   };
 
+  const getWeatherImage = () => {
+    var image;
+    switch(weather.weather[0].main){
+      case "Rain":
+          image = "rain";
+          break;
+      case "Snow":
+          image = "snow";
+          break;
+      case "Thunderstorm":
+          image = "thunderstorm";
+          break;
+      case "Drizzle":
+          image = "drizzle";
+          break;
+      case "Clouds":
+          image = "cloudy";
+          break;
+      default:
+          image = "sunny";
+          break;
+    }
+    return "/weather/" + image + ".png";
+  };
+
+  function capitalizeName(name, delimiter) {
+    const words = name.split(delimiter);
+  
+    for (let i = 0; i < words.length; i++) {
+      words[i] = words[i][0].toUpperCase() + words[i].substr(1);
+    }
+  
+    return words.join(" ");
+};
+
   return (
     <div>
-      <h1 className="loginTitle">The Alley</h1>
-      <div className="weather-panel">
-        <img src= "/weather/sunny" alt=""></img>
-        <h1 className="weatherText"> {city} {temp}F</h1>
-      </div>
-      <div className="button-panel">
-        <div className="top-button">
-          <button className="large-button" onClick={showLoginForm} style={{ display: showForm ? 'none' : 'block' }}>Login</button>
-          <div className="login-form" style={{ display: showForm ? 'block' : 'none' }}>
-            <input type="text" value={username} placeholder="Username" onChange={(e) => setUsername(e.target.value)} />
-            <input type="password" value={password} placeholder="Password" onChange={(e) => setPassword(e.target.value)} />
-            <button className="x-button" onClick={showLoginForm}>X</button>
-            <button className="login-button" onClick={authenticateUser}>Login</button>
+      {isLoading ? (
+        <div className="loading-screen">Loading...</div>
+      ) : (
+        <>
+          <h1 className="loginTitle">The Alley</h1>
+          <div className="weather-panel">
+          {weather && (
+          <div className="weather-panel">
+            <div className="left-panel">
+              <img src={getWeatherImage()} alt="" />
+            </div>
+            <div className="right-panel">
+              <div className="top-right-panel">
+                <h1 className="city-weather-text">{weather.name} {Number(weather.main.temp).toFixed(0)}°F</h1>
+              </div>
+              <div className="bottom-right-panel">
+                <p className="weather-description-text">{capitalizeName(weather.weather[0].description, ' ')}</p>
+              </div>
+            </div>
           </div>
-        </div>
-        <div className="lower-button">
-          <button className="large-button" onClick={() => {window.location.href += "Menu" }}>View Menu</button>
-        </div>
-      </div>
+          )}
+
+          </div>
+          {weather && (
+          <div className="weather-panel">
+            <div className="left-panel">
+              <img src={getWeatherImage()} alt="" />
+            </div>
+            <div className="right-panel">
+              <div className="top-right-panel">
+                <h1 className="city-weather-text">{weather.name} {Number(weather.main.temp).toFixed(0)}°F</h1>
+              </div>
+              <div className="bottom-right-panel">
+                <p className="weather-description-text">{capitalizeName(weather.weather[0].description, ' ')}</p>
+              </div>
+            </div>
+          </div>
+          )}
+          <div className="button-panel">
+            <div className="top-button">
+              <button className="large-button" onClick={login} style={{ display: showForm ? 'none' : 'block' }}>Login</button>
+              <div className="login-form" style={{ display: showForm ? 'block' : 'none' }}>
+                <input type="text" value={username} placeholder="Username" onChange={(e) => setUsername(e.target.value)} />
+                <input type="password" value={password} placeholder="Password" onChange={(e) => setPassword(e.target.value)} />
+                <button className="x-button" onClick={showLoginForm}>X</button>
+                <button className="login-button" onClick={authenticateUser}>Login</button>
+              </div>
+            </div>
+            <div className="lower-button">
+              <button className="large-button" onClick={() => { window.location.href += "Menu" }}>View Menu</button>
+            </div>
+          </div>
+        </>
+      )}
     </div>
-  );
+  );  
 };
 
 export default Login;

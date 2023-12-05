@@ -1,7 +1,6 @@
 import React,  { useState, useEffect} from 'react';
 import axios from "axios";
 import TrendTable from "../components/TrendTable";
-import HomeButton from './images/HomeButton.png';
 import arrow from './images/back_arrow.png';
 import './AnalyzeTrends.css'
 import {
@@ -57,6 +56,7 @@ const AnalyzeTrends = (props) => {
       setTableData([]);
       setTable2Data([]);
     }, [selectedTrend]);
+
     const generateTrend = async () => {
       let valid = true;
       if(selectedTrend !== 'Restock Report'){
@@ -95,21 +95,22 @@ const AnalyzeTrends = (props) => {
         }
       }
     };
+
     function isValidDateTimeFormat(inputString) {
       const dateTimePattern = /^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}$/;
       return dateTimePattern.test(inputString);
     };
+
     function removeSpaces(trendName){
       const words = trendName.split(' ');
       return words.join('');
     };
-    const returnHome = () => {
-      window.location.href = "/";
-    };
+
     const returnToManager = () =>{
       var currLocation = window.location.href;
       window.location.href = currLocation.replace("AnalyzeTrends", "Manager");
     };
+
     function getCurrentDate() {
       const currentDate = new Date();
       const utcFormat = currentDate.toISOString();
@@ -127,14 +128,6 @@ const AnalyzeTrends = (props) => {
         >
           Analyze Trends
         </h1>
-        <button
-          className="home-button"
-          onClick={returnHome}
-          onMouseOver={(e) => handleHover(e, isHoverEnabled)}
-          onMouseOut={handleMouseOut}
-        > 
-            <img src={HomeButton} alt="home" />
-        </button>
         <button
           className="backButton"
           onClick={returnToManager}

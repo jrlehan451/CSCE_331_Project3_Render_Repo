@@ -187,3 +187,64 @@
   transition: background-color 0.3s ease-in-out;
   font-size: 10px;
 }
+
+.managerBox {
+  background-color: #ffefe2;
+  display: flex;
+  flex-direction: column;
+
+  justify-content: center;
+  align-items: center;
+
+  padding: 0;
+  width: 100vw;
+  height: 100vh;
+}
+
+.managerWrapper {
+  background-color: #ffefe2;
+  display: flex;
+  flex-direction: column;
+}
+
+.supplyReorder {
+  height: 100vh;
+}
+
+.contrast .managerBox {
+  background-color: black;
+}
+
+.contrast .managerWrapper {
+  background-color: black;
+}
+
+.contrast .managerLink {
+  background-color: #d7f2a6;
+}
+
+.contrast .managerButton {
+  background-color: black;
+  border: 2px solid #f0d589;
+  color: #f0d589;
+}
+
+.contrast .managerLabel {
+  color: #d7f2a6;
+}
+
+.contrast .tablesInfo p, .contrast .tablesInfo div, .contrast .tablesInfo svg {
+  color: #d7f2a6;
+}
+
+.contrast .managerForm input {
+  color: white;
+}
+
+.contrast .managerForm div {
+  background-color: #f0d589;
+}
+
+.contrast .managerHeader {
+  color: white;
+}
