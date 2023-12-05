@@ -27,27 +27,27 @@ import {
 
 import "./MenuItems/MenuItems.css";
 
+// Creating custom buttons
+const CustomButton = styled(ListItemButton)(({ theme }) => ({
+  backgroundColor: "#ffefe2",
+  border: "2px solid #9e693f",
+  color: "#9e693f",
+  fontWeight: "bold",
+  margin: 10,
+  marginTop: 25,
+  borderRadius: "80px",
+  width: "150px",
+  minHeight: "40px",
+  maxHeight: "60px",
+  "&:hover": { backgroundColor: "lightblue" },
+  "&:disabled": { backgroundColor: "gray", color: "white" },
+}));
+
 //import axios from "axios"; // Make sure to import axios for HTTP requests
 const Inventory = () => {
   const toggleHover = () => {
     setIsHoverEnabled((prevIsHoverEnabled) => !prevIsHoverEnabled);
   };
-
-  // Creating custom buttons
-  const CustomButton = styled(ListItemButton)(({ theme }) => ({
-    backgroundColor: "#ffefe2",
-    border: "2px solid #9e693f",
-    color: "#9e693f",
-    fontWeight: "bold",
-    margin: 10,
-    marginTop: 25,
-    borderRadius: "80px",
-    width: "150px",
-    minHeight: "40px",
-    maxHeight: "60px",
-    "&:hover": { backgroundColor: "lightblue" },
-    "&:disabled": { backgroundColor: "gray", color: "white" },
-  }));
 
   // Creating columns for displaying sql queries
   const columns = [

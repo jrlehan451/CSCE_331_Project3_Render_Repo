@@ -53,20 +53,27 @@ function LanguageSelect() {
             mutation.forEach(async m => {
                 m.addedNodes.forEach(async ele => {
                     if (ele.nodeType === Node.ELEMENT_NODE && !(ele instanceof HTMLStyleElement || ele instanceof HTMLTitleElement || ele.classList.contains("languageOption"))) {
+                        ele.normalize();
+                        const textNodes = [...ele.childNodes]
+                        .filter(child => child.nodeType === Node.TEXT_NODE) // get only text nodes
+                        .filter(child => child.textContent.trim()) // eliminate empty text
+                        .map(textNode => textNode.textContent) // extract text content
+            
+                        if (textNodes.length != 0) {
+                            const nonTextNodes = [...ele.childNodes]
+                            .filter(child => child.nodeType != Node.TEXT_NODE)
+
+                            let result = await translate(textNodes[0], pLang, currLang);
+                            ele.textContent = result;
+
+                            nonTextNodes.forEach(child => {
+                                ele.prepend(child);
+                            });
+                        }
+
                         let allChildElements = ele.querySelectorAll("*");
-                
-                        if (allChildElements.length == 0) {
-                            ele.normalize();
-                            const textNodes = [...ele.childNodes]
-                            .filter(child => child.nodeType === Node.TEXT_NODE) // get only text nodes
-                            .filter(child => child.textContent.trim()) // eliminate empty text
-                            .map(textNode => textNode.textContent) // extract text content
-                
-                            if (textNodes.length != 0) {
-                                let result = await translate(textNodes[0], pLang, currLang);
-                                ele.textContent = result;
-                            }
-                        } else {
+
+                        if (allChildElements.length > 0) {
                             allChildElements.forEach(async (childele) => {
                                 childele.normalize();
                                 const textNodes = [...childele.childNodes] // has childNodes inside, including text ones

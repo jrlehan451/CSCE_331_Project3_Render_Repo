@@ -25,23 +25,23 @@ import {
 } from "./SpeechUtils";
 import TextToSpeech from "./TextToSpeech";
 
-const Ingredients = () => {
-  // Creating custom buttons
-  const CustomButton = styled(ListItemButton)(({ theme }) => ({
-    backgroundColor: "#ffefe2",
-    border: "2px solid #9e693f",
-    color: "#9e693f",
-    fontWeight: "bold",
-    margin: 10,
-    marginTop: 25,
-    borderRadius: "80px",
-    width: "150px",
-    minHeight: "40px",
-    maxHeight: "60px",
-    "&:hover": { backgroundColor: "lightblue" },
-    "&:disabled": { backgroundColor: "gray", color: "white" },
-  }));
+// Creating custom buttons
+const CustomButton = styled(ListItemButton)(({ theme }) => ({
+  backgroundColor: "#ffefe2",
+  border: "2px solid #9e693f",
+  color: "#9e693f",
+  fontWeight: "bold",
+  margin: 10,
+  marginTop: 25,
+  borderRadius: "80px",
+  width: "150px",
+  minHeight: "40px",
+  maxHeight: "60px",
+  "&:hover": { backgroundColor: "lightblue" },
+  "&:disabled": { backgroundColor: "gray", color: "white" },
+}));
 
+const Ingredients = () => {
   // Creating columns for displaying sql queries
   const columns = [
     { field: "ingredientId", headerName: "Ingredeint ID", width: 130, flex: 1 },

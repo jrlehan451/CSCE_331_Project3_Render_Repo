@@ -26,6 +26,21 @@ import {
 import TextToSpeech from "./TextToSpeech";
 import "./MenuItems/MenuItems.css";
 
+const CustomButton = styled(ListItemButton)(({ theme }) => ({
+  backgroundColor: "#ffefe2",
+  border: "2px solid #9e693f",
+  color: "#9e693f",
+  fontWeight: "bold",
+  margin: 5,
+  marginTop: 10,
+  borderRadius: "80px",
+  width: "190px",
+  minHeight: "40px",
+  maxHeight: "60px",
+  "&:hover": { backgroundColor: "lightblue" },
+  "&:disabled": { backgroundColor: "gray", color: "white" },
+}));
+
 const SupplyReorders = () => {
   const [data, setData] = useState([]);
   const [openModal, setOpenModal] = useState(false);
@@ -94,21 +109,6 @@ const SupplyReorders = () => {
       console.error("Error sending selected items to backend:", error);
     }
   };
-
-  const CustomButton = styled(ListItemButton)(({ theme }) => ({
-    backgroundColor: "#ffefe2",
-    border: "2px solid #9e693f",
-    color: "#9e693f",
-    fontWeight: "bold",
-    margin: 5,
-    marginTop: 10,
-    borderRadius: "80px",
-    width: "190px",
-    minHeight: "40px",
-    maxHeight: "60px",
-    "&:hover": { backgroundColor: "lightblue" },
-    "&:disabled": { backgroundColor: "gray", color: "white" },
-  }));
 
   // Getting inventory from the backend
   useEffect(() => {
