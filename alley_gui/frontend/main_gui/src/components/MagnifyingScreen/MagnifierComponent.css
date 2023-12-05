@@ -1,30 +1,12 @@
 
-.cursor {
 
-  width: 120px;
-  height: 120px; 
-  position: fixed;
-  z-index: 9999;
-  pointer-events: none;
-  border-radius: 500%;
-  position: fixed;
-  top: 0;
-  left: 0;
-  opacity: 1;
-  border-color: black;
-  background-color: transparent; 
-
-  transform-origin: center center; 
-  transform: scale(1); 
-  transition: transform 0.2s ease-in-out; 
-}
-/* MagnifierCursor.css */
 .magnifier-cursor {
   position: fixed;
-  width: 150px; /* Adjust the size of the magnifier cursor as needed */
-  height: 150px; /* Adjust the size of the magnifier cursor as needed */
+  width: 150px; 
+  height: 150px; 
   border-radius: 50%;
-  background-color: #ffefe2;
+
+  background-color: #ffefe2ad;
   pointer-events: none;
   z-index: 9999;
   transform: translate(-50%, -50%);
@@ -35,19 +17,6 @@
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
 }
 
-.magnify {
-  /* transform: scale(2.5);  */
-  position: absolute;
-  border: 1px solid #000;
-  border-radius: 50%;
-  cursor: none;
-  width: 200px;
-  height: 200px;
-  overflow: hidden; 
-  zoom: 1;
-  box-shadow: 0 0 0 9999px rgba(255, 255, 255, 0.5),
-              0 0 30px 15px rgba(0, 0, 0, 0.5);
-}
 
   .inner-circle {
     position: absolute;
@@ -64,36 +33,10 @@
   }
   
 
-  /* .magnify {
-    transform: scale(2); 
-    position: absolute;
-    border: 1px solid #000;
-    border-radius: 50%;
-    cursor: none;
-    width: 200px;
-    height: 200px;
-    overflow: hidden; 
-    zoom: 1;
-    box-shadow: 0 0 0 9999px rgba(255, 255, 255, 0.5),
-                0 0 30px 15px rgba(0, 0, 0, 0.5);
-    font-size: 30px;
-    position: absolute;
-     width: 200px;
-     height: 200px;
-     border: 1px solid black;
-     transform: translate(-50%, -50%);
-     background-repeat: no-repeat;
-     pointer-events: none;
-   
-  } */
-
   .enlarged {
     transform: scale(1.1); /* You can adjust the scale factor as needed */
     transition: transform 0.3s ease; /* Add a smooth transition effect */
   }
-
-  
-  
   
   .toggle {
     position: fixed;

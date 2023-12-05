@@ -36,6 +36,7 @@ import HoverableElement from './components/MagnifyingScreen/MagnifierComponent';
 function App() {
   const [name, setName] = useState("");
   const [home, setHome] = useState("");
+  const [magnifierActive, setMagnifierActive] = useState(false);
   const [mousePosition, setMousePosition] = useState({
     x:0,
     y:0
@@ -44,11 +45,15 @@ function App() {
 
   
 
-  const toggleMagnify = () => {
-    setMagnify(!magnify);
-    if(setMagnify == true){
-      //document.body.style.backgroundColor = black;
-    }
+  // const toggleMagnify = () => {
+  //   setMagnify(!magnify);
+  //   if(setMagnify == true){
+  //     //document.body.style.backgroundColor = black;
+  //   }
+  // };
+
+  const toggleMagnifier = () => {
+    setMagnifierActive(!magnifierActive);
   };
  
  
@@ -114,14 +119,7 @@ function App() {
     <div
       // className={`cursor ${magnify ? 'magnify' : ''}`}
       // style={{ left: `${mousePosition.x-100}px`, top: `${mousePosition.y-60}px` }}
-    >
-      {/* <div className="inner-circle" /> */}
-      {/* {magnify && (
-    <div className="inner-content">
-      {}
-      <p></p>
-    </div>
-  )} */}
+    > 
     </div>
 
       {/* <LanguageSelect></LanguageSelect> */}
@@ -173,10 +171,13 @@ function App() {
 
         <Route path="/customer" element={<CustomerView />} /> */}
       </Routes>
-      <button className="toggle" onClick={toggleMagnify}>
+      <button className="toggle" onClick={toggleMagnifier}>
         <img src = {backIcon} className="image" />
         {magnify}
       </button>
+
+
+      <HoverableElement magnifierActive={magnifierActive} />
       <button className="high-contrast" onClick={highContrastMode}>
         <img src = {contrastIcon} className="image" />
       </button>

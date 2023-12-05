@@ -107,7 +107,7 @@ app.get("/login_jsx", async (req, res) => {
   }
 });
 
-app.get("/manager_main", (req, res) => {
+app.get("/manager_mains", (req, res) => {
   const data = { name: "Mario" };
   res.render("manager_main", data);
 });
@@ -719,7 +719,7 @@ app.post("/viewSupplyReorder", (req, res) => {
   res.json({ success: true, message: "Date received successfully." });
 });
 
-// Getting all necessary data for delete supply reorder
+// Getting all necessary data for supply reorder
 app.post("/deleteSupplyReorder", (req, res) => {
   const { reorder_id, date } = req.body;
 
@@ -1770,31 +1770,7 @@ app.post("/updateInventoryFillLevel", (req, res) => {
   );
 });
 
-// app.get("/recommended_reductions", async (req, res) => {
-//   try {
-//     console.log("ordersTodayQuery");
-//     todaysOrders = [];
-//     const results = await pool.query("SELECT * FROM orders WHERE DATE(timestamp) = CURRENT_DATE;");
-
-//     console.log("Results:", results.rows); // Log the result to the console
-    
-//     res.status(200).json({
-//       status: "success",
-//       results: results.rows.length,
-//       data: {
-//         table: results.rows,
-//       },
-//     });
-//   } catch (err) {
-//     console.error(err);
-//     res.status(500).json({
-//       status: "error",
-//       message: "An error occurred while fetching dataaaaaa.",
-//     });
-//   }
-// });
-
-app.get("/recommended_reductions", async (req, res) => {
+app.get("/recommendation_adj", async (req, res) => {
   try {
     console.log("ordersTodayQuery");
     const todaysOrders = [];
@@ -1804,7 +1780,8 @@ app.get("/recommended_reductions", async (req, res) => {
     const orders = ordersResults.rows;
 
     console.log("Orders:", orders);
-
+    const itemOccurrenceMap = new Map();
+    const oldCountsMap = new Map();
     // Step 2: Loop through orders and get drink orders for each order
     for (const order of orders) {
       const drinkOrdersResults = await pool.query(`SELECT * FROM drink_orders WHERE order_id = ${order.order_id};`);
@@ -1825,15 +1802,32 @@ app.get("/recommended_reductions", async (req, res) => {
           const inventoryItems = inventoryItemsResults.rows;
 
           console.log("Inventory Items for Ingredient ID", ingredient.ingredient_id, ":", inventoryItems);
-
+          inventoryItems.forEach((inventoryItem) => {
+            const { item_id } = inventoryItem;
+            const { count } = inventoryItem;
+            itemOccurrenceMap.set(item_id, (itemOccurrenceMap.get(item_id) || 0) + 1);
+            // Store the initial count in the oldCountsMap
+            oldCountsMap.set(item_id, count);
+          });
           // Now you can process the data as needed and store the relevant information
         }
       }
     }
+    console.log("Item Counts Map:", itemOccurrenceMap);
+    console.log("Old Counts Map:", oldCountsMap);
     //console.log("Inventory Items for Ingredient ID", ingredient.ingredient_id, ":", inventoryItems);
+    //Update counts in the inventory_items table
+    for (const [itemId, occurrenceCount] of itemOccurrenceMap) {
+      const oldCount = oldCountsMap.get(itemId) || 0;
+      const updatedCount = Math.max(0, oldCount - occurrenceCount);
+      // Update the inventory_items table using your query
+      await pool.query("UPDATE inventory_items SET count = $1 WHERE item_id = $2;", [updatedCount, itemId]);
+    }
+    //res.render(oldCountsMap);
     res.status(200).json({
       status: "success",
-      message: "Data retrieved successfully.",
+      oldCountsMap,
+      message: "Data retrieved successfully yaaaaaaamip.",
     });
   } catch (err) {
     console.error(err);

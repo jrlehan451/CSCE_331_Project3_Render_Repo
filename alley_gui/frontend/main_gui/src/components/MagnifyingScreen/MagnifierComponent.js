@@ -1,10 +1,11 @@
 // MagnifierCursor.js
 import React, { useState, useEffect } from 'react';
-import './MagnifierComponent.css'; // Your styling for the magnifier cursor
+import './MagnifierComponent.css'; 
 
-const MagnifierCursor = () => {
+const MagnifierCursor = ({ magnifierActive }) => {
   const [position, setPosition] = useState({ x: 0, y: 0 });
   const [magnifierContent, setMagnifierContent] = useState(null);
+
 
   //if(magnify)
   useEffect(() => {
@@ -12,8 +13,7 @@ const MagnifierCursor = () => {
       setPosition({ x: e.clientX, y: e.clientY });
       const width = 20;
       const height = 10;
-      // Capture the content within a circular region around the cursor
-      const radius = 50; // Adjust the radius of the circular region as needed
+      const radius = 50; 
       const content = captureCircularRegion(e.clientX, e.clientY, radius);
       setMagnifierContent(content);
     };
@@ -23,7 +23,7 @@ const MagnifierCursor = () => {
     return () => {
       window.removeEventListener('mousemove', handleMouseMove);
     };
-  }, []);
+  }, [magnifierActive]);
 
   // Function to capture content within a circular region
   const captureCircularRegion = (x, y, radius) => {
@@ -43,39 +43,24 @@ const MagnifierCursor = () => {
       .map((element) => Array.from(element.childNodes))
       .flat()
       .filter((node) => node.nodeType === Node.TEXT_NODE);
-  
-
-    // // Create a div to hold the captured content
-    // const container = document.createElement('div');
-    // circularRegionElements.forEach((element) => {
-    //   const clone = element.cloneNode(true);
-    //   container.appendChild(clone);
-    // });
-    // Create a div to hold the captured content
     const container = document.createElement('div');
     textNodes.forEach((textNode) => {
       const clone = document.createElement('div');
       clone.textContent = textNode.textContent;
       container.appendChild(clone);
-
-      clone.style.fontSize = '25px'; // Adjust the font size as needed
+      //change fond inside magnifier
+      clone.style.fontSize = '25px'; 
       clone.style.fontWeight = 'bold';
     });
 
     return container.innerHTML;
   };
 
-  return (
+  return magnifierActive ? (
     <div className={`magnifier-cursor`} style={{ left: `${position.x}px`, top: `${position.y}px` }}>
-      {/* Display the magnified content */}
       <div dangerouslySetInnerHTML={{ __html: magnifierContent }} />
     </div>
+  ) : null;
+  };
 
-    // <div className="magnifier-cursor" style={{ left: `${position.x}px`, top: `${position.y}px` }}>
-    //   {/* Display the magnified content */}
-    //   <div dangerouslySetInnerHTML={{ __html: magnifierContent }} />
-    // </div>
-  );
-};
-
-export default MagnifierCursor;
+  export default MagnifierCursor;

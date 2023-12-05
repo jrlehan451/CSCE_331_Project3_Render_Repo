@@ -280,67 +280,28 @@ const Inventory = () => {
     }
   };
 
+
+  const recommendedAdjHandle = async (e) => {
+    e.preventDefault();
+    console.log("Entered recommend adj handle");
   
-  // const recommendedAdjHandle = async (e) => {
-  //   //Find recommended reductions
-  //     // Find all orders in that day (in orders table) and save array of order_id
-  //     // Find all the drink id and number (in drink_orders table) and save information
-  //     // Get a list of all the ingredients used in each drink (in base_drink_ingredients table)
-  //     // Cound how many ingredients where used in total
-  //     console.log("Entered recommended function");
-  //     const fetchData = async () => {
-  //       try {
-  //         // Fetch data for menu items
-  //         const menuItemsResponse = await axios.get(
-  //           "https://thealley.onrender.com/CustomerPopularityAnalysis"
-  //         );
-          
-  //       } catch (error) {
-  //         console.error(error);
-  //       }
-  //     };
+    try {
+      const inventoryResponse = await axios.get(
+        "https://thealley.onrender.com/recommendation_adj"
+        //"http://localhost:4000/recommendation_adj"
+      );
+      const inventoryData = inventoryResponse.data;
   
-  //     fetchData();
-  //   //Apply recommended reductions
-  //     // Update the inventory page with the ingridients changes
-  // };
-
-  const recommendedAdjHandle = async () => {
-    console.log("entered test1:");
-
-
-    const responseReorderItem = await axios.get(
-      "https://thealley.onrender.com/recommended_reductions"
-    );
-    const reorderItemsData = responseReorderItem.data;
-
-    if (
-      reorderItemsData &&
-      reorderItemsData.data &&
-      reorderItemsData.data.table
-    ) {
-      console.log("Reorder Items Data:", reorderItemsData.data.table.rows);
-      console.log("Reorderid:", values.reorderId);
-
-      const filteredData = reorderItemsData.data.table.rows.filter((item) => {
-        console.log("Item reorder_id type:", typeof item.reorder_id);
-        console.log("values.reorderId type:", typeof values.reorderId);
-        console.log("Item reorder_id:", item.reorder_id);
-        console.log("values.reorderId:", values.reorderId);
-
-        const itemReorderId = parseInt(item.reorder_id, 10);
-        const valuesReorderId = parseInt(values.reorderId, 10);
-        console.log("Parsed Item reorder_id:", itemReorderId);
-        console.log("Parsed values.reorderId:", valuesReorderId);
-
-        return itemReorderId === valuesReorderId;
-      });
-
-      // const filteredData = reorderItemsData.data.table.rows.filter(
-      //   (item) => item.reorder_id === parseInt(values.reorderId, 10)
-      // );
+      // Do something with inventoryData if needed
+      console.log("Received inventory data:", inventoryData);
+      console.log("Old Counts Map:", inventoryData.oldCountsMap);
+      console.log("The message is:", inventoryData.message);
+      // If there are specific properties in the response data you need, you can access them like:
+    } catch (error) {
+      console.error("Error during item deletion:", error);
     }
   };
+
 
   const [inputErrors, setInputErrors] = useState({
     itemId: false,
