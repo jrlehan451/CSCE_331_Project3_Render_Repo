@@ -7,7 +7,7 @@ import { BrowserRouter } from "react-router-dom";
 import { theme } from "./theme";
 import { ThemeProvider } from "@mui/material";
 import { Auth0Provider } from '@auth0/auth0-react';
-import {MagnifierProvider} from './components/MagnifyingScreen/MagnifierComponent';
+// import {MagnifierProvider} from './components/MagnifyingScreen/MagnifierComponent';
 import "./components/MagnifyingScreen/MagnifierComponent.css";
 
 
@@ -19,19 +19,10 @@ const auth0Config = {
 
 ReactDOM.render(
   <React.StrictMode>
-    <BrowserRouter>
-      <ThemeProvider theme={theme}>
-        {/* <MagnifierProvider> */}
-          <App />
-        {/* </MagnifierProvider> */}
-      </ThemeProvider>
-    </BrowserRouter>
     <Auth0Provider config={auth0Config}>
       <BrowserRouter>
           <ThemeProvider theme={theme}>
-            <MagnifierProvider>
               <App />
-            </MagnifierProvider>
           </ThemeProvider>
         </BrowserRouter>
     </Auth0Provider>
