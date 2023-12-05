@@ -11,6 +11,7 @@
 .navigationToMenu img {
     height: 5vh;
     width: 5vw;
+    object-fit: contain;
 }
 
 
@@ -58,6 +59,7 @@
 .contrast .navigationToMenu img {
     height: 5vh;
     width: 5vw;
+    object-fit: contain;
 }
 
 .contrast .addon-container{

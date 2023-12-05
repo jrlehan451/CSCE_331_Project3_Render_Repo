@@ -35,6 +35,7 @@
     transform: scaleX(-1);
     height: 5vh;
     width: 5vw;
+    object-fit: contain;
 }
 
 .drink-panel {
@@ -122,6 +123,7 @@
     transform: scaleX(-1);
     height: 5vh;
     width: 5vw;
+    object-fit: contain;
 }
 
 .contrast .drink-panel {
