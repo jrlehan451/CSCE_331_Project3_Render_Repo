@@ -11,7 +11,7 @@ import {
   handleTableFieldSpeech,
 } from "../SpeechUtils";
 import TextToSpeech from "../TextToSpeech";
-
+import HoverableElement from '../MagnifyingScreen/MagnifierComponent';
 // Button style
 const CustomButton = styled(Button)(({ theme }) => ({
   backgroundColor: "#ffefe2",

@@ -13,9 +13,9 @@ ReactDOM.render(
   <React.StrictMode>
     <BrowserRouter>
       <ThemeProvider theme={theme}>
-        <MagnifierProvider>
+        {/* <MagnifierProvider> */}
           <App />
-        </MagnifierProvider>
+        {/* </MagnifierProvider> */}
       </ThemeProvider>
     </BrowserRouter>
   </React.StrictMode>,
