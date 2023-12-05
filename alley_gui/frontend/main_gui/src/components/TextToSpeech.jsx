@@ -2,6 +2,11 @@ import React, { useEffect, useState } from "react";
 import { handleHover, handleTextFieldSpeech } from "./SpeechUtils";
 
 const TextToSpeech = ({ isHoverEnabled, toggleHover, imageSrc }) => {
+  console.log(
+    "TextToSpeech component rendered. isHoverEnabled:",
+    isHoverEnabled
+  );
+
   const [internalIsHoverEnabled, setInternalIsHoverEnabled] =
     useState(isHoverEnabled);
 

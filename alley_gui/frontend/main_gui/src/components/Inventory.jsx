@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import TextToSpeech from "./TextToSpeech";
 import axios from "axios";
 import { DataGrid, GridColDef, GridValueGetterParams } from "@mui/x-data-grid";
 import { ThemeProvider } from "@mui/material/styles";
@@ -28,7 +27,10 @@ import {
 import "./MenuItems/MenuItems.css";
 
 //import axios from "axios"; // Make sure to import axios for HTTP requests
-const Inventory = () => {
+const Inventory = (props) => {
+  const { isHoverEnabled, handleToggleHover } = props;
+  const [isHoverEnabledState, setIsHoverEnabled] = useState(false); // Add this line
+
   const toggleHover = () => {
     setIsHoverEnabled((prevIsHoverEnabled) => !prevIsHoverEnabled);
   };
@@ -80,7 +82,7 @@ const Inventory = () => {
   const [checkedItems, setCheckedItems] = useState({});
   const [data, setData] = useState([]);
   const [openPopup, setOpenPopup] = useState(false);
-  const [isHoverEnabled, setIsHoverEnabled] = useState(false);
+  // const [isHoverEnabled, setIsHoverEnabled] = useState(false);
 
   const [popupData, setPopupData] = useState([]);
   const [values, setValues] = useState({
@@ -581,11 +583,6 @@ const Inventory = () => {
             >
               Apply Recommended Adjustments
             </CustomButton>
-            <TextToSpeech
-              isHoverEnabled={isHoverEnabled}
-              toggleHover={toggleHover}
-              showButton={true}
-            />
           </div>
         </div>
       </div>

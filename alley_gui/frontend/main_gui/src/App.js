@@ -29,7 +29,6 @@ import backIcon from "./pages/images/magnifyingGlass.png";
 import contrastIcon from "./pages/images/contrast.png";
 import translateIcon from "./pages/images/translate.png";
 import speechIcon from "./pages/images/speech.jpg";
-import TextToSpeech from "./components/TextToSpeech";
 
 //BrowserRouter basename="/tutorial"> for
 function App() {
@@ -45,7 +44,7 @@ function App() {
   const handleToggleHover = () => {
     console.log("Toggling hover state...");
     setIsHoverEnabled((prevIsHoverEnabled) => !prevIsHoverEnabled);
-    console.log("Hover state toggled.");
+    console.log("Hover state toggled. Current value:", isHoverEnabled);
   };
 
   useEffect(() => {
@@ -139,6 +138,10 @@ function App() {
       />
 
       {isHomePage && <Login />}
+      <Inventory
+        isHoverEnabled={isHoverEnabled}
+        handleToggleHover={handleToggleHover}
+      />
 
       {/* This is used for making connection between backend and frontend commented
       out for github release
@@ -180,15 +183,7 @@ function App() {
         />
         <Route path="/OrderSummary" element={<OrderSummary />} />
         <Route path="/MakeNewOrder" element={<MakeNewOrder />} />
-        <Route
-          path="/TextToSpeech"
-          element={
-            <TextToSpeech
-              isHoverEnabled={isHoverEnabled}
-              toggleHover={handleToggleHover}
-            />
-          }
-        />
+
         {/*<Route path="/menu" element={<MenuView />} />
         <Route path="/cashier" element={<CashierView />} />
 
@@ -205,26 +200,10 @@ function App() {
         <img src={translateIcon} className="image" />
         <LanguageSelect></LanguageSelect>
       </button>
+
       <button className="speech" onClick={handleToggleHover}>
-        {isHoverEnabled ? "Disable Text To Speech" : "Enable Text To Speech"}
-        <TextToSpeech
-          isHoverEnabled={isHoverEnabled}
-          toggleHover={handleToggleHover}
-          imageSrc={speechIcon}
-        />
+        <img src={speechIcon} className="image" />
       </button>
-      {/* <button className="speech" onClick={handleToggleHover}>
-        {isHoverEnabled ? "Disable Text To Speech" : "Enable Text To Speech"}
-        <img src={speechIcon} className="image" />
-        <TextToSpeech
-          isHoverEnabled={isHoverEnabled}
-          toggleHover={handleToggleHover}
-        />
-      </button> */}
-      {/* 
-      <button className="speech" onClick={handleToggleHover}>
-        <img src={speechIcon} className="image" />
-      </button> */}
     </div>
   );
 }
