@@ -38,15 +38,9 @@ const MenuItems = ({ isHoverEnabled, setIsHoverEnabled }) => {
   return (
     
     <div className="MenuItemsPage">
-
       <NavBar />
-      
       <div className="title">
-
         <h1>Menu Items</h1>
-
-          
-        
       </div>
       <div className="tablesContainer">
       <MenuItemsTable
@@ -63,6 +57,7 @@ const MenuItems = ({ isHoverEnabled, setIsHoverEnabled }) => {
       
     </div>
   );
+  
 };
 
 export default MenuItems;
