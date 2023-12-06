@@ -3,6 +3,11 @@ import {useAuth0} from '@auth0/auth0-react';
 import axios from "axios";
 import './Login.css'
 
+/**
+ * @description This component uses OAL Authentication to log users into the web application and redirect them to the correct view.
+ * @component Login
+ * @returns login component
+ */
 const Login = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -12,6 +17,10 @@ const Login = () => {
   const {loginWithRedirect, isAuthenticated, user, logout} = useAuth0();
   const [isLoading, setIsLoading] = useState(false);
 
+  /**
+   * @description uses API call to retreive weather information and display it on the home page
+   * @function getWeather
+   */
   useEffect(() => {
     const getWeather = async () => {
       if (navigator.geolocation) {
@@ -55,6 +64,10 @@ const Login = () => {
     getWeather();
   }, []);
 
+  /**
+   * @description uses a server side API call to get informtion about all the employees and corresponding login information
+   * @function getEmployees
+   */
   useEffect(() => {
     const getEmployees = async () => {
       try {
@@ -77,12 +90,20 @@ const Login = () => {
     }
   }, [isAuthenticated])
 
+  /**
+   * @description determines if the user is authenticated or not
+   * @function isAuthenticated
+   */
   useEffect(() => {
     if(isAuthenticated){
       authenticateUser();
     }
   }, [employees])
 
+  /**
+   * @description logs in an authenticated user
+   * @function login
+   */
   function login(){
     if(isAuthenticated){
       logout();
@@ -90,6 +111,11 @@ const Login = () => {
     loginWithRedirect();
   }
 
+  /**
+   * @description redirects authenticated users to the correct view of the web application based on their credentials
+   * @function authenticateUser
+   * @returns redirect of an authenticated user to the appropriate view
+   */
   const authenticateUser = () => {
     for (const employee of employees) {
       if (employee.first_name === user.name) {
@@ -111,10 +137,18 @@ const Login = () => {
     alert('Authentication failed. Please try again.');
   };
 
+  /**
+   * @description displays the login form to the user to enter their credentials
+   * @function showLoginForm
+   */
   const showLoginForm = () => {
     setShowLoginForm(!showForm);
   };
 
+  /**
+   * @description gets the associated weather image based on the current weather information
+   * @function getWeatherImage
+   */
   const getWeatherImage = () => {
     var image;
     switch(weather.weather[0].main){
