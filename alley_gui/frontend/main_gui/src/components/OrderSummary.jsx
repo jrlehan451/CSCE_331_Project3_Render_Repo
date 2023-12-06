@@ -16,6 +16,21 @@ const OrderSummary = () => {
     let navigate = useNavigate();
 
     useEffect(() => {
+        const protection = async () => {
+            const role = localStorage.getItem("Role");
+            switch(role){
+                case "Cashier":
+                    break;
+                default:
+                    window.location.href = window.location.origin;
+                    break;
+            }
+        };
+  
+        protection();
+    });
+
+    useEffect(() => {
         const storedDrinks = JSON.parse(sessionStorage.getItem('drinks'));
         if (storedDrinks) {
             setOrderDrinks(storedDrinks);

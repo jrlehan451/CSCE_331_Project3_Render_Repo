@@ -16,6 +16,21 @@ const DrinkSeries = () => {
         const words = name.split(delimiter);
         return words.map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
     };
+    
+    useEffect(() => {
+        const protection = async () => {
+            const role = localStorage.getItem("Role");
+            switch(role){
+                case "Customer":
+                    break;
+                default:
+                    window.location.href = window.location.origin;
+                    break;
+            }
+        };
+  
+        protection();
+    });
 
     const getDrinkSeries = (category) => {
         var currLocation = window.location.href;

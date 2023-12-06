@@ -34,6 +34,22 @@ const MenuItems = ({ isHoverEnabled, setIsHoverEnabled }) => {
     console.log("Table reloaded");
   }, [reloadTable]);
 
+  useEffect(() => {
+    const protection = async () => {
+      const role = localStorage.getItem("Role");
+      switch(role){
+        case "Manager":
+            break;
+        default:
+          window.location.href = window.location.origin;
+          break;
+      }
+    };
+
+    protection();
+  });
+
+
   //Collection of all pages and reload elements
   return (
     

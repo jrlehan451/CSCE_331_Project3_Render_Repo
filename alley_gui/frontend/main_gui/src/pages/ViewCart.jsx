@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{useEffect}from 'react';
 import axios from "axios";
 import './view_cart.css';
 import backArrowImage from './images/back_arrow.png';
@@ -29,6 +29,21 @@ const ViewCart = () => {
     var currLocation = window.location.href;
     window.location.href = currLocation.replace("view_cart", "customer");
   };
+
+  useEffect(() => {
+    const protection = async () => {
+        const role = localStorage.getItem("Role");
+        switch(role){
+            case "Customer":
+                break;
+            default:
+                window.location.href = window.location.origin;
+                break;
+        }
+    };
+
+    protection();
+  });
 
   /**
    * @description deletes drinks from the current customer order

@@ -122,12 +122,15 @@ const Login = () => {
         console.log('Authentication successful!');
         var currLocation = window.location.href;
         if(employee.first_name === "customer" && employee.last_name === "profile"){
+            localStorage.setItem("Role", "Customer");
             window.location.href = currLocation + "customer";
         }
         else if(employee.is_manager){
+            localStorage.setItem("Role", "Manager");
             window.location.href = currLocation + "manager";
         }
         else{
+            localStorage.setItem("Role", "Cashier");
             window.location.href = currLocation + "DrinkOptions";
         }
         return;

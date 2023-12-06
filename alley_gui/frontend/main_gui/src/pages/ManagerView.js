@@ -26,9 +26,22 @@ const ManagerView = () => {
   const {logout} = useAuth0();
 
   const returnHome = () => {
+    localStorage.setItem("Role", "");
     logout({ logoutParams: { returnTo: window.location.origin } })
   };
-  
+
+  const protection = async () => {
+    const role = localStorage.getItem("Role");
+    switch(role){
+      case "Manager":
+          break;
+      default:
+        window.location.href = window.location.origin;
+        break;
+    }
+  };
+
+  protection();
 
   return (
       <Box className="managerBox">

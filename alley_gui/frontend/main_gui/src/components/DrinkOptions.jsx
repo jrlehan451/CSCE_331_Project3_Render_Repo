@@ -16,6 +16,7 @@ const DrinkOptions = ({capitalizeName}) => {
     const {logout} = useAuth0();
 
     const returnHome = () => {
+      localStorage.setItem("Role", "");
       logout({ logoutParams: { returnTo: window.location.origin } })
     };
 
@@ -37,6 +38,21 @@ const DrinkOptions = ({capitalizeName}) => {
   
       drinkOptions();
     }, []);
+
+    useEffect(() => {
+      const protection = async () => {
+          const role = localStorage.getItem("Role");
+          switch(role){
+              case "Cashier":
+                  break;
+              default:
+                  window.location.href = window.location.origin;
+                  break;
+          }
+      };
+
+      protection();
+    });
 
     return (
       <div>

@@ -50,6 +50,22 @@ const Inventory = (props) => {
     setIsHoverEnabled((prevIsHoverEnabled) => !prevIsHoverEnabled);
   };
 
+  useEffect(() => {
+    const protection = async () => {
+      const role = localStorage.getItem("Role");
+      switch(role){
+        case "Manager":
+            break;
+        default:
+          window.location.href = window.location.origin;
+          break;
+      }
+    };
+
+    protection();
+  });
+
+
   // Creating columns for displaying sql queries
   const columns = [
     { field: "itemId", headerName: "Item ID", width: 70, flex: 1 },

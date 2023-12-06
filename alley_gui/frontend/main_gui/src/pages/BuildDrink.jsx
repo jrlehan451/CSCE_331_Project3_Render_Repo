@@ -15,6 +15,21 @@ const BuildDrink = () => {
     const [quantity] = useState(0);
     const [addOns, setData] = useState([]);
 
+    useEffect(() => {
+        const protection = async () => {
+            const role = localStorage.getItem("Role");
+            switch(role){
+                case "Customer":
+                    break;
+                default:
+                    window.location.href = window.location.origin;
+                    break;
+            }
+        };
+  
+        protection();
+    });
+
     const capitalizeName = (name, delimiter) => {
         const words = name.split(delimiter);
         for (let i = 0; i < words.length; i++) {

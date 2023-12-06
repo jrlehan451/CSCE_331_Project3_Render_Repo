@@ -15,8 +15,28 @@ const CustomerHome = () => {
     const {logout} = useAuth0();
 
     const returnHome = () => {
-      logout({ logoutParams: { returnTo: window.location.origin } })
+        localStorage.setItem("Role", "");
+        logout({ logoutParams: { returnTo: window.location.origin } })
     };
+
+    /**
+     * @description adds protection to customer view
+     * @function protection
+     */
+    useEffect(() => {
+        const protection = async () => {
+            const role = localStorage.getItem("Role");
+            switch(role){
+                case "Customer":
+                    break;
+                default:
+                    window.location.href = window.location.origin;
+                    break;
+            }
+        };
+
+        protection();
+    });
 
     /**
      * @description displays the current running total of the order the customer is building
