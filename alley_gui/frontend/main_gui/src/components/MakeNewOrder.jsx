@@ -31,12 +31,14 @@ function clearSessionStorage() {
  * @component MakeNewOrder
  * @returns displays page that makes new order on cashier side
  */
-const MakeNewOrder = (isHoverEnabled, handleToggleHover) => {
-  const [isHoverEnabledState, setIsHoverEnabled] = useState(false);
+const MakeNewOrder = (props) => {
+  const { isHoverEnabled, handleToggleHover } = props;
+
+  //const [isHoverEnabledState, setIsHoverEnabled] = useState(false);
 
   const toggleHover = () => {
-    setIsHoverEnabled((prevIsHoverEnabled) => !prevIsHoverEnabled);
-    handleToggleHover();
+    handleToggleHover((prevIsHoverEnabled) => !prevIsHoverEnabled);
+    //handleToggleHover();
   };
 
   const handleGridCellHover = (params) => {
