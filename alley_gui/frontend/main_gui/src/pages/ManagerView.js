@@ -3,7 +3,11 @@ import { Box, ListItemButton, styled } from "@mui/material";
 
 import Stack from "@mui/material/Stack";
 import HomeButton from './images/HomeButton.png';
+
+import '../components/MenuItems/MenuItems.css'
+
 import {useAuth0} from '@auth0/auth0-react';
+
 
 
 const CustomButton = styled(ListItemButton)(({ theme }) => ({
@@ -26,7 +30,13 @@ const ManagerView = () => {
   };
   
   return (
+
+    <ThemeProvider theme={theme}>
+      {/* <h1 className = "title2"> Manager Page</h1> */}
+   
       <Box className="managerBox">
+        <h1 className = "title2"> Manager Page</h1>
+
         <button className="home-button" onClick={returnHome}> 
             <img src={HomeButton} alt="home" />
         </button>
@@ -56,38 +66,7 @@ const ManagerView = () => {
             Supply Reorders
           </CustomButton>
 
-          {/*<Box>
-      <Stack direction="row" spacing={2} justifyContent="space-between">
-        <Navbar />
-        <Sidebar />
-        <Feed />
-        <Rightbar />
-      </Stack>
-      </Box>
-  */}
-
-          {/* <Typography variant="h1">Manager View</Typography>
-      <Button variant="text">Text</Button>
-      <Button
-        startIcon={<SettingsIcon />}
-        variant="contained"
-        color="secondary"
-        size="small"
-      >
-        contained
-      </Button>
-
-      <CustomButton>My Button</CustomButton>
-      <CustomButton>Another Button</CustomButton>
-
-      <Button
-        startIcon={<Add />}
-        variant="outlined"
-        color="otherColor"
-        size="larges"
-      >
-        Add new Post
-      </Button> */}
+     
         </Stack>
       </Box>
   );
