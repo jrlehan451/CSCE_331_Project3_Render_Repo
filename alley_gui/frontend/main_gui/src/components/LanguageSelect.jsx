@@ -34,7 +34,7 @@ function LanguageSelect() {
                 const nonTextNodes = [...ele.childNodes]
                 .filter(child => child.nodeType != Node.TEXT_NODE)
 
-                let result = await translate(textNodes[0], pLang, currLang);
+                let result = await translate(textNodes[0], prevLang, language);
                 ele.textContent = result;
 
                 nonTextNodes.forEach(child => {
