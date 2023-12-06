@@ -183,83 +183,37 @@ const OrderSummary = (isHoverEnabled, handleToggleHover) => {
     <div>
       <span class="back" onClick={() => navigate(-1)}></span>
       <div class="columnWrapper">
-        <h1
-          class="green"
-          onMouseOver={(e) => handleHover(e, isHoverEnabled)}
-          onMouseOut={handleMouseOut}
-        >
-          Order Summary
-        </h1>
+        <h1 class="green">Order Summary</h1>
       </div>
       <div class="columnWrapper">
         <div class="column bodyColumn">
           <div class="columnWrapper">
-            <label
-              class="spacedLabel green"
-              onMouseOver={(e) => handleHover(e, isHoverEnabled)}
-              onMouseOut={handleMouseOut}
-            >
-              Customer Name:{" "}
-            </label>
+            <label class="spacedLabel green">Customer Name: </label>
             <input class="customer-name" type="text" id="cname" name="cname" />
             <br />
           </div>
-          <h3
-            class="green"
-            onMouseOver={(e) => handleHover(e, isHoverEnabled)}
-            onMouseOut={handleMouseOut}
-          >
-            Select Payment Method:{" "}
-          </h3>
-          <button
-            onClick={selectPayment}
-            onMouseOver={(e) => handleHover(e, isHoverEnabled)}
-            onMouseOut={handleMouseOut}
-            class="payment-option"
-          >
+          <h3 class="green">Select Payment Method: </h3>
+          <button onClick={selectPayment} class="payment-option">
             Cash
           </button>
           <br />
-          <button
-            onClick={selectPayment}
-            onMouseOver={(e) => handleHover(e, isHoverEnabled)}
-            onMouseOut={handleMouseOut}
-            class="payment-option"
-          >
+          <button onClick={selectPayment} class="payment-option">
             Credit
           </button>
           <br />
-          <button
-            onClick={selectPayment}
-            onMouseOver={(e) => handleHover(e, isHoverEnabled)}
-            onMouseOut={handleMouseOut}
-            class="payment-option"
-          >
+          <button onClick={selectPayment} class="payment-option">
             Debit
           </button>
         </div>
         <div class="column bodyColumn">
-          <h3
-            class="brown"
-            onMouseOver={(e) => handleHover(e, isHoverEnabled)}
-            onMouseOut={handleMouseOut}
-          >
-            Current Order
-          </h3>
-          <table
-            onMouseOver={(e) => handleHover(e, isHoverEnabled)}
-            onMouseOut={handleMouseOut}
-          >
+          <h3 class="brown">Current Order</h3>
+          <table>
             <CashierOrder
               drinks={orderDrinks}
               add_ons={orderAdd_ons}
             ></CashierOrder>
           </table>
-          <div
-            class="columnWrapper"
-            onMouseOver={(e) => handleHover(e, isHoverEnabled)}
-            onMouseOut={handleMouseOut}
-          >
+          <div class="columnWrapper">
             <button
               id="delete"
               onClick={deleteDrinkFromLocal}
@@ -275,13 +229,7 @@ const OrderSummary = (isHoverEnabled, handleToggleHover) => {
             >
               Confirm
             </ButtonLink>
-            <p
-              class="total-cost"
-              onMouseOver={(e) => handleHover(e, isHoverEnabled)}
-              onMouseOut={handleMouseOut}
-            >
-              Total Cost: ${totalCost}
-            </p>
+            <p class="total-cost">Total Cost: ${totalCost}</p>
           </div>
         </div>
       </div>
