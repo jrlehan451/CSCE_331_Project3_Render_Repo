@@ -2,12 +2,22 @@
 import React, { useState, useEffect } from 'react';
 import './MagnifierComponent.css'; 
 
+/**
+ * @description This component creates the accessibility feature of a mangifying glass
+ * @component MagnifierCursor
+ * @param {*} magnifierActive 
+ * @returns 
+ */
 const MagnifierCursor = ({ magnifierActive }) => {
   const [position, setPosition] = useState({ x: 0, y: 0 });
   const [magnifierContent, setMagnifierContent] = useState(null);
 
 
   //if(magnify)
+  /**
+   * @description changes the text that is magnified as the mouse moves
+   * @function handleMouseMove
+   */
   useEffect(() => {
     const handleMouseMove = (e) => {
       setPosition({ x: e.clientX, y: e.clientY });
@@ -26,6 +36,14 @@ const MagnifierCursor = ({ magnifierActive }) => {
   }, [magnifierActive]);
 
   // Function to capture content within a circular region
+  /**
+   * @description gets the region for which mangnification of text needs to occur
+   * @function captureCircularRegion
+   * @param {int} x 
+   * @param {int} y 
+   * @param {int} radius 
+   * @returns text in magnified font and in circle
+   */
   const captureCircularRegion = (x, y, radius) => {
     const elements = document.elementsFromPoint(x, y);
     const circularRegionElements = elements.filter((element) => {
