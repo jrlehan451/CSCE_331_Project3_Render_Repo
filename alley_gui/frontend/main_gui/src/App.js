@@ -285,23 +285,70 @@ function App() {
             />
           }
         />
-        <Route path="/Menu" element={<Menu />} />
-        <Route path="/MenuAddOns" element={<MenuAddOns />} />
+        <Route
+          path="/Menu"
+          element={<Menu />}
+          isHoverEnabled={isHoverEnabled}
+          handleToggleHover={handleToggleHover}
+        />
+        <Route
+          path="/MenuAddOns"
+          element={
+            <MenuAddOns
+              isHoverEnabled={isHoverEnabled}
+              handleToggleHover={handleToggleHover}
+            />
+          }
+        />
 
         <Route
           path="/DrinkOptions"
-          element={<DrinkOptions capitalizeName={capitalizeName} />}
+          element={
+            <DrinkOptions
+              capitalizeName={capitalizeName}
+              isHoverEnabled={isHoverEnabled}
+              handleToggleHover={handleToggleHover}
+            />
+          }
         />
         <Route
           path="/AddDrink/:category"
-          element={<AddDrink capitalizeName={capitalizeName} />}
+          element={
+            <AddDrink
+              capitalizeName={capitalizeName}
+              isHoverEnabled={isHoverEnabled}
+              handleToggleHover={handleToggleHover}
+            />
+          }
         />
         <Route
           path="/AddOn"
-          element={<AddOn capitalizeName={capitalizeName} />}
+          element={
+            <AddOn
+              capitalizeName={capitalizeName}
+              isHoverEnabled={isHoverEnabled}
+              handleToggleHover={handleToggleHover}
+            />
+          }
         />
-        <Route path="/OrderSummary" element={<OrderSummary />} />
-        <Route path="/MakeNewOrder" element={<MakeNewOrder />} />
+        <Route
+          path="/OrderSummary"
+          element={
+            <OrderSummary
+              isHoverEnabled={isHoverEnabled}
+              handleToggleHover={handleToggleHover}
+            />
+          }
+        />
+        <Route
+          path="/MakeNewOrder"
+          element={
+            <MakeNewOrder
+              isHoverEnabled={isHoverEnabled}
+              handleToggleHover={handleToggleHover}
+            />
+          }
+        />
         <Route
           path="/TextToSpeech"
           element={
