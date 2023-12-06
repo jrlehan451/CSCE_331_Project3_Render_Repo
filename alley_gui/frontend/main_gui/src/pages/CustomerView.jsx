@@ -14,6 +14,21 @@ const CustomerHome = () => {
         logout({ logoutParams: { returnTo: window.location.origin } })
     };
 
+    useEffect(() => {
+        const protection = async () => {
+            const role = localStorage.getItem("Role");
+            switch(role){
+                case "Customer":
+                    break;
+                default:
+                    window.location.href = window.location.origin;
+                    break;
+            }
+        };
+  
+        protection();
+    });
+
     const getCurrentTotal = () => {
 
         let currDrinksInOrder = []
