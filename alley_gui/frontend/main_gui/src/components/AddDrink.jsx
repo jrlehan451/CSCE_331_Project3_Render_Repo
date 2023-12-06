@@ -5,10 +5,24 @@ import { Link, useParams, useNavigate } from 'react-router-dom';
 import axios from "axios";
 import '../drink_options.css'
 
+/**
+ * 
+ * @param {*} to 
+ * @param {*} className
+ * @param {*} children
+ * @returns navigation to all the different drink series pages on the cashier side
+ */
 function ButtonLink({ to, className, children }) {
     return <Link to={to}><button class={className}>{children}</button></Link>;
 } // Should get refactored into just a separate component to be so honest
 
+/**
+ * @description This component displays all the drinks available for the selected category. Additionally, it displays
+ * a table that provides a summary of all drinks in the current order.
+ * @component AddDrink
+ * @param {*} capatalizeName 
+ * @returns component that displays the different drink series add drink pages
+ */
 const AddDrink = ({capitalizeName}) => {
     const [orderDrinks, setOrderDrinks] = useState([]);
     const [orderAdd_ons, setOrderAddOns] = useState([]);
@@ -30,6 +44,10 @@ const AddDrink = ({capitalizeName}) => {
         protection();
     });
 
+    /**
+     * @function storedDrinks
+     * @description stores all the current drinks in the cashier's order
+     */
     useEffect(() => {
         const storedDrinks = JSON.parse(sessionStorage.getItem('drinks'));
         if (storedDrinks) {
@@ -37,10 +55,18 @@ const AddDrink = ({capitalizeName}) => {
         } 
     }, [])
 
+    /**
+     * @description sets and saves all the drinks in the current order
+     * @function orderDrinks
+     */
     useEffect(() => {
         sessionStorage.setItem("drinks", JSON.stringify(orderDrinks))
     }, [orderDrinks])
     
+    /**
+     * @description gets the add-ons tied to the selected drink
+     * @function storedAddOns
+     */
     useEffect(() => {
         const storedAddOns = JSON.parse(sessionStorage.getItem('add_ons'));
         if (storedAddOns) {
@@ -48,6 +74,10 @@ const AddDrink = ({capitalizeName}) => {
         } 
     }, [])
 
+    /**
+     * @function orderAdd_ons
+     * @description sets the add-ons for the selected drink
+     */
     useEffect(() => {
         sessionStorage.setItem("add_ons", JSON.stringify(orderAdd_ons))
     }, [orderAdd_ons])
@@ -68,6 +98,10 @@ const AddDrink = ({capitalizeName}) => {
         });
     }
 
+    /**
+     * @function deleteDrinkFromLocal
+     * @description provides the functionality to delete a drink from the current order
+     */
     function deleteDrinkFromLocal() {  
         let selected = document.getElementsByClassName("selected")[0];
         selected.classList.remove("selected");

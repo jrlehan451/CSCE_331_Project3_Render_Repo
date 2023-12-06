@@ -6,11 +6,22 @@ import '../drink_options.css';
 import {useAuth0} from '@auth0/auth0-react';
 import HomeButton from '../pages/images/HomeButton.png';
 
-
+/**
+ * @description creates navigate to all the different drink series pages
+ * @param {*} to
+ * @param {*} children 
+ * @returns drink series page for selected button
+ */
 function ButtonLink({ to, children }) {
   return <Link to={to}><button>{children}</button></Link>;
 } // Should get refactored into just a separate component to be so honest
 
+/**
+ * @description This component displays all the drink options for the cashier to begin creating an order.
+ * @component DrinkOptions
+ * @param {*} capitalizeName 
+ * @returns drink options page for the cashier view
+ */
 const DrinkOptions = ({capitalizeName}) => {
     const [categories, setCategories] = useState([]);
     const {logout} = useAuth0();
@@ -20,6 +31,10 @@ const DrinkOptions = ({capitalizeName}) => {
       logout({ logoutParams: { returnTo: window.location.origin } })
     };
 
+    /**
+     * @function drinkOptions
+     * @description queries the server-side API to get all the different drink options
+     */
     useEffect(() => {
       const drinkOptions = async () => {
         try {
@@ -39,6 +54,10 @@ const DrinkOptions = ({capitalizeName}) => {
       drinkOptions();
     }, []);
 
+    /**
+     * @description sets up protection for the cashier view
+     * @function cashierProtection
+     */
     useEffect(() => {
       const protection = async () => {
           const role = localStorage.getItem("Role");

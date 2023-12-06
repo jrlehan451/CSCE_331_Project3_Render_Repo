@@ -4,10 +4,25 @@ import { Link, useNavigate } from 'react-router-dom';
 import axios from "axios";
 import '../drink_options.css'
 
+/**
+ * @description navigation and posting to database from 
+ * @function ButtonLinkOrderSummary
+ * @param {int} id
+ * @param {*} to
+ * @param {*} className
+ * @param {*} onClick
+ * @param {*} children
+ * @returns 
+ */
 function ButtonLink({ id, to, className, onClick, children }) {
     return <Link to={to} onClick={onClick}><button id={id} class={className}>{children}</button></Link>;
 } // Should get refactored into just a separate component to be so honest
 
+/**
+ * @description This component creates the table that displays the currnent order summary on all the cashier view pages.
+ * @component OrderSummary
+ * @returns 
+ */
 const OrderSummary = () => {
     const [orderDrinks, setOrderDrinks] = useState([]);
     const [orderAdd_ons, setOrderAddOns] = useState([]);
@@ -71,11 +86,19 @@ const OrderSummary = () => {
         setTotalCost(calcTotalCost);
     }
 
+    /**
+     * @description functionality that ensures that a payment method is selected before the order is able to be placed
+     * @function selectPayment
+     */
     function selectPayment() {  
         let confirmButton = document.getElementById("confirm");
         confirmButton.classList.remove("grayed-button");
     }
 
+    /**
+     * @function calcTotalCost
+     * @description calculates the total cost of the current order
+     */
     const calcTotalCost = useCallback(() => {
         var drinks = orderDrinks;
         var add_ons = orderAdd_ons;
@@ -91,10 +114,19 @@ const OrderSummary = () => {
         return totalCost.toFixed(2);
     }, [orderDrinks, orderAdd_ons]);
 
+    /**
+     * @function setTotalCost
+     * @description saves the total cost
+     */
     useEffect(() => {
         setTotalCost(calcTotalCost);
     }, [calcTotalCost])
-
+ 
+    /**
+     * @description uses a post server-side API call in order to the save the order made on the cashier side
+     * @function postOrderToDB
+     * @param {*} e 
+     */
     const postOrderToDB = async(e) => {
         e.preventDefault();
 

@@ -8,6 +8,13 @@ function ButtonLink({ to, className, children }) {
     return <Link to={to}><button class={className}>{children}</button></Link>;
 } // Should get refactored into just a separate component to be so honest
 
+/**
+ * @description This component displays all the add-ons available to be added to drinks. It also displays the order
+ * summary table that allows the cashier to add add-ons to the selected drinks.
+ * @component AddOn
+ * @param {*} capitalizeName 
+ * @returns component that displays the ability for cashier's to add add-ons to drinks in the order
+ */
 const AddOn = ({capitalizeName}) => {
     const [orderDrinks, setOrderDrinks] = useState([]);
     const [orderAdd_ons, setOrderAddOns] = useState([]);
@@ -51,6 +58,14 @@ const AddOn = ({capitalizeName}) => {
         sessionStorage.setItem("add_ons", JSON.stringify(orderAdd_ons))
     }, [orderAdd_ons])
 
+    /**
+     * @description adds the desired add-on to the selected drink in the order summary
+     * @function add_onToLocal
+     * @param {int} _id 
+     * @param {string} _name 
+     * @param {int} _cost 
+     * @returns add-on saved in association to the selected drink in local
+     */
     function add_onToLocal(_id, _name, _cost) {  
         if (document.getElementsByClassName("selected").length == 0) {
             return;
@@ -88,6 +103,10 @@ const AddOn = ({capitalizeName}) => {
 
     const [addOns, setAddOns] = useState([]);
 
+    /**
+     * @function addOnOptions
+     * @description queries all the add-ons on the server-side API
+     */
     useEffect(() => {
       const addOnOptions = async () => {
         try {
