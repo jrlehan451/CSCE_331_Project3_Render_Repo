@@ -21,8 +21,15 @@ function LanguageSelect() {
             .map(textNode => textNode.textContent) // extract text content
     
             if (textNodes.length != 0) {
-                let result = await translate(textNodes[0], prevLang, language);
+                const nonTextNodes = [...ele.childNodes]
+                .filter(child => child.nodeType != Node.TEXT_NODE)
+
+                let result = await translate(textNodes[0], pLang, currLang);
                 ele.textContent = result;
+
+                nonTextNodes.forEach(child => {
+                    ele.prepend(child);
+                });
             }
         });
     }
@@ -82,8 +89,15 @@ function LanguageSelect() {
                                 .map(textNode => textNode.textContent) // extract text content
                         
                                 if (textNodes.length != 0) {
+                                    const nonTextNodes = [...childele.childNodes]
+                                    .filter(child => child.nodeType != Node.TEXT_NODE)
+
                                     let result = await translate(textNodes[0], pLang, currLang);
                                     childele.textContent = result;
+
+                                    nonTextNodes.forEach(child => {
+                                        childele.prepend(child);
+                                    });
                                 }
                             });
                         }
