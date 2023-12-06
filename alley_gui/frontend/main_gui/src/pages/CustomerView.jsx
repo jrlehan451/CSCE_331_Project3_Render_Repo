@@ -4,6 +4,11 @@ import './customer_home.css';
 import {useAuth0} from '@auth0/auth0-react';
 import HomeButton from '../pages/images/HomeButton.png';
 
+/**
+ * @description This is the customer home page component. It displays all the popular drinks, all drink series, and is the starting place for a customer to place an order.
+ * @component CustomerHome
+ * @returns customer home component which starts the customer ordering process
+ */
 const CustomerHome = () => {
     const [drinkCategories, setData] = useState([]);
     const [popularDrinks, setDrinks] = useState([]);
@@ -13,6 +18,11 @@ const CustomerHome = () => {
       logout({ logoutParams: { returnTo: window.location.origin } })
     };
 
+    /**
+     * @description displays the current running total of the order the customer is building
+     * @function getCurrentTotal
+     * @returns current total of customer order
+     */
     const getCurrentTotal = () => {
 
         let currDrinksInOrder = []
@@ -45,6 +55,11 @@ const CustomerHome = () => {
         return words.join(" ");
     };
 
+    /**
+     * @description redirects the customer to the page with all the drinks of a specific series when series button is clicked
+     * @param {string} category
+     * @function getDrinkSeries
+     */
     const getDrinkSeries = (category) => {
         var currLocation = window.location.href;
         if (currLocation.includes("customer")) {
@@ -56,11 +71,22 @@ const CustomerHome = () => {
         }
     };
 
+    /**
+     * @description redirects customer to view their cart from the customer home page
+     * @function viewCartFromCustomerHome
+     */
     const viewCartFromCustomerHome = () => {
         var currLocation = window.location.href;
         window.location.href = currLocation.replace("customer", "view_cart");
     };
 
+    /**
+     * @description redirects to the build drink page and stores information about the drink the customer selected
+     * @param {string} drinkName
+     * @param {int} drinkId
+     * @param {int} drinkCost
+     * @function buildDrink
+     */
     const buildDrink = (drinkName, drinkId, drinkCost) => {
         var currLocation = window.location.href;
         window.location.href = currLocation.replace("customer", "build_drink");
@@ -77,6 +103,11 @@ const CustomerHome = () => {
         return words.join("_");
     }
 
+    /**
+     * @description uses a server-side API call to get all the different drink categories and popular drinks
+     * @function drinkCategories
+     * @function popularDrinks
+     */
     useEffect(() => {
         const drinkCategories = async () => {
         try {

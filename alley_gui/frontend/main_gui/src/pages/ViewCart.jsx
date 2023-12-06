@@ -3,6 +3,12 @@ import axios from "axios";
 import './view_cart.css';
 import backArrowImage from './images/back_arrow.png';
 
+/**
+ * @description This component displays the summary of all the drinks currently in the customer's order.
+ * It also allows the customer to delete drinks from the order if desired.
+ * @component ViewCart
+ * @returns 
+ */
 const ViewCart = () => {
 
   let currDrinksInOrder = JSON.parse(sessionStorage.getItem("currentOrderDrinks"));
@@ -15,11 +21,20 @@ const ViewCart = () => {
     return words.join(" ");
   };
     
+  /**
+   * @description navigation to the customer home page from the view cart page
+   * @function navCustomerHome
+   */
   const navCustomerHome = () => {
     var currLocation = window.location.href;
     window.location.href = currLocation.replace("view_cart", "customer");
   };
 
+  /**
+   * @description deletes drinks from the current customer order
+   * @function deleteDrinkFromOrder
+   * @param {int} drinkId 
+   */
   const deleteDrinkFromOrder = (drinkId) => {
     let selected = document.getElementById(drinkId);
     selected.style.display = "none";
@@ -34,6 +49,11 @@ const ViewCart = () => {
     sessionStorage.setItem('currentOrderDrinks', JSON.stringify(storedDrinks));
   };
 
+  /**
+   * @description navigates to the checkout page and submits the customer order to the correct entities in the database
+   * @function goToCheckout
+   * @param {*} e 
+   */
   const goToCheckout = async(e) => {
     e.preventDefault();
 

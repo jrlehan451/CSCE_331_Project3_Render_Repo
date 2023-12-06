@@ -2,8 +2,12 @@ import React, { useState, useEffect} from "react";
 import {useParams} from 'react-router-dom'
 import axios from "axios";
 import './customer_home.css';
-//import peachOolongTeaImage from './peach_oolong_tea.png'; // Import your image
 
+/**
+ * @description This component displays all the drinks and their images of a particular series and allows a customer to navigate between all the different series to pick their desired drinks.
+ * @component DrinkSeries
+ * @returns Drink Series component which displays all the drinks for a particular series and allows a customer to begin the process of adding that drink to their order
+ */
 const DrinkSeries = () => {
     const [drinkCategories, setData] = useState([]);
     const [drinkSeriesItems, setDrinks] = useState([]);
@@ -56,6 +60,10 @@ const DrinkSeries = () => {
         return "Total: " + totalCost.toFixed(2);
     }
 
+    /**
+     * @description redirects so that the customer can view their cart of current drinks
+     * @function viewCartFromDrinkSeries
+     */
     const viewCartFromDrinkSeries = () => {
         var currLocation = window.location.href;
         const array = currLocation.split("/");
@@ -71,6 +79,10 @@ const DrinkSeries = () => {
         return words.join("_");
     }
 
+    /**
+     * @description uses server-side API call to get the different drink series and display them in the side bar menu, as well as all the drinks in the currently selected series
+     * @function drinkSeries
+     */
     useEffect(() => {
         const drinkSeries = async () => {
         try {

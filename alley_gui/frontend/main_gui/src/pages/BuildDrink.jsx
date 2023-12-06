@@ -3,6 +3,11 @@ import axios from "axios";
 import './build_drink.css';
 import backArrowImage from './images/back_arrow.png';
 
+/**
+ * @description This component allows the customer to customize their drink with add-ons and other specifications. 
+ * @component Build Drink
+ * @returns the pages that allows a customer to add specifications to drinks in their order
+ */
 const BuildDrink = () => {
     const [selectedSize] = useState('');
     const [selectedAddOn1] = useState('');
@@ -18,6 +23,10 @@ const BuildDrink = () => {
         return words.join(" ");
     };
 
+    /**
+     * @function backCustomerHome
+     * @description navigates back to the main customer home page from the build drink page
+     */
     const backCustomerHome = () => {
         var currLocation = window.location.href;
         window.location.href = currLocation.replace("build_drink", "customer");
@@ -46,6 +55,11 @@ const BuildDrink = () => {
         return "Total: " + totalCost.toFixed(2);
       }
 
+    /**
+     * @function getSelectedDrink
+     * @description gets the information about the drink selected by the user on the customer home page 
+     * or drink series page and displays it on the build drink page
+     */
     const getSelectedDrink = () => {
         const selectedDrink = sessionStorage.getItem("customer_drink_name");
         const drinkName = document.getElementById("drinkSelected");
@@ -54,12 +68,24 @@ const BuildDrink = () => {
         quantity.style.display = "block";
     }
 
+    /**
+     * @description stores the customer's size choice for the current drink their building
+     * @function getSize
+     * @param {string} size 
+     */
     const getSize = (size) => {
         sessionStorage.setItem("customer_drink_size", size);
         const drinkSize = document.getElementById("drinkSelectedSize");
         drinkSize.outerHTML = '<p id="drinkSelectedSize" class="build-drink-text">Size: ' + size + '</p>';
     };
 
+    /**
+     * @description sets the information about the first add-on chosen by the customer
+     * @function getAddOn1
+     * @param {string} addOn1Name 
+     * @param {int} addOn1IngredientId 
+     * @param {int} addOn1Cost 
+     */
     const getAddOn1 = (addOn1Name, addOn1IngredientId, addOn1Cost) => {
         sessionStorage.setItem("customer_addOn1_name", addOn1Name);
         sessionStorage.setItem("customer_addOn1_id", addOn1IngredientId);
@@ -68,6 +94,13 @@ const BuildDrink = () => {
         addOn1.outerHTML = '<p id="drinkSelectedAddOn1" class="build-drink-text">Add-On #1: ' + addOn1Name + '</p>';
     };
 
+    /**
+     * @description sets the information about the second add-on chosen by the customer
+     * @function getAddOn2
+     * @param {string} addOn2Name 
+     * @param {int} addOn2IngredientId 
+     * @param {int} addOn2Cost 
+     */
     const getAddOn2 = (addOn2Name, addOn2IngredientId, addOn2Cost) => {
         sessionStorage.setItem("customer_addOn2_name", addOn2Name);
         sessionStorage.setItem("customer_addOn2_id", addOn2IngredientId);
@@ -76,12 +109,20 @@ const BuildDrink = () => {
         addOn2.outerHTML = '<p id="drinkSelectedAddOn2" class="build-drink-text">Add-On #2: ' + addOn2Name + '</p>';
     };
 
+    /**
+     * @description sets information about the number of the current drink being built to add to the customer's order
+     * @function getQuantity
+     */
     const getQuantity = () => {
         let amount = sessionStorage.getItem("customer_drink_quantity");
         const drinkQuantity = document.getElementById("drinkSelectedQuantity");
         drinkQuantity.outerHTML = '<p id="drinkSelectedQuantity" class="build-drink-text">Quantity: ' + amount + '</p>';
     };
 
+    /**
+     * @description displays the content that allows the customer to select a size for their desired drink
+     * @function getDrinkSize
+     */
     const getDrinkSize = () => {
         const start = document.getElementById("start");
         start.style.display = "none";
@@ -96,6 +137,10 @@ const BuildDrink = () => {
         size.style.display = "block";
     };
 
+    /**
+     * @description displays the content that allows the customer to add their first add-on to the desired drink
+     * @function getDrinkAddOn1
+     */
     const getDrinkAddOn1 = () => {
         const start = document.getElementById("start");
         start.style.display = "none";
@@ -110,6 +155,10 @@ const BuildDrink = () => {
         addOns1.style.display = "block";
     };
 
+    /**
+     * @description displays the content that allows the customer to add their second add-on to the desired drink
+     * @function getDrinkAddOn2
+     */
     const getDrinkAddOn2 = () => {
         const start = document.getElementById("start");
         start.style.display = "none";
@@ -124,6 +173,10 @@ const BuildDrink = () => {
         addOns2.style.display = "block";
     };
 
+    /**
+     * @description displays the conent that allows the customer to add their desired quantity of the desired drink
+     * @function getDrinkQuantity
+     */
     const getDrinkQuantity = () => {
         const start = document.getElementById("start");
         start.style.display = "none";
@@ -156,6 +209,10 @@ const BuildDrink = () => {
         });
     };
 
+    /**
+     * @description adds the built drink to the current list of drinks in the customer's order
+     * @function addDrinkToOrder
+     */
     const addDrinkToOrder = () => {
         const drinkName = sessionStorage.getItem("customer_drink_name");
         const drinkId = sessionStorage.getItem("customer_drink_id");
@@ -210,6 +267,10 @@ const BuildDrink = () => {
         currCost.textContent = "Total: " + totalCost.toFixed(2);
     }
 
+    /**
+     * @function viewCart
+     * @description navigation to the view cart page from the build drink page
+     */
     const viewCart = () => {
         var currLocation = window.location.href;
         window.location.href = currLocation.replace("build_drink", "view_cart");
@@ -222,6 +283,10 @@ const BuildDrink = () => {
         return words.join("_");
     }
 
+    /**
+     * @description queries all the add-ons available from the server-side API
+     * @function drinkCategories
+     */
     useEffect(() => {
         const drinkCategories = async () => {
         try {

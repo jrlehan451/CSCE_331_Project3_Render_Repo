@@ -2,6 +2,12 @@ import React from 'react';
 import './customer_checkout.css';
 const orderNumber = Math.floor((Math.random() * Date.now())/100000);
 
+/**
+ * @description This component displays the customer checkout page and allows the customer to return 
+ * to the customer home page to make a new order.
+ * @component Checkout
+ * @returns customer checkout page
+ */
 const Checkout = () => {
   const makeNewOrder = () => {
     sessionStorage.clear();
