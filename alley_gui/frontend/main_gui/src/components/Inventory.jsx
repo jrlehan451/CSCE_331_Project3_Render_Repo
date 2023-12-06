@@ -327,8 +327,8 @@ const Inventory = (props) => {
   
     try {
       const inventoryResponse = await axios.get(
-        //"https://thealley.onrender.com/recommendation_adj"
-        "http://localhost:4000/recommendation_adj"
+        "https://thealley.onrender.com/recommendation_adj"
+        //"http://localhost:4000/recommendation_adj"
       );
       const inventoryData = inventoryResponse.data;
   

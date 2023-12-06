@@ -217,8 +217,8 @@ const Ingredients = (props) => {
 
         if (itemToDelete) {
           // // Fetch the corresponding inventory_id
-          await axios.post("http://localhost:4000/deleteItemIngredient", values);
-          //await axios.post("https://thealley.onrender.com/deleteItemIngredient", values);
+          //await axios.post("http://localhost:4000/deleteItemIngredient", values);
+          await axios.post("https://thealley.onrender.com/deleteItemIngredient", values);
           console.log("Item deleted succesfully");
         } else {
           alert("Item with the specified ingredientId");

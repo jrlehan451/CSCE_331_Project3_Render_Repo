@@ -74,7 +74,7 @@ const Login = (props) => {
 
     const fetchWeatherData = async (latitude, longitude) => {
       try {
-        const response = await axios.get("http://localhost:4000/weather", {
+        const response = await axios.get("https://thealley.onrender.com/weather", {
           params: {
             latitude,
             longitude,
