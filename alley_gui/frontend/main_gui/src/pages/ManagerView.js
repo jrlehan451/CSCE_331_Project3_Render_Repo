@@ -29,11 +29,8 @@ const ManagerView = () => {
     logout({ logoutParams: { returnTo: window.location.origin } })
   };
   
-  return (
 
-    <ThemeProvider theme={theme}>
-      {/* <h1 className = "title2"> Manager Page</h1> */}
-   
+  return (
       <Box className="managerBox">
         <h1 className = "title2"> Manager Page</h1>
 
@@ -65,7 +62,6 @@ const ManagerView = () => {
           <CustomButton className="managerLink" Link to="/SupplyReorder">
             Supply Reorders
           </CustomButton>
-
      
         </Stack>
       </Box>
