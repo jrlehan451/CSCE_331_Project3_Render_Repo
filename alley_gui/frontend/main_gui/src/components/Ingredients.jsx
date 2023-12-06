@@ -107,6 +107,12 @@ const Ingredients = (props) => {
   const [popupData, setPopupData] = useState([]);
   const [checkedItems, setCheckedItems] = useState({});
 
+  /**
+   * @description gets changes in input and formats them accordingly
+   * @function handleNumberInputChange
+   * @param {*} e 
+   * @param {*} key 
+   */
   const handleNumberInputChange = (e, key) => {
     const newValue = e.target.value;
 
@@ -139,6 +145,10 @@ const Ingredients = (props) => {
   };
 
   // Getting inventory from the backend
+  /**
+   * @function ingredientItems
+   * @description gets all the ingredients from the database using a server-side API call
+   */
   const ingredientItems = async () => {
     try {
       const response = await axios.get(
@@ -164,6 +174,10 @@ const Ingredients = (props) => {
     }
   };
 
+  /**
+   * @function refreshTimer
+   * @description timer that refreshes the table
+   */
   useEffect(() => {
     ingredientItems();
 

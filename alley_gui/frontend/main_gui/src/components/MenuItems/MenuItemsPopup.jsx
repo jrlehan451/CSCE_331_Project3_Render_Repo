@@ -8,10 +8,23 @@ import {
   Button,
 } from "@mui/material";
 
+/**
+ * @description This component creates the pop-ups for the menu items table when certain CRUD operations are selected.
+ * @component MenuItemPopup
+ * @param {*} open
+ * @param {*} onClose
+ * @param {*} onSelectIngredients
+ * @param {*} values
+ * @returns displays the pop-up for the menu items page
+ */
 const MenuItemPopup = ({ open, onClose, onSelectIngredients, values }) => {
   // Save the ingridients selected as base for a drink
   const [ingredients, setIngredients] = useState([]);
 
+  /**
+   * @function fetchIngredients
+   * @description gets all ingredients from the database using a server-side API call
+   */
   useEffect(() => {
     const fetchIngredients = async () => {
       try {
@@ -29,6 +42,12 @@ const MenuItemPopup = ({ open, onClose, onSelectIngredients, values }) => {
   }, []);
 
   // Select checked items and use them to make backend call
+  /**
+   * @function handleSelectIngredients
+   * @description takes selected ingredients and saves their association to the drink in the database
+   *  using a server-side API call
+   * @param {*} e 
+   */
   const handleSelectIngredients = (e) => {
     e.preventDefault();
   
@@ -60,7 +79,11 @@ const MenuItemPopup = ({ open, onClose, onSelectIngredients, values }) => {
       });
   };
   
-
+  /**
+   * @function handleToggleIngredient
+   * @description maps the selected ingredient to the drink
+   * @param {int} ingredientId 
+   */
   const handleToggleIngredient = (ingredientId) => {
     setIngredients((prevIngredients) =>
       prevIngredients.map((ingredient) =>
