@@ -1,7 +1,18 @@
 import React from 'react';
 import './TrendTable.css'
 
+/**
+ * @conmponent TrendTable
+ * @description This component displays the trend table for the analyze trends page
+ * @param {*} jsonData 
+ * @returns 
+ */
 const TrendTable = ({ jsonData }) => {
+  /**
+   * @description gets the names of the columns for the selected trend
+   * @function getColumnNames
+   * @returns array of the columnNames
+   */
     const getColumnNames = () => {
         if (jsonData.length === 0) {
             return [];
@@ -20,6 +31,13 @@ const TrendTable = ({ jsonData }) => {
         return words.join(" ");
     };
 
+    /**
+     * @description formats the content of the cells of the table based on the type of information being entered
+     * @function formatCellValue
+     * @param {string} columnName 
+     * @param {*} cellValue 
+     * @returns correct value for the cell
+     */
     function formatCellValue(columnName, cellValue) {
         switch (columnName) {
           case 'name':
@@ -35,6 +53,10 @@ const TrendTable = ({ jsonData }) => {
         }
       }
   
+      /**
+       * @function renderTableHeader
+       * @description displays the correct column headers based on the selected report
+       */
     const renderTableHeader = () => {
       const columnNames = getColumnNames();
   
@@ -49,6 +71,11 @@ const TrendTable = ({ jsonData }) => {
       );
     };
   
+    /**
+     * @description fills in the table with the correct values based on the selected report
+     * @function renderTableBody
+     * @returns cell values based on the selected report
+     */
     const renderTableBody = () => {
         return (
         <tbody>

@@ -26,6 +26,10 @@ import {
 import "./MenuItems/MenuItems.css";
 
 // Creating custom buttons
+/**
+ * @function CustomButtonInventory
+ * @description adds custom styling to the buttons on the inventory page
+ */
 const CustomButton = styled(ListItemButton)(({ theme }) => ({
   backgroundColor: "#ffefe2",
   border: "2px solid #9e693f",
@@ -42,6 +46,13 @@ const CustomButton = styled(ListItemButton)(({ theme }) => ({
 }));
 
 //import axios from "axios"; // Make sure to import axios for HTTP requests
+/**
+ * @description This component displays the inventory table 
+ * and all the associated CRUD operations the manager can apply.
+ * @component Inventory 
+ * @param {*} props 
+ * @returns display of the inventory page
+ */
 const Inventory = (props) => {
   const { isHoverEnabled, handleToggleHover } = props;
   const [isHoverEnabledState, setIsHoverEnabled] = useState(false)
@@ -131,6 +142,10 @@ const Inventory = (props) => {
   };
 
   // Getting inventory from the backend
+  /**
+   * @function inventoryItems
+   * @description gets all the inventory from the database using a server-side API call
+   */
   useEffect(() => {
     const inventoryItems = async () => {
       try {
@@ -259,6 +274,10 @@ const Inventory = (props) => {
     }
   };
 
+  /**
+   * @function fetchData
+   * @description adds item to inventory using the server-side API call
+   */
   useEffect(() => {
     const fetchData = async () => {
       if (!openPopup) {
@@ -297,6 +316,11 @@ const Inventory = (props) => {
   };
 
 
+  /**
+   * @description displays the suggested adjustments that need to be made to the inventory
+   * @function recommendedAdjHandle
+   * @param {*} e 
+   */
   const recommendedAdjHandle = async (e) => {
     e.preventDefault();
     console.log("Entered recommend adj handle");

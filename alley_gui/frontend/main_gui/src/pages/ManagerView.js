@@ -9,7 +9,10 @@ import '../components/MenuItems/MenuItems.css'
 import {useAuth0} from '@auth0/auth0-react';
 
 
-
+/**
+ * @function CustomerButtonManagerView
+ * @description adds specifications for customer button on the manager view
+ */
 const CustomButton = styled(ListItemButton)(({ theme }) => ({
   backgroundColor: "#8b9477",
   color: "black",
@@ -22,6 +25,12 @@ const CustomButton = styled(ListItemButton)(({ theme }) => ({
   "&:disabled": { backgroundColor: "gray", color: "white" },
 }));
 
+/**
+ * @component ManagerView
+ * @description This component displays the manager view homepage. It allows navigation
+ * to all pages only accessibly by the manager view.
+ * @returns display of manager view home page
+ */
 const ManagerView = () => {
   const {logout} = useAuth0();
 

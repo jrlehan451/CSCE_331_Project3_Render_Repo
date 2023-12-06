@@ -19,11 +19,22 @@ import {
   handleTableFieldSpeech,
 } from "../SpeechUtils";
 
+/**
+ * @description This component displays the page with the two menu tables 
+ * and the CRUD operations for the drinks and add-ons tables.
+ * @component MenuItems
+ * @param {*} isHoverEnabled
+ * @param {*} setIsHoverEnabled
+ * @returns display of menu items page
+ */
 const MenuItems = ({ isHoverEnabled, setIsHoverEnabled }) => {
   //Constant used to reload tables after function
   const [reloadTable, setReloadTable] = useState(false);
 
-    // Function to update the state and trigger a re-render of the table
+    /**
+     * @function handleTableReload
+     * @description updates the state and triggers a re-render of the table
+     */
     const handleTableReload = () => {
         setReloadTable(!reloadTable);
     };
