@@ -57,6 +57,13 @@ const AnalyzeTrends = (props) => {
       setTable2Data([]);
     }, [selectedTrend]);
 
+    useEffect(() => {
+      const role = localStorage.getItem("Role");
+      switch("Role"){
+        case: 
+      }
+    });
+
     const generateTrend = async () => {
       let valid = true;
       if(selectedTrend !== 'Restock Report'){
