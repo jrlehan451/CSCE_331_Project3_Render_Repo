@@ -174,7 +174,12 @@ function App() {
   return (
     <div className="App" onLoad={loadCurrentMode}>
       <div></div>
-      {isHomePage && <Login />}
+      {isHomePage && (
+        <Login
+          isHoverEnabled={isHoverEnabled}
+          handleToggleHover={handleToggleHover}
+        />
+      )}
       <Routes>
         <Route
           path="/AnalyzeTrends"
@@ -239,7 +244,15 @@ function App() {
             />
           }
         />
-        <Route path="/manager" element={<ManagerView />} />
+        <Route
+          path="/manager"
+          element={
+            <ManagerView
+              isHoverEnabled={isHoverEnabled}
+              handleToggleHover={handleToggleHover}
+            />
+          }
+        />
         <Route
           path="/customer"
           element={
