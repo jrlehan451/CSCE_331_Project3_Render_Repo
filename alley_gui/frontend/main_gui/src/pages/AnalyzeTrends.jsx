@@ -58,10 +58,18 @@ const AnalyzeTrends = (props) => {
     }, [selectedTrend]);
 
     useEffect(() => {
-      const role = localStorage.getItem("Role");
-      switch("Role"){
-        case: 
-      }
+      const protection = async () => {
+        const role = localStorage.getItem("Role");
+        switch(role){
+          case "Manager":
+              break;
+          default:
+            window.location.href = window.location.origin;
+            break;
+        }
+      };
+
+      protection();
     });
 
     const generateTrend = async () => {

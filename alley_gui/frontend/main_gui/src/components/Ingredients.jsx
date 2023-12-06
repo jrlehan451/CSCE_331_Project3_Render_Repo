@@ -48,6 +48,22 @@ const Ingredients = (props) => {
     //handleToggleHover();
   };
 
+  useEffect(() => {
+    const protection = async () => {
+      const role = localStorage.getItem("Role");
+      switch(role){
+        case "Manager":
+            break;
+        default:
+          window.location.href = window.location.origin;
+          break;
+      }
+    };
+
+    protection();
+  });
+
+
   const handleGridCellHover = (params) => {
     console.log("igredient handleGridCellHover is called!");
 
