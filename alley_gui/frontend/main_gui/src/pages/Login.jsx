@@ -261,17 +261,29 @@ const Login = (props) => {
           </div>
           {weather && (
             <div className="weather-panel">
-              <div className="left-panel">
+              <div
+                className="left-panel"
+                onMouseOver={(e) => handleHover(e, isHoverEnabled)}
+                onMouseOut={handleMouseOut}
+              >
                 <img src={getWeatherImage()} alt="" />
               </div>
               <div className="right-panel">
                 <div className="top-right-panel">
-                  <h1 className="city-weather-text">
+                  <h1
+                    className="city-weather-text"
+                    onMouseOver={(e) => handleHover(e, isHoverEnabled)}
+                    onMouseOut={handleMouseOut}
+                  >
                     {weather.name} {Number(weather.main.temp).toFixed(0)}°F
                   </h1>
                 </div>
                 <div className="bottom-right-panel">
-                  <p className="weather-description-text">
+                  <p
+                    className="weather-description-text"
+                    onMouseOver={(e) => handleHover(e, isHoverEnabled)}
+                    onMouseOut={handleMouseOut}
+                  >
                     {capitalizeName(weather.weather[0].description, " ")}
                   </p>
                 </div>
