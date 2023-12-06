@@ -1,3 +1,9 @@
+/**
+ * @description handles text-to-speech functionality when enabled and hovering over a text field
+ * @function handleHover
+ * @param {*} event 
+ * @param {*} isHoverEnabled 
+ */
 const handleHover = (event, isHoverEnabled) => {
   console.log("handleHover - isHoverEnabled:", isHoverEnabled);
   if (isHoverEnabled  && !speechSynthesis.speaking) {
@@ -34,6 +40,10 @@ const handleHover = (event, isHoverEnabled) => {
 }
 };
 
+/**
+ * @function handleMouseOut
+ * @description stops text-to-speech when the mouse moves off a text area
+ */
 const handleMouseOut = () => {
   console.log("handleMouseOut");
   // Cancel any ongoing speech
@@ -41,6 +51,12 @@ const handleMouseOut = () => {
 };
 
 // SpeechUtils.js
+/**
+ * @description creates the text-to-speech functionality for text fields and labels
+ * @function handleTextFieldSpeech
+ * @param {string} label 
+ * @param {string} value 
+ */
 const handleTextFieldSpeech = (label, value) => {
   const textContent = value !== undefined ? `${label} ${value}` : label;
   console.log("Text to be spoken:", textContent);
@@ -50,6 +66,11 @@ const handleTextFieldSpeech = (label, value) => {
   speechSynthesis.speak(speech);
 };
 
+/**
+ * @description creates the text-to-speech functionality for fields in the table
+ * @function handleTableFieldSpeech
+ * @param {*} fieldValue 
+ */
 const handleTableFieldSpeech = (fieldValue) => {
   console.log("Text to be spoken:", fieldValue);
 

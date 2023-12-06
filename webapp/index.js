@@ -7,15 +7,28 @@ const cors = require("cors");
 const axios = require("axios");
 const { Translate } = require('@google-cloud/translate').v2;
 
+const swaggerJsdoc = require('swagger-jsdoc');
+const swaggerUi = require('swagger-ui-express');
+const swaggerDefinition = require('./swaggerDefinition');
+
+// Create express app
+const app = express();
+const port = 4000;
+
+const options = {
+  swaggerDefinition,
+  apis: ['./index.js'], // Adjust the path based on your project structure
+};
+
+const swaggerSpec = swaggerJsdoc(options);
+
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+
 const CREDS = JSON.parse(process.env.GOOGLE_APPLICATION_CRED);
 const translate = new Translate({
   credentials: CREDS,
   projectId: CREDS.projectId,
 })
-
-// Create express app
-const app = express();
-const port = 4000;
 
 app.use("/css", express.static("css"));
 app.use("/js", express.static("functions"));
@@ -51,6 +64,16 @@ process.on("SIGINT", function () {
   process.exit(0);
 });
 
+/**
+ * @swagger
+ * languages:
+ *   get:
+ *     summary: gets the available langauges for translation
+ *     description: determine what langauges are translation options
+ *     responses:
+ *       200:
+ *         description: list of languages available of translation
+ */
 app.get('/languages', async (req, res) => {
   let [languages] = await translate.getLanguages();
   res.status(200).json({
@@ -59,6 +82,16 @@ app.get('/languages', async (req, res) => {
   });
 });
 
+/**
+ * @swagger
+ * translate:
+ *   get:
+ *     summary: translates text into the selected langauage
+ *     description: translates all the text on the web application into the language selected by the user
+ *     responses:
+ *       200:
+ *         description: translated text
+ */
 app.get('/translate', jsonParser, async (req, res) => {
   try {
     let [translations] = await translate.translate(req.query.text, req.query.target);
@@ -77,6 +110,16 @@ app.get('/translate', jsonParser, async (req, res) => {
 
 app.set("view engine", "ejs");
 
+/**
+ * @swagger
+ * employeeInfo:
+ *   get:
+ *     summary: gets information about all the employees
+ *     description: get employee first name, last name, password, and role
+ *     responses:
+ *       200:
+ *         description: list of employees and all their attributes
+ */
 app.get("/", (req, res) => {
   employees = [];
   pool.query("SELECT * FROM employees;").then((query_res) => {
@@ -89,6 +132,16 @@ app.get("/", (req, res) => {
   });
 });
 
+/**
+ * @swagger
+ * login_jsx:
+ *   get:
+ *     summary: gets information about all the employees
+ *     description: get employee first name, last name, password, and role
+ *     responses:
+ *       200:
+ *         description: list of employees and all their attributes
+ */
 app.get("/login_jsx", async (req, res) => {
   try {
     const results = await pool.query("SELECT * FROM employees;");
@@ -134,6 +187,16 @@ app.get("/user", (req, res) => {
   });
 });
 
+/**
+ * @swagger
+ * add_on_jsx:
+ *   get:
+ *     summary: gets all add_ons 
+ *     description: queries all ingredients with a cost greater than 0
+ *     responses:
+ *       200:
+ *         description: list ingredients with a cost associated to them
+ */
 app.get("/add_on_jsx", async (req, res) => {
   try {
     const results = await pool.query(
@@ -155,6 +218,16 @@ app.get("/add_on_jsx", async (req, res) => {
   }
 });
 
+/**
+ * @swagger
+ * add_drink_jsx:
+ *   get:
+ *     summary: gets all drinks for a particular category
+ *     description: selects all drinks from database based on the selected drink series
+ *     responses:
+ *       200:
+ *         description: list of drinks within the selected series
+ */
 app.get("/add_drink_jsx", async (req, res) => {
   category = req.query.category;
   const query = {
@@ -179,6 +252,16 @@ app.get("/add_drink_jsx", async (req, res) => {
   }
 });
 
+/**
+ * @swagger
+ * drink_options_jsx:
+ *   get:
+ *     summary: gets distinct categories of drinks
+ *     description: selects all the categories of drinks on the menu
+ *     responses:
+ *       200:
+ *         description: list of all categories of drinks
+ */
 app.get("/drink_options_jsx", async (req, res) => {
   try {
     const results = await pool.query("SELECT DISTINCT category FROM drinks;");
@@ -197,6 +280,7 @@ app.get("/drink_options_jsx", async (req, res) => {
     });
   }
 });
+
 
 app.get("/drink_options", (req, res) => {
   drink_categories = [];
@@ -251,6 +335,16 @@ app.get("/customer_home", (req, res) => {
   });
 });
 
+/**
+ * @swagger
+ * drink_categories:
+ *   get:
+ *     summary: gets distinct categories of drinks
+ *     description: selects all the categories of drinks on the menu
+ *     responses:
+ *       200:
+ *         description: list of all categories of drinks
+ */
 app.get("/drink_categories", async (req, res) => {
   try {
     console.log("Getting all the drink categories");
@@ -270,6 +364,16 @@ app.get("/drink_categories", async (req, res) => {
   }
 });
 
+/**
+ * @swagger
+ * drink_series_items:
+ *   get:
+ *     summary: gets distinct categories of drinks and all the drinks from the user selected category
+ *     description: selects all the categories of drinks on the menu and all the drinks from the current drink series page category
+ *     responses:
+ *       200:
+ *         description: list of all categories of drinks and all drinks in selected category
+ */
 app.get("/drink_series_items", async (req, res) => {
   try {
     category = req.query.category;
@@ -325,6 +429,16 @@ app.get("/order_summary", (req, res) => {
   res.render("order_summary");
 });
 
+/**
+ * @swagger
+ * post_order:
+ *   post:
+ *     summary: saves the created order on the casheir's side to the database
+ *     description: enters all the drinks and associated add-ons as a single order into the database
+ *     responses:
+ *       200:
+ *         description: adds an order to the database
+ */
 app.post("/post_order", jsonParser, (req, res) => {
   console.log(req.body);
 
@@ -383,6 +497,16 @@ app.post("/post_order", jsonParser, (req, res) => {
   res.json({ ok: true });
 });
 
+/**
+ * @swagger
+ * post_customer_order:
+ *   post:
+ *     summary: saves the created order on the customer's side to the database
+ *     description: enters all the drinks and associated add-ons as a single order into the database
+ *     responses:
+ *       200:
+ *         description: adds an order to the database
+ */
 app.post("/post_customer_order", jsonParser, (req, res) => {
   console.log(req.body);
 
@@ -451,27 +575,6 @@ app.post("/post_customer_order", jsonParser, (req, res) => {
   res.json({ ok: true });
 });
 
-/* app.locals.postOrder = function(drinks, add_ons) {
-    var drinks = JSON.parse(drinks);
-    var add_ons = JSON.parse(add_ons);
-
-  var nextOrderId = 0;
-
-  pool
-    .query("SELECT order_id FROM orders ORDER BY order_id DESC LIMIT 1;")
-    .then((query_res) => {
-      nextOrderId = query_res + 1;
-    });
-
-    pool
-        .query('INSERT INTO orders(order_id, name, timestamp, cost) VALUES($1, $2, $3, $4)',
-        [nextOrderId, "Test Name", new Date().toISOString().slice(0, 19).replace('T', ' '), 10], // Using temporary customer name and totalCost, both of which can just be stored in sessionStorage
-        (err, res) => {
-            if (err) return next(err);
-        
-            response.redirect('/monsters');
-        });
-} */
 
 app.get("/drink_series", (req, res) => {
   drink_categories = [];
@@ -540,6 +643,16 @@ app.get("/menu", (req, res) => {
   });
 });
 
+/**
+ * @swagger
+ * menu_jsx:
+ *   get:
+ *     summary: get all drinks from the database
+ *     description: gets all the drinks and their associated attributes from the database
+ *     responses:
+ *       200:
+ *         description: list of all drinks in database
+ */
 app.get("/menu_jsx", async (req, res) => {
   const drinksByCategory = {};
   try {
@@ -591,6 +704,16 @@ app.get("/menu_addons", (req, res) => {
     });
 });
 
+/**
+ * @swagger
+ * menu_addons_jsx:
+ *   get:
+ *     summary: get all add-ons from the database
+ *     description: gets all the ingredients with a cost of more than 0 and their associated attributes from the database
+ *     responses:
+ *       200:
+ *         description: list of all add-ons in database
+ */
 app.get("/menu_addons_jsx", async (req, res) => {
   try {
     console.log("Getting all the add ons");
@@ -640,6 +763,16 @@ app.get("/analyze_trends", (req, res) => {
 });
 
 // Getting inventory database and sending it to /inventory
+/**
+ * @swagger
+ * inventory_items:
+ *   get:
+ *     summary: gets all items in the inventory database
+ *     description: gets all items and their associated attributes in the inventory database
+ *     responses:
+ *       200:
+ *         description: list of inventory items
+ */
 app.get("/inventory_items", async (req, res) => {
   try {
     //console.log("Hello");
@@ -660,6 +793,17 @@ app.get("/inventory_items", async (req, res) => {
     });
   }
 });
+
+/**
+ * @swagger
+ * addSupplyReorder:
+ *   post:
+ *     summary: adds supply reorder
+ *     description: add supply reorder and associated items to the database
+ *     responses:
+ *       200:
+ *         description: adds item to supply reoders table in the database
+ */
 app.post("/addSupplyReorder", (req, res) => {
   const { selectedItems, reorder_id, date, amounts } = req.body;
 
@@ -712,6 +856,16 @@ app.post("/addSupplyReorder", (req, res) => {
 });
 
 // Getting all necessary data for View supply reorder
+/**
+ * @swagger
+ * viewSupplyReorder:
+ *   get:
+ *     summary: gets all items in a supply reorder
+ *     description: displays all items in the selected supply reorder
+ *     responses:
+ *       200:
+ *         description: gets item in a specific supply reoders table in the database
+ */
 app.post("/viewSupplyReorder", (req, res) => {
   const { reorder_id, date } = req.body;
 
@@ -721,6 +875,16 @@ app.post("/viewSupplyReorder", (req, res) => {
 });
 
 // Getting all necessary data for supply reorder
+/**
+ * @swagger
+ * deleteSupplyReorder:
+ *   post:
+ *     summary: removes item from supply reorder
+ *     description: removes supply reorder and all associated items in reorder from database
+ *     responses:
+ *       200:
+ *         description: removes item from supply reorder
+ */
 app.post("/deleteSupplyReorder", (req, res) => {
   const { reorder_id, date } = req.body;
 
@@ -905,6 +1069,16 @@ app.get("/inventory_items/:itemId", (req, res) => {
   );
 });
 
+/**
+ * @swagger
+ * updateItemIngredient:
+ *   post:
+ *     summary: update item in the ingredient table
+ *     description: updates cost and or name of ingredient
+ *     responses:
+ *       200:
+ *         description: updates item in ingredient table
+ */
 app.post("/updateItemIngredient", (req, res) => {
   console.log("UpdateItemIngredient");
   console.log(req.body.ingredientId);
@@ -955,80 +1129,56 @@ app.post("/updateItemIngredient", (req, res) => {
   }
 });
 
-app.post("/deleteItemIngredient", (req, res) => {
-  console.log("app.deleteItemIngredient");
-  console.log(req.body.ingredientId);
-  console.log(req.body.inventoryId);
-  console.log(req.body.name);
-  console.log(req.body.cost);
+/**
+ * @swagger
+ * deleteItemIngredient:
+ *   post:
+ *     summary: delete item from ingredient
+ *     description: removes ingredient and all its associated attributes from database
+ *     responses:
+ *       200:
+ *         description: deletes item from ingredient
+ */
+app.post("/deleteItemIngredient", async (req, res) => {
+  try {
 
-  // Fetch inventory_id from inventory_items based on ingredient_id
-  pool.query(
-    "SELECT item_id FROM inventory_items WHERE ingredient_id = $1",
-    [req.body.ingredientId],
-    (err, result) => {
-      if (err) {
-        console.log(err);
-      } else {
-        const inventoryId = result.rows[0] ? result.rows[0].item_id : null;
-        console.log("The inventoryId:");
-        console.log(inventoryId);
+    // Update inventory_items
+    await pool.query(
+      "UPDATE inventory_items SET ingredient_id = NULL WHERE ingredient_id = $1;",
+      [req.body.ingredientId]
+    );
 
-        // Check if inventoryId exists
-        if (inventoryId) {
-          // If inventoryId exists, update inventory_items and then delete from ingredients
-          pool.query(
-            "UPDATE inventory_items SET ingredient_id = $1 WHERE item_id = $2",
-            [null, inventoryId],
-            (updateErr, updateResponse) => {
-              if (updateErr) {
-                console.log(updateErr);
-              } else {
-                console.log(updateResponse);
-                console.log("Assigned NULL in inventory_items database");
+    console.log("Assigned NULL in inventory_items database");
 
-                // Check if the update was successful before deleting from ingredients
-                if (updateResponse.rowCount > 0) {
-                  pool.query(
-                    "DELETE FROM ingredients WHERE ingredient_id = $1 AND name = $2",
-                    [req.body.ingredientId, req.body.name],
-                    (deleteErr, deleteResponse) => {
-                      if (deleteErr) {
-                        console.log(deleteErr);
-                        res.status(500).send("Delete unsuccessful");
-                      } else {
-                        console.log(deleteResponse);
-                        res.send("Delete successful");
-                      }
-                    }
-                  );
-                } else {
-                  res.status(500).send("Update unsuccessful");
-                }
-              }
-            }
-          );
-        } else {
-          // If inventoryId doesn't exist, directly delete from ingredients
-          pool.query(
-            "DELETE FROM ingredients WHERE ingredient_id = $1 AND name = $2",
-            [req.body.ingredientId, req.body.name],
-            (deleteErr, deleteResponse) => {
-              if (deleteErr) {
-                console.log(deleteErr);
-                res.status(500).send("Delete unsuccessful");
-              } else {
-                console.log(deleteResponse);
-                res.send("Delete successful");
-              }
-            }
-          );
-        }
-      }
+    // Delete from ingredients
+    const deleteResponse = await pool.query(
+      "DELETE FROM ingredients WHERE ingredient_id = $1;",
+      [req.body.ingredientId]
+    );
+
+    console.log(deleteResponse);
+
+    if (deleteResponse.rowCount > 0) {
+      res.send("Delete successful");
+    } else {
+      res.status(500).send("Delete unsuccessful");
     }
-  );
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Internal Server Error");
+  }
 });
 
+/**
+ * @swagger
+ * addItemInventory:
+ *   post:
+ *     summary: add item to inventory
+ *     description: adds an inventory item and all of its associated attributes to the database
+ *     responses:
+ *       200:
+ *         description: adds item to inventory
+ */
 app.post("/addItemInventory", (req, res) => {
   console.log("app.post");
   console.log(req.body.itemId);
@@ -1088,6 +1238,16 @@ app.post("/addItemInventory", (req, res) => {
   console.log("Updaing inventory_items and ingredeints4");
 });
 
+/**
+ * @swagger
+ * deleteItemInventory:
+ *   post:
+ *     summary: delete item from inventory
+ *     description: removes an inventory item and all of its associated attributes from the database
+ *     responses:
+ *       200:
+ *         description: remove item from inventory
+ */
 app.post("/deleteItemInventory", (req, res) => {
   console.log("Server delete item");
   console.log(req.body.itemId);
@@ -1108,6 +1268,16 @@ app.post("/deleteItemInventory", (req, res) => {
   );
 });
 
+/**
+ * @swagger
+ * ExcessReport:
+ *   get:
+ *     summary: determines what inventory items are in excess
+ *     description: queries inventory levels and quantity to determine what items are in excess
+ *     responses:
+ *       200:
+ *         description: list of inventory items
+ */
 app.get("/ExcessReport", async (req, res) => {
   try {
     console.log("Getting Excess Report");
@@ -1184,6 +1354,16 @@ app.get("/ExcessReport", async (req, res) => {
   }
 });
 
+/**
+ * @swagger
+ * MenuItemPopularityAnalysis:
+ *   get:
+ *     summary: determines the most popular drinks
+ *     description: queries order history to determine the most popular drinks are based on number inputted by user
+ *     responses:
+ *       200:
+ *         description: list of most popular drinks
+ */
 app.get("/MenuItemPopularityAnalysis", async (req, res) => {
   try {
     console.log("Getting Menu Item Popularity Analysis");
@@ -1232,6 +1412,16 @@ app.get("/MenuItemPopularityAnalysis", async (req, res) => {
   }
 });
 
+/**
+ * @swagger
+ * RestockReport:
+ *   get:
+ *     summary: determines which inventory items need to be restocked
+ *     description: queries inventory quantity and fill level to determine which items need to be restocked
+ *     responses:
+ *       200:
+ *         description: list of inventory items that need to be restocked
+ */
 app.get("/RestockReport", async (req, res) =>{
   try {
     console.log("Getting Restock Report");
@@ -1253,6 +1443,16 @@ app.get("/RestockReport", async (req, res) =>{
   }
 });
 
+/**
+ * @swagger
+ * SalesReport:
+ *   get:
+ *     summary: gets sales report for the last year
+ *     description: queries order history to determine what drinks were sold and the quantity
+ *     responses:
+ *       200:
+ *         description: list of drinks sold and the total price
+ */
 app.get("/SalesReport", async (req, res) => {
   try {
     console.log("Getting Sales Report");
@@ -1304,6 +1504,17 @@ app.get("/SalesReport", async (req, res) => {
   }
 });
 
+
+/**
+ * @swagger
+ * WhatSalesTogether:
+ *   get:
+ *     summary: gets drinks that sell well together
+ *     description: queries order history to determine what drinks were sold together the most
+ *     responses:
+ *       200:
+ *         description: list of drinks that sell well together
+ */
 app.get("/WhatSalesTogether", async (req, res) =>{
   try {
     console.log("Getting What Sales Together");
@@ -1356,6 +1567,16 @@ app.get("/WhatSalesTogether", async (req, res) =>{
 
 
 // menu items call
+/**
+ * @swagger
+ * menuItems:
+ *   get:
+ *     summary: gets all drinks 
+ *     description: gets all drinks sorted by category
+ *     responses:
+ *       200:
+ *         description: list of drinks by category
+ */
 app.get("/menuItems", async (req, res) => {
   try {
     const results = await pool.query(
@@ -1378,6 +1599,16 @@ app.get("/menuItems", async (req, res) => {
 });
 
 // menu items call
+/**
+ * @swagger
+ * addOns:
+ *   get:
+ *     summary: gets all add-ons 
+ *     description: gets all ingredients with a cost greater than zero from the database
+ *     responses:
+ *       200:
+ *         description: list of all add-ons in the database
+ */
 app.get("/addOns", async (req, res) => {
   try {
     console.log("Mio ");
@@ -1401,6 +1632,16 @@ app.get("/addOns", async (req, res) => {
 });
 
 // menu items call
+/**
+ * @swagger
+ * updateBaseIngredients:
+ *   get:
+ *     summary: gets all ingredients 
+ *     description: gets all ingredients an their attributes from the database
+ *     responses:
+ *       200:
+ *         description: list of all ingredients in the database
+ */
 app.get("/addBaseIngredients", async (req, res) => {
   console.log("Entered here");
   try {
@@ -1426,6 +1667,16 @@ app.get("/addBaseIngredients", async (req, res) => {
 });
 
 // menu items call
+/**
+ * @swagger
+ * updateBaseIngredients:
+ *   post:
+ *     summary: updates the base ingredients of a drink
+ *     description: updates the base ingredients attribute of an drink in the database
+ *     responses:
+ *       200:
+ *         description: updates the base ingredients of a drink
+ */
 app.post("/updateBaseIngredients", async (req, res) => {
   console.log("Entered the update machine");
 
@@ -1463,6 +1714,16 @@ app.post("/updateBaseIngredients", async (req, res) => {
 });
 
 // menu items call
+/**
+ * @swagger
+ * deleteDrink:
+ *   post:
+ *     summary: deletes a drink
+ *     description: removes a drink from the database
+ *     responses:
+ *       200:
+ *         description: removes a drink and all its associated attributes from the database
+ */
 app.post("/deleteDrink", (req, res) => {
   let errorOccurred = false;
 
@@ -1512,6 +1773,16 @@ app.post("/deleteDrink", (req, res) => {
 });
 
 // menu items call
+/**
+ * @swagger
+ * updateMenuItemName:
+ *   post:
+ *     summary: updates the name of a drink
+ *     description: updates the name attribute of an drink in the database
+ *     responses:
+ *       200:
+ *         description: updates the name of a drink
+ */
 app.post("/updateMenuItemName", (req, res) => {
   pool.query(
     "UPDATE drinks SET name = $1 WHERE drink_id = $2;",
@@ -1536,6 +1807,16 @@ app.post("/updateMenuItemName", (req, res) => {
 });
 
 // menu items call
+/**
+ * @swagger
+ * updateMenuItemCost:
+ *   post:
+ *     summary: updates the cost of a drink
+ *     description: updates the cost attribute of an drink in the database
+ *     responses:
+ *       200:
+ *         description: updates the cost of a drink
+ */
 app.post("/updateMenuItemCost", (req, res) => {
   pool.query(
     "UPDATE drinks SET cost = $1 WHERE drink_id = $2;",
@@ -1560,6 +1841,16 @@ app.post("/updateMenuItemCost", (req, res) => {
 });
 
 // menu items call
+/**
+ * @swagger
+ * updateMenuItemCategory:
+ *   post:
+ *     summary: updates the category of a drink
+ *     description: updates the name attribute of an drink in the database
+ *     responses:
+ *       200:
+ *         description: updates the name of a drink
+ */
 app.post("/updateMenuItemCategory", (req, res) => {
   pool.query(
     "UPDATE drinks SET category = $1 WHERE drink_id = $2;",
@@ -1584,6 +1875,16 @@ app.post("/updateMenuItemCategory", (req, res) => {
 });
 
 // menu items call
+/**
+ * @swagger
+ * addAddOn:
+ *   post:
+ *     summary: adds add-on to database
+ *     description: takes a ingredientId, ingredientName, ingredientCost to create a new item in the ingredients database
+ *     responses:
+ *       200:
+ *         description: adds add-on to ingredient database
+ */
 app.post("/addAddOn", (req, res) => {
   pool.query(
     "INSERT INTO ingredients(ingredient_id, name, cost) VALUES ($1, $2, $3);",
@@ -1603,6 +1904,16 @@ app.post("/addAddOn", (req, res) => {
 });
 
 // menu items call
+/**
+ * @swagger
+ * addDrink:
+ *   post:
+ *     summary: adds drink to database
+ *     description: takes a drinkId, drinkName, drinkCost, and drinkCategory to create a new item in the drinks database
+ *     responses:
+ *       200:
+ *         description: adds drink and associated attribute to database
+ */
 app.post("/addDrink", (req, res) => {
   pool.query(
     "INSERT INTO drinks VALUES ( $1, $2 , $3, $4);",
@@ -1627,6 +1938,16 @@ app.post("/addDrink", (req, res) => {
 });
 
 // menu items call
+/**
+ * @swagger
+ * deleteAddOn:
+ *   post:
+ *     summary: deletes an ingredient item that is also an add-on
+ *     description: deletes ingredient in the database
+ *     responses:
+ *       200:
+ *         description: removes an ingredient item
+ */
 app.post("/deleteAddOn", (req, res) => {
   console.log("Server delete item");
 
@@ -1652,6 +1973,16 @@ app.post("/deleteAddOn", (req, res) => {
 });
 
 // menu items call
+/**
+ * @swagger
+ * updateAddOnName:
+ *   post:
+ *     summary: updates the name of an ingredient item that is also an add-on
+ *     description: updates the name attribute of an ingredient in the database
+ *     responses:
+ *       200:
+ *         description: updates the name of an ingredient item
+ */
 app.post("/updateAddOnName", (req, res) => {
   console.log("Server delete item");
 
@@ -1677,6 +2008,16 @@ app.post("/updateAddOnName", (req, res) => {
 });
 
 // menu items call
+/**
+ * @swagger
+ * updateAddOnCost:
+ *   post:
+ *     summary: updates the cost  of an ingredient item that is also an add-on
+ *     description: updates the cost attribute of an ingredient in the database
+ *     responses:
+ *       200:
+ *         description: updates the cost of an ingredient item
+ */
 app.post("/updateAddOnCost", (req, res) => {
   console.log("Server delete item");
 
@@ -1701,7 +2042,16 @@ app.post("/updateAddOnCost", (req, res) => {
   );
 });
 
-
+/**
+ * @swagger
+ * updateInventoryName:
+ *   post:
+ *     summary: updates the name of an inventory item
+ *     description: updates the name attribute of an item in the database
+ *     responses:
+ *       200:
+ *         description: updates the name of an inventory item
+ */
 app.post("/updateInventoryName", (req, res) => {
   console.log("Server delete item");
   console.log(req.body.itemId);
@@ -1724,6 +2074,16 @@ app.post("/updateInventoryName", (req, res) => {
   );
 });
 
+/**
+ * @swagger
+ * updateInventoryCount:
+ *   post:
+ *     summary: updates the count of an inventory item
+ *     description: updates the count attribute of an item in the database
+ *     responses:
+ *       200:
+ *         description: updates the count of an inventory item
+ */
 app.post("/updateInventoryCount", (req, res) => {
   //console.log("Server delete item mip");
   pool.query(
@@ -1740,6 +2100,16 @@ app.post("/updateInventoryCount", (req, res) => {
   );
 });
 
+/**
+ * @swagger
+ * updateInventoryQuantityUnit:
+ *   post:
+ *     summary: updates the quantity of an inventory item
+ *     description: updates the quantity attribute of an item in the database
+ *     responses:
+ *       200:
+ *         description: updates the quantity of an inventory item
+ */
 app.post("/updateInventoryQuantityUnit", (req, res) => {
   console.log("Server delete item");
   pool.query(
@@ -1756,6 +2126,16 @@ app.post("/updateInventoryQuantityUnit", (req, res) => {
   );
 });
 
+/**
+ * @swagger
+ * updateInventoryFillLevel:
+ *   post:
+ *     summary: updates the fill level of an inventory item
+ *     description: updates the fill_level attribute of an item in the database
+ *     responses:
+ *       200:
+ *         description: updates the fill of an inventory item
+ */
 app.post("/updateInventoryFillLevel", (req, res) => {
   console.log("Server delete item");
   pool.query(
@@ -1783,26 +2163,44 @@ app.get("/recommendation_adj", async (req, res) => {
     console.log("Orders:", orders);
     const itemOccurrenceMap = new Map();
     const oldCountsMap = new Map();
+
+    for(const order of orders){
+      const addOnOrderResult = await pool.query(`SELECT * FROM add_ons WHERE order_id = ${order.order_id};`);
+      const addOnRows = addOnOrderResult.rows;
+      //console.log("Add on information", order.order_id, ":", addOnRows);
+      for(const ingredient of addOnRows){
+        const inventoryItemsResults = await pool.query(`SELECT * FROM inventory_items WHERE ingredient_id = ${ingredient.ingredient_id};`);
+        const inventoryItems = inventoryItemsResults.rows;
+        //console.log("Add on final stuff Ingredient ID", ingredient.ingredient_id, ":", inventoryItems);
+          inventoryItems.forEach((inventoryItem) => {
+            const { item_id } = inventoryItem;
+            const { count } = inventoryItem;
+            itemOccurrenceMap.set(item_id, (itemOccurrenceMap.get(item_id) || 0) + 1);
+            // Store the initial count in the oldCountsMap
+            oldCountsMap.set(item_id, count);
+          });
+      }
+    }
     // Step 2: Loop through orders and get drink orders for each order
     for (const order of orders) {
       const drinkOrdersResults = await pool.query(`SELECT * FROM drink_orders WHERE order_id = ${order.order_id};`);
       const drinkOrders = drinkOrdersResults.rows;
 
-      console.log("Drink Orders for Order ID", order.order_id, ":", drinkOrders);
+      //console.log("Drink Orders for Order ID", order.order_id, ":", drinkOrders);
 
       // Step 3: Loop through drink orders and get base drink ingredients for each drink
       for (const drinkOrder of drinkOrders) {
         const baseDrinkIngredientsResults = await pool.query(`SELECT * FROM base_drink_ingredients WHERE drink_id = ${drinkOrder.drink_id};`);
         const baseDrinkIngredients = baseDrinkIngredientsResults.rows;
 
-        console.log("Base Drink Ingredients for Drink ID", drinkOrder.drink_id, ":", baseDrinkIngredients);
+        //console.log("Base Drink Ingredients for Drink ID", drinkOrder.drink_id, ":", baseDrinkIngredients);
 
         // Step 4: Loop through base drink ingredients and get inventory items for each ingredient
         for (const ingredient of baseDrinkIngredients) {
           const inventoryItemsResults = await pool.query(`SELECT * FROM inventory_items WHERE ingredient_id = ${ingredient.ingredient_id};`);
           const inventoryItems = inventoryItemsResults.rows;
 
-          console.log("Inventory Items for Ingredient ID", ingredient.ingredient_id, ":", inventoryItems);
+          //console.log("Inventory Items for Ingredient ID", ingredient.ingredient_id, ":", inventoryItems);
           inventoryItems.forEach((inventoryItem) => {
             const { item_id } = inventoryItem;
             const { count } = inventoryItem;
@@ -1841,6 +2239,16 @@ app.get("/recommendation_adj", async (req, res) => {
 
 
 // Getting ingredient database and sending it to /inventory
+/**
+ * @swagger
+ * supply_reorders:
+ *   get:
+ *     summary: gets all the supply reorders in the database
+ *     description: gets all attributes from the supply reorders database
+ *     responses:
+ *       200:
+ *         description: list of all supply reorderes
+ */
 app.get("/supply_reorders", async (req, res) => {
   try {
     console.log("Getting all the supply reorder");
@@ -1862,6 +2270,16 @@ app.get("/supply_reorders", async (req, res) => {
   }
 });
 
+/**
+ * @swagger
+ * CustomerPopularityAnalysis:
+ *   get:
+ *     summary: get 18 most popular drinks from the order history
+ *     description: gets most popular drinks based on the last year's order history
+ *     responses:
+ *       200:
+ *         description: list of the 18 most popular drinks
+ */
 app.get("/CustomerPopularityAnalysis", async (req, res) => {
   try {
     console.log("Getting Customer Item Popularity Analysis");
@@ -1916,6 +2334,18 @@ app.get("/CustomerPopularityAnalysis", async (req, res) => {
   }
 });
 
+/**
+ * @swagger
+ * weather:
+ *   get:
+ *     summary: gets the weather of the user's current location
+ *     description: gets latitude and longitude of the user and calls external API to get the weather at that location
+ *     responses:
+ *       200:
+ *         description: weather information
+ *       500:
+ *         description: internal server error
+ */
 app.get('/weather', async (req, res) => {
   try {
     const lat = req.query.latitude; 

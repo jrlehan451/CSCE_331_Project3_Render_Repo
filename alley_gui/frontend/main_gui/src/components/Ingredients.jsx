@@ -48,6 +48,22 @@ const Ingredients = (props) => {
     //handleToggleHover();
   };
 
+  useEffect(() => {
+    const protection = async () => {
+      const role = localStorage.getItem("Role");
+      switch(role){
+        case "Manager":
+            break;
+        default:
+          window.location.href = window.location.origin;
+          break;
+      }
+    };
+
+    protection();
+  });
+
+
   const handleGridCellHover = (params) => {
     console.log("igredient handleGridCellHover is called!");
 
@@ -65,7 +81,7 @@ const Ingredients = (props) => {
 
   // Creating columns for displaying sql queries
   const columns = [
-    { field: "ingredientId", headerName: "Ingredeint ID", width: 130, flex: 1 },
+    { field: "ingredientId", headerName: "Ingredient ID", width: 130, flex: 1 },
     { field: "inventoryId", headerName: "Inventory ID", width: 130, flex: 1 },
 
     { field: "name", headerName: "Name", width: 130, flex: 1 },
@@ -91,11 +107,23 @@ const Ingredients = (props) => {
   const [popupData, setPopupData] = useState([]);
   const [checkedItems, setCheckedItems] = useState({});
 
+  /**
+   * @description gets changes in input and formats them accordingly
+   * @function handleNumberInputChange
+   * @param {*} e 
+   * @param {*} key 
+   */
   const handleNumberInputChange = (e, key) => {
-    // Allow only valid integers in the input
-    const newValue = parseInt(e.target.value, 10);
+    const newValue = e.target.value;
 
-    if (!isNaN(newValue)) {
+    // Check if the entered value is a valid integer or float
+    const isValidInteger = /^[0-9]*$/.test(newValue);
+    const isValidFloat = /^\d*\.?\d*$/.test(newValue);
+
+    if (isValidInteger || newValue === "") {
+      setValues({ ...values, [key]: newValue });
+      setInputErrors({ ...inputErrors, [key]: false });
+    } else if ((key == "cost" || key == "drinkCost") && isValidFloat) {
       setValues({ ...values, [key]: newValue });
       setInputErrors({ ...inputErrors, [key]: false });
     } else {
@@ -117,6 +145,10 @@ const Ingredients = (props) => {
   };
 
   // Getting inventory from the backend
+  /**
+   * @function ingredientItems
+   * @description gets all the ingredients from the database using a server-side API call
+   */
   const ingredientItems = async () => {
     try {
       const response = await axios.get(
@@ -142,6 +174,10 @@ const Ingredients = (props) => {
     }
   };
 
+  /**
+   * @function refreshTimer
+   * @description timer that refreshes the table
+   */
   useEffect(() => {
     ingredientItems();
 
@@ -164,29 +200,35 @@ const Ingredients = (props) => {
   }, [openPopup]);
 
   const deleteHandleSubmit = async (e) => {
-    e.preventDefault();
+    if(values.ingredientId != ""){
+    
+      e.preventDefault();
 
-    try {
-      const ingredientResponse = await axios.get(
-        "https://thealley.onrender.com/ingredient_items"
-      );
-      const ingredientData = ingredientResponse.data.data.table.rows;
+      try {
+        const ingredientResponse = await axios.get(
+          "https://thealley.onrender.com/ingredient_items"
+        );
+        const ingredientData = ingredientResponse.data.data.table.rows;
 
-      const itemToDelete = ingredientData.find(
-        (item) =>
-          item.ingredient_id == values.ingredientId && item.name == values.name
-      );
+        const itemToDelete = ingredientData.find(
+          (item) =>
+            item.ingredient_id == values.ingredientId
+        );
 
-      if (itemToDelete) {
-        // // Fetch the corresponding inventory_id
-
-        await axios.post("https://thealley.onrender.com/deleteItemIngredient", values);
-        console.log("Item deleted succesfully");
-      } else {
-        alert("Item with the specified ingredientId and name not found.");
+        if (itemToDelete) {
+          // // Fetch the corresponding inventory_id
+          //await axios.post("http://localhost:4000/deleteItemIngredient", values);
+          await axios.post("https://thealley.onrender.com/deleteItemIngredient", values);
+          console.log("Item deleted succesfully");
+        } else {
+          alert("Item with the specified ingredientId");
+        }
+      } catch (error) {
+        console.error("Error during item deletion:", error);
       }
-    } catch (error) {
-      console.error("Error during item deletion:", error);
+    }
+    else{
+      alert("Please enter a valid ingredient ID");
     }
   };
 

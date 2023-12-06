@@ -19,11 +19,22 @@ import {
   handleTableFieldSpeech,
 } from "../SpeechUtils";
 
+/**
+ * @description This component displays the page with the two menu tables 
+ * and the CRUD operations for the drinks and add-ons tables.
+ * @component MenuItems
+ * @param {*} isHoverEnabled
+ * @param {*} setIsHoverEnabled
+ * @returns display of menu items page
+ */
 const MenuItems = ({ isHoverEnabled, setIsHoverEnabled }) => {
   //Constant used to reload tables after function
   const [reloadTable, setReloadTable] = useState(false);
 
-    // Function to update the state and trigger a re-render of the table
+    /**
+     * @function handleTableReload
+     * @description updates the state and triggers a re-render of the table
+     */
     const handleTableReload = () => {
         setReloadTable(!reloadTable);
     };
@@ -34,19 +45,29 @@ const MenuItems = ({ isHoverEnabled, setIsHoverEnabled }) => {
     console.log("Table reloaded");
   }, [reloadTable]);
 
+  useEffect(() => {
+    const protection = async () => {
+      const role = localStorage.getItem("Role");
+      switch(role){
+        case "Manager":
+            break;
+        default:
+          window.location.href = window.location.origin;
+          break;
+      }
+    };
+
+    protection();
+  });
+
+
   //Collection of all pages and reload elements
   return (
     
     <div className="MenuItemsPage">
-
       <NavBar />
-      
       <div className="title">
-
         <h1>Menu Items</h1>
-
-          
-        
       </div>
       <div className="tablesContainer">
       <MenuItemsTable
@@ -63,6 +84,7 @@ const MenuItems = ({ isHoverEnabled, setIsHoverEnabled }) => {
       
     </div>
   );
+  
 };
 
 export default MenuItems;

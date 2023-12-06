@@ -10,16 +10,34 @@ import {
 } from "../SpeechUtils";
 import HoverableElement from '../MagnifyingScreen/MagnifierComponent';
 
+/**
+ * @description This component creates the tables that display the drinks and add-ons on the menu items page.
+ * @component MenuItemsTable
+ * @param {*} reloadTable 
+ * @param {*} isHoverEnabled
+ * @param {*} handleToggleHover
+ * @returns displays the menu items page tables 
+ */
 const MenuItemsTable = ({ reloadTable, isHoverEnabled, handleToggleHover }) => {
   //Store data
   const [menuItemsData, setMenuItemsData] = useState([]);
   const [addOnsData, setAddOnsData] = useState([]);
   const [isHoverEnabledState, setIsHoverEnabled] = useState(false);
 
+  /**
+   * @function toggleHover
+   * @description toggles the hover functionality for text-to-speech accessibility feature
+   */
   const toggleHover = () => {
     setIsHoverEnabled((prevIsHoverEnabled) => !prevIsHoverEnabled);
     handleToggleHover();
   };
+
+  /**
+   * @description turns on the hover feature for the table when text-to-speech is turned on 
+   * @function handleGridCellHover
+   * @param {*} params 
+   */
   const handleGridCellHover = (params) => {
     console.log("handleGridCellHover is called!");
 
@@ -52,18 +70,6 @@ const MenuItemsTable = ({ reloadTable, isHoverEnabled, handleToggleHover }) => {
             category: item.category,
           })
         );
-        // const menuItemsResponse = await axios.get(
-        //   "https://thealley.onrender.com/menuItems"
-        // );
-        // const menuItemsRows = menuItemsResponse.data.data.table.rows.map(
-        //   (item, id) => ({
-        //     id,
-        //     drink_id: item.drink_id,
-        //     name: item.name,
-        //     cost: item.cost,
-        //     category: item.category,
-        //   })
-        // );
         setMenuItemsData(menuItemsRows);
 
         // Fetch data for add-ons
@@ -106,16 +112,9 @@ const MenuItemsTable = ({ reloadTable, isHoverEnabled, handleToggleHover }) => {
     { field: "cost", headerName: "Cost", type: "number", width: 90, flex: 1 },
   ];
 
-  // This structure is causing the page to look disorganized
-
+  // This structure is causing the page to look disorganized  
   return (
-    <div class="tablesInfo"
-        style={{
-          height: 425,
-          width: "45vw",
-          marginBottom: "20px",
-          float: "left",
-        }}> 
+    <div class="tablesInfo"> 
       <div style={{ height: 425, width: "45vw", marginBottom: "20px", float: "left" }}>
         <h2>Drinks Table</h2>
         <DataGrid
@@ -160,6 +159,8 @@ const MenuItemsTable = ({ reloadTable, isHoverEnabled, handleToggleHover }) => {
       </div>
     </div>
   );
+
+
 };
 
 export default MenuItemsTable;

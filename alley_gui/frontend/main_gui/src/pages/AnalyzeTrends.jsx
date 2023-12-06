@@ -10,6 +10,12 @@ import {
   handleTableFieldSpeech,
 } from "../components/SpeechUtils";
 
+/**
+ * @description This component displays all the different trends available for the manager to analyze.
+ * @component AnalyzeTrends
+ * @param {*} props
+ * @return display of all the manager view trends
+ */
 const AnalyzeTrends = (props) => {
   const { isHoverEnabled, handleToggleHover } = props;
   const [isHoverEnabledState, setIsHoverEnabled] = useState(false); // Add this line
@@ -42,6 +48,10 @@ const AnalyzeTrends = (props) => {
     const [table2Data, setTable2Data] = useState([]);
     const [isExcessReport, setIsExcessReport] = useState(true);
 
+    /**
+     * @function selectedTrend
+     * @description generates the correct report based on the selected trend
+     */
     useEffect(() => {
       if(selectedTrend === 'Excess Report'){
         setIsExcessReport(true);
@@ -57,6 +67,25 @@ const AnalyzeTrends = (props) => {
       setTable2Data([]);
     }, [selectedTrend]);
 
+    useEffect(() => {
+      const protection = async () => {
+        const role = localStorage.getItem("Role");
+        switch(role){
+          case "Manager":
+              break;
+          default:
+            window.location.href = window.location.origin;
+            break;
+        }
+      };
+
+      protection();
+    });
+
+    /**
+     * @function generateTrend
+     * @description queries the selected trend using a server-side API call
+     */
     const generateTrend = async () => {
       let valid = true;
       if(selectedTrend !== 'Restock Report'){
@@ -96,21 +125,42 @@ const AnalyzeTrends = (props) => {
       }
     };
 
+    /**
+     * @description validation check for input of date time formate
+     * @function isValidDateTimeFormat
+     * @param {string} inputString 
+     * @returns error message if incorrect
+     */
     function isValidDateTimeFormat(inputString) {
       const dateTimePattern = /^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}$/;
       return dateTimePattern.test(inputString);
     };
 
+    /**
+     * @description removes spaces bewteen the chosen trend name to match API call
+     * @function removeSpaces
+     * @param {string} trendName 
+     * @returns input string but without spaces
+     */
     function removeSpaces(trendName){
       const words = trendName.split(' ');
       return words.join('');
     };
 
+    /**
+     * @function returnToManager
+     * @description navigates back to the manager home page
+     */
     const returnToManager = () =>{
       var currLocation = window.location.href;
       window.location.href = currLocation.replace("AnalyzeTrends", "Manager");
     };
 
+    /**
+     * @description gets the current date
+     * @function getCurrentDate
+     * @returns current date
+     */
     function getCurrentDate() {
       const currentDate = new Date();
       const utcFormat = currentDate.toISOString();

@@ -24,6 +24,10 @@ import {
 import TextToSpeech from "./TextToSpeech";
 import "./MenuItems/MenuItems.css";
 
+/**
+ * @function CustomButtonSupplyReorder
+ * @description sets the display of the button for the supply reorders page
+ */
 const CustomButton = styled(ListItemButton)(({ theme }) => ({
   backgroundColor: "#ffefe2",
   border: "2px solid #9e693f",
@@ -39,6 +43,12 @@ const CustomButton = styled(ListItemButton)(({ theme }) => ({
   "&:disabled": { backgroundColor: "gray", color: "white" },
 }));
 
+/**
+ * @description This component displays the supply reorder table and allows the manager to make CRUD operations.
+ * @component SupplyReorders
+ * @param {*} props 
+ * @returns display of supply reorders page
+ */
 const SupplyReorders = (props) => {
   const { isHoverEnabled, handleToggleHover } = props;
   const [isHoverEnabledState, setIsHoverEnabled] = useState(false); // Add this line
@@ -47,6 +57,22 @@ const SupplyReorders = (props) => {
     setIsHoverEnabled((prevIsHoverEnabled) => !prevIsHoverEnabled);
     //handleToggleHover();
   };
+
+  useEffect(() => {
+    const protection = async () => {
+      const role = localStorage.getItem("Role");
+      switch(role){
+        case "Manager":
+            break;
+        default:
+          window.location.href = window.location.origin;
+          break;
+      }
+    };
+
+    protection();
+  });
+
 
   const handleGridCellHover = (params) => {
     console.log("igredient handleGridCellHover is called!");
@@ -91,6 +117,12 @@ const SupplyReorders = (props) => {
     amounts: {},
   });
 
+  /**
+   * @description provides ability to add a supply reorder and stores it in the back-end databse entity
+   * @function addSupplyReorder
+   * @param {*} selectedItems 
+   * @param {int} amounts 
+   */
   const addSupplyReorder = async (selectedItems, amounts) => {
     console.log("Selected Items to be sent:", selectedItems);
     console.log("Amounts to be sent:", amounts);
@@ -113,6 +145,10 @@ const SupplyReorders = (props) => {
   };
 
   // Getting inventory from the backend
+  /**
+   * @function supplyReorders
+   * @description server-side API call that gets all the reorders from the datbase 
+   */
   useEffect(() => {
     const supplyReorders = async () => {
       try {
@@ -142,6 +178,10 @@ const SupplyReorders = (props) => {
     return () => clearInterval(refreshTimer);
   }, []);
 
+  /**
+   * @function viewHandleSubmit
+   * @description gets the selected supply reorder from the table and displays the items in it
+   */
   const viewHandleSubmit = async () => {
     console.log("Sending reorderId:", values.reorderId);
     console.log("Sending date: ", values.date);
@@ -192,6 +232,10 @@ const SupplyReorders = (props) => {
     }
   };
 
+  /**
+   * @function deleteHandleSubmit
+   * @description deletes a supply reorder from the database 
+   */
   const deleteHandleSubmit = async () => {
     console.log("Sending reorderId:", values.reorderId);
     console.log("Sending date: ", values.date);
@@ -253,6 +297,12 @@ const SupplyReorders = (props) => {
   };
 
   // Getting ingredient SQL query and updating the inventory backend as well
+  /**
+   * @function addHandleSubmit
+   * @description displays added item in table
+   * @param {*} e 
+   * @returns new row in table with added item
+   */
   const addHandleSubmit = async (e) => {
     e.preventDefault();
 
@@ -296,10 +346,19 @@ const SupplyReorders = (props) => {
     }
   };
 
+  /**
+   * @function handleCloseModal
+   * @description closes the model
+   */
   const handleCloseModal = () => {
     setOpenModal(false);
   };
 
+  /**
+   * @description handles the association of ingredients with inventory pop-up
+   * @function handleCheckboxChange
+   * @param {int} inventory_id 
+   */
   const handleCheckboxChange = (inventory_id) => {
     const isSelected = selectedItems.includes(inventory_id);
     if (isSelected) {
@@ -322,6 +381,10 @@ const SupplyReorders = (props) => {
     }
   };
 
+  /**
+   * @function handleAmountChange
+   * @description updates the amount of selected inventory in table
+   */
   const handleAmountChange = (e, inventory_id) => {
     const { value } = e.target;
     console.log("Inventory ID:", inventory_id);
@@ -354,6 +417,12 @@ const SupplyReorders = (props) => {
       };
     });
   };
+
+  /**
+   * @description configures changes in the input values
+   * @function handleInputChange
+   * @param {*} event 
+   */
   const handleInputChange = (event) => {
     const { name, value } = event.target;
     setValues((prevValues) => ({

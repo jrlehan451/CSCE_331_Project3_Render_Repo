@@ -9,8 +9,6 @@ body {
     /* color: #8b9477; AFFECTS EVERY PAGE, SHOULD APPLY GREEN AS NEEDED VIA class="green"; */
 }
 
-
-
 /* navigation bar styles */
 .navbar {
   padding: 20px;
@@ -50,6 +48,16 @@ body {
   padding-bottom: 0px;
   margin-bottom: -40px;
   margin-top: -20px;
+}
+
+.title2{
+  /* max-width: 300; */
+  /* margin: 0px auto 40px;  */
+  /* padding: 10px; */
+  font-size: 50px;
+  /* padding-bottom: 0px; */
+  margin-bottom: -50px;
+  margin-top: 20px;
 }
 
 /* arrow image styling*/
@@ -178,6 +186,14 @@ color: #d7f2a6
   height: 50px;
   /* Adjust the size as needed */
 }
+
+.contrast .title2 {
+  font-size: 50px;
+  /* padding-bottom: 0px; */
+  margin-bottom: -50px;
+  margin-top: 20px;
+  color: #d7f2a6
+  }
 
 /* data tables styles */
 .contrast .tablesInfo {

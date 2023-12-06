@@ -12,7 +12,11 @@ import {
 } from "../SpeechUtils";
 import TextToSpeech from "../TextToSpeech";
 import HoverableElement from '../MagnifyingScreen/MagnifierComponent';
-// Button style
+
+/**
+ * @function CustomButtonMenuItemsButton
+ * @description sets the style of buttons on the menu items page
+ */
 const CustomButton = styled(Button)(({ theme }) => ({
   backgroundColor: "#ffefe2",
   border: "2px solid #9e693f",
@@ -28,6 +32,15 @@ const CustomButton = styled(Button)(({ theme }) => ({
   "&:disabled": { backgroundColor: "gray", color: "white" },
 }));
 
+/**
+ * @description This component generates the buttons and that are used on the menu items page
+ * and their functionality
+ * @component MenuItemsButtons
+ * @param {*} onReload
+ * @param {*} isHoverEnabled
+ * @param {*} handleToggleHover
+ * @returns display of menu item buttons
+ */
 const MenuItemsButtons = ({ onReload, isHoverEnabled, handleToggleHover }) => {
   const [isHoverEnabledState, setIsHoverEnabled] = useState(false);
   const [reloadTable, setReloadTable] = useState(false);
@@ -92,6 +105,11 @@ const MenuItemsButtons = ({ onReload, isHoverEnabled, handleToggleHover }) => {
   };
 
   // Function to handle button clicks for adding drinks
+  /**
+   * @function handleAddDrink
+   * @description adds drink to the menu items table and uses a server-side API call to post it to the database
+   * @param {*} e
+   */
   const handleAddDrink = (e) => {
     let errorfound = false;
     console.log("Add Drink clicked", values);
@@ -105,6 +123,7 @@ const MenuItemsButtons = ({ onReload, isHoverEnabled, handleToggleHover }) => {
       axios
         .post("https://thealley.onrender.com/addDrink", values)
         .then((res) => {
+          onReload();
           if (res.data.status === "success") {
             console.log(res.data.message);
           } else {
@@ -129,55 +148,26 @@ const MenuItemsButtons = ({ onReload, isHoverEnabled, handleToggleHover }) => {
       setOpenPopup(true);
     }
     console.log("Add Drink clicked", values);
+    onReload();
   };
 
-  // Function to handle button clicks for adding drinks
-  // const handleAddDrink = (e) => {
-  //   let errorfound = false;
-  //   console.log("Add Drink clicked", values);
-  //   if (
-  //     values.drinkID != "" &&
-  //     values.drinkName != "" &&
-  //     values.drinkCost != "" &&
-  //     values.drinkCost != ""
-  //   ) {
-  //     e.preventDefault();
-  //     axios
-  //       .post("https://thealley.onrender.com/addDrink", values)
-  //       .then((res) => {
-  //         if (res.data.status === "success") {
-  //           console.log(res.data.message);
-  //         } else {
-  //           console.error(res.data.message);
-  //         }
-  //       })
-  //       .catch((err) => {
-  //         errorfound = true;
-  //         console.error("Error:", err);
-  //         alert("Error: Entered existing Drink ID");
-  //       });
-  //   } else {
-  //     errorfound = true;
-  //     alert(
-  //       "Please fill in all required fields: Drink ID, Drink Name, Drink Cost, and Drink Category"
-  //     );
-  //   }
-
-  //   if (!errorfound) {
-  //     onReload();
-  //     //Activate pop up
-  //     setOpenPopup(true);
-  //   }
-  //   console.log("Add Drink clicked", values);
-  // };
-
   // Function to handle selected ingredients from the popup
+  /**
+   * @description stores the information of the selected ingredients from the pop-up
+   * @function handleSelectIngredients
+   * @param {*} selectedIngredients
+   */
   const handleSelectIngredients = (selectedIngredients) => {
     setSelectedIngredients(selectedIngredients);
     setOpenPopup(false);
   };
 
   // Function to handle button clicks for updating drinks
+  /**
+   * @function handleUpdateDrink
+   * @description updates a current drink in the database and posts the changes using a server-side API
+   * @param {*} e
+   */
   const handleUpdateDrink = (e) => {
     // Check if input is valid
     if (values.drinkID == "") {
@@ -196,6 +186,7 @@ const MenuItemsButtons = ({ onReload, isHoverEnabled, handleToggleHover }) => {
       axios
         .post("https://thealley.onrender.com/updateMenuItemName", values)
         .then((res) => {
+          onReload();
           const rowCountTwo = res.data.rowCount;
           if (res.data.status === "success") {
             console.log(res.data.message);
@@ -215,6 +206,7 @@ const MenuItemsButtons = ({ onReload, isHoverEnabled, handleToggleHover }) => {
       axios
         .post("https://thealley.onrender.com/updateMenuItemCost", values)
         .then((res) => {
+          onReload();
           const rowCountTwo = res.data.rowCount;
           if (res.data.status === "success") {
             console.log(res.data.message);
@@ -234,6 +226,7 @@ const MenuItemsButtons = ({ onReload, isHoverEnabled, handleToggleHover }) => {
       axios
         .post("https://thealley.onrender.com/updateMenuItemCategory", values)
         .then((res) => {
+          onReload();
           const rowCountTwo = res.data.rowCount;
           if (res.data.status === "success") {
             console.log(res.data.message);
@@ -248,17 +241,23 @@ const MenuItemsButtons = ({ onReload, isHoverEnabled, handleToggleHover }) => {
           console.error("Error:", err);
         });
     }
-    onReload();
     console.log("Update Drink clicked", values);
+    onReload();
   };
 
   // Function to handle button clicks for deleting drinks
+  /**
+   * @description deletes a drink from the table and removes it from the databse using the server-side API
+   * @function handleDeleteDrink
+   * @param {*} e 
+   */
   const handleDeleteDrink = (e) => {
     if (values.drinkID != "") {
       e.preventDefault();
       axios
         .post("https://thealley.onrender.com/deleteDrink", values)
         .then((res) => {
+          onReload();
           const rowCountTwo = res.data.rowCount;
           if (res.data.status === "success") {
             console.log(res.data.message);
@@ -279,6 +278,11 @@ const MenuItemsButtons = ({ onReload, isHoverEnabled, handleToggleHover }) => {
   };
 
   // Function to handle button clicks for adding add on
+  /**
+   * @function handleAddAddOn
+   * @description adds add on to the add on table and posts it to the databse using a server-side API call
+   * @param {*} e 
+   */
   const handleAddAddOn = (e) => {
     console.log("Add Drink clicked", values);
     if (
@@ -290,6 +294,7 @@ const MenuItemsButtons = ({ onReload, isHoverEnabled, handleToggleHover }) => {
       axios
         .post("https://thealley.onrender.com/addAddOn", values)
         .then((res) => {
+          onReload();
           if (res.data.status === "success") {
             console.log(res.data.message);
           } else {
@@ -300,6 +305,7 @@ const MenuItemsButtons = ({ onReload, isHoverEnabled, handleToggleHover }) => {
           console.error("Error:", err);
           alert("Error: Entered existing Add On ID");
         });
+        
     } else {
       alert(
         "Please fill in all required fields: Add On ID, Add On Name, and Add On Cost"
@@ -309,6 +315,11 @@ const MenuItemsButtons = ({ onReload, isHoverEnabled, handleToggleHover }) => {
   };
 
   // Function to handle button clicks for updating add ons
+  /**
+   * @description updates existing add on in the table and posts the changes to the database using a server-side API
+   * @function handleUpdateAddOn
+   * @param {*} e 
+   */
   const handleUpdateAddOn = (e) => {
     if (values.addOnID == "") {
       alert("Enter Add On ID to update");
@@ -321,6 +332,7 @@ const MenuItemsButtons = ({ onReload, isHoverEnabled, handleToggleHover }) => {
       axios
         .post("https://thealley.onrender.com/updateAddOnCost", values)
         .then((res) => {
+          onReload();
           const rowCountTwo = res.data.rowCount;
           if (res.data.status === "success") {
             console.log(res.data.message);
@@ -340,6 +352,7 @@ const MenuItemsButtons = ({ onReload, isHoverEnabled, handleToggleHover }) => {
       axios
         .post("https://thealley.onrender.com/updateAddOnName", values)
         .then((res) => {
+          onReload();
           const rowCount = res.data.rowCount;
           if (res.data.status === "success") {
             console.log(res.data.message);
@@ -358,12 +371,18 @@ const MenuItemsButtons = ({ onReload, isHoverEnabled, handleToggleHover }) => {
   };
 
   // Function to handle button clicks for deleting add ons
+  /**
+   * @description deletes an add-on from the table and removes it from the database using a server-side API
+   * @function handleDeleteAddOn
+   * @param {*} e 
+   */
   const handleDeleteAddOn = (e) => {
     if (values.addOnID != "") {
       e.preventDefault();
       axios
         .post("https://thealley.onrender.com/deleteAddOn", values)
         .then((res) => {
+          onReload();
           const rowCount = res.data.rowCount;
           if (res.data.status === "success") {
             console.log(res.data.message);

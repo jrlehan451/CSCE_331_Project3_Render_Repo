@@ -2,10 +2,20 @@ import axios from "axios";
 import React, { useState, useEffect, useLayoutEffect } from "react";
 import { useLoaderData } from "react-router-dom";
 
+/**
+ * @description This is the component that translates all the text on the page to the desired language.
+ * @component LanguageSelect
+ * @returns language translation
+ */
 function LanguageSelect() {
     const [language, setLang] = useState("en");
     const [prevLang, setPrevLang] = useState("en");
 
+    /**
+     * @function translate_all
+     * @description translates all the text on the page to the desired language
+     * @returns translation
+     */
     async function translate_all() {
         if (prevLang == language) {
             return;
@@ -34,12 +44,23 @@ function LanguageSelect() {
         });
     }
     
+    /**
+     * @function translate
+     * @description queries the translate API
+     * @param {*} query
+     * @param {*} source
+     * @param {*} target
+     */
     async function translate(query, source, target) {
         const res = await axios.get("https://thealley.onrender.com/translate", {params: { text: query, target: target}});
         const jsonVals = await res.data;
         return jsonVals.data;
     }
 
+    /**
+     * @function currLang
+     * @description gets the current language of the website
+     */
     useEffect(() => {
         const currLang = JSON.parse(sessionStorage.getItem('language'));
         if (currLang) {
@@ -50,6 +71,10 @@ function LanguageSelect() {
         } 
     }, []);
 
+    /**
+     * @function dom_observer
+     * @description checks if html elements are added to the page after translation
+     */
     useEffect(() => {
         var dom_observer = new MutationObserver(function(mutation) {
             const currLang = JSON.parse(sessionStorage.getItem('language'));
@@ -113,6 +138,10 @@ function LanguageSelect() {
         translate_all();
     }, [language]);
 
+    /**
+     * gets the user's selected language
+     * @param {*} event 
+     */
     const selectLang = (event) => {
         setPrevLang(language);
         let newLang = event.target.value;
@@ -123,6 +152,10 @@ function LanguageSelect() {
 
     const [options, setOptions] = useState([]);
   
+    /**
+     * @function fetchLanguages
+     * @description gets the translations of the user's desired language 
+     */
     useEffect(() => {
       async function fetchData() {
         // Fetch data
