@@ -1,13 +1,18 @@
-import React from "react";
+import React, { useState } from "react";
 import { Box, ListItemButton, styled } from "@mui/material";
 
 import Stack from "@mui/material/Stack";
-import HomeButton from './images/HomeButton.png';
+import HomeButton from "./images/HomeButton.png";
 
-import '../components/MenuItems/MenuItems.css'
+import "../components/MenuItems/MenuItems.css";
 
-import {useAuth0} from '@auth0/auth0-react';
-
+import { useAuth0 } from "@auth0/auth0-react";
+import {
+  handleHover,
+  handleMouseOut,
+  handleTextFieldSpeech,
+  handleTableFieldSpeech,
+} from "../components/SpeechUtils";
 
 /**
  * @function CustomerButtonManagerView
@@ -31,19 +36,42 @@ const CustomButton = styled(ListItemButton)(({ theme }) => ({
  * to all pages only accessibly by the manager view.
  * @returns display of manager view home page
  */
-const ManagerView = () => {
-  const {logout} = useAuth0();
+const ManagerView = (props) => {
+  const { logout } = useAuth0();
+
+  const { isHoverEnabled, handleToggleHover } = props;
+  const [isHoverEnabledState, setIsHoverEnabled] = useState(false);
+
+  const toggleHover = () => {
+    setIsHoverEnabled((prevIsHoverEnabled) => !prevIsHoverEnabled);
+    //handleToggleHover();
+  };
+
+  const handleGridCellHover = (params) => {
+    console.log("igredient handleGridCellHover is called!");
+
+    if (isHoverEnabled) {
+      console.log("isHoverEnabled is false");
+
+      const cellContent = params.value.toString();
+      console.log("Cell Content:", cellContent);
+
+      // Call the handleHover function to initiate text-to-speech
+      handleTableFieldSpeech(cellContent);
+      //handleTableFieldSpeech("This is a test");
+    }
+  };
 
   const returnHome = () => {
     localStorage.setItem("Role", "");
-    logout({ logoutParams: { returnTo: window.location.origin } })
+    logout({ logoutParams: { returnTo: window.location.origin } });
   };
 
   const protection = async () => {
     const role = localStorage.getItem("Role");
-    switch(role){
+    switch (role) {
       case "Manager":
-          break;
+        break;
       default:
         window.location.href = window.location.origin;
         break;
@@ -53,40 +81,81 @@ const ManagerView = () => {
   protection();
 
   return (
-      <Box className="managerBox">
-        <h1 className = "title2"> Manager Page</h1>
+    <Box className="managerBox">
+      <h1
+        className="title2"
+        onMouseOver={(e) => handleHover(e, isHoverEnabled)}
+        onMouseOut={handleMouseOut}
+      >
+        {" "}
+        Manager Page
+      </h1>
 
-        <button className="home-button" onClick={returnHome}> 
-            <img src={HomeButton} alt="home" />
-        </button>
-        <Stack
-          style={{
-            flex: 1,
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "center",
-            alignItems: "center",
-            height: "100%",
-          }}
+      <button
+        className="home-button"
+        onMouseOver={(e) => handleHover(e, isHoverEnabled)}
+        onMouseOut={handleMouseOut}
+        onClick={returnHome}
+      >
+        <img src={HomeButton} alt="home" />
+      </button>
+      <Stack
+        style={{
+          flex: 1,
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "100%",
+        }}
+      >
+        <CustomButton
+          className="managerLink"
+          Link
+          to="/AnalyzeTrends"
+          onMouseOver={(e) => handleHover(e, isHoverEnabled)}
+          onMouseOut={handleMouseOut}
         >
-          <CustomButton className="managerLink" Link to="/AnalyzeTrends">
-            Analyze Trends
-          </CustomButton>
-          <CustomButton className="managerLink" Link to="/Inventory">
-            Inventory
-          </CustomButton>
-          <CustomButton className="managerLink" Link to="/Ingredients">
-            Ingredients
-          </CustomButton>
-          <CustomButton className="managerLink" Link to="/MenuItems">
-            Menu Items
-          </CustomButton>
-          <CustomButton className="managerLink" Link to="/SupplyReorder">
-            Supply Reorders
-          </CustomButton>
-     
-        </Stack>
-      </Box>
+          Analyze Trends
+        </CustomButton>
+        <CustomButton
+          className="managerLink"
+          Link
+          to="/Inventory"
+          onMouseOver={(e) => handleHover(e, isHoverEnabled)}
+          onMouseOut={handleMouseOut}
+        >
+          Inventory
+        </CustomButton>
+        <CustomButton
+          className="managerLink"
+          Link
+          to="/Ingredients"
+          onMouseOver={(e) => handleHover(e, isHoverEnabled)}
+          onMouseOut={handleMouseOut}
+        >
+          Ingredients
+        </CustomButton>
+        <CustomButton
+          className="managerLink"
+          Link
+          to="/MenuItems"
+          onMouseOver={(e) => handleHover(e, isHoverEnabled)}
+          onMouseOut={handleMouseOut}
+        >
+          Menu Items
+        </CustomButton>
+        <CustomButton
+          className="managerLink"
+          Link
+          to="/SupplyReorder"
+          onMouseOver={(e) => handleHover(e, isHoverEnabled)}
+          onMouseOut={handleMouseOut}
+        >
+          Supply Reorders
+        </CustomButton>
+      </Stack>
+    </Box>
   );
 };
 
