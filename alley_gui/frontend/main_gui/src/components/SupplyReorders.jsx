@@ -446,6 +446,9 @@ const SupplyReorders = (props) => {
       <NavBar />
 
       <div class="managerWrapper supplyReorder">
+        <h1 class="managerHeader" className="trendsTitle">
+          Supply Reorder
+        </h1>
         <div class="tablesInfo">
           <div style={{ flex: 1, overflow: "auto", height: "65vh" }}>
             <DataGrid

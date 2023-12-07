@@ -22,6 +22,7 @@ import {
   handleTableFieldSpeech,
 } from "./SpeechUtils";
 import TextToSpeech from "./TextToSpeech";
+import "../pages/AnalyzeTrends.css";
 
 // Creating custom buttons
 const CustomButton = styled(ListItemButton)(({ theme }) => ({
@@ -378,7 +379,9 @@ const Ingredients = (props) => {
         </DialogContent>
       </Dialog>
       <div class="managerWrapper">
-        <h1 class="managerHeader">Ingredient Page</h1>
+        <h1 class="managerHeader" className="trendsTitle">
+          Ingredients
+        </h1>
         <div class="tablesInfo">
           <div style={{ height: 400, width: "80vw", marginBottom: "20px" }}>
             <DataGrid

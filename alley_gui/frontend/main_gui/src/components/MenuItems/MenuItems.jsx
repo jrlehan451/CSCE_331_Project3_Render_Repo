@@ -9,7 +9,7 @@ import MenuItemsPopUp from "./MenuItemsPopup";
 import NavBar from "./NavBar";
 import "./MenuItems.css";
 
-import HoverableElement from '../MagnifyingScreen/MagnifierComponent';
+import HoverableElement from "../MagnifyingScreen/MagnifierComponent";
 
 import TextToSpeech from "../TextToSpeech";
 import {
@@ -20,7 +20,7 @@ import {
 } from "../SpeechUtils";
 
 /**
- * @description This component displays the page with the two menu tables 
+ * @description This component displays the page with the two menu tables
  * and the CRUD operations for the drinks and add-ons tables.
  * @component MenuItems
  * @param {*} isHoverEnabled
@@ -31,13 +31,13 @@ const MenuItems = ({ isHoverEnabled, setIsHoverEnabled }) => {
   //Constant used to reload tables after function
   const [reloadTable, setReloadTable] = useState(false);
 
-    /**
-     * @function handleTableReload
-     * @description updates the state and triggers a re-render of the table
-     */
-    const handleTableReload = () => {
-        setReloadTable(!reloadTable);
-    };
+  /**
+   * @function handleTableReload
+   * @description updates the state and triggers a re-render of the table
+   */
+  const handleTableReload = () => {
+    setReloadTable(!reloadTable);
+  };
 
   useEffect(() => {
     // This effect will be triggered every time reloadTable changes
@@ -47,17 +47,17 @@ const MenuItems = ({ isHoverEnabled, setIsHoverEnabled }) => {
 
   useEffect(() => {
     const translateFeature = document.querySelector(".translate");
-    translateFeature.style.display = 'none';
-    const translateReplace = document.querySelector(".translateNotAvailable")
-    translateReplace.style.display = 'block';
+    translateFeature.style.display = "none";
+    const translateReplace = document.querySelector(".translateNotAvailable");
+    translateReplace.style.display = "block";
   }, []);
 
   useEffect(() => {
     const protection = async () => {
       const role = localStorage.getItem("Role");
-      switch(role){
+      switch (role) {
         case "Manager":
-            break;
+          break;
         default:
           window.location.href = window.location.origin;
           break;
@@ -67,17 +67,15 @@ const MenuItems = ({ isHoverEnabled, setIsHoverEnabled }) => {
     protection();
   });
 
-
   //Collection of all pages and reload elements
   return (
-    
     <div className="MenuItemsPage">
       <NavBar />
       <div className="title">
         <h1>Menu Items</h1>
       </div>
       <div className="tablesContainer">
-      <MenuItemsTable
+        <MenuItemsTable
           reloadTable={reloadTable}
           isHoverEnabled={isHoverEnabled}
           setIsHoverEnabled={setIsHoverEnabled}
@@ -88,10 +86,8 @@ const MenuItems = ({ isHoverEnabled, setIsHoverEnabled }) => {
           setIsHoverEnabled={setIsHoverEnabled}
         />
       </div>
-      
     </div>
   );
-  
 };
 
 export default MenuItems;

@@ -24,6 +24,7 @@ import {
 } from "./SpeechUtils";
 
 import "./MenuItems/MenuItems.css";
+import "../pages/AnalyzeTrends.css";
 
 // Creating custom buttons
 /**
@@ -465,7 +466,9 @@ const Inventory = (props) => {
         </DialogContent>
       </Dialog>
       <div class="managerWrapper">
-        <h1 class="managerHeader">Inventory Page</h1>
+        <h1 class="managerHeader" className="trendsTitle">
+          Inventory
+        </h1>
         <div class="tablesInfo">
           <div style={{ height: 400, width: "80vw", marginBottom: "20px" }}>
             <DataGrid
