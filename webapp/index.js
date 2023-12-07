@@ -5,11 +5,11 @@ const { Pool } = require("pg");
 const dotenv = require("dotenv").config();
 const cors = require("cors");
 const axios = require("axios");
-const { Translate } = require('@google-cloud/translate').v2;
+const { Translate } = require("@google-cloud/translate").v2;
 
-const swaggerJsdoc = require('swagger-jsdoc');
-const swaggerUi = require('swagger-ui-express');
-const swaggerDefinition = require('./swaggerDefinition');
+const swaggerJsdoc = require("swagger-jsdoc");
+const swaggerUi = require("swagger-ui-express");
+const swaggerDefinition = require("./swaggerDefinition");
 
 // Create express app
 const app = express();
@@ -17,18 +17,18 @@ const port = 4000;
 
 const options = {
   swaggerDefinition,
-  apis: ['./index.js'], // Adjust the path based on your project structure
+  apis: ["./index.js"], // Adjust the path based on your project structure
 };
 
 const swaggerSpec = swaggerJsdoc(options);
 
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 const CREDS = JSON.parse(process.env.GOOGLE_APPLICATION_CRED);
 const translate = new Translate({
   credentials: CREDS,
   projectId: CREDS.projectId,
-})
+});
 
 app.use("/css", express.static("css"));
 app.use("/js", express.static("functions"));
@@ -74,7 +74,7 @@ process.on("SIGINT", function () {
  *       200:
  *         description: list of languages available of translation
  */
-app.get('/languages', async (req, res) => {
+app.get("/languages", async (req, res) => {
   let [languages] = await translate.getLanguages();
   res.status(200).json({
     status: "success",
@@ -92,20 +92,23 @@ app.get('/languages', async (req, res) => {
  *       200:
  *         description: translated text
  */
-app.get('/translate', jsonParser, async (req, res) => {
+app.get("/translate", jsonParser, async (req, res) => {
   try {
-    let [translations] = await translate.translate(req.query.text, req.query.target);
+    let [translations] = await translate.translate(
+      req.query.text,
+      req.query.target
+    );
     res.status(200).json({
       status: "success",
       data: translations,
-    })
+    });
   } catch (err) {
     console.log(err);
     res.status(500).json({
       status: "error",
       message: "An error occurred while fetching data.",
     });
-  } 
+  }
 });
 
 app.set("view engine", "ejs");
@@ -191,7 +194,7 @@ app.get("/user", (req, res) => {
  * @swagger
  * add_on_jsx:
  *   get:
- *     summary: gets all add_ons 
+ *     summary: gets all add_ons
  *     description: queries all ingredients with a cost greater than 0
  *     responses:
  *       200:
@@ -280,7 +283,6 @@ app.get("/drink_options_jsx", async (req, res) => {
     });
   }
 });
-
 
 app.get("/drink_options", (req, res) => {
   drink_categories = [];
@@ -574,7 +576,6 @@ app.post("/post_customer_order", jsonParser, (req, res) => {
 
   res.json({ ok: true });
 });
-
 
 app.get("/drink_series", (req, res) => {
   drink_categories = [];
@@ -1141,7 +1142,6 @@ app.post("/updateItemIngredient", (req, res) => {
  */
 app.post("/deleteItemIngredient", async (req, res) => {
   try {
-
     // Update inventory_items
     await pool.query(
       "UPDATE inventory_items SET ingredient_id = NULL WHERE ingredient_id = $1;",
@@ -1189,8 +1189,14 @@ app.post("/addItemInventory", (req, res) => {
 
   if (req.body.ingredientId == "") {
     pool.query(
-      "INSERT INTO inventory_items (item_id, name, quantity_per_unit) VALUES($1, $2, $3)",
-      [req.body.itemId, req.body.name, req.body.quantityPerUnit],
+      "INSERT INTO inventory_items (item_id, name, count, fill_level, quantity_per_unit) VALUES($1, $2, $3, $4, $5)",
+      [
+        req.body.itemId,
+        req.body.name,
+        req.body.amount,
+        req.body.fillLevel,
+        req.body.quantityPerUnit,
+      ],
       (err, response) => {
         if (err) {
           console.log(err);
@@ -1367,7 +1373,11 @@ app.get("/ExcessReport", async (req, res) => {
 app.get("/MenuItemPopularityAnalysis", async (req, res) => {
   try {
     console.log("Getting Menu Item Popularity Analysis");
-    console.log(req.query.startTimestamp, req.query.endTimestamp, req.query.number);
+    console.log(
+      req.query.startTimestamp,
+      req.query.endTimestamp,
+      req.query.number
+    );
 
     const query = {
       text: `
@@ -1392,7 +1402,11 @@ app.get("/MenuItemPopularityAnalysis", async (req, res) => {
           rank
         LIMIT $3;
       `,
-      values: [req.query.startTimestamp, req.query.endTimestamp, req.query.number],
+      values: [
+        req.query.startTimestamp,
+        req.query.endTimestamp,
+        req.query.number,
+      ],
     };
 
     const results = await pool.query(query);
@@ -1422,10 +1436,12 @@ app.get("/MenuItemPopularityAnalysis", async (req, res) => {
  *       200:
  *         description: list of inventory items that need to be restocked
  */
-app.get("/RestockReport", async (req, res) =>{
+app.get("/RestockReport", async (req, res) => {
   try {
     console.log("Getting Restock Report");
-    const results = await pool.query("SELECT * FROM inventory_items WHERE count < fill_level GROUP BY fill_level, item_id ORDER BY name;");
+    const results = await pool.query(
+      "SELECT * FROM inventory_items WHERE count < fill_level GROUP BY fill_level, item_id ORDER BY name;"
+    );
     console.log(results);
     res.status(200).json({
       status: "success",
@@ -1504,7 +1520,6 @@ app.get("/SalesReport", async (req, res) => {
   }
 });
 
-
 /**
  * @swagger
  * WhatSalesTogether:
@@ -1515,7 +1530,7 @@ app.get("/SalesReport", async (req, res) => {
  *       200:
  *         description: list of drinks that sell well together
  */
-app.get("/WhatSalesTogether", async (req, res) =>{
+app.get("/WhatSalesTogether", async (req, res) => {
   try {
     console.log("Getting What Sales Together");
     const query = {
@@ -1562,16 +1577,14 @@ app.get("/WhatSalesTogether", async (req, res) =>{
       message: "An error occurred while fetching data.",
     });
   }
-
 });
-
 
 // menu items call
 /**
  * @swagger
  * menuItems:
  *   get:
- *     summary: gets all drinks 
+ *     summary: gets all drinks
  *     description: gets all drinks sorted by category
  *     responses:
  *       200:
@@ -1603,7 +1616,7 @@ app.get("/menuItems", async (req, res) => {
  * @swagger
  * addOns:
  *   get:
- *     summary: gets all add-ons 
+ *     summary: gets all add-ons
  *     description: gets all ingredients with a cost greater than zero from the database
  *     responses:
  *       200:
@@ -1636,7 +1649,7 @@ app.get("/addOns", async (req, res) => {
  * @swagger
  * updateBaseIngredients:
  *   get:
- *     summary: gets all ingredients 
+ *     summary: gets all ingredients
  *     description: gets all ingredients an their attributes from the database
  *     responses:
  *       200:
@@ -2155,56 +2168,74 @@ app.get("/recommendation_adj", async (req, res) => {
   try {
     console.log("ordersTodayQuery");
     const todaysOrders = [];
-    
+
     // Step 1: Get orders for the current date
-    const ordersResults = await pool.query("SELECT * FROM orders WHERE DATE(timestamp) = CURRENT_DATE;");
+    const ordersResults = await pool.query(
+      "SELECT * FROM orders WHERE DATE(timestamp) = CURRENT_DATE;"
+    );
     const orders = ordersResults.rows;
 
     console.log("Orders:", orders);
     const itemOccurrenceMap = new Map();
     const oldCountsMap = new Map();
 
-    for(const order of orders){
-      const addOnOrderResult = await pool.query(`SELECT * FROM add_ons WHERE order_id = ${order.order_id};`);
+    for (const order of orders) {
+      const addOnOrderResult = await pool.query(
+        `SELECT * FROM add_ons WHERE order_id = ${order.order_id};`
+      );
       const addOnRows = addOnOrderResult.rows;
       //console.log("Add on information", order.order_id, ":", addOnRows);
-      for(const ingredient of addOnRows){
-        const inventoryItemsResults = await pool.query(`SELECT * FROM inventory_items WHERE ingredient_id = ${ingredient.ingredient_id};`);
+      for (const ingredient of addOnRows) {
+        const inventoryItemsResults = await pool.query(
+          `SELECT * FROM inventory_items WHERE ingredient_id = ${ingredient.ingredient_id};`
+        );
         const inventoryItems = inventoryItemsResults.rows;
         //console.log("Add on final stuff Ingredient ID", ingredient.ingredient_id, ":", inventoryItems);
-          inventoryItems.forEach((inventoryItem) => {
-            const { item_id } = inventoryItem;
-            const { count } = inventoryItem;
-            itemOccurrenceMap.set(item_id, (itemOccurrenceMap.get(item_id) || 0) + 1);
-            // Store the initial count in the oldCountsMap
-            oldCountsMap.set(item_id, count);
-          });
+        inventoryItems.forEach((inventoryItem) => {
+          const { item_id } = inventoryItem;
+          const { count } = inventoryItem;
+          itemOccurrenceMap.set(
+            item_id,
+            (itemOccurrenceMap.get(item_id) || 0) + 1
+          );
+          // Store the initial count in the oldCountsMap
+          oldCountsMap.set(item_id, count);
+        });
       }
     }
     // Step 2: Loop through orders and get drink orders for each order
     for (const order of orders) {
-      const drinkOrdersResults = await pool.query(`SELECT * FROM drink_orders WHERE order_id = ${order.order_id};`);
+      const drinkOrdersResults = await pool.query(
+        `SELECT * FROM drink_orders WHERE order_id = ${order.order_id};`
+      );
       const drinkOrders = drinkOrdersResults.rows;
 
       //console.log("Drink Orders for Order ID", order.order_id, ":", drinkOrders);
 
       // Step 3: Loop through drink orders and get base drink ingredients for each drink
       for (const drinkOrder of drinkOrders) {
-        const baseDrinkIngredientsResults = await pool.query(`SELECT * FROM base_drink_ingredients WHERE drink_id = ${drinkOrder.drink_id};`);
+        const baseDrinkIngredientsResults = await pool.query(
+          `SELECT * FROM base_drink_ingredients WHERE drink_id = ${drinkOrder.drink_id};`
+        );
         const baseDrinkIngredients = baseDrinkIngredientsResults.rows;
 
         //console.log("Base Drink Ingredients for Drink ID", drinkOrder.drink_id, ":", baseDrinkIngredients);
 
         // Step 4: Loop through base drink ingredients and get inventory items for each ingredient
         for (const ingredient of baseDrinkIngredients) {
-          const inventoryItemsResults = await pool.query(`SELECT * FROM inventory_items WHERE ingredient_id = ${ingredient.ingredient_id};`);
+          const inventoryItemsResults = await pool.query(
+            `SELECT * FROM inventory_items WHERE ingredient_id = ${ingredient.ingredient_id};`
+          );
           const inventoryItems = inventoryItemsResults.rows;
 
           //console.log("Inventory Items for Ingredient ID", ingredient.ingredient_id, ":", inventoryItems);
           inventoryItems.forEach((inventoryItem) => {
             const { item_id } = inventoryItem;
             const { count } = inventoryItem;
-            itemOccurrenceMap.set(item_id, (itemOccurrenceMap.get(item_id) || 0) + 1);
+            itemOccurrenceMap.set(
+              item_id,
+              (itemOccurrenceMap.get(item_id) || 0) + 1
+            );
             // Store the initial count in the oldCountsMap
             oldCountsMap.set(item_id, count);
           });
@@ -2220,7 +2251,10 @@ app.get("/recommendation_adj", async (req, res) => {
       const oldCount = oldCountsMap.get(itemId) || 0;
       const updatedCount = Math.max(0, oldCount - occurrenceCount);
       // Update the inventory_items table using your query
-      await pool.query("UPDATE inventory_items SET count = $1 WHERE item_id = $2;", [updatedCount, itemId]);
+      await pool.query(
+        "UPDATE inventory_items SET count = $1 WHERE item_id = $2;",
+        [updatedCount, itemId]
+      );
     }
     //res.render(oldCountsMap);
     res.status(200).json({
@@ -2236,7 +2270,6 @@ app.get("/recommendation_adj", async (req, res) => {
     });
   }
 });
-
 
 // Getting ingredient database and sending it to /inventory
 /**
@@ -2346,9 +2379,9 @@ app.get("/CustomerPopularityAnalysis", async (req, res) => {
  *       500:
  *         description: internal server error
  */
-app.get('/weather', async (req, res) => {
+app.get("/weather", async (req, res) => {
   try {
-    const lat = req.query.latitude; 
+    const lat = req.query.latitude;
     const lon = req.query.longitude;
     console.log(lat);
     console.log(lon);
@@ -2356,10 +2389,12 @@ app.get('/weather', async (req, res) => {
     if (!lat || !lon) {
       console.log(lat);
       console.log(lon);
-      return res.status(400).json({ error: 'Latitude and longitude are required.' });
+      return res
+        .status(400)
+        .json({ error: "Latitude and longitude are required." });
     }
 
-    const apiKey = 'dede69fd21eb974bc8b0d5ca22dc8e82';
+    const apiKey = "dede69fd21eb974bc8b0d5ca22dc8e82";
     const apiUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${apiKey}&units=imperial`;
 
     const response = await axios.get(apiUrl);
@@ -2367,12 +2402,12 @@ app.get('/weather', async (req, res) => {
     res.status(200).json({
       status: "success",
       data: {
-        data: response.data
+        data: response.data,
       },
     });
   } catch (error) {
-    console.error('Error fetching weather data:', error.message);
-    res.status(500).json({ error: 'Internal server error.' });
+    console.error("Error fetching weather data:", error.message);
+    res.status(500).json({ error: "Internal server error." });
   }
 });
 
