@@ -263,7 +263,7 @@ const ViewCart = (props) => {
         >
           Enter Name:{" "}
         </p>
-        <input className="customer-name" type="text" id="cname" name="cname" />
+        <input className="c-name" type="text" id="cname" name="cname" />
         <br />
         <button
           onClick={goToCheckout}

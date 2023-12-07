@@ -114,7 +114,7 @@
     font-weight: bold;
 }
 
-.customer-name {
+.c-name {
     margin-right: 1vw;
     display: inline;
     float: left;
@@ -226,7 +226,7 @@
     font-size: 3vw;
 }
 
-.contrast .customer-name {
+.contrast .c-name {
     margin-right: 1vw;
     display: inline;
     float: left;
