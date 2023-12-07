@@ -42,12 +42,12 @@ const ManagerView = (props) => {
   const { isHoverEnabled, handleToggleHover } = props;
   const [isHoverEnabledState, setIsHoverEnabled] = useState(false);
 
-  useEffect(() => {
-    const translateFeature = document.querySelector(".translate");
-    translateFeature.style.display = "none";
-    const translateReplace = document.querySelector(".translateNotAvailable");
-    translateReplace.style.display = "block";
-  }, []);
+  // useEffect(() => {
+  //   const translateFeature = document.querySelector(".translate");
+  //   translateFeature.style.display = "none";
+  //   const translateReplace = document.querySelector(".translateNotAvailable");
+  //   translateReplace.style.display = "block";
+  // }, []);
 
   const toggleHover = () => {
     setIsHoverEnabled((prevIsHoverEnabled) => !prevIsHoverEnabled);
