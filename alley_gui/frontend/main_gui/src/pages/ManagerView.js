@@ -12,6 +12,7 @@ import {
   handleTextFieldSpeech,
   handleTableFieldSpeech,
 } from "../components/SpeechUtils";
+import "../pages/AnalyzeTrends.css";
 
 /**
  * @function CustomerButtonManagerView
@@ -43,9 +44,9 @@ const ManagerView = (props) => {
 
   useEffect(() => {
     const translateFeature = document.querySelector(".translate");
-    translateFeature.style.display = 'none';
-    const translateReplace = document.querySelector(".translateNotAvailable")
-    translateReplace.style.display = 'block';
+    translateFeature.style.display = "none";
+    const translateReplace = document.querySelector(".translateNotAvailable");
+    translateReplace.style.display = "block";
   }, []);
 
   const toggleHover = () => {
@@ -89,9 +90,9 @@ const ManagerView = (props) => {
   return (
     <Box className="managerBox">
       <h1
-        className="title2"
         onMouseOver={(e) => handleHover(e, isHoverEnabled)}
         onMouseOut={handleMouseOut}
+        className="trendsTitle"
       >
         {" "}
         Manager Page
