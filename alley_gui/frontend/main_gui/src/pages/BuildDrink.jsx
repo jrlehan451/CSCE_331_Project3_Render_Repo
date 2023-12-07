@@ -284,50 +284,62 @@ const BuildDrink = (props) => {
     const addOn2Cost = sessionStorage.getItem("customer_addOn2_cost");
     const quantity = sessionStorage.getItem("customer_drink_quantity");
 
-    let currDrink = {
-      drinkName: drinkName,
-      drinkId: drinkId,
-      drinkCost: drinkCost,
-      size: size,
-      addOn1Name: addOn1Name,
-      addOn1Id: addOn1Id,
-      addOn1Cost: addOn1Cost,
-      addOn2Name: addOn2Name,
-      addOn2Id: addOn2Id,
-      addOn2Cost: addOn2Cost,
-      quantity: quantity,
-    };
-
-    let currDrinksInOrder = [];
-    if (sessionStorage.getItem("currentOrderDrinks")) {
-      currDrinksInOrder = JSON.parse(
-        sessionStorage.getItem("currentOrderDrinks")
+    if (drinkName == null) {
+      alert("Please select a drink to build");
+    } else if (size == null) {
+      alert("Please select your drink size");
+    } else if (addOn1Name == null) {
+      alert("Please select your first add-on");
+    } else if (addOn2Name == null) {
+      alert("Please select your second add-on");
+    } else if (quantity == null) {
+      alert("Please select your quantity for this drink");
+    } else {
+      let currDrink = {
+        drinkName: drinkName,
+        drinkId: drinkId,
+        drinkCost: drinkCost,
+        size: size,
+        addOn1Name: addOn1Name,
+        addOn1Id: addOn1Id,
+        addOn1Cost: addOn1Cost,
+        addOn2Name: addOn2Name,
+        addOn2Id: addOn2Id,
+        addOn2Cost: addOn2Cost,
+        quantity: quantity,
+      };
+  
+      let currDrinksInOrder = [];
+      if (sessionStorage.getItem("currentOrderDrinks")) {
+        currDrinksInOrder = JSON.parse(
+          sessionStorage.getItem("currentOrderDrinks")
+        );
+      }
+  
+      currDrinksInOrder.push(currDrink);
+  
+      sessionStorage.setItem(
+        "currentOrderDrinks",
+        JSON.stringify(currDrinksInOrder)
       );
-    }
-
-    currDrinksInOrder.push(currDrink);
-
-    sessionStorage.setItem(
-      "currentOrderDrinks",
-      JSON.stringify(currDrinksInOrder)
-    );
-
-    var totalCost = 0;
-    for (var i = 0; i < currDrinksInOrder.length; i++) {
-      var currentDrink = 0;
-      currentDrink += parseFloat(currDrinksInOrder[i].drinkCost);
-      if (currDrinksInOrder[i].addOn1Id != -1) {
-        currentDrink += parseFloat(currDrinksInOrder[i].addOn1Cost);
+  
+      var totalCost = 0;
+      for (var i = 0; i < currDrinksInOrder.length; i++) {
+        var currentDrink = 0;
+        currentDrink += parseFloat(currDrinksInOrder[i].drinkCost);
+        if (currDrinksInOrder[i].addOn1Id != -1) {
+          currentDrink += parseFloat(currDrinksInOrder[i].addOn1Cost);
+        }
+        if (currDrinksInOrder[i].addOn2Id != -1) {
+          currentDrink += parseFloat(currDrinksInOrder[i].addOn2Cost);
+        }
+        currentDrink *= parseInt(currDrinksInOrder[i].quantity);
+        totalCost += currentDrink;
       }
-      if (currDrinksInOrder[i].addOn2Id != -1) {
-        currentDrink += parseFloat(currDrinksInOrder[i].addOn2Cost);
-      }
-      currentDrink *= parseInt(currDrinksInOrder[i].quantity);
-      totalCost += currentDrink;
+  
+      const currCost = document.getElementById("currentTotalCost");
+      currCost.textContent = "Total: " + totalCost.toFixed(2);
     }
-
-    const currCost = document.getElementById("currentTotalCost");
-    currCost.textContent = "Total: " + totalCost.toFixed(2);
   };
 
   /**
@@ -335,8 +347,28 @@ const BuildDrink = (props) => {
    * @description navigation to the view cart page from the build drink page
    */
   const viewCart = () => {
-    var currLocation = window.location.href;
-    window.location.href = currLocation.replace("build_drink", "view_cart");
+    const drinkName = sessionStorage.getItem("customer_drink_name");
+    const size = sessionStorage.getItem("customer_drink_size");
+    const addOn1Name = sessionStorage.getItem("customer_addOn1_name");
+    const addOn2Name = sessionStorage.getItem("customer_addOn2_name");
+    const quantity = sessionStorage.getItem("customer_drink_quantity");
+
+    if (drinkName == null) {
+      alert("Please select a drink to build");
+    } else if (size == null) {
+      alert("Please select your drink size");
+    } else if (addOn1Name == null) {
+      alert("Please select your first add-on");
+    } else if (addOn2Name == null) {
+      alert("Please select your second add-on");
+    } else if (quantity == null) {
+      alert("Please select your quantity for this drink")
+    } else if (sessionStorage.getItem("currentOrderDrinks") == null) {
+      alert("Please add drink to order");
+    } else {
+      var currLocation = window.location.href;
+      window.location.href = currLocation.replace("build_drink", "view_cart");
+    }
   };
 
   function getImage(name) {

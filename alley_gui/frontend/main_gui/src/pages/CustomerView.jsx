@@ -128,8 +128,12 @@ const CustomerHome = (props) => {
    * @function viewCartFromCustomerHome
    */
   const viewCartFromCustomerHome = () => {
-    var currLocation = window.location.href;
-    window.location.href = currLocation.replace("customer", "view_cart");
+    if (sessionStorage.getItem("currentOrderDrinks") == null) {
+      alert("Cart currently empty. Please add a drink to view cart.")
+    } else {
+      var currLocation = window.location.href;
+      window.location.href = currLocation.replace("customer", "view_cart");
+    }
   };
 
   /**

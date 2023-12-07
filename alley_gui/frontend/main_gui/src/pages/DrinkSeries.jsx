@@ -118,12 +118,16 @@ const DrinkSeries = (props) => {
    * @function viewCartFromDrinkSeries
    */
   const viewCartFromDrinkSeries = () => {
-    var currLocation = window.location.href;
-    const array = currLocation.split("/");
-    window.location.href = currLocation.replace(
-      "drink_series/" + array[4],
-      "view_cart"
-    );
+    if (sessionStorage.getItem("currentOrderDrinks") == null) {
+      alert("Cart currently empty. Please add a drink to view cart.")
+    } else {
+      var currLocation = window.location.href;
+      const array = currLocation.split("/");
+      window.location.href = currLocation.replace(
+        "drink_series/" + array[4],
+        "view_cart"
+      );
+    }
   };
 
   const { category } = useParams();

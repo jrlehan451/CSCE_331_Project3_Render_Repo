@@ -102,39 +102,43 @@ const ViewCart = (props) => {
   const goToCheckout = async (e) => {
     e.preventDefault();
 
-    var currDrinksInOrder = JSON.parse(
-      sessionStorage.getItem("currentOrderDrinks")
-    );
-
-    var totalCost = 0;
-    for (var i = 0; i < currDrinksInOrder.length; i++) {
-      var currentDrink = 0;
-      currentDrink += parseFloat(currDrinksInOrder[i].drinkCost);
-      if (currDrinksInOrder[i].addOn1Id != -1) {
-        currentDrink += parseFloat(currDrinksInOrder[i].addOn1Cost);
+    if (document.getElementById("cname").value == "") {
+      alert("Please enter a customer name");
+    } else {
+      var currDrinksInOrder = JSON.parse(
+        sessionStorage.getItem("currentOrderDrinks")
+      );
+  
+      var totalCost = 0;
+      for (var i = 0; i < currDrinksInOrder.length; i++) {
+        var currentDrink = 0;
+        currentDrink += parseFloat(currDrinksInOrder[i].drinkCost);
+        if (currDrinksInOrder[i].addOn1Id != -1) {
+          currentDrink += parseFloat(currDrinksInOrder[i].addOn1Cost);
+        }
+        if (currDrinksInOrder[i].addOn2Id != -1) {
+          currentDrink += parseFloat(currDrinksInOrder[i].addOn2Cost);
+        }
+        currentDrink *= parseInt(currDrinksInOrder[i].quantity);
+        totalCost += currentDrink;
       }
-      if (currDrinksInOrder[i].addOn2Id != -1) {
-        currentDrink += parseFloat(currDrinksInOrder[i].addOn2Cost);
+  
+      try {
+        await axios.post("https://thealley.onrender.com/post_customer_order", {
+          currDrinksInOrder: sessionStorage.getItem("currentOrderDrinks"),
+          customer: document.getElementById("cname").value,
+          totalCost: totalCost.toFixed(2),
+        });
+      } catch (err) {
+        console.error(`Error: ${err}`);
       }
-      currentDrink *= parseInt(currDrinksInOrder[i].quantity);
-      totalCost += currentDrink;
+  
+      var currLocation = window.location.href;
+      window.location.href = currLocation.replace(
+        "view_cart",
+        "customer_checkout"
+      );
     }
-
-    try {
-      await axios.post("https://thealley.onrender.com/post_customer_order", {
-        currDrinksInOrder: sessionStorage.getItem("currentOrderDrinks"),
-        customer: document.getElementById("cname").value,
-        totalCost: totalCost.toFixed(2),
-      });
-    } catch (err) {
-      console.error(`Error: ${err}`);
-    }
-
-    var currLocation = window.location.href;
-    window.location.href = currLocation.replace(
-      "view_cart",
-      "customer_checkout"
-    );
   };
 
   const getCurrentTotal = () => {
