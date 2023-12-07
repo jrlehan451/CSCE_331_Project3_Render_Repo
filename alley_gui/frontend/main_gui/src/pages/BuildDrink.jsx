@@ -466,7 +466,7 @@ const BuildDrink = (props) => {
             }
           >
             <img
-              class="addon-square"
+              class="addon-customer-square"
               src={getImage(addon.name)}
               alt={capitalizeName(addon.name, " ")}
               onMouseOver={(e) => handleHover(e, isHoverEnabled)}
@@ -506,7 +506,7 @@ const BuildDrink = (props) => {
             }
           >
             <img
-              class="addon-square"
+              class="addon-customer-square"
               src={getImage(addon.name)}
               alt={capitalizeName(addon.name, " ")}
               onMouseOver={(e) => handleHover(e, isHoverEnabled)}

@@ -147,11 +147,12 @@
     width: 100vw;
 }
 
-.addon-square {
-    width: 80%;
+.addon-customer-square {
+    width: 90%;
+    align-self: center;
     border: .1vh solid #25371d; 
     background-color: #ececec;
-    height: 80%;
+    height: 70%;
     object-fit: cover;
 }
 
@@ -304,10 +305,11 @@
     width: 100vw;
 }
 
-.contrast .addon-square {
-    width: 80%;
-    border: .1vh solid #d7f2a6; 
+.contrast .addon-customer-square {
+    width: 90%;
+    align-self: center;
+    border: .1vh solid #25371d; 
     background-color: #ececec;
-    height: 80%;
+    height: 70%;
     object-fit: cover;
 }
