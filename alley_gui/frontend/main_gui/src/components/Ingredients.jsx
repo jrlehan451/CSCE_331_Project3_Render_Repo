@@ -199,6 +199,13 @@ const Ingredients = (props) => {
     fetchData();
   }, [openPopup]);
 
+  useEffect(() => {
+    const translateFeature = document.querySelector(".translate");
+    translateFeature.style.display = 'none';
+    const translateReplace = document.querySelector(".translateNotAvailable")
+    translateReplace.style.display = 'block';
+  }, []);
+
   const deleteHandleSubmit = async (e) => {
     if(values.ingredientId != ""){
     

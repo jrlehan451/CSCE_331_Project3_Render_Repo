@@ -59,6 +59,13 @@ const SupplyReorders = (props) => {
   };
 
   useEffect(() => {
+    const translateFeature = document.querySelector(".translate");
+    translateFeature.style.display = 'none';
+    const translateReplace = document.querySelector(".translateNotAvailable")
+    translateReplace.style.display = 'block';
+  }, []);
+
+  useEffect(() => {
     const protection = async () => {
       const role = localStorage.getItem("Role");
       switch(role){

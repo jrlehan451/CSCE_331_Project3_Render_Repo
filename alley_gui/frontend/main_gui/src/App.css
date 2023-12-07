@@ -115,6 +115,27 @@
   transition: background-color 0.3s ease-in-out;
 }
 
+.translateNotAvailable {
+  position: fixed;
+  top: 300px;
+  right: 15px;
+  padding: 10px;
+  background-color: #3498db;
+  color: #ffffff;
+  width: 80px;
+  height: 100px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 12px;
+  display: none;
+  transition: background-color 0.3s ease-in-out;
+}
+
+.translateNotAvailable:hover {
+  background-color: #2980b9; 
+}
+
 .translate:hover {
   background-color: #2980b9; 
 }

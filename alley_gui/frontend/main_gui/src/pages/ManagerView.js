@@ -1,6 +1,5 @@
-import React, { useState } from "react";
 import { Box, ListItemButton, styled } from "@mui/material";
-
+import React, { useState, useEffect } from "react";
 import Stack from "@mui/material/Stack";
 import HomeButton from "./images/HomeButton.png";
 
@@ -41,6 +40,13 @@ const ManagerView = (props) => {
 
   const { isHoverEnabled, handleToggleHover } = props;
   const [isHoverEnabledState, setIsHoverEnabled] = useState(false);
+
+  useEffect(() => {
+    const translateFeature = document.querySelector(".translate");
+    translateFeature.style.display = 'none';
+    const translateReplace = document.querySelector(".translateNotAvailable")
+    translateReplace.style.display = 'block';
+  }, []);
 
   const toggleHover = () => {
     setIsHoverEnabled((prevIsHoverEnabled) => !prevIsHoverEnabled);

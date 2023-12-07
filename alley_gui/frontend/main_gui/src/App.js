@@ -389,6 +389,9 @@ function App() {
           <img src={translateIcon} className="image" />
           <LanguageSelect></LanguageSelect>
         </button>
+        <button className="translateNotAvailable">
+          Translate Not Available
+        </button>
         <button className="speech">
           <img src={speechIcon} className="image" onClick={handleToggleHover} />
         </button>
