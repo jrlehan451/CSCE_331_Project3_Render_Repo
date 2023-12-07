@@ -51,9 +51,9 @@ const Ingredients = (props) => {
   useEffect(() => {
     const protection = async () => {
       const role = localStorage.getItem("Role");
-      switch(role){
+      switch (role) {
         case "Manager":
-            break;
+          break;
         default:
           window.location.href = window.location.origin;
           break;
@@ -62,7 +62,6 @@ const Ingredients = (props) => {
 
     protection();
   });
-
 
   const handleGridCellHover = (params) => {
     console.log("igredient handleGridCellHover is called!");
@@ -110,8 +109,8 @@ const Ingredients = (props) => {
   /**
    * @description gets changes in input and formats them accordingly
    * @function handleNumberInputChange
-   * @param {*} e 
-   * @param {*} key 
+   * @param {*} e
+   * @param {*} key
    */
   const handleNumberInputChange = (e, key) => {
     const newValue = e.target.value;
@@ -190,7 +189,10 @@ const Ingredients = (props) => {
     const fetchData = async () => {
       if (!openPopup) {
         // Popup is closed, perform the axios POST request
-        await axios.post("https://thealley.onrender.com/addItemIngredient", values);
+        await axios.post(
+          "https://thealley.onrender.com/addItemIngredient",
+          values
+        );
 
         setValues({ ...values, ingredientId: "" });
       }
@@ -201,14 +203,13 @@ const Ingredients = (props) => {
 
   useEffect(() => {
     const translateFeature = document.querySelector(".translate");
-    translateFeature.style.display = 'none';
-    const translateReplace = document.querySelector(".translateNotAvailable")
-    translateReplace.style.display = 'block';
+    translateFeature.style.display = "none";
+    const translateReplace = document.querySelector(".translateNotAvailable");
+    translateReplace.style.display = "block";
   }, []);
 
   const deleteHandleSubmit = async (e) => {
-    if(values.ingredientId != ""){
-    
+    if (values.ingredientId != "") {
       e.preventDefault();
 
       try {
@@ -218,14 +219,16 @@ const Ingredients = (props) => {
         const ingredientData = ingredientResponse.data.data.table.rows;
 
         const itemToDelete = ingredientData.find(
-          (item) =>
-            item.ingredient_id == values.ingredientId
+          (item) => item.ingredient_id == values.ingredientId
         );
 
         if (itemToDelete) {
           // // Fetch the corresponding inventory_id
           //await axios.post("http://localhost:4000/deleteItemIngredient", values);
-          await axios.post("https://thealley.onrender.com/deleteItemIngredient", values);
+          await axios.post(
+            "https://thealley.onrender.com/deleteItemIngredient",
+            values
+          );
           console.log("Item deleted succesfully");
         } else {
           alert("Item with the specified ingredientId");
@@ -233,8 +236,7 @@ const Ingredients = (props) => {
       } catch (error) {
         console.error("Error during item deletion:", error);
       }
-    }
-    else{
+    } else {
       alert("Please enter a valid ingredient ID");
     }
   };
@@ -255,7 +257,10 @@ const Ingredients = (props) => {
       if (itemToDelete) {
         // // Fetch the corresponding inventory_id
 
-        await axios.post("https://thealley.onrender.com/updateItemIngredient", values);
+        await axios.post(
+          "https://thealley.onrender.com/updateItemIngredient",
+          values
+        );
         console.log("Item updated succesfully");
       } else {
         alert("Item with the specified ingredientId not found.");
@@ -402,14 +407,17 @@ const Ingredients = (props) => {
           }}
         >
           <div style={{ width: "100%" }}>
-            <InputLabel className="managerLabel" htmlFor="filled-basic">Ingredient ID</InputLabel>
+            <InputLabel className="managerLabel" htmlFor="filled-basic">
+              Ingredient ID
+            </InputLabel>
             <FormControl className="managerForm">
               <TextField
                 id="filled-basic"
                 variant="filled"
                 onChange={(e) => handleNumberInputChange(e, "ingredientId")}
                 value={values.ingredientId}
-                onMouseOver={() => isHoverEnabled &&
+                onMouseOver={() =>
+                  isHoverEnabled &&
                   handleTextFieldSpeech("ingredientId", values.ingredientId)
                 }
                 type="number"
@@ -421,25 +429,33 @@ const Ingredients = (props) => {
             </FormControl>
           </div>
           <div style={{ width: "100%" }}>
-            <InputLabel className="managerLabel" htmlFor="filled-basic">Name</InputLabel>
+            <InputLabel className="managerLabel" htmlFor="filled-basic">
+              Name
+            </InputLabel>
             <FormControl className="managerForm">
               <TextField
                 id="filled-basic"
                 variant="filled"
                 onChange={(e) => setValues({ ...values, name: e.target.value })}
-                onMouseOver={() => isHoverEnabled && handleTextFieldSpeech("Name", values.name)}
+                onMouseOver={() =>
+                  isHoverEnabled && handleTextFieldSpeech("Name", values.name)
+                }
               />
             </FormControl>
           </div>
           <div style={{ width: "100%" }}>
-            <InputLabel className="managerLabel" htmlFor="filled-basic">Cost</InputLabel>
+            <InputLabel className="managerLabel" htmlFor="filled-basic">
+              Cost
+            </InputLabel>
             <FormControl className="managerForm">
               <TextField
                 id="filled-basic"
                 variant="filled"
                 onChange={(e) => handleNumberInputChange(e, "cost")}
                 value={values.cost}
-                onMouseOver={() => isHoverEnabled && handleTextFieldSpeech("Cost", values.cost)}
+                onMouseOver={() =>
+                  isHoverEnabled && handleTextFieldSpeech("Cost", values.cost)
+                }
                 type="number"
                 error={inputErrors.cost}
                 helperText={
@@ -457,7 +473,7 @@ const Ingredients = (props) => {
             onMouseOver={(e) => handleHover(e, isHoverEnabled)}
             onMouseOut={handleMouseOut}
           >
-            Add ingredient
+            Add Ingredient
           </CustomButton>
           <CustomButton
             className="managerButton"
@@ -465,7 +481,7 @@ const Ingredients = (props) => {
             onMouseOver={(e) => handleHover(e, isHoverEnabled)}
             onMouseOut={handleMouseOut}
           >
-            Delete ingredient
+            Delete Ingredient
           </CustomButton>
           <CustomButton
             className="managerButton"
@@ -473,7 +489,7 @@ const Ingredients = (props) => {
             onMouseOver={(e) => handleHover(e, isHoverEnabled)}
             onMouseOut={handleMouseOut}
           >
-            Update ingredient
+            Update Ingredient
           </CustomButton>
         </div>
       </div>
