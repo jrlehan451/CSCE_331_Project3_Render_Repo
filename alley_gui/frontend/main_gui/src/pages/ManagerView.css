@@ -5,6 +5,13 @@
   padding: 1vh; 
 }
 
+.contrast .manager-title{
+  color: #d7f2a6; 
+  font-size: 4vw; 
+  text-align: center;
+  padding: 1vh; 
+}
+
 .manager-button-panel {
   display: flex;
   flex-direction: column;
@@ -15,6 +22,28 @@
 .manager-button{
   margin: 1vh;
   background-color: #8b9477;
+  color: black;
+  border-radius: 8px;
+  border: 0;
+  height: 7.5vh;
+  width: 20vw;
+  cursor: pointer;
+  font-family: Perpetua,serif;
+  font-size: 1vw;
+
+  &:hover {
+    background-color: lightblue;
+  }
+
+  &:disabled {
+    background-color: gray;
+    color: white;
+  }
+}
+
+.contrast .manager-button{
+  margin: 1vh;
+  background-color: #d7f2a6;
   color: black;
   border-radius: 8px;
   border: 0;
