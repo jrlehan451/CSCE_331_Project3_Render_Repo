@@ -10,7 +10,7 @@ import {
   handleTextFieldSpeech,
   handleTableFieldSpeech,
 } from "../components/SpeechUtils";
-import "../pages/ManagerView.css";
+import "./ManagerView.css";
 
 /**
  * @function CustomerButtonManagerView
