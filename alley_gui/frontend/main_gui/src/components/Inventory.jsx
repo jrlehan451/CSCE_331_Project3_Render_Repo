@@ -209,10 +209,11 @@ const Inventory = (props) => {
           "https://thealley.onrender.com/inventory_items"
         );
         const inventoryData = inventoryResponse.data.data.table.rows;
+        const matchItemId = Number(values.itemId);
 
         // Check if itemId already exists
         const itemIdExists = inventoryData.some(
-          (item) => item.item_id === values.itemId
+          (item) => item.item_id === matchItemId
         );
 
         if (itemIdExists) {
