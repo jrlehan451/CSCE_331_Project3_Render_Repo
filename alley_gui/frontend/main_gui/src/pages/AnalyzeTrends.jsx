@@ -25,12 +25,12 @@ const AnalyzeTrends = (props) => {
     //handleToggleHover();
   };
 
-  useEffect(() => {
-    const translateFeature = document.querySelector(".translate");
-    translateFeature.style.display = 'none';
-    const translateReplace = document.querySelector(".translateNotAvailable")
-    translateReplace.style.display = 'block';
-  }, []);
+  // useEffect(() => {
+  //   const translateFeature = document.querySelector(".translate");
+  //   translateFeature.style.display = 'none';
+  //   const translateReplace = document.querySelector(".translateNotAvailable")
+  //   translateReplace.style.display = 'block';
+  // }, []);
 
   const handleGridCellHover = (params) => {
     console.log("igredient handleGridCellHover is called!");

@@ -1,0 +1,36 @@
+.manager-title{
+  color: #8b9477; 
+  font-size: 4vw; 
+  text-align: center;
+  padding: 1vh; 
+}
+
+.manager-button-panel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 20vh; 
+}
+
+.manager-button{
+  margin: 1vh;
+  background-color: #8b9477;
+  color: black;
+  margin: 10;
+  border-radius: 8px;
+  border: 0;
+  height: 7.5vh;
+  width: 20vw;
+  cursor: pointer;
+  font-family: Perpetua,serif;
+  font-size: 1vw;
+
+  &:hover {
+    background-color: lightblue;
+  }
+
+  &:disabled {
+    background-color: gray;
+    color: white;
+  }
+}

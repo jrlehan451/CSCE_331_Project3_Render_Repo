@@ -157,10 +157,10 @@ const Login = (props) => {
           employee.last_name === "profile"
         ) {
           localStorage.setItem("Role", "Customer");
-          window.location.href = currLocation + "customer";
+          window.location.href = currLocation + "Customer";
         } else if (employee.is_manager) {
           localStorage.setItem("Role", "Manager");
-          window.location.href = currLocation + "manager";
+          window.location.href = currLocation + "Manager";
         } else {
           localStorage.setItem("Role", "Cashier");
           window.location.href = currLocation + "DrinkOptions";

@@ -12,7 +12,7 @@ import {
   handleTextFieldSpeech,
   handleTableFieldSpeech,
 } from "../components/SpeechUtils";
-import "../pages/AnalyzeTrends.css";
+import "../pages/ManagerView.css";
 
 /**
  * @function CustomerButtonManagerView
@@ -85,84 +85,27 @@ const ManagerView = (props) => {
     }
   };
 
+  const route = (location) => {
+    var currLocation = window.location.href;
+    window.location.href = currLocation.replace("Manager", location);
+  }
+
   protection();
 
   return (
-    <Box className="managerBox">
-      <h1
-        onMouseOver={(e) => handleHover(e, isHoverEnabled)}
-        onMouseOut={handleMouseOut}
-        className="trendsTitle"
-      >
-        {" "}
-        Manager Page
-      </h1>
-
-      <button
-        className="home-button"
-        onMouseOver={(e) => handleHover(e, isHoverEnabled)}
-        onMouseOut={handleMouseOut}
-        onClick={returnHome}
-      >
+    <div className="manager-page">
+      <h1 className="manager-title" onMouseOver={(e) => handleHover(e, isHoverEnabled)} onMouseOut={handleMouseOut}> Manager Page</h1>
+      <button className="home-button" onMouseOver={(e) => handleHover(e, isHoverEnabled)} onMouseOut={handleMouseOut} onClick={returnHome} >
         <img src={HomeButton} alt="home" />
       </button>
-      <Stack
-        style={{
-          flex: 1,
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "center",
-          alignItems: "center",
-          height: "100%",
-        }}
-      >
-        <CustomButton
-          className="managerLink"
-          Link
-          to="/AnalyzeTrends"
-          onMouseOver={(e) => handleHover(e, isHoverEnabled)}
-          onMouseOut={handleMouseOut}
-        >
-          Analyze Trends
-        </CustomButton>
-        <CustomButton
-          className="managerLink"
-          Link
-          to="/Inventory"
-          onMouseOver={(e) => handleHover(e, isHoverEnabled)}
-          onMouseOut={handleMouseOut}
-        >
-          Inventory
-        </CustomButton>
-        <CustomButton
-          className="managerLink"
-          Link
-          to="/Ingredients"
-          onMouseOver={(e) => handleHover(e, isHoverEnabled)}
-          onMouseOut={handleMouseOut}
-        >
-          Ingredients
-        </CustomButton>
-        <CustomButton
-          className="managerLink"
-          Link
-          to="/MenuItems"
-          onMouseOver={(e) => handleHover(e, isHoverEnabled)}
-          onMouseOut={handleMouseOut}
-        >
-          Menu Items
-        </CustomButton>
-        <CustomButton
-          className="managerLink"
-          Link
-          to="/SupplyReorder"
-          onMouseOver={(e) => handleHover(e, isHoverEnabled)}
-          onMouseOut={handleMouseOut}
-        >
-          Supply Reorders
-        </CustomButton>
-      </Stack>
-    </Box>
+      <div className="manager-button-panel"> 
+        <button className="manager-button" onClick={() => route("AnalyzeTrends")} onMouseOver={(e) => handleHover(e, isHoverEnabled)} onMouseOut={handleMouseOut}> Analyze Trends</button>
+        <button className="manager-button" onClick={() => route("Inventory")} onMouseOver={(e) => handleHover(e, isHoverEnabled)} onMouseOut={handleMouseOut}> Inventory</button>
+        <button className="manager-button" onClick={() => route("Ingredients")} onMouseOver={(e) => handleHover(e, isHoverEnabled)} onMouseOut={handleMouseOut}> Ingredients</button>
+        <button className="manager-button" onClick={() => route("MenuItems")} onMouseOver={(e) => handleHover(e, isHoverEnabled)} onMouseOut={handleMouseOut}> Menu Items</button>
+        <button className="manager-button" onClick={() => route("SupplyReorder")} onMouseOver={(e) => handleHover(e, isHoverEnabled)} onMouseOut={handleMouseOut}> Supply Reorder</button>
+      </div>
+    </div>
   );
 };
 
