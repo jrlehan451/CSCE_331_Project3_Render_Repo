@@ -2,9 +2,7 @@ import { Box, ListItemButton, styled } from "@mui/material";
 import React, { useState, useEffect } from "react";
 import Stack from "@mui/material/Stack";
 import HomeButton from "./images/HomeButton.png";
-
 import "../components/MenuItems/MenuItems.css";
-
 import { useAuth0 } from "@auth0/auth0-react";
 import {
   handleHover,

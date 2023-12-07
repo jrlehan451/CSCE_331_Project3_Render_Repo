@@ -176,32 +176,14 @@ const AnalyzeTrends = (props) => {
     };
 
     return (
-      <div>
-      <div>
-        <h1
-          className="trendsTitle"
-          onMouseOver={(e) => handleHover(e, isHoverEnabled)}
-          onMouseOut={handleMouseOut}
-        >
-          Analyze Trends
-        </h1>
-        <button
-          className="backButton"
-          onClick={returnToManager}
-          onMouseOver={(e) => handleHover(e, isHoverEnabled)}
-          onMouseOut={handleMouseOut}
-        >
+      <div className="trendsPage">
+        <h1 className="trendsTitle" onMouseOver={(e) => handleHover(e, isHoverEnabled)} onMouseOut={handleMouseOut}> Analyze Trends </h1>
+        <button className="backButton" onClick={returnToManager} onMouseOver={(e) => handleHover(e, isHoverEnabled)} onMouseOut={handleMouseOut}>
           <img src={arrow} alt="Back" />
         </button>
-        
+
         <div class = "selection">
-          <label
-            htmlFor="trend-choice"
-            onMouseOver={(e) => handleHover(e, isHoverEnabled)}
-            onMouseOut={handleMouseOut}
-          >
-            Select a Trend:
-          </label>
+          <label htmlFor="trend-choice" onMouseOver={(e) => handleHover(e, isHoverEnabled)} onMouseOut={handleMouseOut}>Select a Trend: </label>
           <select id="trend-choice" value={selectedTrend}onChange={(e) => setSelectedTrend(e.target.value)} onMouseOver={(e) => handleHover(e, isHoverEnabled)} onMouseOut={handleMouseOut} >
             <option value="Excess Report">Excess Report</option>
             <option value="Menu Item Popularity Analysis">Menu Item Popularity Analysis</option>
@@ -209,55 +191,34 @@ const AnalyzeTrends = (props) => {
             <option value="Sales Report">Sales Report</option>
             <option value="What Sales Together">What Sales Together</option>
           </select>
-          <button
-            class="GoButton"
-            onClick={generateTrend}
-            onMouseOver={(e) => handleHover(e, isHoverEnabled)}
-            onMouseOut={handleMouseOut}
-          >Go</button>
+          <button class="GoButton" onClick={generateTrend} onMouseOver={(e) => handleHover(e, isHoverEnabled)} onMouseOut={handleMouseOut}>Go</button>
           {selectedTrend === 'Menu Item Popularity Analysis' && (
             <div className="number-input-section">
-              <label 
-                htmlFor="number" 
-                onMouseOver={(e) => handleHover(e, isHoverEnabled)}
-                onMouseOut={handleMouseOut}
-                >Number:</label>
+              <label htmlFor="number" onMouseOver={(e) => handleHover(e, isHoverEnabled)}onMouseOut={handleMouseOut}>Number:</label>
               <input type="number" id="number" placeholder="Enter a number" value={number} onChange={(e) => setNumber(e.target.value)} min="1"/>
             </div>
           )}
         </div>
+
         <div className="timestamp-section">
           {selectedTrend !== 'Restock Report' && (
             <div className="start-timestamp-section">
-              <label
-                htmlFor="start-timestamp"
-                onMouseOver={(e) => handleHover(e, isHoverEnabled)}
-                onMouseOut={handleMouseOut}
-              >
-                Start Time:
-              </label>
+              <label htmlFor="start-timestamp" onMouseOver={(e) => handleHover(e, isHoverEnabled)} onMouseOut={handleMouseOut}> Start Time: </label>
               <input type="text" id="start-timestamp" placeholder="YYYY:MM:DD HH:MM:SS" value={startTimestamp} onChange={(e) => setStartTimestamp(e.target.value)} />
             </div>
           )}
-          
           {selectedTrend !== 'Restock Report' && (
             <div className="end-timestamp-section">
-              <label
-                htmlFor="end-timestamp"
-                onMouseOver={(e) => handleHover(e, isHoverEnabled)}
-                onMouseOut={handleMouseOut}
-              >
-                End Time:
-              </label>
+              <label htmlFor="end-timestamp" onMouseOver={(e) => handleHover(e, isHoverEnabled)} onMouseOut={handleMouseOut}>  End Time: </label>
               <input type="text" id="end-timestamp" placeholder="YYYY:MM:DD HH:MM:SS" value={endTimestamp} readOnly={isExcessReport} style={{ backgroundColor: isExcessReport ? '#D3D3D3' : '#FFF' }} onChange={(e) => setEndTimestamp(e.target.value)}/>
             </div>
           )}
         </div>
+
         <div className="trend-panel">
             {tableData.length > 0 && <TrendTable jsonData={tableData} />}
             {table2Data.length > 0 && <TrendTable jsonData={table2Data} />}
         </div>
-      </div>
       </div>
     );
 };
