@@ -1209,11 +1209,13 @@ app.post("/addItemInventory", (req, res) => {
     console.log("Updaing inventory_items and ingredeints2");
     // Updating Inventory Page with assciated ingredient ID
     pool.query(
-      "INSERT INTO inventory_items (item_id, name, ingredient_id, quantity_per_unit) VALUES($1, $2, $3, $4)",
+      "INSERT INTO inventory_items (item_id, name, ingredient_id, count, fill_level, quantity_per_unit) VALUES($1, $2, $3, $4, $5, $6)",
       [
         req.body.itemId,
         req.body.name,
         req.body.ingredientId,
+        req.body.amount,
+        req.body.fillLevel,
         req.body.quantityPerUnit,
       ],
       (err, response) => {
