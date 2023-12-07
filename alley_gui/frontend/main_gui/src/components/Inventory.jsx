@@ -416,7 +416,7 @@ const Inventory = (props) => {
         }}
         maxWidth="800px"
       >
-        <DialogTitle>Choose assciated ingredient</DialogTitle>
+        <DialogTitle>Choose Associated Ingredient</DialogTitle>
         <DialogContent>
           {popupData.data &&
           popupData.data.table &&
@@ -426,7 +426,7 @@ const Inventory = (props) => {
                 <thead>
                   <tr>
                     <th>Checkbox</th>
-                    <th>ingredient ID</th>
+                    <th>Ingredient ID</th>
                     <th>Inventory ID</th>
                     <th>Name</th>
                     <th>Cost</th>

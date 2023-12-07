@@ -332,7 +332,7 @@ const Ingredients = (props) => {
         }}
         maxWidth="800px"
       >
-        <DialogTitle>Choose assciated ingredient</DialogTitle>
+        <DialogTitle>Choose Associated Inventory</DialogTitle>
         <DialogContent>
           {popupData.data &&
           popupData.data.table &&
@@ -346,8 +346,8 @@ const Ingredients = (props) => {
                     <th>Ingredient ID</th>
                     <th>Name</th>
                     <th>Count</th>
-                    <th>fill_level</th>
-                    <th>quantity_per_unit</th>
+                    <th>Fill Level</th>
+                    <th>Quantity Per Unit</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -365,7 +365,7 @@ const Ingredients = (props) => {
                       <td>{item.name}</td>
                       <td>{item.count}</td>
                       <td>{item.fill_level}</td>
-                      <td>{item.quantityPerUnit}</td>
+                      <td>{item.quantity_per_unit}</td>
                     </tr>
                   ))}
                 </tbody>
