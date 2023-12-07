@@ -46,7 +46,7 @@ const CustomButton = styled(ListItemButton)(({ theme }) => ({
 /**
  * @description This component displays the supply reorder table and allows the manager to make CRUD operations.
  * @component SupplyReorders
- * @param {*} props 
+ * @param {*} props
  * @returns display of supply reorders page
  */
 const SupplyReorders = (props) => {
@@ -60,17 +60,17 @@ const SupplyReorders = (props) => {
 
   useEffect(() => {
     const translateFeature = document.querySelector(".translate");
-    translateFeature.style.display = 'none';
-    const translateReplace = document.querySelector(".translateNotAvailable")
-    translateReplace.style.display = 'block';
+    translateFeature.style.display = "none";
+    const translateReplace = document.querySelector(".translateNotAvailable");
+    translateReplace.style.display = "block";
   }, []);
 
   useEffect(() => {
     const protection = async () => {
       const role = localStorage.getItem("Role");
-      switch(role){
+      switch (role) {
         case "Manager":
-            break;
+          break;
         default:
           window.location.href = window.location.origin;
           break;
@@ -79,7 +79,6 @@ const SupplyReorders = (props) => {
 
     protection();
   });
-
 
   const handleGridCellHover = (params) => {
     console.log("igredient handleGridCellHover is called!");
@@ -127,8 +126,8 @@ const SupplyReorders = (props) => {
   /**
    * @description provides ability to add a supply reorder and stores it in the back-end databse entity
    * @function addSupplyReorder
-   * @param {*} selectedItems 
-   * @param {int} amounts 
+   * @param {*} selectedItems
+   * @param {int} amounts
    */
   const addSupplyReorder = async (selectedItems, amounts) => {
     console.log("Selected Items to be sent:", selectedItems);
@@ -154,7 +153,7 @@ const SupplyReorders = (props) => {
   // Getting inventory from the backend
   /**
    * @function supplyReorders
-   * @description server-side API call that gets all the reorders from the datbase 
+   * @description server-side API call that gets all the reorders from the datbase
    */
   useEffect(() => {
     const supplyReorders = async () => {
@@ -168,7 +167,11 @@ const SupplyReorders = (props) => {
         const rowsWithId = jsonVals.data.table.rows.map((item, index) => ({
           id: index,
           reorder_id: item.reorder_id,
-          date: item.date,
+          date: new Date(item.date).toLocaleDateString("en-US", {
+            year: "numeric",
+            month: "2-digit",
+            day: "2-digit",
+          }),
         }));
         setData(rowsWithId);
       } catch (err) {
@@ -241,7 +244,7 @@ const SupplyReorders = (props) => {
 
   /**
    * @function deleteHandleSubmit
-   * @description deletes a supply reorder from the database 
+   * @description deletes a supply reorder from the database
    */
   const deleteHandleSubmit = async () => {
     console.log("Sending reorderId:", values.reorderId);
@@ -307,7 +310,7 @@ const SupplyReorders = (props) => {
   /**
    * @function addHandleSubmit
    * @description displays added item in table
-   * @param {*} e 
+   * @param {*} e
    * @returns new row in table with added item
    */
   const addHandleSubmit = async (e) => {
@@ -364,7 +367,7 @@ const SupplyReorders = (props) => {
   /**
    * @description handles the association of ingredients with inventory pop-up
    * @function handleCheckboxChange
-   * @param {int} inventory_id 
+   * @param {int} inventory_id
    */
   const handleCheckboxChange = (inventory_id) => {
     const isSelected = selectedItems.includes(inventory_id);
@@ -428,7 +431,7 @@ const SupplyReorders = (props) => {
   /**
    * @description configures changes in the input values
    * @function handleInputChange
-   * @param {*} event 
+   * @param {*} event
    */
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -473,7 +476,9 @@ const SupplyReorders = (props) => {
             style={{ display: "flex", flexDirection: "column", gap: "10px" }}
           >
             <div>
-              <InputLabel className="managerLabel" htmlFor="filled-basic">Supply Reorder ID:</InputLabel>
+              <InputLabel className="managerLabel" htmlFor="filled-basic">
+                Supply Reorder ID:
+              </InputLabel>
               <FormControl className="managerForm">
                 <TextField
                   id="filled-basic"
@@ -481,7 +486,8 @@ const SupplyReorders = (props) => {
                   type="number"
                   name="reorderId"
                   value={values.reorderId}
-                  onMouseOver={() => isHoverEnabled &&
+                  onMouseOver={() =>
+                    isHoverEnabled &&
                     handleTextFieldSpeech("Supply Reorder ID", values.reorderId)
                   }
                   onChange={handleInputChange}
@@ -489,7 +495,9 @@ const SupplyReorders = (props) => {
               </FormControl>
             </div>
             <div>
-              <InputLabel className="managerLabel" htmlFor="filled-basic">Date:</InputLabel>
+              <InputLabel className="managerLabel" htmlFor="filled-basic">
+                Date:
+              </InputLabel>
               <FormControl className="managerForm">
                 <TextField
                   id="filled-basic"
@@ -497,7 +505,9 @@ const SupplyReorders = (props) => {
                   type="date"
                   name="date"
                   values={values.date}
-                  onMouseOver={() => isHoverEnabled && handleTextFieldSpeech("Date", values.date)}
+                  onMouseOver={() =>
+                    isHoverEnabled && handleTextFieldSpeech("Date", values.date)
+                  }
                   onChange={handleInputChange}
                 />
               </FormControl>
@@ -510,7 +520,9 @@ const SupplyReorders = (props) => {
             <CustomButton
               className="managerButton"
               onClick={addHandleSubmit}
-              onMouseOver={(e) => isHoverEnabled && handleHover(e, isHoverEnabled)}
+              onMouseOver={(e) =>
+                isHoverEnabled && handleHover(e, isHoverEnabled)
+              }
               onMouseOut={handleMouseOut}
             >
               Add Supply Reorder
@@ -518,7 +530,9 @@ const SupplyReorders = (props) => {
             <CustomButton
               className="managerButton"
               onClick={deleteHandleSubmit}
-              onMouseOver={(e) => isHoverEnabled && handleHover(e, isHoverEnabled)}
+              onMouseOver={(e) =>
+                isHoverEnabled && handleHover(e, isHoverEnabled)
+              }
               onMouseOut={handleMouseOut}
             >
               Delete Supply Reorder
@@ -526,7 +540,9 @@ const SupplyReorders = (props) => {
             <CustomButton
               className="managerButton"
               onClick={viewHandleSubmit}
-              onMouseOver={(e) => isHoverEnabled && handleHover(e, isHoverEnabled)}
+              onMouseOver={(e) =>
+                isHoverEnabled && handleHover(e, isHoverEnabled)
+              }
               onMouseOut={handleMouseOut}
             >
               View Supply Reorder
@@ -634,7 +650,10 @@ const SupplyReorders = (props) => {
               ) : (
                 <p>No data available</p>
               )}
-              <CustomButton className="managerButton" onClick={() => setOpenViewPopup(false)}>
+              <CustomButton
+                className="managerButton"
+                onClick={() => setOpenViewPopup(false)}
+              >
                 Close
               </CustomButton>
             </DialogContent>
