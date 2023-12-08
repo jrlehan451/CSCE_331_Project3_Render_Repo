@@ -21,6 +21,10 @@
   background-color: #8b9477; 
 }
 
+.trend-table thead{
+  position: sticky;
+  top: 0;
+}
 
 .trend-table tr {
   border-bottom: .1vh solid #9e693f;
@@ -79,4 +83,9 @@
 
 .contrast .trend-table td:last-child {
   border-right: none; 
+}
+
+.contrast .trend-table thead{
+  position: sticky;
+  top: 0;
 }
