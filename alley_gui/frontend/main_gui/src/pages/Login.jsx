@@ -157,7 +157,7 @@ const Login = (props) => {
           employee.last_name === "profile"
         ) {
           localStorage.setItem("Role", "Customer");
-          window.location.href = currLocation + "Customer";
+          window.location.href = currLocation + "customer";
         } else if (employee.is_manager) {
           localStorage.setItem("Role", "Manager");
           window.location.href = currLocation + "Manager";
